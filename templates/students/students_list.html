@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<section id="all-students">
+  <div id="all-students--inner">
+    <div class="container">
+      <div class="row mt-5">
+        <!-- main -->
+        <div class="col-8">
+          <div class="student-box-container">
+            {% for student in students %}
+            <a href="{% url 'students:student_details' pk=student.pk %}" class="d-block student-box-link">
+              <div class="student-box">
+                <h5>{{ student.name }}</h5>
+                <span class="mr-3 text-success">Roll: {{ student.roll }}</span>
+                <span class="text-success">Reg: {{ student.registration_number }}</span>
+                <p class="text-success">Department: {{ student.department }}</p>
+                <p class="text-success">Semester: {{ student.semester }}</p>
+
+                <a href="{% url 'students:update_student' pk=student.pk %}" class="btn btn-sm btn-outline-info">
+                  Update Details
+                </a>
+              </div>
+            </a>
+            {% endfor %}
+          </div>
+        </div>
+        <!-- sidebar -->
+        <div class="col-4">
+          <div class="side-panel">
+            <ul class="list-group">
+              <li class="list-group-item d-flex">
+                <input class="form-control" type="search" name="search" id="student-search" placeholder="Search for student">
+                <input type="submit" value="Search" class="btn btn-outline-dark">
+              </li>
+              <li class="list-group-item">
+                <a href="{% url 'students:add_student' %}">Add New Student</a>
+              </li>
+              <li class="list-group-item">Morbi leo risus</li>
+              <li class="list-group-item">Porta ac consectetur ac</li>
+              <li class="list-group-item">Vestibulum at eros</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

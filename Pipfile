@@ -1,0 +1,16 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+autopep8 = "*"
+
+[packages]
+django = "==2.2.7"
+django-crispy-forms = "==1.8.0"
+pytz = "==2019.3"
+sqlparse = "==0.3.0"
+
+[requires]
+python_version = "3.8"

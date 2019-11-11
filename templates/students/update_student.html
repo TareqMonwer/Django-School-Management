@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<section id="update-student">
+  <div id="update-student-inner">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-4 py-5">
+          <div id="student-update-form">
+            <form action="." method="post">
+              {% csrf_token %}
+              {{ form|crispy }}
+              <input class="btn btn-info" type="submit" value="Update Details">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
