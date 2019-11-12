@@ -12,6 +12,7 @@
         <div class="col-8">
           <h2>{{ teacher.name }}</h2>
           <p></p>
+          <a href="{% url 'teachers:delete_teacher' pk=teacher.pk %}" class="btn btn-danger">Delete Profile</a>
         </div>
       </div>
     </div>

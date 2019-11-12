@@ -18,6 +18,11 @@ from django.urls import path, include
 
 from .views import index_view
 
+
+admin.site.site_header = "SMS-LIO Admin"
+admin.site.site_title = "SMS-LIO Admin Portal"
+admin.site.index_title = "Welcome to SMS-LIO Portal"
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index_view, name='index_view'),

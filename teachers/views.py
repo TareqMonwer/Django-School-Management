@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Teacher
 from .forms import TeacherForm
@@ -9,6 +10,10 @@ from .forms import TeacherForm
 
 @login_required
 def teachers_view(request):
+    """
+    :param request:
+    :return: list of teachers to logged in user, login form instead.
+    """
     teachers = Teacher.objects.all()
     context = {'teachers': teachers}
     return render(request, 'teachers/teacher_list.html', context)
@@ -16,6 +21,10 @@ def teachers_view(request):
 
 @login_required
 def add_teacher_view(request):
+    """
+    :param request:
+    :return: teacher add form
+    """
     if request.method == 'POST':
         form = TeacherForm(request.POST)
         if form.is_valid():
@@ -34,7 +43,7 @@ def teacher_detail_view(request, pk):
     return render(request, 'teachers/teacher_detail.html', context)
 
 
-class teacher_update_view(UpdateView):
+class teacher_update_view(LoginRequiredMixin, UpdateView):
     model = Teacher
     fields = '__all__'
     template_name = 'teachers/update_teacher.html'
@@ -42,3 +51,10 @@ class teacher_update_view(UpdateView):
     def get_success_url(self):
         teacher_id = self.kwargs['pk']
         return reverse_lazy('teachers:teacher_details', kwargs={'pk': teacher_id})
+
+
+@login_required
+def teacher_delete_view(requset, pk):
+    teacher = Teacher.objects.get(pk=pk)
+    teacher.delete()
+    return redirect('teachers:all_teacher')

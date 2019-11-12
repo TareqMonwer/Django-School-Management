@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.http import HttpResponseRedirect
 from django.views.generic import DetailView, UpdateView
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Student
 from .forms import StudentForm
@@ -10,6 +10,11 @@ from .forms import StudentForm
 
 @login_required
 def add_student_view(request):
+    """
+    :param request:
+    :return: admission form to
+    logged in user.
+    """
     if request.method == 'POST':
         form = StudentForm(request.POST)
         if form.is_valid():
@@ -24,12 +29,19 @@ def add_student_view(request):
 
 @login_required
 def students_view(request):
+    """
+    :param request:
+    :return: list of students to logged in user, login form instead.
+    """
     all_students = Student.objects.all()
     context = {'students': all_students}
     return render(request, 'students/students_list.html', context)
 
 
-class student_update_view(UpdateView):
+class student_update_view(LoginRequiredMixin, UpdateView):
+    """
+    renders a student update form to update students details.
+    """
     model = Student
     fields = '__all__'
     template_name = 'students/update_student.html'
@@ -39,6 +51,12 @@ class student_update_view(UpdateView):
         return reverse_lazy('students:student_details', kwargs={'pk': student_id})
 
 
-class student_detail_view(DetailView):
+class student_detail_view(LoginRequiredMixin, DetailView):
     model = Student
     template_name = 'students/student_details.html'
+
+
+def student_delete_view(request, pk):
+    student = Student.objects.get(pk=pk)
+    student.delete()
+    return redirect('students:all_student')
