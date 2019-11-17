@@ -12,14 +12,15 @@ class Department(models.Model):
 
 
 class AcademicSession(models.Model):
-    year = models.CharField(max_length=9, unique=True)
+    year = models.PositiveIntegerField(max_length=4, unique=True)
 
     def __str__(self):
-        return str(self.year)
+        return '{} - {}'.format(self.year, self.year + 1)
 
 
 class Semester(models.Model):
     number = models.PositiveIntegerField(unique=True)
+    guide = models.ForeignKey(Teacher, on_delete=models.CASCADE, default=None, null=True, blank=True)
 
     def __str__(self):
         if self.number == 1:
@@ -34,7 +35,7 @@ class Semester(models.Model):
 
 class Student(models.Model):
     name = models.CharField(max_length=100)
-    date_of_birth = models.DateField()
+    date_of_birth = models.DateField(blank=True, null=True)
     roll = models.CharField(max_length=6, unique=True)
     registration_number = models.CharField(max_length=6, unique=True)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)

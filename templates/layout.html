@@ -28,16 +28,13 @@
           <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Department Tour</a>
+          <a class="nav-link" href="#">Settings</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Club Tour</a>
+          <a class="nav-link" href="#">Updates <span class="badge badge-warning">4</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'students:all_student' %}">Students</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'teachers:all_teacher' %}">Teachers</a>
+          <a class="nav-link" href="">Feature Request</a>
         </li>
       </ul>
       <ul class="navbar-nav ml-auto">
@@ -45,13 +42,16 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'account:login' %}">Login</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'account:register' %}">Register</a>
+        </li>
         {% else %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'account:logout' %}">Logout</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'account:login' %}">{{ user.username }}
-            Preferences
+          <a class="nav-link" href="{% url 'account:dashboard' %}">
+            Dashboard
           </a>
         </li>
         {% endif %}

@@ -70,3 +70,47 @@ a {
     width: 68% !important;
     margin-right: 3px;
 }
+
+
+/* ADMIN DASHBOARD */
+.sidenav, .bg-sidebarbg {
+    background: currentColor;
+}
+
+.col-2.pr-0.bg-sidebarbg {
+    height: 100vh;
+    overflow-y: scroll;
+}
+
+.sidenav.sidelink {
+    padding: 15px 25px;
+    border-bottom: 1px solid
+    darkslateblue;
+}
+
+.sidenav.sidelink:hover {
+    background: black;
+    border-left: 8px solid coral;
+}
+.sidenav.sidelink:hover a {
+    color: #fff;
+}
+.sidenav.sidelink a {
+    color: #ffffff85;
+}
+
+.top-cards {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.top-cards .info-card {
+    background: #f9f9f9;
+    padding: 19px 60px;
+    text-align: center;
+    text-transform: uppercase;
+    border-radius: 5px;
+    border-left: 4px solid blueviolet;
+    box-shadow: 3px 3px 10px #eee;
+}
+

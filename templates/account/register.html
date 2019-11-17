@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<section id="login-form-section">
+    <div id="login-form-section--inner">
+        <div class="container">
+            <div class="row justify-content-center py-5">
+                <div class="col-6">
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ user_form|crispy }}
+                        <input type="hidden" name="next" value="{{ next }}">
+                        <button type="submit" class="btn btn-outline-info float-right">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

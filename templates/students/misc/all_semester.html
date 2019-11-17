@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center my-5">
+    <div class="col-8">
+      <table class="table border">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Semester</th>
+            <th scope="col">Head Teacher</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for semester in all_sems %}
+          <tr>
+            <td>{{ semester }}</td>
+            <td>{{ semester.guide.name }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

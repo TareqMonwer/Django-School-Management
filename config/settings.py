@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # custom apps
     'students',
     'teachers',
+    'result',
 
     # third party apps
     'crispy_forms',
