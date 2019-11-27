@@ -1,0 +1,47 @@
+{% extends 'layout.html' %}
+{% load student_tags %}
+{% load static %}
+
+
+{% block content %}
+<div class="container">
+  <div id="result_row" class="row mt-5 justify-content-between">
+    <div class="col-8">
+      <h3 class="mb-5">Showing Result For <b><em>{{ student }}</em></b></h3>
+
+      <h4>{{ semester }} Semester Result: </h4>
+      <table class="mb-5 table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Subject Name</th>
+            <th scope="col">Obtained Marks</th>
+            <th scope="col">Grade</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for result in results %}
+          <tr>
+            <td>{{ result.subject }}</td>
+            <td>{{ result.marks }}</td>
+            <td>{{ result.grade }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="col-3">
+      <ul class="list-group shadow">
+      <li class="list-group-item active">Filter By Semester</li>
+      {% for i in '12345678'|make_list %}
+        <li class="list-group-item">
+          <a href="{% url 'result:show_result' student_id=student.roll semester=i %}">
+            {{ forloop.counter|num_suffix }} Semester
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

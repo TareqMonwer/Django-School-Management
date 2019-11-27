@@ -12,7 +12,7 @@ class Department(models.Model):
 
 
 class AcademicSession(models.Model):
-    year = models.PositiveIntegerField(max_length=4, unique=True)
+    year = models.PositiveIntegerField(unique=True)
 
     def __str__(self):
         return '{} - {}'.format(self.year, self.year + 1)
@@ -41,10 +41,10 @@ class Student(models.Model):
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
     semester = models.ForeignKey(Semester, on_delete=models.CASCADE, default='1st')
     ac_session = models.ForeignKey(AcademicSession, on_delete=models.CASCADE, blank=True, null=True)
-    mobile = models.CharField(max_length=11)
-    guardian_mobile = models.CharField(max_length=11)
-    email = models.EmailField()
-    last_gpa = models.FloatField()
+    mobile = models.CharField(max_length=11, blank=True, null=True)
+    guardian_mobile = models.CharField(max_length=11, blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+    last_gpa = models.FloatField(blank=True, null=True)
 
     def __str__(self):
         return '{} ({}) semester {} dept.'.format(

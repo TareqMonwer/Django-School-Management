@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+import debug_toolbar
 
 from .views import index_view
 
@@ -24,9 +25,11 @@ admin.site.site_title = "SMS-LIO Admin Portal"
 admin.site.index_title = "Welcome to SMS-LIO Portal"
 
 urlpatterns = [
+    path('__debug__', include(debug_toolbar.urls)),
     path('admin/', admin.site.urls),
     path('', index_view, name='index_view'),
     path('account/', include('account.urls')),
     path('students/', include('students.urls')),
     path('teachers/', include('teachers.urls')),
+    path('result/', include('result.urls')),
 ]

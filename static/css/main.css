@@ -61,6 +61,10 @@ a {
     opacity: .6;
 }
 
+#result_row h4 {
+    color: red !important;
+}
+
 /* bootstrap class override */
 .list-group-item {
     border: 1px solid ghostwhite;
@@ -78,8 +82,7 @@ a {
 }
 
 .col-2.pr-0.bg-sidebarbg {
-    height: 100vh;
-    overflow-y: scroll;
+    min-height: 100vh;
 }
 
 .sidenav.sidelink {

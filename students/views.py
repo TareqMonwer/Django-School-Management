@@ -4,8 +4,22 @@ from django.views.generic import DetailView, UpdateView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from result.models import Result
 from .models import Student, Semester, AcademicSession, Department
 from .forms import StudentForm, SemesterForm, AcademicSessionForm, DepartmentForm
+
+
+@login_required
+def student_result_view(request, student_id, semester):
+    student = Student.objects.get(roll=student_id)
+    res_semester = Semester.objects.get(number=semester)
+    results = Result.objects.filter(student=student, semester=res_semester)
+    ctx = {
+        'semester': res_semester,
+        'results': results,
+        'student': student,
+    }
+    return render(request, 'students/result.html', ctx)
 
 
 @login_required
@@ -93,4 +107,3 @@ def add_academic_session(request):
 @login_required
 def add_department(request):
     pass
-

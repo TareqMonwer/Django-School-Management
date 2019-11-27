@@ -1,0 +1,4 @@
+/.vscode
+/idea
+db.sqlite3
+modules.txt

@@ -1,0 +1,253 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>SMS LIO ADMIN</title>
+  <!-- FONT AWESOME KIT -->
+  <script src="https://kit.fontawesome.com/16475baae0.js" crossorigin="anonymous"></script>
+  <!-- GOOGLE FONT -->
+  <link href="https://fonts.googleapis.com/css?family=Nunito:400,700&display=swap" rel="stylesheet">
+  <!-- BOOTSTRAP4 CSS -->
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <!-- CUSTOM CSS -->
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+
+<body class="bg-light">
+
+  <section id="dashboard">
+    <div class="container-fluid">
+      <div class="dashboard-container row">
+        <!-- START SIDENAV -->
+        <div class="col-12 col-sm-12 col-md-4 col-lg-2 sidenav">
+          <div class="logo">
+            <!-- <img src="{% static 'images/logo.png' %}" alt="">-->
+            <h4>SMS-LIO ADMIN</h4>
+          </div>
+          <div class="sn-group">
+            <a href="{% url 'account:dashboard' %}" class="sn-link dash-home">
+              <i class="fas fa-tachometer-alt"></i>Dashboard
+            </a>
+          </div>
+          <div class="sn-group">
+            <h5>student</h5>
+            <nav>
+              <a class="sn-link" href="{% url 'students:add_student' %}">
+                <i class="fas fa-user-plus"></i>admission
+              </a>
+              <a href="" class="sn-link">
+                <i class="fas fa-id-card-alt"></i>promotion
+              </a>
+              <a href="{% url 'students:all_student' %}" class="sn-link">
+                <i class="fas fa-th-list"></i>all student
+              </a>
+            </nav>
+          </div>
+          <div class="sn-group">
+            <h5>teacher</h5>
+            <nav>
+              <a class="sn-link" href="{% url 'teachers:add_teacher' %}">
+                <i class="fas fa-user-tie"></i>new teacher
+              </a>
+              <a href="" class="sn-link">
+                <i class="fas fa-id-card-alt"></i>promotion</a>
+              <a href="{% url 'teachers:add_teacher' %}" class="sn-link">
+                <i class="fas fa-th-list"></i>teachers
+              </a>
+            </nav>
+          </div>
+          <div class="sn-group">
+            <h5>departments</h5>
+            <nav>
+              <a class="sn-link" href="">
+                <i class="fas fa-plus"></i>new department
+              </a>
+              <a href="" class="sn-link">
+                <i class="fas fa-plus"></i>new combination
+              </a>
+              <a href="" class="sn-link"><i class="fas fa-plus"></i>academic sessions</a>
+              <a href="" class="sn-link"><i class="fas fa-plus"></i>combinations</a>
+              <a href="" class="sn-link"><i class="fas fa-plus"></i>subject set</a>
+              <a href="{% url 'students:all_semester' %}" class="sn-link">
+                <i class="fas fa-plus"></i>new semester
+              </a>
+            </nav>
+          </div>
+        </div>
+        <!-- END OF SIDENAV -->
+
+        <!-- START DASHBOARD BODY -->
+        <div class="col-12 col-sm-12 col-md-8 col-lg-10 px-0 dashbody">
+          <!-- NAVIGATION TOP -->
+          <nav class="navbar navbar-expand-lg navbar-light bg-light shadow py-3 px-5">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+              aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+              <form id="searchForm" class="form-inline">
+                <input class="form-control" type="search" placeholder="Search for..." aria-label="Search">
+                <button id="searchBtn" class="btn lio-primary-bg my-2 my-sm-0" type="submit"><i
+                    class="fas fa-search"></i></button>
+              </form>
+              <div class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                    aria-expanded="false"><i class="fas fa-user-circle fa-lg"></i></a>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Separated link</a>
+                  </div>
+                </li>
+              </div>
+            </div>
+          </nav>
+          <!-- END NAV TOP -->
+
+          <div id="dash-body-inner" class="container-fluid p-5">
+
+            {% block dashboard-body %}
+
+            <!-- topstat row -->
+            <div class="row m-0 p-0">
+              <h3 class="mb-3">Dashboard</h3>
+              <div class="col-12 p-0">
+                <div class="topstat d-flex justify-content-between">
+                  <div class="statbox">
+                    <i class="fas fa-users fa-3x"></i>
+                    <div class="text">
+                      <p>students</p>
+                      <h3>2000</h3>
+                    </div>
+                  </div>
+                  <div class="statbox">
+                    <i class="fas fa-users fa-3x"></i>
+                    <div class="text">
+                      <p>teachers</p>
+                      <h3>30</h3>
+                    </div>
+                  </div>
+                  <div class="statbox">
+                    <i class="fas fa-users fa-3x"></i>
+                    <div class="text">
+                      <p>clubs</p>
+                      <h3>20</h3>
+                    </div>
+                  </div>
+                  <div class="statbox">
+                    <i class="fas fa-users fa-3x"></i>
+                    <div class="text">
+                      <p>books</p>
+                      <h3>2000</h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- second row -->
+            <div id="second-row" class="row m-0 p-0">
+              <div class="col-12 mt-5 p-0 d-flex justify-content-between">
+                <div class="card">
+                  <div class="card-header">
+                    <h5>upcoming events</h5>
+                  </div>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between">
+                      <span class="name">Seminar on Machine Learning</span>
+                      <span class="date">december 12</span>
+                      <span class="organizer">dpi decoder</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                      <span class="name">Spelling Bee</span>
+                      <span class="date">november 26</span>
+                      <span class="organizer">english club</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                      <span class="name">hello! you.</span>
+                      <span class="date">december 2</span>
+                      <span class="organizer">cultural club</span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="card">
+                  <div class="card-header">
+                    <h5>Notice Board</h5>
+                  </div>
+                  <ul class="list-group">
+                    <li class="list-group-item">
+                      <h5 class="date">23 nov 2019</h5>
+                      <h5>Admit card collecting notice.</h5>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <!-- end of second row -->
+
+            <!-- payment row -->
+            <div class="row m-0 p-0">
+              <h3 class="mt-5 mb-3">Stuff Payment</h3>
+              <div class="col-12 p-0 d-flex justify-content-between">
+                <div class="unpaid card">
+                  <ul class="list-group list-group-flush">
+                    <li class="title list-group-item">
+                      <h5>unpaid</h5>
+                    </li>
+                    <li class="list-group-item">
+                      <input type="checkbox" name="paid"> Md. Shariful Islam
+                    </li>
+                    <li class="list-group-item">
+                      <input type="checkbox" name="paid"> Md. Shariful Islam
+                    </li>
+                    <li class="list-group-item">
+                      <input type="checkbox" name="paid"> Md. Shariful Islam
+                    </li>
+                  </ul>
+                </div>
+                <div class="paid card">
+                  <ul class="list-group list-group-flush">
+                    <li class="title list-group-item">
+                      <h5>paid</h5>
+                    </li>
+                    <li class="list-group-item">Suma rani das</li>
+                    <li class="list-group-item">Johir chy</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {% endblock dashboard-body %}
+
+          </div>
+          <footer id="footer">
+            <div class="container">
+              <div class="row">
+                <div class="col-12 py-1">
+                  <p>&copy;copyright 2020, reserved by <em>pidevs</em></p>
+                </div>
+              </div>
+            </div>
+          </footer>
+        </div>
+        <!-- END DASHBOARD BODY -->
+      </div> <!-- dashboard container fluid -->
+
+    </div>
+  </section>
+
+
+  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/popper.min.js' %}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

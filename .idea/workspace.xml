@@ -24,15 +24,18 @@
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets/js" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/static/images" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="I:\WORKS\Django\sms-lio\static\images" />
       <recent name="I:\WORKS\Django\sms-lio\assets\js" />
       <recent name="I:\WORKS\Django\sms-lio\assets" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="I:\WORKS\Django\sms-lio\static\images" />
+      <recent name="I:\WORKS\Django\sms-lio\students" />
       <recent name="I:\WORKS\Django\sms-lio\assets" />
     </key>
   </component>

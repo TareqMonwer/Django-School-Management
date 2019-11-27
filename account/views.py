@@ -5,7 +5,7 @@ from .forms import UserRegistrationForm
 
 
 def dashboard(request):
-    return render(request, 'account/registration_done.html')
+    return render(request, 'dashboard.html')
 
 
 def register(request):
