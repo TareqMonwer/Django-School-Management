@@ -19,6 +19,10 @@ p, h3, h4, h5 {
 
 
 /* OVERRIDEN BS CLASS*/
+a:hover {
+	text-decoration: none;
+}
+
 .navbar-expand-lg .navbar-nav .dropdown-menu {
 	position: absolute;
 	left: -7rem !important;
@@ -258,4 +262,12 @@ body {
 	background: var(--primary-color);
 	color: #fff;
 	border: none;
+}
+
+
+/* ==================================== */
+/* --------- DEPARTMENT PAGE ---------- */
+/* ==================================== */
+.list-group-item {
+	text-transform: capitalize;
 }

@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 
 from .forms import UserRegistrationForm
 
 
+@login_required
 def dashboard(request):
     return render(request, 'dashboard.html')
 
@@ -20,7 +22,7 @@ def register(request):
                                      password=user_form.cleaned_data['password'])
             if auth_user is not None:
                 login(request, auth_user)
-            return render(request, 'account/registration_done.html',
+            return render(request, 'index.html',
                           {'new_user': new_user})
     else:
         user_form = UserRegistrationForm()

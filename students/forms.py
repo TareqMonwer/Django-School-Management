@@ -1,4 +1,4 @@
-from .models import Student, Department, Semester, AcademicSession
+from .models import Student
 from django.forms import ModelForm
 from crispy_forms.helper import FormHelper
 from crispy_forms.bootstrap import Tab, TabHolder
@@ -11,6 +11,7 @@ class StudentForm(ModelForm):
         model = Student
         fields = [
             'name',
+            'photo',
             'date_of_birth',
             'roll',
             'registration_number',
@@ -30,6 +31,7 @@ class StudentForm(ModelForm):
             TabHolder(
                 Tab('Personal Info',
                     'name',
+                    'photo',
                     'date_of_birth',
                     'email',
                     'mobile',
@@ -48,24 +50,6 @@ class StudentForm(ModelForm):
             ),
             ButtonHolder(
                 Submit('submit', 'Admit Student',
-                       css_class='float-right btn-dark')
+                       css_class='float-right btn-dark mr-3')
             )
         )
-
-
-class DepartmentForm(ModelForm):
-    class Meta:
-        model = Department
-        fields = '__all__'
-
-
-class SemesterForm(ModelForm):
-    class Meta:
-        model = Semester
-        fields = '__all__'
-
-
-class AcademicSessionForm(ModelForm):
-    class Meta:
-        model = AcademicSession
-        fields = '__all__'

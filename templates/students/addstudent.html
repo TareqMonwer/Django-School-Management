@@ -3,6 +3,9 @@
 
 {% block dashboard-body %}
 <form action="." method="post" class="admission-form d-block">
+  <div class="alert alert-warning">
+    <p>Fill up all the required field first, then click <em>Admit Student</em></p>
+  </div>
   {% csrf_token %}
   {% crispy form %}
 </form>

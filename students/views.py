@@ -5,8 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from result.models import Result
-from .models import Student, Semester, AcademicSession, Department
-from .forms import StudentForm, SemesterForm, AcademicSessionForm, DepartmentForm
+from .models import Student
+from .forms import StudentForm
 
 
 @login_required
@@ -75,35 +75,3 @@ def student_delete_view(request, pk):
     student = Student.objects.get(pk=pk)
     student.delete()
     return redirect('students:all_student')
-
-
-@login_required
-def semesters(request):
-    all_sems = Semester.objects.all()
-    return render(request, 'students/misc/all_semester.html', {'all_sems': all_sems})
-
-
-@login_required
-def add_semester(request):
-    if request.method == 'POST':
-        form = SemesterForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('students:all_semester')
-    form = SemesterForm()
-    return render(request, 'students/misc/add_semester.html', {'form': form})
-
-
-@login_required
-def delete_semester(request, pk):
-    pass
-
-
-@login_required
-def add_academic_session(request):
-    pass
-
-
-@login_required
-def add_department(request):
-    pass

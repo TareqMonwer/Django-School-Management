@@ -19,9 +19,11 @@ class Topic(models.Model):
 
 class Teacher(models.Model):
     name = models.CharField(max_length=150)
+    photo = models.ImageField(upload_to='teachers', blank=True, null=True)
     date_of_birth = models.DateField(blank=True, null=True)
     designation = models.ForeignKey(Designation, on_delete=models.CASCADE)
-    expertise = models.ManyToManyField(to=Topic, blank=True, related_name='expert_in')
+    expertise = models.ManyToManyField(
+        to=Topic, blank=True, related_name='expert_in')
     mobile = models.CharField(max_length=11, blank=True, null=True)
     email = models.CharField(max_length=255, blank=True, null=True)
     joining_date = models.DateField(auto_now=True)

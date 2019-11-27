@@ -30,6 +30,9 @@
             <a href="{% url 'account:dashboard' %}" class="sn-link dash-home">
               <i class="fas fa-tachometer-alt"></i>Dashboard
             </a>
+            <a class="sn-link dash-home" href="{% url 'index_view' %}" target="_blank">
+              <i class="fas fa-globe-asia"></i>Visit Site
+            </a>
           </div>
           <div class="sn-group">
             <h5>student</h5>
@@ -61,17 +64,19 @@
           <div class="sn-group">
             <h5>departments</h5>
             <nav>
-              <a class="sn-link" href="">
-                <i class="fas fa-plus"></i>new department
+              <a class="sn-link" href="{% url 'admin_tools:departments' %}">
+                <i class="fas fa-plus"></i>departments
               </a>
               <a href="" class="sn-link">
                 <i class="fas fa-plus"></i>new combination
               </a>
-              <a href="" class="sn-link"><i class="fas fa-plus"></i>academic sessions</a>
+              <a href="{% url 'admin_tools:academic_sessions' %}" class="sn-link">
+                <i class="fas fa-plus"></i>academic sessions
+              </a>
               <a href="" class="sn-link"><i class="fas fa-plus"></i>combinations</a>
               <a href="" class="sn-link"><i class="fas fa-plus"></i>subject set</a>
-              <a href="{% url 'students:all_semester' %}" class="sn-link">
-                <i class="fas fa-plus"></i>new semester
+              <a href="{% url 'admin_tools:all_semester' %}" class="sn-link">
+                <i class="fas fa-plus"></i>semesters
               </a>
             </nav>
           </div>

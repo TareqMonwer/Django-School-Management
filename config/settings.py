@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'students',
     'teachers',
     'result',
+    'admin_tools',
 
     # third party apps
     'crispy_forms',
@@ -133,6 +134,10 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 
 LOGIN_REDIRECT_URL = 'index_view'
 LOGOUT_REDIRECT_URL = 'account:login'
