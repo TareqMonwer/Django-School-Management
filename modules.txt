@@ -1,0 +1,22 @@
+* STUDENT *
+    admission []
+    drop
+    result []
+    promotion
+
+* TEACHER *
+    new teacher []
+    delete teacher
+    salary status
+
+* CLASSES AND DEPARTMENTS *
+    new class
+    new department
+    new session
+    new combination
+    subject set
+
+* EVENTS AND CLUB *
+    new event
+    new club
+    club membership form

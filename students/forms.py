@@ -47,7 +47,8 @@ class StudentForm(ModelForm):
                     )
             ),
             ButtonHolder(
-
+                Submit('submit', 'Admit Student',
+                       css_class='float-right btn-dark')
             )
         )
 
