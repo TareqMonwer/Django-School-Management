@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
+from django.views.generic import ListView
 from django.views.generic import UpdateView
+from django.views.generic.edit import CreateView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Teacher
-from .forms import TeacherForm
+from .models import Teacher, Designation
+from .forms import TeacherForm, TeacherDesignationForm
 
 
 @login_required
@@ -58,3 +60,20 @@ def teacher_delete_view(requset, pk):
     teacher = Teacher.objects.get(pk=pk)
     teacher.delete()
     return redirect('teachers:all_teacher')
+
+
+def create_designation(request):
+    if request.method == 'POST':
+        form = TeacherDesignationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('teachers:designations')
+    else:
+        form = TeacherDesignationForm()
+    context = {'form': form}
+    return render(request, 'teachers/designation_create.html', context)
+
+
+class designation_list_view(LoginRequiredMixin, ListView):
+    model = Designation
+    template_name = 'teachers/designation_list.html'

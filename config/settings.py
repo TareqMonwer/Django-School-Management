@@ -40,10 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # custom apps
+    'admin_tools',
     'students',
     'teachers',
     'result',
-    'admin_tools',
 
     # third party apps
     'crispy_forms',

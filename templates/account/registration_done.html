@@ -1,0 +1,67 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<section id="admin-body">
+  <div id="admin-body--inner">
+    <div class="container-fluid px-0">
+      <div class="row mr-0">
+        <div class="col-2 pr-0 bg-sidebarbg">
+          <div class="sidenav">
+            <div class="sidenav-header text-center text-light mt-4 mb-5">
+              <h3>SMS LIO</h3>
+            </div>
+            <div class="sidenav sidelink">
+              <a href="{% url 'students:add_student' %}">Admission</a>
+            </div>
+            <div class="sidenav sidelink">
+              <a href="{% url 'students:all_student' %}">Students Table</a>
+            </div>
+            <div class="sidenav sidelink">
+              <a href="{% url 'teachers:add_teacher' %}">New Teacher</a>
+            </div>
+            <div class="sidenav sidelink">
+              <a href="{% url 'teachers:all_teacher' %}">Teacher Table</a>
+            </div>
+            <div class="sidenav sidelink">
+              <a href="">Departments</a>
+            </div>
+            <div class="sidenav sidelink">
+              <a href="{% url 'students:all_semester' %}">Semesters</a>
+            </div>
+            <div class="sidenav sidelink">
+              <a href="{% url 'students:add_semester' %}">New Semester</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-10">
+          <div class="dashboard-body py-5">
+            <!-- top cards -->
+            <div class="top-cards">
+              <div class="info-card">
+                <h4>Students</h4>
+                <h2>2000</h2>
+              </div>
+              <div class="info-card">
+                <h4>Teachers</h4>
+                <h2>20</h2>
+              </div>
+              <div class="info-card">
+                <h4>Departments</h4>
+                <h2>10</h2>
+              </div>
+              <div class="info-card">
+                <h4>Unpaid</h4>
+                <h2>400</h2>
+              </div>
+            </div>
+            <hr>
+            <!--/top cards -->
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

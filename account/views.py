@@ -2,12 +2,20 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 
+from students.models import Student
+from teachers.models import Teacher
 from .forms import UserRegistrationForm
 
 
 @login_required
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    total_students = Student.objects.all().count()
+    total_teachers = Teacher.objects.all().count()
+    context = {
+        'total_students': total_students,
+        'total_teachers': total_teachers,
+    }
+    return render(request, 'dashboard.html', context)
 
 
 def register(request):

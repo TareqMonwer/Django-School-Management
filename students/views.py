@@ -49,9 +49,12 @@ def students_view(request):
     :return: renders student list with all department
     and semesters list.
     """
-    all_students = Student.objects.all().iterator()
-    departments = Department.objects.all().iterator()
-    semesters = SemesterCombination.objects.all().iterator()
+    all_students = Student.objects.select_related(
+        'department', 'semester', 'ac_session').all()
+    departments = Department.objects.select_related(
+        'head').all()
+    semesters = SemesterCombination.objects.select_related(
+        'department', 'semester', 'batch').all()
     context = {'students': all_students,
                'departments': departments,
                'semesters': semesters}
