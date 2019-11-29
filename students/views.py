@@ -49,9 +49,9 @@ def students_view(request):
     :return: renders student list with all department
     and semesters list.
     """
-    all_students = Student.objects.all()
-    departments = Department.objects.all()
-    semesters = SemesterCombination.objects.all()
+    all_students = Student.objects.all().iterator()
+    departments = Department.objects.all().iterator()
+    semesters = SemesterCombination.objects.all().iterator()
     context = {'students': all_students,
                'departments': departments,
                'semesters': semesters}
@@ -62,10 +62,8 @@ def students_view(request):
 def students_by_department_view(request, pk):
     dept_name = Department.objects.get(pk=pk)
     students = Student.objects.filter(department=dept_name)
-    departments = Department.objects.all()
     semesters = SemesterCombination.objects.all()
     context = {'students': students,
-               'departments': departments,
                'semesters': semesters}
     return render(request, 'students/students_by_department.html', context)
 

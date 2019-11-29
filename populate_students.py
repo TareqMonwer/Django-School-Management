@@ -1,15 +1,14 @@
+import random
 import django
 django.setup()
-import random
 from faker import Faker
 from admin_tools.models import Department, Semester, AcademicSession
 from students.models import Student
 import os
 
 
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
-
-
 
 
 fakegen = Faker()
@@ -40,28 +39,43 @@ sems = [sem1, sem2, sem3, sem4, sem5, sem6, sem7, sem8]
 depts = [dept1, dept2, dept3, dept4, dept5, dept6]
 
 
-def generate_students(n=10):
+def generate_students(n=10,semester=None, department=None):
     for entry in range(n):
         name = fakegen.name()
-        roll = fakegen.random_int(min=1929, max=3030, step=1)
-        regi = fakegen.random_int(min=20500, max=40599, step=1)
+        roll = fakegen.random_int(min=10000, max=10000, step=1)
+        regi = fakegen.random_int(min=10000, max=9000000, step=1)
         dept = random.choice(depts)
         sem = random.choice(sems)
         mobile = fakegen.phone_number()
         guardian = fakegen.phone_number()
 
-        student = Student.objects.get_or_create(
-            name=name,
-            roll=roll,
-            registration_number=regi,
-            department=dept,
-            semester=sem,
-            mobile=mobile,
-            guardian_mobile=guardian)
+        try:
+            if semester and department:
+                student = Student.objects.get_or_create(
+                name=name,
+                roll=roll,
+                registration_number=regi,
+                department=dept,
+                semester=semester,
+                mobile=mobile,
+                guardian_mobile=guardian)
+            else:
+                student = Student.objects.get_or_create(
+                name=name,
+                roll=roll,
+                registration_number=regi,
+                department=dept,
+                semester=sem,
+                mobile=mobile,
+                guardian_mobile=guardian)
+        except:
+            continue
+        
+        
 
 
 if __name__ == "__main__":
     print('Creating Fake Students....')
     n = int(input('How many students do you wanna create?'))
-    generate_students(n)
-    print('%s of students are created.' % n)
+    generate_students(n, semester=sem5, department=dept1)
+    print('students are created.')

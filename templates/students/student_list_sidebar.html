@@ -2,6 +2,7 @@
     <li class="active list-group-item">
         <p>filter by</p>
     </li>
+    {% if departments %}
     <li class="list-group-item">
         <button class="btn btn-link" data-toggle="collapse" data-target="#collapseDept" aria-expanded="true"
             aria-controls="collapseDept">
@@ -17,6 +18,7 @@
             </ul>
         </div>
     </li>
+    {% endif %}
     <li class=" list-group-item">
         <button class="btn btn-link" data-toggle="collapse" data-target="#collapseSemester" aria-expanded="true"
             aria-controls="collapseSemester">

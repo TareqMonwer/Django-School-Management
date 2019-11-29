@@ -283,7 +283,7 @@ body {
 #footer {
 	background: #e9eaec;
 	width: 100%;
-	position: fixed;
+	/* position: fixed; */
 	bottom: 0;
 }
 
