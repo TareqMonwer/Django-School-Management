@@ -1,11 +1,4 @@
 from django.contrib import admin
-from .models import (Department,
-                     Student,
-                     AcademicSession,
-                     Semester)
+from .models import Student
 
-
-admin.site.register(Department)
 admin.site.register(Student)
-admin.site.register(AcademicSession)
-admin.site.register(Semester)

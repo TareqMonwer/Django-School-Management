@@ -4,7 +4,8 @@ from admin_tools.models import Department, Semester, AcademicSession
 
 class Student(models.Model):
     name = models.CharField(max_length=100)
-    photo = models.ImageField(upload_to='students', blank=True, null=True)
+    photo = models.ImageField(upload_to='students',
+                              default='studentavar.png')
     date_of_birth = models.DateField(blank=True, null=True)
     roll = models.CharField(max_length=6, unique=True)
     registration_number = models.CharField(max_length=6, unique=True)
@@ -22,3 +23,6 @@ class Student(models.Model):
         return '{} ({}) semester {} dept.'.format(
             self.name, self.semester, self.department
         )
+
+    class Meta:
+        ordering = ['semester', 'roll', 'registration_number']

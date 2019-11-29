@@ -1,0 +1,38 @@
+<ul class="list-group filterbox">
+    <li class="active list-group-item">
+        <p>filter by</p>
+    </li>
+    <li class="list-group-item">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseDept" aria-expanded="true"
+            aria-controls="collapseDept">
+            Department
+        </button>
+        <div id="accordion">
+            <ul class="list-group-flush collapse show" id="collapseDept" data-parent="#accordion">
+                {% for dept in departments %}
+                <li class="list-group-item">
+                    <a href="{% url 'students:students_by_dept' pk=dept.id %}">{{ dept|truncatewords:3 }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </li>
+    <li class=" list-group-item">
+        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseSemester" aria-expanded="true"
+            aria-controls="collapseSemester">
+            Semester
+        </button>
+        <div id="accordion">
+            <ul class="list-group-flush collapse" id="collapseSemester" data-parent="#accordion">
+                {% for sem in semesters %}
+                <li class="list-group-item">
+                    <a href="">{{ sem }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </li>
+    <li class="list-group-item">
+        <a href="">all</a>
+    </li>
+</ul>

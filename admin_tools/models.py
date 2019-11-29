@@ -42,3 +42,18 @@ class Semester(models.Model):
             return '3rd'
         if 3 < self.number <= 12:
             return '%sth' % self.number
+
+
+class SemesterCombination(models.Model):
+    department = models.ForeignKey(Department, on_delete=models.CASCADE)
+    semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
+    batch = models.ForeignKey(AcademicSession, on_delete=models.CASCADE)
+    active = models.BooleanField(default=True)
+    created = models.DateField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ['department', 'semester']
+        ordering = ['department', 'semester']
+
+    def __str__(self):
+        return '%s %s' % (self.semester, self.department)

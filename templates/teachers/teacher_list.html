@@ -1,46 +1,28 @@
-{% extends 'layout.html' %}
+{% extends 'dashboard.html' %}
 
-{% block content %}
-<section id="all-teachers">
-  <div id="all-teachers--inner">
-    <div class="container">
-      <div class="row mt-5">
-        <!-- main -->
-        <div class="col-8">
-          <div class="teacher-box-container">
-            {% for teacher in teachers %}
-            <a href="{% url 'teachers:teacher_details' pk=teacher.pk %}" class="d-block teacher-box-link">
-              <div class="teacher-box">
-                <h5>{{ teacher.name }}</h5>
-                <span class="mr-3 text-success">Designation: {{ teacher.designation }}</span>
-
-                <a href="{% url 'teachers:update_teacher' pk=teacher.pk %}" class="btn btn-sm btn-outline-info">
-                  Update Details
-                </a>
-              </div>
-            </a>
-            {% endfor %}
-          </div>
-        </div>
-        <!-- sidebar -->
-        <div class="col-4">
-          <div class="side-panel">
-            <ul class="list-group">
-              <li class="list-group-item d-flex">
-                <input class="form-control" type="search" name="search" id="teacher-search" placeholder="Search for teacher">
-                <input type="submit" value="Search" class="btn btn-outline-dark">
-              </li>
-              <li class="list-group-item">
-                <a href="{% url 'teachers:add_teacher' %}">Add New Teacher</a>
-              </li>
-              <li class="list-group-item">Morbi leo risus</li>
-              <li class="list-group-item">Porta ac consectetur ac</li>
-              <li class="list-group-item">Vestibulum at eros</li>
-            </ul>
-          </div>
-        </div>
-      </div>
+{% block dashboard-body %}
+<div class="row">
+  <div class="container-fluid">
+    <div class="col-8">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Designation</th>
+            <th scope="col">Contact</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for teacher in teachers %}
+          <tr>
+            <td>{{ teacher.name }}</td>
+            <td>{{ teacher.designation }}</td>
+            <td>{{ teacher.mobile|default_if_none:"" }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
   </div>
-</section>
+</div>
 {% endblock %}

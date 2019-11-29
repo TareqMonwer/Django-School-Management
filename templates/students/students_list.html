@@ -3,36 +3,35 @@
 {% block dashboard-body %}
 
 <div class="row">
-  <div class="col-12">
+  <div class="col-9">
     <table class="table table-bordered">
       <thead>
         <tr>
           <th scope="col">ID</th>
+          <th scope="col">Registration</th>
           <th scope="col">Name</th>
-          <th scope="col">Last</th>
-          <th scope="col">Handle</th>
+          <th scope="col">Department</th>
+          <th scope="col">Semester</th>
         </tr>
       </thead>
       <tbody>
+        {% for student in students %}
         <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
+          <th scope="row">{{ student.roll }}</th>
+          <td>{{ student.registration_number }}</td>
+          <td>
+            <img src="{{ student.photo.url }}" alt="{{ student.name }}" class="mr-2 rounded-circle" height=24 width=24>
+            {{ student.name }}
+          </td>
+          <td>{{ student.department.name }}</td>
+          <td>{{ student.semester }}</td>
         </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td colspan="2">Larry the Bird</td>
-          <td>@twitter</td>
-        </tr>
+        {% endfor %}
       </tbody>
     </table>
+  </div>
+  <div class="col-3">
+    {% include "students/student_list_sidebar.html" %}
   </div>
 </div>
 
