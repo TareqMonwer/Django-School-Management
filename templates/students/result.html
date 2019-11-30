@@ -6,41 +6,54 @@
 {% block content %}
 <div class="container">
   <div id="result_row" class="row mt-5 justify-content-between">
-    <div class="col-8">
-      <h3 class="mb-5">Showing Result For <b><em>{{ student }}</em></b></h3>
-
-      <h4>{{ semester }} Semester Result: </h4>
-      <table class="mb-5 table table-bordered table-hover">
+    <!-- SEARCH COLUMN -->
+    <div class="col-12">
+      <form class="form-inline">
+        <div class="form-group mx-sm-3 mb-2">
+          <label for="studentId" class="sr-only">Student ID</label>
+          <input name="student_id" type="text" class="form-control">
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+          <label for="semester" class="sr-only">Semester</label>
+          <input name="semester" type="text" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Search</button>
+      </form>
+    </div>
+    <!-- RESULT TABLE COLUMN -->
+    {% if student %}
+    <div class="col-12">
+      <table class="table table-bordered">
         <thead>
           <tr>
-            <th scope="col">Subject Name</th>
-            <th scope="col">Obtained Marks</th>
-            <th scope="col">Grade</th>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
           </tr>
         </thead>
         <tbody>
-          {% for result in results %}
           <tr>
-            <td>{{ result.subject }}</td>
-            <td>{{ result.marks }}</td>
-            <td>{{ result.grade }}</td>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
           </tr>
-          {% endfor %}
+          <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td colspan="2">Larry the Bird</td>
+            <td>@twitter</td>
+          </tr>
         </tbody>
       </table>
     </div>
-    <div class="col-3">
-      <ul class="list-group shadow">
-      <li class="list-group-item active">Filter By Semester</li>
-      {% for i in '12345678'|make_list %}
-        <li class="list-group-item">
-          <a href="{% url 'result:show_result' student_id=student.roll semester=i %}">
-            {{ forloop.counter|num_suffix }} Semester
-          </a>
-        </li>
-      {% endfor %}
-    </ul>
-    </div>
+    {% endif %}
   </div>
 </div>
 
