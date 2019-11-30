@@ -21,6 +21,8 @@ def teachers_view(request):
     return render(request, 'teachers/teacher_list.html', context)
 
 
+# THIS VIEW DUPLICATES QUERY
+# AND RUNS 6 QUERIES
 @login_required
 def add_teacher_view(request):
     """

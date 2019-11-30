@@ -11,16 +11,21 @@ from .forms import StudentForm
 
 
 @login_required
-def student_result_view(request, student_id, semester):
-    student = Student.objects.get(roll=student_id)
-    res_semester = Semester.objects.get(number=semester)
-    results = Result.objects.filter(student=student, semester=res_semester)
-    ctx = {
-        'semester': res_semester,
-        'results': results,
-        'student': student,
-    }
-    return render(request, 'students/result.html', ctx)
+def student_result_view(request):
+    if request.method == 'POST':
+        student_id = request.POST.get('student_id')
+        semester = request.POST.get('semester')
+        student = Student.objects.get(roll=student_id)
+        res_semester = Semester.objects.get(number=semester)
+        results = Result.objects.filter(student=student, semester=res_semester)
+        ctx = {
+            'semester': res_semester,
+            'results': results,
+            'student': student,
+        }
+        return render(request, 'students/result.html', ctx)
+    else:
+        return render(request, 'students/result.html')
 
 
 @login_required
@@ -64,8 +69,10 @@ def students_view(request):
 @login_required
 def students_by_department_view(request, pk):
     dept_name = Department.objects.get(pk=pk)
-    students = Student.objects.filter(department=dept_name)
-    semesters = SemesterCombination.objects.all()
+    students = Student.objects.select_related(
+        'department', 'semester', 'ac_session').filter(department=dept_name)
+    semesters = SemesterCombination.objects.select_related(
+        'department', 'semester', 'batch').all()
     context = {'students': students,
                'semesters': semesters}
     return render(request, 'students/students_by_department.html', context)
