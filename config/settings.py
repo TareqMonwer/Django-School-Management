@@ -48,7 +48,11 @@ INSTALLED_APPS = [
     # third party apps
     'crispy_forms',
     'debug_toolbar',
+    'rolepermissions',
 ]
+
+
+ROLEPERMISSIONS_MODULE = 'admin_tools.roles'
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
