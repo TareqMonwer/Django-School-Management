@@ -1,0 +1,46 @@
+{% extends 'dashboard.html' %}
+{% load crispy_forms_tags %}
+
+{% block dashboard-body %}
+<div class="row">
+    <!-- ACCOUNTS LIST -->
+    <div class="col-md-9">
+        <table class="table border">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Username</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for account in accounts %}
+                <tr>
+                    <td>{{ account.username }}</td>
+                    <td>{{ account.first_name }}</td>
+                    <td>{{ account.email }}</td>
+                    <td>
+                        {% for group in account.groups.all %}
+                            <span class="badge badge-dark">
+                                {{ group }}
+                            </span>
+                        {% empty %}
+                            general user
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- SIDEBAR -->
+    <div class="col-md-3">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <a href="{% url 'admin_tools:add_user' %}">add new user</a>
+            </li>
+        </ul>
+    </div> <!-- /sidebar -->
+</div>
+{% endblock %}
