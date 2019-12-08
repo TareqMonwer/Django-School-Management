@@ -86,6 +86,17 @@
               </a>
             </nav>
           </div>
+          <div class="sn-group">
+            <h5>admin options</h5>
+            <nav>
+              <a href="{% url 'admin_tools:add_user' %}" class="sn-link">
+                <i class="fas fa-plus"></i>add new user
+              </a>
+              <a href="{% url 'admin_tools:all_accounts' %}" class="sn-link">
+                <i class="fas fa-plus"></i>all users
+              </a>
+            </nav>
+          </div>
         </div>
         <!-- END OF SIDENAV -->
 
@@ -110,7 +121,9 @@
                   <div class="dropdown-menu">
                     <a class="dropdown-item" href="#">Settings</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'account:logout' %}">Logout</a>
+                    <a class="dropdown-item" href="{% url 'account:logout' %}">
+                      Logout {{ user.username }}
+                    </a>
                   </div>
                 </li>
               </div>

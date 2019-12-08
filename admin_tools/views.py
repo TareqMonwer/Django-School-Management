@@ -1,11 +1,40 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from rolepermissions.roles import assign_role
+from django.http import HttpResponse
 
 from .models import Semester, Department, AcademicSession
 from .forms import SemesterForm, DepartmentForm, AcademicSessionForm
+from account.forms import UserRegistrationForm
 
 
-# LIST VIEWS
+@login_required
+def add_user_view(request):
+    if request.user.has_perm('create_stuff'):
+        if request.method == 'POST':
+            user_form = UserRegistrationForm(request.POST)
+            if user_form.is_valid():
+                role = request.POST.get('user_role')
+                if role == 'admin':
+                    user = user_form.save()
+                    assign_role(user, 'admin')
+                    return redirect('admin_tools:all_accounts')
+                elif role == 'stuff':
+                    user = user_form.save()
+                    assign_role(user, 'stuff')
+                    return redirect('admin_tools:all_accounts')
+            else:
+                return render(request, 'admin_tools/add_user.html')
+        else:
+            user_form = UserRegistrationForm()
+        context = {
+            'user_form': user_form,
+        }
+        return render(request, 'admin_tools/add_user.html', context)
+    else:
+        return render(request, 'admin_tools/permission_required.html')
+
+
 @login_required
 def semesters(request):
     '''
