@@ -5,6 +5,7 @@ dateparser==0.7.2
 Django==2.2.7
 django-crispy-forms==1.8.0
 django-debug-toolbar==2.1
+django-role-permissions==2.2.1
 fake-factory==9999.9.9
 Faker==2.0.4
 idna==2.8
