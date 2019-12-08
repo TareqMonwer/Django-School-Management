@@ -29,16 +29,18 @@ def add_teacher_view(request):
     :param request:
     :return: teacher add form
     """
-    if request.method == 'POST':
-        form = TeacherForm(request.POST)
-        if form.is_valid():
-            form.save()
-            pk = form.instance.pk
-            return redirect('teachers:teacher_details', pk=pk)
-    form = TeacherForm()
-    context = {'form': form}
-    return render(request, 'teachers/add_teacher.html', context)
-
+    if request.user.has_perm('create_teacher'):
+        if request.method == 'POST':
+            form = TeacherForm(request.POST)
+            if form.is_valid():
+                form.save()
+                pk = form.instance.pk
+                return redirect('teachers:teacher_details', pk=pk)
+        form = TeacherForm()
+        context = {'form': form}
+        return render(request, 'teachers/add_teacher.html', context)
+    else:
+         return render(request, 'admin_tools/permission_required.html')
 
 @login_required
 def teacher_detail_view(request, pk):
