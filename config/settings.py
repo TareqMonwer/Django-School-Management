@@ -150,6 +150,13 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'crazypi6d@gmail.com'
+EMAIL_HOST_PASSWORD = 'django@321'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'crazypi6d@gmail.com'
+
 
 LOGIN_REDIRECT_URL = 'index_view'
 LOGOUT_REDIRECT_URL = 'account:login'
