@@ -7,6 +7,7 @@
         <div class="container">
             <div class="row justify-content-center py-5">
                 <div class="col-6">
+                    <h1 class="text-center">Login</h1>
                     <form method="POST">
                         {% csrf_token %}
                         <div class="form-group">
@@ -24,6 +25,9 @@
                     </form>
                     <a class="d-block" href="{% url 'account:register'  %}">
                         Don't have an account? <b>Register Now.</b>
+                    </a>
+                    <a class="d-block" href="/password-reset/">
+                        Forgot password?
                     </a>
                 </div>
             </div>
