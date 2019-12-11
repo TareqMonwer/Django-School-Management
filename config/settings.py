@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'rolepermissions',
 ]
 
-
+# for permission management
 ROLEPERMISSIONS_MODULE = 'admin_tools.roles'
 
 
@@ -150,19 +150,25 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'crazypi6d@gmail.com'
-EMAIL_HOST_PASSWORD = 'django@321'
+# authentication stuffs
+from .email_details import *
+
+# TODO:USE YOUR OWN EMAIL SETTINGS FILE 
+# for referrence, check the video tutorial link bellow
+# https://www.youtube.com/watch?v=51mmqf5a0Ss
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'crazypi6d@gmail.com'
+EMAIL_HOST = email_host
+EMAIL_PORT = email_port
+EMAIL_HOST_USER = email_host_user
+EMAIL_HOST_PASSWORD = email_host_password
+DEFAULT_FROM_EMAIL = default_from_email
 
-
+# login/register redirects
 LOGIN_REDIRECT_URL = 'index_view'
 LOGOUT_REDIRECT_URL = 'account:login'
 LOGIN_URL = 'account:login'
 LOGOUT_URL = 'account:logout'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 INTERNAL_IPS = ['127.0.0.1', ]
