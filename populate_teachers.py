@@ -29,8 +29,6 @@ designations = []
 for i in range(1, 6):
     des = Designation.objects.get(id=i)
     designations.append(des)
-print('####### DESIGNATIONS #########')
-print(designations)
 
 def generate_teacher(n=10):
     for entry in range(n):
