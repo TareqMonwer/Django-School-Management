@@ -1,25 +1,25 @@
 import random
 import django
+import os
+# must be in top of django.setup()
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 django.setup()
 from faker import Faker
+# must come after django.setup()
 from admin_tools.models import Department, Semester, AcademicSession
 from students.models import Student
-import os
 
-
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
 fakegen = Faker()
 
 
 # get the academmic_session
-ac_session = AcademicSession.objects.get(year=2019)
+ac_session = AcademicSession.objects.get(year=2017)
 
 # 1-8th semester objects
 sems = []
 for i in range(1, 9):
-    sems.append(Semester.objects.get(i))
+    sems.append(Semester.objects.get(number=i))
 
 
 # some departments

@@ -1,25 +1,34 @@
 import random
 import django
+import os
+# must be on top of django.setup()
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 django.setup()
 from faker import Faker
-import os
 
+# must come after django setup()
 from teachers.models import Teacher, Designation
-
-
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
 
 fakegen = Faker()
 
 
+def create_designations():
+    designations = [
+        'Instructor', 'Sr. Instructor', 'Jr. Instructor',
+        'Asst. Instructor', 'Lecturer',
+    ]
+    for des in designations:
+        Designation.objects.get_or_create(title=des)
+
+
+create_designations()
+
 # designations
 designations = []
-for i in range(1,4):
+for i in range(1, 6):
     des = Designation.objects.get(id=i)
     designations.append(des)
-
 
 def generate_teacher(n=10):
     for entry in range(n):

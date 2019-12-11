@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
@@ -32,8 +32,7 @@ def register(request):
                                      password=user_form.cleaned_data['password'])
             if auth_user is not None:
                 login(request, auth_user)
-            return render(request, 'index.html',
-                          {'new_user': new_user})
+            return redirect('account:dashboard')
         else:
             return render(request, 'account/register.html', {'user_form': user_form})
 
