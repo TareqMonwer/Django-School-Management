@@ -14,5 +14,6 @@ urlpatterns = [
     path('<int:pk>/students/', views.students_by_department_view,
          name='students_by_dept'),
     path('result/', views.student_result_view, name='result'),
-
+    path('add_result_from_student/<int:pk>/', views.add_result_from_student_detail_view,
+	name='add_result_in_details'),
 ]

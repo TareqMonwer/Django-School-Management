@@ -1,7 +1,7 @@
 from django.db import models
-
-from teachers.models import Teacher
 from students.models import Student, Semester
+from teachers.models import Teacher
+from admin_tools.models import Department
 
 
 class Subject(models.Model):
@@ -16,6 +16,15 @@ class Subject(models.Model):
         return "{} ({})".format(self.name, self.subject_code)
 
 
+class SubjectCombination(models.Model):
+    department = models.ForeignKey(Department, on_delete=models.CASCADE)
+    semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
+    subjects = models.ManyToManyField(Subject)
+
+    def __str__(self):
+        return '{} {}'.format(self.department, self.semester)
+
+
 class Result(models.Model):
     marks = models.PositiveIntegerField()
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE,
@@ -24,6 +33,9 @@ class Result(models.Model):
                                 blank=True, null=True)
     semester = models.ForeignKey(Semester, on_delete=models.CASCADE,
                                  blank=True, null=True)
+    
+    class Meta:
+        unique_together = ['subject', 'student']
 
     def grade(self):
         if 80 <= self.marks <= 100:
