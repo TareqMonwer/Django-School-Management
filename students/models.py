@@ -1,5 +1,8 @@
 from django.db import models
+from django.apps import apps
+
 from admin_tools.models import Department, Semester, AcademicSession
+# SUBJECT_COMB = apps.get_model('result', 'SubjectCombination',  require_ready=True)
 
 
 class Student(models.Model):
@@ -17,7 +20,14 @@ class Student(models.Model):
     mobile = models.CharField(max_length=11, blank=True, null=True)
     guardian_mobile = models.CharField(max_length=11, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
-    last_gpa = models.FloatField(blank=True, null=True)
+
+    def has_subjects(self):
+        from result.models import SubjectCombination
+        return SubjectCombination.objects.filter(
+            semester=self.semester, department=self.department
+        )
+
+
 
     def __str__(self):
         return '{} ({}) semester {} dept.'.format(
