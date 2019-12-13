@@ -6,7 +6,7 @@ from admin_tools.models import Department
 
 class Subject(models.Model):
     name = models.CharField(max_length=50)
-    subject_code = models.PositiveIntegerField()
+    subject_code = models.PositiveIntegerField(unique=True)
     instructor = models.ForeignKey(Teacher, on_delete=models.CASCADE,
                                    blank=True, null=True)
     theory_marks = models.PositiveIntegerField(blank=True, null=True)
@@ -32,8 +32,9 @@ class Result(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE,
                                 blank=True, null=True)
     semester = models.ForeignKey(Semester, on_delete=models.CASCADE,
-                                 blank=True, null=True)
-    
+                                blank=True, null=True)
+
+
     class Meta:
         unique_together = ['subject', 'student']
 
