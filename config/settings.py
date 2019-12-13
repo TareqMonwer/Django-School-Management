@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'students',
     'teachers',
     'result',
+    'course',
 
     # third party apps
     'crispy_forms',
@@ -151,18 +152,18 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 # authentication stuffs
-from .email_details import *
+# from .email_details import *
 
 # TODO:USE YOUR OWN EMAIL SETTINGS FILE 
 # for referrence, check the video tutorial link bellow
 # https://www.youtube.com/watch?v=51mmqf5a0Ss
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
-EMAIL_HOST = email_host
-EMAIL_PORT = email_port
-EMAIL_HOST_USER = email_host_user
-EMAIL_HOST_PASSWORD = email_host_password
-DEFAULT_FROM_EMAIL = default_from_email
+EMAIL_HOST = "email_host"
+EMAIL_PORT = "email_port"
+EMAIL_HOST_USER = "email_host_user"
+EMAIL_HOST_PASSWORD = "email_host_password"
+DEFAULT_FROM_EMAIL = "default_from_email"
 
 # login/register redirects
 LOGIN_REDIRECT_URL = 'index_view'

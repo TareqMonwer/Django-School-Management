@@ -1,0 +1,36 @@
+{% extends 'dashboard.html' %}
+{% load crispy_forms_tags %}
+
+{% block dashboard-body %}
+<div class="row">
+    <!-- COURSE LIST -->
+    <div class="col-md-9">
+        <table class="table border">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Course Title</th>
+                    <th scope="col">Student Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for course_assign in all_course_assign_to_student %}
+                <tr>
+                    <td>{{ course_assign.Id }}</td>
+                    <td>{{ course_assign.course.title }}</td>
+                    <td>{{ course_assign.student.name }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- SIDEBAR -->
+    <div class="col-md-3">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <a href="/course/add-course-assign-to-student/">Course assign to student</a>
+            </li>
+        </ul>
+    </div> <!-- /sidebar -->
+</div>
+{% endblock %}
