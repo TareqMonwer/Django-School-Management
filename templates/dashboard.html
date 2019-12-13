@@ -68,6 +68,26 @@
             </nav>
           </div>
           <div class="sn-group">
+            <h5>Course</h5>
+            <nav>
+              <a class="sn-link" href="{% url 'course:course-list' %}">
+                <i class="fas fa-user-tie"></i>Course
+              </a>
+              <a class="sn-link" href="{% url 'course:section-list' %}">
+                <i class="fas fa-user-tie"></i>Section
+              </a>
+              <a class="sn-link" href="{% url 'course:course-attendance-list' %}">
+                <i class="fas fa-user-tie"></i>Attendance
+              </a>
+              <a class="sn-link" href="{% url 'course:course-assign-to-teacher-list' %}">
+                  <i class="fas fa-user-tie"></i>Course assign to teacher
+              </a>
+              <a class="sn-link" href="{% url 'course:course-assign-to-student-list' %}">
+                  <i class="fas fa-user-tie"></i>Course assign to student
+              </a>
+            </nav>
+          </div>
+          <div class="sn-group">
             <h5>departments</h5>
             <nav>
               <a class="sn-link" href="{% url 'admin_tools:departments' %}">
