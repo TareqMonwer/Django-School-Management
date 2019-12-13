@@ -3,24 +3,22 @@
 
 {% block dashboard-body %}
 <div class="row">
-    <!-- TOTAL ATTENANCE LIST -->
+    <!-- COURSE LIST -->
     <div class="col-md-9">
         <table class="table border">
             <thead class="thead-dark">
                 <tr>
+                    <th scope="col">ID</th>
                     <th scope="col">Course Title</th>
-                    <th scope="col">Teacher Name</th>
                     <th scope="col">Student Name</th>
-                    <th scope="col">Date</th>
                 </tr>
             </thead>
             <tbody>
-                {% for course_attendance in all_course_attendance %}
+                {% for course_assign in all_course_assign_to_student %}
                 <tr>
-                    <td>{{ course_attendance.course.title }}</td>
-                    <td>{{ course_attendance.teacher.name }}</td>
-                    <td>{{ course_attendance.student.name }}</td>
-                    <td>{{ course_attendance.date }}</td>
+                    <td>{{ course_assign.Id }}</td>
+                    <td>{{ course_assign.course.title }}</td>
+                    <td>{{ course_assign.student.name }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -30,7 +28,7 @@
     <div class="col-md-3">
         <ul class="list-group">
             <li class="list-group-item">
-                <a href="/course/add-course-attendance/">add attendance</a>
+                <a href="/course/add-course-assign-to-student/">Course assign to student</a>
             </li>
         </ul>
     </div> <!-- /sidebar -->

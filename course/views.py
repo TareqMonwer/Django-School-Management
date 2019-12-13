@@ -1,8 +1,14 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
-from .models import Section, Course, CourseAttendance
-from .forms import SectionForm, CourseForm, CourseAttendanceForm
+from .models import Section, Course, CourseAttendance, CourseAssignToTeacher, CourseAssignToStudent
+from .forms import (
+    SectionForm,
+    CourseForm,
+    CourseAttendanceForm,
+    CourseAssignToTeacherForm,
+    CourseAssignToStudentForm,
+)
 
 # Create your views here.
 
@@ -83,3 +89,55 @@ def course_attendance_list(request):
             "all_course_attendance": all_course_attendance
         }
         return render(request, 'course/course_attendance_list.html', context)
+
+@login_required
+def course_assign_to_teacher(request):
+    """
+    Course assign to teacher form here
+    """
+    if request.method == 'POST':
+        course_assign_to_teacher_form = CourseAssignToTeacherForm(request.POST)
+        if course_assign_to_teacher_form.is_valid():
+            course_assign_to_teacher_form.save()
+    form = CourseAssignToTeacherForm()
+    context = {
+        "form": form
+    }
+    return render(request, 'course/add_course_assign_to_teacher.html', context)
+
+def course_assign_to_teacher_list(request):
+    """
+    Course assign to teacher list is here
+    """
+    if request.method == 'GET':
+        all_course_assign_to_teacher = CourseAssignToTeacher.objects.all()
+        context = {
+            "all_course_assign_to_teacher": all_course_assign_to_teacher
+        }
+        return render(request, 'course/course_assign_to_teacher_list.html', context)
+
+@login_required
+def course_assign_to_student(request):
+    """
+    Course assign to student form here
+    """
+    if request.method == 'POST':
+        course_assign_to_student_form = CourseAssignToStudentForm(request.POST)
+        if course_assign_to_student_form.is_valid():
+            course_assign_to_student_form.save()
+    form = CourseAssignToStudentForm()
+    context = {
+        "form": form
+    }
+    return render(request, 'course/add_course_assign_to_student.html', context)
+
+def course_assign_to_student_list(request):
+    """
+    Course assign to student list is here
+    """
+    if request.method == 'GET':
+        all_course_assign_to_student = CourseAssignToStudent.objects.all()
+        context = {
+            "all_course_assign_to_student": all_course_assign_to_student
+        }
+        return render(request, 'course/course_assign_to_student_list.html', context)
