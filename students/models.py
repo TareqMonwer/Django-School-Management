@@ -1,8 +1,5 @@
 from django.db import models
-from django.apps import apps
-
 from admin_tools.models import Department, Semester, AcademicSession
-# SUBJECT_COMB = apps.get_model('result', 'SubjectCombination',  require_ready=True)
 
 
 class Student(models.Model):
@@ -26,8 +23,6 @@ class Student(models.Model):
         return SubjectCombination.objects.filter(
             semester=self.semester, department=self.department
         )
-
-
 
     def __str__(self):
         return '{} ({}) semester {} dept.'.format(

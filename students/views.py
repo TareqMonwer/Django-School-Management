@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from admin_tools.models import Department, Semester, SemesterCombination
-from result.models import Result, SubjectCombination, Subject
+from result.models import Result, Subject
 from .models import Student
 from .forms import StudentForm
 
@@ -137,7 +137,7 @@ def add_result_from_student_detail_view(request, pk):
                 semester=semester,
                 student=student)
             result.save()
-        except IntegrityError as err:
+        except IntegrityError:
             return HttpResponse('This result already recorded!')
-        
+
         return redirect('students:student_details', pk=pk)
