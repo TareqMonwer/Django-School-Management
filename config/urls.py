@@ -44,6 +44,7 @@ urlpatterns = [
         ),
     name='password_reset_complete'
     ),
+    path('course/', include('course.urls')),
 ]
 
 
