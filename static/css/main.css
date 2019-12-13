@@ -117,3 +117,7 @@ a {
     box-shadow: 3px 3px 10px #eee;
 }
 
+/* STUDENT UPDATE FORM */
+.sudent-update-form .custom-file-label {
+    margin-top: 3rem;
+}

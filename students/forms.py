@@ -21,7 +21,6 @@ class StudentForm(ModelForm):
             'mobile',
             'guardian_mobile',
             'email',
-            'last_gpa'
         ]
 
     def __init__(self, *args, **kwargs):
@@ -45,7 +44,6 @@ class StudentForm(ModelForm):
                 Tab('Board Info',
                     Field('roll', css_class="extra"),
                     Field('registration_number',),
-                    Field('last_gpa',)
                     )
             ),
             ButtonHolder(

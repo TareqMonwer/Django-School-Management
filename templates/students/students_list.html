@@ -12,19 +12,42 @@
           <th scope="col">Name</th>
           <th scope="col">Department</th>
           <th scope="col">Semester</th>
+          <th scope="col">Action</th>
         </tr>
       </thead>
       <tbody>
         {% for student in students %}
         <tr>
-          <th scope="row">{{ student.roll }}</th>
-          <td>{{ student.registration_number }}</td>
+          <th scope="row">
+            <a href="{% url 'students:student_details' pk=student.id %}">
+              {{ student.roll }}
+          </th>
           <td>
-            <img src="{{ student.photo.url }}" alt="{{ student.name }}" class="mr-2 rounded-circle" height=24 width=24>
+            <a href="{% url 'students:student_details' pk=student.id %}">
+              {{ student.registration_number }}</td>
+          <td>
+            <a href="{% url 'students:student_details' pk=student.id %}">
+            <img src="{{ student.photo.url }}" class="mr-2 rounded-circle" height=24 width=24>
             {{ student.name }}
           </td>
-          <td>{{ student.department.name }}</td>
-          <td>{{ student.semester }}</td>
+          <td>
+            <a href="{% url 'students:student_details' pk=student.id %}">
+              {{ student.department.name }}
+          </td>
+          <td>
+            <a href="{% url 'students:student_details' pk=student.id %}">
+              {{ student.semester }}
+          </td>
+          <td>
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <button type="button" class="btn btn-success">
+                <i class="fas fa-cogs"></i>
+              </button>
+              <a href="{% url 'students:update_student' pk=student.id %}" class="btn btn-secondary">
+                <i class="fas fa-edit"></i>
+              </a>
+            </div>
+          </td>
         </tr>
         {% endfor %}
       </tbody>

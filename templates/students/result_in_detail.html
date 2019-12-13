@@ -1,0 +1,68 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load student_tags %}
+
+{% block content %}
+<section id="student-detail-section header">
+    <div id="student-detail-section--inner">
+        <div class="container">
+            <a href="{% url 'index_view' %}" class="btn btn-danger">
+                Dashboard
+            </a>
+            <a href="{% url 'students:delete_student' pk=student.pk %}" class="btn btn-danger">
+                <i class="fas fa-trash-alt"></i>
+            </a>
+            <a href="{% url 'students:update_student' pk=student.id %}" class="btn btn-secondary">
+                <i class="fas fa-edit"></i>
+            </a>
+            <div class="row py-5">
+                <div class="col-3">
+                    <img class="student-profile-img" src="{{ student.photo.url }}" alt="" width="200" height="200">
+                </div>
+                <div class="col-8">
+                    <h2>{{ student.name }}</h2>
+                    <h4>{{ student.department }} {{ student.semester }}</h4>
+                    <h4>Session: {{ student.ac_session }}</h4>
+                    {% if student.mobile %}
+                    <h4>Mobile: {{ student.mobile }}</h4>
+                    {% endif %}
+                    {% if student.email %}
+                    <h4>Mail: {{ student.email }}</h4>
+                    {% endif %}
+                    {% if student.guardian_mobile %}
+                    <h4>Guardian: {{ student.guardian_mobile }}</h4>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="mt-5" id="student-information">
+    <div class="container">
+        <div class="row">
+            <div class="col-8">
+                <h3>Result(s):</h3>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Subject</th>
+                            <th scope="col">Marks</th>
+                            <th scope="col">GPA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for result in results %}
+                        <tr>
+                            <td>{{ result.subject }}</td>
+                            <td>{{ result.marks }}</td>
+                            <td>{{ result.grade }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div> <!-- end of row -->
+    </div>
+</section>
+{% endblock %}
