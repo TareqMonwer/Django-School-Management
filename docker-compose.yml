@@ -1,0 +1,28 @@
+version: "3"
+services:
+  web:
+    build: .
+    container_name: great
+    volumes:
+      - .:/code
+      - static:/code/static_cdn
+      - media:/code/media_cdn
+    expose:
+      - 8080
+    command: bash -c "python manage.py collectstatic --noinput && python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8080"
+
+  nginx:
+    restart: always
+    build: ./nginx/
+    volumes:
+      - ./nginx/:/etc/nginx/conf.d
+      - ./logs/:/code/logs
+      - static:/code/static_cdn
+      - media:/code/media_cdn
+    ports:
+      - "1221:80"
+    links:
+      - web
+volumes:
+  media:
+  static:

@@ -22,7 +22,11 @@ class Section(models.Model):
 
 
 class CourseAttendance(models.Model):
+<<<<<<< HEAD
     date = models.DateTimeField(default=datetime.now, blank=True)
+=======
+    date = models.DateTimeField(auto_now_add=True, blank=True)
+>>>>>>> docker config
     course = models.ManyToManyField(Course)
     teacher = models.ManyToManyField(Teacher)
     student = models.ManyToManyField(Student)
