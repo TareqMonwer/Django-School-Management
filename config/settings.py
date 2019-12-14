@@ -25,7 +25,9 @@ SECRET_KEY = '6pjp4sudwgh&pib=5*^qg3958+c$#r7du^&gn%mb_qkn52tf2n'
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    '0.0.0.0',
     '127.0.0.1',
+    'localhost',
     'mysite.com',
 ]
 
@@ -144,10 +146,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static_cdn')
+    os.path.join(BASE_DIR, 'static')
 ]
+# STATIC_URL = '/static/'
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, "static"),
+# ]
 
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -174,5 +180,5 @@ LOGIN_URL = 'account:login'
 LOGOUT_URL = 'account:logout'
 
 
-INTERNAL_IPS = ['127.0.0.1', ]
+INTERNAL_IPS = ['127.0.0.1', '0.0.0.0' ]
 
