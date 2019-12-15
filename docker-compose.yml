@@ -2,7 +2,7 @@ version: "3"
 services:
   web:
     build: .
-    container_name: great
+    container_name: django_school
     volumes:
       - .:/code
       - static:/code/static
