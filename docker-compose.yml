@@ -1,0 +1,15 @@
+version: "3"
+services:
+  web:
+    build: .
+    container_name: django_school
+    volumes:
+      - .:/code
+      - static:/code/static
+      - media:/code/media
+    ports:
+      - "8000:8000"
+
+volumes:
+  media:
+  static:
