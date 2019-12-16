@@ -4,7 +4,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>SMS LIO ADMIN</title>
+  <title>SMS LIO DASHBOARD</title>
   <!-- FONT AWESOME KIT -->
   <script src="https://kit.fontawesome.com/16475baae0.js" crossorigin="anonymous"></script>
   <!-- GOOGLE FONT -->
@@ -33,6 +33,14 @@
             <a class="sn-link dash-home" href="{% url 'index_view' %}" target="_blank">
               <i class="fas fa-globe-asia"></i>Visit Site
             </a>
+          </div>
+          <div class="sn-group">
+            <h5>import</h5>
+            <nav>
+              <a class="sn-link" href="{% url 'result:import_subject_csv' %}">
+                <i class="fas fa-book"></i>subjects from csv
+              </a>
+            </nav>
           </div>
           <div class="sn-group">
             <h5>student</h5>
