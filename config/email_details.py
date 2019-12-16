@@ -1,0 +1,5 @@
+email_host = 'yourhost'
+email_port = 'port'
+email_host_user = 'mymail@mail.com'
+email_host_password = 'mypass'
+default_from_email = 'mail.site@site.com'
