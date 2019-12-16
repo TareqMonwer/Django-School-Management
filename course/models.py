@@ -22,7 +22,7 @@ class Section(models.Model):
 
 
 class CourseAttendance(models.Model):
-    date = models.DateTimeField(default=datetime.now(), blank=True)
+    date = models.DateTimeField(default=datetime.now, blank=True)
     course = models.ManyToManyField(Course)
     teacher = models.ManyToManyField(Teacher)
     student = models.ManyToManyField(Student)

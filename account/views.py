@@ -11,8 +11,8 @@ from .forms import UserRegistrationForm
 
 @login_required
 def dashboard(request):
-    total_students = Student.objects.all().count()
-    total_teachers = Teacher.objects.all().count()
+    total_students = Student.objects.count()
+    total_teachers = Teacher.objects.count()
     context = {
         'total_students': total_students,
         'total_teachers': total_teachers,

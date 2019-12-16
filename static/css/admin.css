@@ -1,0 +1,68 @@
+#header {
+    color: #fff;
+    background: rgb(78, 115, 223);
+}
+
+#branding h1, #branding h1 a:link, #branding h1 a:visited {
+    color: #fff;
+    font-weight: 700;
+    font-family: "Nunito", sans-serif;
+}
+
+/* ADMIN BREADCRUMBS */
+div.breadcrumbs {
+    background: rgba(78, 115, 223, .8);
+}
+
+/* APP LABELS */
+.module h2, .module caption, .inline-group h2 {
+    background: rgb(78, 115, 223);
+}
+
+/* LINKS INSIDE APP TABLE */
+a:link, a:visited, a:hover {
+    color: rgb(78, 115, 223);
+}
+
+/* OBJECT ADD LINKS AT THE TOP */
+.object-tools a.addlink {
+    background-image: url(img/tooltag-add.svg);
+    background-color: rgb(23, 166, 115);
+}
+.object-tools a.viewsitelink, .object-tools a.golink, .object-tools a.addlink {
+    background-repeat: no-repeat;
+    background-position: right 7px center;
+    padding-right: 26px;
+}
+
+.object-tools a:focus, .object-tools a:hover {
+    background-color:rgb(78, 115, 223);
+}
+
+/* ADD AND EDIT ICONS */
+.addlink {
+    background: url(img/add.svg) 0 1px no-repeat;
+    background-size: auto;
+    background-size: 15px;
+}
+
+.changelink, .inlinechangelink {
+    background: url(img/pen.png) 0 1px no-repeat;
+    background-size: auto;
+    background-size: 16px;
+}
+
+/* SUBMIT BUTTONS */
+.button, input[type="submit"], input[type="button"], .submit-row input, a.button {
+    background-color: rgba(78, 115, 223, .8);
+}
+.button, input[type="submit"]:hover, input[type="button"]:hover, .submit-row input:hover, a.button:hover {
+    background-color: rgba(78, 115, 223);
+}
+
+.button.default, input[type="submit"].default, .submit-row input.default {
+    background-color: rgba(78, 115, 223);
+}
+.button.default:hover, input[type="submit"].default:hover, .submit-row input.default:hover {
+    background-color: rgb(23, 166, 115);
+}
