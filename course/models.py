@@ -45,3 +45,10 @@ class CourseAssignToStudent(models.Model):
 
     def __int__(self):
         return self.id
+
+
+class DailyAttendance(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.DO_NOTHING)
+    teacher = models.ForeignKey(Teacher, on_delete=models.DO_NOTHING)
+    is_present = models.BooleanField(default=False)
+    date = models.DateField(auto_now_add=True)

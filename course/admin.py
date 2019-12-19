@@ -4,7 +4,8 @@ from .models import (
     Section,
     CourseAttendance,
     CourseAssignToTeacher,
-    CourseAssignToStudent
+    CourseAssignToStudent,
+    DailyAttendance
 )
 
 
@@ -13,3 +14,4 @@ admin.site.register(Section)
 admin.site.register(CourseAttendance)
 admin.site.register(CourseAssignToTeacher)
 admin.site.register(CourseAssignToStudent)
+admin.site.register(DailyAttendance)
