@@ -1,0 +1,25 @@
+{% extends 'dashboard.html' %}
+{% load crispy_forms_tags %}
+
+{% block dashboard-body %}
+
+{% if messages %}
+    {% for message in messages %}
+        <div>{{ message|safe }}</div>
+    {% endfor %}
+{% else %}
+<h1 class="text-center">Import Subjects From CSV File</h1>
+<div class="alert alert-info">File order: {{ order }}</div>
+<form action="." method="post" class="admission-form d-block" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="csv">upload your csv file</label>
+        <input type="file" class="form-control-file" id="csv" name="file">
+    </div>
+    <button type="submit" class="btn btn-outline-info">
+        Import
+    </button>
+</form>
+{% endif %}
+
+{% endblock %}
