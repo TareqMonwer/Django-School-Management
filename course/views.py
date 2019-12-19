@@ -1,7 +1,16 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.forms import modelformset_factory
+from students.models import Student, Semester, Department
 
-from .models import Section, Course, CourseAttendance, CourseAssignToTeacher, CourseAssignToStudent
+from .models import (
+    Section,
+    Course,
+    CourseAttendance,
+    CourseAssignToTeacher,
+    CourseAssignToStudent,
+    DailyAttendance
+)
 from .forms import (
     SectionForm,
     CourseForm,
@@ -141,3 +150,16 @@ def course_assign_to_student_list(request):
             "all_course_assign_to_student": all_course_assign_to_student
         }
         return render(request, 'course/course_assign_to_student_list.html', context)
+
+
+def daily_attendance(request):
+    formset = modelformset_factory(DailyAttendance, fields=('__all__'))
+    sem = Semester.objects.get(id=1)
+    dept = Department.objects.get(id=1)
+    if request.method == 'POST':
+        form = formset(request.POST)
+        isinstances = form.save()
+        return render(request, 'course/attendance_daily.html', {'form': form})
+    form = formset(queryset=Student.objects.filter(
+        semester=sem, department=dept)[:10])
+    return render(request, 'course/attendance_daily.html', {'form': form})
