@@ -1,3 +1,4 @@
+astroid==2.3.3
 autopep8==1.4.4
 certifi==2019.9.11
 chardet==3.0.4
@@ -5,13 +6,21 @@ dateparser==0.7.2
 Django==2.2.7
 django-crispy-forms==1.8.0
 django-debug-toolbar==2.1
+django-discover-runner==1.0
 django-role-permissions==2.2.1
 fake-factory==9999.9.9
 Faker==2.0.4
+gunicorn==20.0.4
 idna==2.8
+isort==4.3.21
+jet-bridge-base==0.6.6
+jet-django==0.8.9
+lazy-object-proxy==1.4.3
+mccabe==0.6.1
 Pillow==6.2.1
 prompt-toolkit==2.0.9
 pycodestyle==2.5.0
+pylint==2.4.4
 python-dateutil==2.8.1
 pytz==2019.3
 regex==2019.11.1
@@ -23,3 +32,4 @@ text-unidecode==1.3
 tzlocal==2.0.0
 urllib3==1.25.7
 wcwidth==0.1.7
+wrapt==1.11.2
