@@ -4,7 +4,7 @@ A fullstack school management project in django, bootstrap-4 and javascript.
 # Installation:
 1. go to the project folder
 2. run `pipenv install`
-3. run `python manage.py migrate`
+3. run `pip install -r requirements.txt`
 4. then `python manage.py runserver`
 for testing, create a superuser too.
 
