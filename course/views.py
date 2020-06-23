@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
 from django.forms import modelformset_factory
 from students.models import Student, Semester, Department
 
+from admin_tools.views import user_is_staff
 from .models import (
     Section,
     Course,
@@ -19,9 +20,8 @@ from .forms import (
     CourseAssignToStudentForm,
 )
 
-# Create your views here.
 
-@login_required
+@user_passes_test(user_is_staff)
 def course(request):
     """
     Create course here
@@ -36,6 +36,8 @@ def course(request):
     }
     return render(request, 'course/add_course.html', context)
 
+
+@user_passes_test(user_is_staff)
 def course_list(request):
     """
     Course list is here
@@ -47,7 +49,8 @@ def course_list(request):
         }
         return render(request, 'course/course_list.html', context)
 
-@login_required
+
+@user_passes_test(user_is_staff)
 def section(request):
     """
     Create section here
@@ -62,6 +65,8 @@ def section(request):
     }
     return render(request, 'course/add_section.html', context)
 
+
+@user_passes_test(user_is_staff)
 def section_list(request):
     """
     Section list is here
@@ -73,7 +78,8 @@ def section_list(request):
         }
         return render(request, 'course/section_list.html', context)
 
-@login_required
+
+@user_passes_test(user_is_staff)
 def course_attendance(request):
     """
     Create course attendance here
@@ -88,6 +94,8 @@ def course_attendance(request):
     }
     return render(request, 'course/add_course_attendance.html', context)
 
+
+@user_passes_test(user_is_staff)
 def course_attendance_list(request):
     """
     Course attendance list is here
@@ -99,7 +107,8 @@ def course_attendance_list(request):
         }
         return render(request, 'course/course_attendance_list.html', context)
 
-@login_required
+
+@user_passes_test(user_is_staff)
 def course_assign_to_teacher(request):
     """
     Course assign to teacher form here
@@ -114,6 +123,8 @@ def course_assign_to_teacher(request):
     }
     return render(request, 'course/add_course_assign_to_teacher.html', context)
 
+
+@user_passes_test(user_is_staff)
 def course_assign_to_teacher_list(request):
     """
     Course assign to teacher list is here
@@ -125,7 +136,8 @@ def course_assign_to_teacher_list(request):
         }
         return render(request, 'course/course_assign_to_teacher_list.html', context)
 
-@login_required
+
+@user_passes_test(user_is_staff)
 def course_assign_to_student(request):
     """
     Course assign to student form here
@@ -140,6 +152,8 @@ def course_assign_to_student(request):
     }
     return render(request, 'course/add_course_assign_to_student.html', context)
 
+
+@user_passes_test(user_is_staff)
 def course_assign_to_student_list(request):
     """
     Course assign to student list is here
@@ -152,13 +166,14 @@ def course_assign_to_student_list(request):
         return render(request, 'course/course_assign_to_student_list.html', context)
 
 
+@user_passes_test(user_is_staff)
 def daily_attendance(request):
     formset = modelformset_factory(DailyAttendance, fields=('__all__'))
     sem = Semester.objects.get(id=1)
     dept = Department.objects.get(id=1)
     if request.method == 'POST':
         form = formset(request.POST)
-        isinstances = form.save()
+        form.save()
         return render(request, 'course/attendance_daily.html', {'form': form})
     form = formset(queryset=Student.objects.filter(
         semester=sem, department=dept)[:10])

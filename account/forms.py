@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(label='Password',
-                                widget=forms.PasswordInput)
+                               widget=forms.PasswordInput)
     password2 = forms.CharField(label='Retype Password',
                                 widget=forms.PasswordInput)
 

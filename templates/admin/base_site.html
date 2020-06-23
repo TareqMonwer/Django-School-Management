@@ -1,6 +1,10 @@
 {% extends 'admin/base.html' %}
 {% load static %}
 
+{% block extrahead %}
+    <link rel="icon" href="{% static 'images/django-admin-favicon.png' %}">
+{% endblock %}
+
 {% block branding %}
 <h1 id="admin-logo">
     SMS-LIO ADMIN

@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from rolepermissions.roles import assign_role
-from django.http import HttpResponse
 
 from .models import Semester, Department, AcademicSession
 from .forms import SemesterForm, DepartmentForm, AcademicSessionForm
 from account.forms import UserRegistrationForm
 
+
+def user_is_staff(user):
+    return user.is_staff
 
 @login_required
 def add_user_view(request):
@@ -35,7 +37,7 @@ def add_user_view(request):
         return render(request, 'admin_tools/permission_required.html')
 
 
-@login_required
+@user_passes_test(user_is_staff)
 def semesters(request):
     '''
     Shows semester list and 
@@ -55,7 +57,7 @@ def semesters(request):
     return render(request, 'admin_tools/all_semester.html', ctx)
 
 
-@login_required
+@user_passes_test(user_is_staff)
 def academic_session(request):
     '''
     Responsible for academic session list view
@@ -76,7 +78,7 @@ def academic_session(request):
     return render(request, 'admin_tools/academic_sessions.html', ctx)
 
 
-@login_required
+@user_passes_test(user_is_staff)
 def departments(request):
     '''
     Responsible for department list view
@@ -97,6 +99,6 @@ def departments(request):
     return render(request, 'admin_tools/departments.html', ctx)
 
 
-@login_required
+@user_passes_test(user_is_staff)
 def delete_semester(request, pk):
     pass

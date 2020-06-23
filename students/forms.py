@@ -1,12 +1,12 @@
 from .models import Student
-from django.forms import ModelForm
+from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.bootstrap import Tab, TabHolder
-from crispy_forms.layout import (Layout, Fieldset, Field,
-                                 ButtonHolder, Submit, Div)
+from crispy_forms.layout import (Layout, Field,
+                                 ButtonHolder, Submit)
 
 
-class StudentForm(ModelForm):
+class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
         fields = [
@@ -22,6 +22,9 @@ class StudentForm(ModelForm):
             'guardian_mobile',
             'email',
         ]
+        widgets = {
+            'date_of_birth': forms.TextInput({'type': 'date'}),
+        }
 
     def __init__(self, *args, **kwargs):
         super(StudentForm, self).__init__(*args, **kwargs)
