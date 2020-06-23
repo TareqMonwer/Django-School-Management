@@ -3,11 +3,13 @@ from django.shortcuts import render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 
+from admin_tools.views import user_is_staff
 from admin_tools.models import Semester
 from students.models import Student
 from result.models import Result, Subject
 
 
+@user_passes_test(user_is_staff)
 def show_result_by_semester(request, student_id, semester):
     student = Student.objects.get(pk=student_id)
     semester = Semester.objects.get(number=semester)
@@ -18,7 +20,7 @@ def show_result_by_semester(request, student_id, semester):
 
 
 
-@login_required
+@user_passes_test(user_is_staff)
 def upload_subjects_csv(request):
     if request.user.has_perm('create_stuff'):
         template = 'result/add_subject_csv.html'
