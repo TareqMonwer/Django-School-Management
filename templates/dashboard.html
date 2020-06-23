@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
   <!-- CUSTOM CSS -->
   <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+  <link rel="icon" href="{% static 'images/favicon.png' %}">
 </head>
 
 <body class="bg-light">
@@ -117,9 +118,11 @@
           <div class="sn-group">
             <h5>admin options</h5>
             <nav>
+              {% if perms.auth.add_user %}
               <a href="{% url 'admin_tools:add_user' %}" class="sn-link">
                 <i class="fas fa-plus"></i>add new user
               </a>
+              {% endif %}
               <a href="{% url 'admin_tools:all_accounts' %}" class="sn-link">
                 <i class="fas fa-plus"></i>all users
               </a>
@@ -163,7 +166,7 @@
 
             {% block dashboard-body %}
 
-            <!-- topstat row -->
+            <!-- top stat row -->
             <div class="row m-0 p-0">
               <h3 class="mb-3">Dashboard</h3>
               <div class="col-12 p-0">
