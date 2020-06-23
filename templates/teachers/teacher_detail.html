@@ -7,7 +7,13 @@
     <div class="container">
       <div class="row py-5">
         <div class="col-4">
-          <img class="teacher-profile-img" src="{% static 'images/money.jpg' %}" alt="" width="300" height="200">
+          <img class="teacher-profile-img"
+             {% if teacher.photo %}
+                src="{{ teacher.photo.url }}"
+             {% else %}
+                {% static 'images/money.jpg' %}
+             {% endif %}
+            alt="" width="300" height="200">
         </div>
         <div class="col-8">
           <h2>{{ teacher.name }}</h2>
