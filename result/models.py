@@ -1,39 +1,52 @@
 from django.db import models
+from django.conf import settings
+from model_utils.models import TimeStampedModel
 from students.models import Student, Semester
 from teachers.models import Teacher
 from admin_tools.models import Department
 
 
-class Subject(models.Model):
+class Subject(TimeStampedModel):
     name = models.CharField(max_length=50)
     subject_code = models.PositiveIntegerField(unique=True)
     instructor = models.ForeignKey(Teacher, on_delete=models.CASCADE,
                                    blank=True, null=True)
     theory_marks = models.PositiveIntegerField(blank=True, null=True)
     practical_marks = models.PositiveIntegerField(blank=True, null=True)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.DO_NOTHING, null=True)
 
     def __str__(self):
         return "{} ({})".format(self.name, self.subject_code)
 
 
-class SubjectCombination(models.Model):
+class SubjectCombination(TimeStampedModel):
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
     semester = models.ForeignKey(Semester, on_delete=models.CASCADE)
     subjects = models.ManyToManyField(Subject)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.DO_NOTHING, null=True)
 
     def __str__(self):
         return '{} {}'.format(self.department, self.semester)
 
 
-class Result(models.Model):
+class Result(TimeStampedModel):
     marks = models.PositiveIntegerField()
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE,
-                                blank=True, null=True)
-    student = models.ForeignKey(Student, on_delete=models.CASCADE,
-                                blank=True, null=True)
-    semester = models.ForeignKey(Semester, on_delete=models.CASCADE,
-                                blank=True, null=True)
-
+    subject = models.ForeignKey(
+        Subject, on_delete=models.CASCADE,
+        blank=True, null=True)
+    student = models.ForeignKey(
+        Student, on_delete=models.CASCADE,
+        blank=True, null=True)
+    semester = models.ForeignKey(
+        Semester, on_delete=models.CASCADE,
+        blank=True, null=True)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.DO_NOTHING, null=True)
 
     class Meta:
         unique_together = ['subject', 'student']
