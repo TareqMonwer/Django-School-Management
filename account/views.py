@@ -19,7 +19,7 @@ def home(request):
     return HttpResponse("Welcome Home")
 
 
-@user_passes_test(user_is_staff, login_url='account:home')
+@user_passes_test(user_is_staff, login_url='account:login')
 def dashboard(request):
     total_students = Student.objects.count()
     total_teachers = Teacher.objects.count()
@@ -63,4 +63,6 @@ class AccountListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return self.request.user.is_staff
 
     def handle_no_permission(self):
-        return redirect('account:home')
+        if self.request.user.is_authenticated:
+            return redirect('account:home')
+        return redirect('account:login')
