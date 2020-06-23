@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView
 from django.views.generic import UpdateView
-from django.views.generic.edit import CreateView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -31,7 +30,7 @@ def add_teacher_view(request):
     """
     if request.user.has_perm('create_teacher'):
         if request.method == 'POST':
-            form = TeacherForm(request.POST)
+            form = TeacherForm(request.POST, request.FILES)
             if form.is_valid():
                 form.save()
                 pk = form.instance.pk
@@ -40,7 +39,8 @@ def add_teacher_view(request):
         context = {'form': form}
         return render(request, 'teachers/add_teacher.html', context)
     else:
-         return render(request, 'admin_tools/permission_required.html')
+        return render(request, 'admin_tools/permission_required.html')
+
 
 @login_required
 def teacher_detail_view(request, pk):

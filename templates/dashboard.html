@@ -11,6 +11,9 @@
   <link href="https://fonts.googleapis.com/css?family=Nunito:400,700&display=swap" rel="stylesheet">
   <!-- BOOTSTRAP4 CSS -->
   <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  {% block extra_header %}
+
+  {% endblock %}
   <!-- CUSTOM CSS -->
   <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
   <link rel="icon" href="{% static 'images/favicon.png' %}">
@@ -249,8 +252,11 @@
               <div class="col-12 p-0 d-flex justify-content-between">
                 <div class="unpaid card">
                   <ul class="list-group list-group-flush">
-                    <li class="title list-group-item">
+                    <li class="title list-group-item d-flex justify-content-between">
                       <h5>unpaid</h5>
+                        <a href="" title="Mark as paid">
+                          <i class="far fa-check-circle"></i>
+                        </a>
                     </li>
                     <li class="list-group-item">
                       <input type="checkbox" name="paid"> Md. Shariful Islam
@@ -268,7 +274,7 @@
                     <li class="title list-group-item">
                       <h5>paid</h5>
                     </li>
-                    <li class="list-group-item">Suma rani das</li>
+                    <li class="list-group-item">Soma rani das</li>
                     <li class="list-group-item">Johir chy</li>
                   </ul>
                 </div>
@@ -294,13 +300,14 @@
     </div>
   </section>
 
-
   <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
   <script src="{% static 'js/popper.min.js' %}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-    crossorigin="anonymous"></script>
+  integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+  crossorigin="anonymous"></script>
+  {% block extrajs %}
+  {% endblock %}
 </body>
 
 </html>

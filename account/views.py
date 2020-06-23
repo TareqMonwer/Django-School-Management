@@ -1,7 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView
 
 from django.contrib.auth.models import User
@@ -41,7 +42,7 @@ def register(request):
                                      password=user_form.cleaned_data['password'])
             if auth_user is not None:
                 login(request, auth_user)
-            if auth_user.is_staff():
+            if auth_user.is_staff:
                 return redirect('account:dashboard')
             else:
                 return redirect('account:home')
@@ -53,7 +54,13 @@ def register(request):
         return render(request, 'account/register.html', {'user_form': user_form})
 
 
-class AccountListView(ListView):
+class AccountListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = User
     template_name = 'admin_tools/accounts_list.html'
     context_object_name = 'accounts'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def handle_no_permission(self):
+        return redirect('account:home')
