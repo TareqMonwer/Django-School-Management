@@ -1,6 +1,7 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.generic import ListView
 
 from django.contrib.auth.models import User
@@ -9,7 +10,15 @@ from teachers.models import Teacher
 from .forms import UserRegistrationForm
 
 
-@login_required
+def user_is_staff(user):
+    return user.is_staff
+
+
+def home(request):
+    return HttpResponse("Welcome Home")
+
+
+@user_passes_test(user_is_staff, login_url='account:home')
 def dashboard(request):
     total_students = Student.objects.count()
     total_teachers = Teacher.objects.count()
@@ -32,7 +41,10 @@ def register(request):
                                      password=user_form.cleaned_data['password'])
             if auth_user is not None:
                 login(request, auth_user)
-            return redirect('account:dashboard')
+            if auth_user.is_staff():
+                return redirect('account:dashboard')
+            else:
+                return redirect('account:home')
         else:
             return render(request, 'account/register.html', {'user_form': user_form})
 
