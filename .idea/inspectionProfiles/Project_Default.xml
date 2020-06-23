@@ -1,0 +1,35 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <value>
+          <list size="22">
+            <item index="0" class="java.lang.String" itemvalue="beautifulsoup4" />
+            <item index="1" class="java.lang.String" itemvalue="django-anymail" />
+            <item index="2" class="java.lang.String" itemvalue="django-environ" />
+            <item index="3" class="java.lang.String" itemvalue="django-ckeditor" />
+            <item index="4" class="java.lang.String" itemvalue="django-crispy-forms" />
+            <item index="5" class="java.lang.String" itemvalue="unidecode" />
+            <item index="6" class="java.lang.String" itemvalue="psycopg2-binary" />
+            <item index="7" class="java.lang.String" itemvalue="python-slugify" />
+            <item index="8" class="java.lang.String" itemvalue="whitenoise" />
+            <item index="9" class="java.lang.String" itemvalue="gunicorn" />
+            <item index="10" class="java.lang.String" itemvalue="Collectfast" />
+            <item index="11" class="java.lang.String" itemvalue="django" />
+            <item index="12" class="java.lang.String" itemvalue="django-autoslug" />
+            <item index="13" class="java.lang.String" itemvalue="django-redis" />
+            <item index="14" class="java.lang.String" itemvalue="argon2-cffi" />
+            <item index="15" class="java.lang.String" itemvalue="django-model-utils" />
+            <item index="16" class="java.lang.String" itemvalue="django-allauth" />
+            <item index="17" class="java.lang.String" itemvalue="pytz" />
+            <item index="18" class="java.lang.String" itemvalue="Markdown" />
+            <item index="19" class="java.lang.String" itemvalue="Pillow" />
+            <item index="20" class="java.lang.String" itemvalue="django-braces" />
+            <item index="21" class="java.lang.String" itemvalue="wheel" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
