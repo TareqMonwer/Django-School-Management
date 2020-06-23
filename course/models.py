@@ -1,27 +1,33 @@
 from django.db import models
-from datetime import datetime
+from django.conf import settings
+from model_utils.models import TimeStampedModel
 from teachers.models import Teacher
 from students.models import Student
 
-# Create your models here.
 
-class Course(models.Model):
+class Course(TimeStampedModel):
     title = models.CharField(max_length=255)
     initial = models.CharField(max_length=255)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.DO_NOTHING, null=True)
 
     def __str__(self):
         return self.title
 
 
-class Section(models.Model):
+class Section(TimeStampedModel):
     name = models.CharField(max_length=255)
     course = models.ForeignKey(Course, on_delete=models.DO_NOTHING)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.DO_NOTHING, null=True)
 
     def __str__(self):
         return self.name
 
 
-class CourseAttendance(models.Model):
+class CourseAttendance(TimeStampedModel):
     date = models.DateTimeField(auto_now_add=True, blank=True)
     course = models.ManyToManyField(Course)
     teacher = models.ManyToManyField(Teacher)
@@ -31,23 +37,29 @@ class CourseAttendance(models.Model):
         return self.id
 
 
-class CourseAssignToTeacher(models.Model):
+class CourseAssignToTeacher(TimeStampedModel):
     course = models.ManyToManyField(Course)
     teacher = models.ManyToManyField(Teacher)
+    assign_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.DO_NOTHING, null=True)
 
     def __int__(self):
         return self.id
 
 
-class CourseAssignToStudent(models.Model):
+class CourseAssignToStudent(TimeStampedModel):
     course = models.ManyToManyField(Course)
     student = models.ManyToManyField(Student)
+    assigned_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.DO_NOTHING, null=True)
 
     def __int__(self):
         return self.id
 
 
-class DailyAttendance(models.Model):
+class DailyAttendance(TimeStampedModel):
     student = models.ForeignKey(Student, on_delete=models.DO_NOTHING)
     teacher = models.ForeignKey(Teacher, on_delete=models.DO_NOTHING)
     is_present = models.BooleanField(default=False)

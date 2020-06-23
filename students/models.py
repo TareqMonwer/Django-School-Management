@@ -1,8 +1,10 @@
 from django.db import models
+from django.conf import settings
+from model_utils.models import TimeStampedModel
 from admin_tools.models import Department, Semester, AcademicSession
 
 
-class Student(models.Model):
+class Student(TimeStampedModel):
     name = models.CharField(max_length=100)
     photo = models.ImageField(upload_to='students',
                               default='studentavar.png')
@@ -17,6 +19,9 @@ class Student(models.Model):
     mobile = models.CharField(max_length=11, blank=True, null=True)
     guardian_mobile = models.CharField(max_length=11, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.DO_NOTHING, null=True)
 
     def has_subjects(self):
         from result.models import SubjectCombination
