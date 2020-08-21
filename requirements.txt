@@ -14,7 +14,7 @@ Faker==2.0.4
 idna==2.8
 jet-bridge-base==0.7.7
 jet-django==1.0.2
-Pillow==6.2.1
+Pillow==7.2.0
 prompt-toolkit==2.0.9
 pycodestyle==2.5.0
 python-dateutil==2.8.1
