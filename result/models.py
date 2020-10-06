@@ -3,14 +3,14 @@ from django.conf import settings
 from model_utils.models import TimeStampedModel
 from students.models import Student, Semester
 from teachers.models import Teacher
-from admin_tools.models import Department
+from academics.models import Department
 
 
 class Subject(TimeStampedModel):
     name = models.CharField(max_length=50)
     subject_code = models.PositiveIntegerField(unique=True)
     instructor = models.ForeignKey(Teacher, on_delete=models.CASCADE,
-                                   blank=True, null=True)
+                                    blank=True, null=True)
     theory_marks = models.PositiveIntegerField(blank=True, null=True)
     practical_marks = models.PositiveIntegerField(blank=True, null=True)
     created_by = models.ForeignKey(

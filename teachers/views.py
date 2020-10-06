@@ -5,7 +5,7 @@ from django.views.generic import UpdateView
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
-from admin_tools.views import user_is_staff
+from academics.views import user_is_staff
 from .models import Teacher, Designation
 from .forms import TeacherForm, TeacherDesignationForm
 

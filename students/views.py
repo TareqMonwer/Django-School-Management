@@ -6,11 +6,15 @@ from django.views.generic import DetailView, UpdateView
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
-from admin_tools.views import user_is_staff
-from admin_tools.models import Department, Semester, SemesterCombination
+from academics.views import user_is_staff
+from academics.models import Department, Semester
 from result.models import Result, Subject
 from .models import Student
 from .forms import StudentForm
+
+
+def students_dashboard_index(request):
+    return render(request, 'students/dashboard_index.html')
 
 
 @user_passes_test(user_is_staff)
@@ -61,11 +65,9 @@ def students_view(request):
         'department', 'semester', 'ac_session').all()
     departments = Department.objects.select_related(
         'head').all()
-    semesters = SemesterCombination.objects.select_related(
-        'department', 'semester', 'batch').all()
     context = {'students': all_students,
-               'departments': departments,
-               'semesters': semesters}
+                'departments': departments,
+                }
     return render(request, 'students/students_list.html', context)
 
 
@@ -74,10 +76,7 @@ def students_by_department_view(request, pk):
     dept_name = Department.objects.get(pk=pk)
     students = Student.objects.select_related(
         'department', 'semester', 'ac_session').filter(department=dept_name)
-    semesters = SemesterCombination.objects.select_related(
-        'department', 'semester', 'batch').all()
-    context = {'students': students,
-               'semesters': semesters}
+    context = {'students': students,}
     return render(request, 'students/students_by_department.html', context)
 
 
@@ -87,7 +86,7 @@ class student_update_view(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     """
     model = Student
     fields = ['photo', 'semester', 'mobile',
-              'guardian_mobile', 'email']
+                'guardian_mobile', 'email']
     template_name = 'students/update_student.html'
 
     def test_func(self):

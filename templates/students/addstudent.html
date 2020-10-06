@@ -11,12 +11,13 @@
   </div>
   {% csrf_token %}
   {% crispy form %}
+  <input type="submit" value="Admit" class="btn btn-dark">
 </form>
 {% endblock %}
 
 {% block extrajs %}
   <script>
-    {# Select image #}
+    // Select image
     $('input[type="file"]').change(function(e){
       const fileName = e.target.files[0].name;
       $('.custom-file-label').html(fileName);

@@ -3,7 +3,7 @@ from . import views
 from account.views import AccountListView
 
 
-app_name = 'admin_tools'
+app_name = 'academics'
 
 urlpatterns = [
     # Semester

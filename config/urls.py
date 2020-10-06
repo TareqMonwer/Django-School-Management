@@ -14,12 +14,13 @@ admin.site.index_title = "Welcome to SMS-LIO Portal"
 urlpatterns = [
     path('__debug__', include(debug_toolbar.urls)),
     path('admin/', admin.site.urls),
-    path('', dashboard, name='index_view'),
+    path('', include('pages.urls')),
+    path('dashboard/', dashboard, name='index_view'),
     path('account/', include('account.urls')),
+    path('academics/', include('academics.urls')),
     path('students/', include('students.urls')),
     path('teachers/', include('teachers.urls')),
     path('result/', include('result.urls')),
-    path('misc/', include('admin_tools.urls')),
     path('password-reset/',
         auth_views.PasswordResetView.as_view(
             template_name='account/password/password_reset.html'
@@ -44,12 +45,11 @@ urlpatterns = [
         ),
     name='password_reset_complete'
     ),
-    path('course/', include('course.urls')),
 ]
 
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
+                            document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL,
-                          document_root=settings.STATIC_ROOT)
+                            document_root=settings.STATIC_ROOT)
