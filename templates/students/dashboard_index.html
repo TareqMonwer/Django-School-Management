@@ -1,0 +1,55 @@
+{% extends 'dashboard.html' %}
+{% load crispy_forms_tags %}
+
+{% block extra_header %}
+{% endblock %}
+
+{% block dashboard-body %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="#">Students</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Index</li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-sm-12 col-md-3">
+        <div class="card bg-primary p-3">
+            <h4>
+                <a class="text-light" href="">Admission Waiting List
+                    <span class="badge badge-light">30</span>
+                </a>
+            </h4>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-3">
+        <div class="card bg-success p-3">
+            <h4>
+                <a class="text-light" href="">
+                    Admitted <span class="badge badge-light">100</span>
+                </a>
+            </h4>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-3">
+        <div class="card bg-danger p-3">
+            <h4>
+                <a class="text-light" href="">
+                    Rejected <span class="badge badge-light">5</span>
+                </a>
+            </h4>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extrajs %}
+    <script>
+    // Select Image
+    $('input[type="file"]').change(function(e){
+        const fileName = e.target.files[0].name;
+        $('.custom-file-label').html(fileName);
+    });
+    </script>
+{% endblock %}

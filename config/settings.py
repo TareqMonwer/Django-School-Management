@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'students',
     'teachers',
     'result',
-    'course',
+    'academics',
+    'pages',
 
     # third party apps
     'crispy_forms',
@@ -57,7 +58,7 @@ INSTALLED_APPS = [
 ]
 
 # for permission management
-ROLEPERMISSIONS_MODULE = 'admin_tools.roles'
+ROLEPERMISSIONS_MODULE = 'academics.roles'
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

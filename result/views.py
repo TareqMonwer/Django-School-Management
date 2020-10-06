@@ -3,8 +3,8 @@ from django.shortcuts import render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 
-from admin_tools.views import user_is_staff
-from admin_tools.models import Semester
+from academics.views import user_is_staff
+from academics.models import Semester
 from students.models import Student
 from result.models import Result, Subject
 

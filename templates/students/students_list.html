@@ -11,7 +11,6 @@
           <th scope="col">Registration</th>
           <th scope="col">Name</th>
           <th scope="col">Department</th>
-          <th scope="col">Semester</th>
           <th scope="col">Action</th>
         </tr>
       </thead>
@@ -33,10 +32,6 @@
           <td>
             <a href="{% url 'students:student_details' pk=student.id %}">
               {{ student.department.name }}
-          </td>
-          <td>
-            <a href="{% url 'students:student_details' pk=student.id %}">
-              {{ student.semester }}
           </td>
           <td>
             <div class="btn-group" role="group" aria-label="Basic example">
