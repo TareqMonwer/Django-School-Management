@@ -1,6 +1,15 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from students.forms import StudentForm
+from students.models import AdmissionStudent
 
 
 def online_admission(request):
-    return HttpResponse('Online Admission Form')
+    if request.method == 'POST':
+        form = StudentForm(request.POST, request.FILES)
+        if form.is_valid():
+            data = form.save()
+            print(data)
+            return redirect('students:all_student')
+    else:
+        form = StudentForm()
+    return render(request, 'pages/students/admission.html', {'form': form})

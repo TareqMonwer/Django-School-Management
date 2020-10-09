@@ -1,5 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.views.generic.edit import UpdateView
+from django.urls import reverse_lazy
 from rolepermissions.roles import assign_role
 
 from .models import Semester, Department, AcademicSession
@@ -47,7 +49,9 @@ def semesters(request):
     if request.method == 'POST':
         form = SemesterForm(request.POST)
         if form.is_valid():
-            form.save()
+            semster = form.save(commit=False)
+            semster.created_by = request.user
+            semster.save()
             return redirect('academics:all_semester')
     form = SemesterForm()
     ctx = {
@@ -66,7 +70,9 @@ def academic_session(request):
     if request.method == 'POST':
         form = AcademicSessionForm(request.POST)
         if form.is_valid():
-            form.save()
+            ac_session = form.save(commit=False)
+            ac_session.created_by = request.user
+            ac_session.save()
             return redirect('academics:academic_sessions')
     else:
         form = AcademicSessionForm()
@@ -87,7 +93,9 @@ def departments(request):
     if request.method == 'POST':
         form = DepartmentForm(request.POST)
         if form.is_valid():
-            form.save()
+            dept = form.save(commit=False)
+            dept.created_by = request.user
+            dept.save()
             return redirect('academics:departments')
     else:
         form = DepartmentForm()
@@ -101,4 +109,23 @@ def departments(request):
 
 @user_passes_test(user_is_staff)
 def delete_semester(request, pk):
-    pass
+    obj = get_object_or_404(Semester, pk=pk)
+    obj.delete()
+    return redirect('academics:departments')
+
+
+class UpdateDepartment(UpdateView):
+    model = Department
+    form_class = DepartmentForm
+    template_name = 'academics/update_department.html'
+    success_url = reverse_lazy('academics:departments')
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+
+@user_passes_test(user_is_staff)
+def delete_department(request, pk):
+    obj = get_object_or_404(Department, pk=pk)
+    obj.delete()
+    return redirect('academics:departments')

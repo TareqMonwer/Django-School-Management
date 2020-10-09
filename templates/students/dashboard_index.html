@@ -13,6 +13,7 @@
     </ol>
 </nav>
 
+<!-- Stats - Links -->
 <div class="row">
     <div class="col-sm-12 col-md-3">
         <div class="card bg-primary p-3">
@@ -40,6 +41,30 @@
                 </a>
             </h4>
         </div>
+    </div>
+    <div class="col-sm-12 col-md-3">
+        <div class="card bg-info p-3">
+            <h4>
+                <a class="text-light" href="{% url 'pages:online_admission' %}" target="_blank">
+                    MANAGE ADMISSION SITE
+                </a>
+            </h4>
+        </div>
+    </div>
+</div>
+<hr>
+<!-- Actions -->
+<div class="row">
+    <div class="action-btn-box mr-1">
+        <a href="{% url 'students:add_student' %}" class="btn btn-sm btn-success">Add New Student</a>
+    </div>
+    <div class="action-btn-box mr-1">
+        <a href="" class="btn btn-info btn-sm">This Months Admissons</a>
+    </div>
+    <div class="action-btn-box mr-1">
+        <a href="" class="btn btn-sm btn-danger">
+            Check Stats
+        </a>
     </div>
 </div>
 {% endblock %}

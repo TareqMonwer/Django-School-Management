@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from model_utils.models import TimeStampedModel
 from academics.models import Department, Semester, AcademicSession
+from teachers.models import Teacher
 
 
 class StudentBase(TimeStampedModel):
@@ -23,7 +24,7 @@ class StudentBase(TimeStampedModel):
     department_choice = models.ForeignKey(Department, 
         on_delete=models.CASCADE)
     last_exam_name = models.CharField(
-        'Last Exam', choices=LAST_EXAMS, max_length=2)
+        'Last Exam', choices=LAST_EXAMS, max_length=10)
     last_exam_roll = models.CharField(max_length=10)
     last_exam_registration = models.CharField(max_length=10)
     last_exam_result = models.CharField(max_length=5)
@@ -36,8 +37,27 @@ class StudentBase(TimeStampedModel):
         return self.name
 
 
+class CounselingComment(TimeStampedModel):
+    counselor = models.ForeignKey(Teacher, 
+        on_delete=models.CASCADE, null=True)
+    registrant_student = models.ForeignKey('AdmissionStudent', 
+        on_delete=models.CASCADE, null=True)
+    comment = models.CharField(max_length=150)
+
+    def __str__(self):
+        return f"{self.registrant_student.name} | {self.comment} at {self.created_at}"
+
+
 class AdmissionStudent(StudentBase):
-    pass
+    counseling_by = models.ForeignKey(Teacher, related_name='counselors',
+        on_delete=models.CASCADE, null=True)
+    counsel_comment = models.ManyToManyField(Teacher)
+    choosen_department = models.ForeignKey(Department, related_name='chosen_depts',
+        on_delete=models.CASCADE, null=True)
+    admitted = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.name} for {self.department_choice}"
 
 
 class Student(StudentBase):

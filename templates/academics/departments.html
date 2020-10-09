@@ -11,6 +11,8 @@
                     <th scope="col">Department</th>
                     <th scope="col">Dept. Code</th>
                     <th scope="col">Dept. Head</th>
+                    <th scope="col">Dept. Creator</th>
+                    <th scope="col">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -19,6 +21,15 @@
                     <td>{{ department.name }}</td>
                     <td>{{ department.dept_code }}</td>
                     <td>{{ department.head.name }}</td>
+                    <td>{{ department.created_by }}</td>
+                    <td>
+                        <a class="btn btn-sm btn-danger" href="{% url 'academics:delete_dept' pk=department.id %}">
+                            Delete
+                        </a>
+                        <a href="{% url 'academics:update_department' pk=department.pk %}" class="btn btn-sm btn-primary">
+                            Update
+                        </a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
