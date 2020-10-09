@@ -34,7 +34,7 @@ def add_teacher_view(request):
             if form.is_valid():
                 form.save()
                 pk = form.instance.pk
-                return redirect('teachers:teacher_details', pk=pk)
+                return redirect('teachers:all_teacher')
         form = TeacherForm()
         context = {'form': form}
         return render(request, 'teachers/add_teacher.html', context)
