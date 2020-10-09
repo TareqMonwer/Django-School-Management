@@ -18,7 +18,9 @@
     <div class="col-sm-12 col-md-3">
         <div class="card bg-primary p-3">
             <h5>
-                <a class="text-light" href="">Online Applicants
+                <a class="text-light" 
+                    href="{% url 'students:online_applicants_list' %}">
+                    Online Applicants
                     <span class="badge badge-light">
                         {{ online_applicants.count }}
                     </span>
