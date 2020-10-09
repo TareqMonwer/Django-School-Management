@@ -17,38 +17,42 @@
 <div class="row">
     <div class="col-sm-12 col-md-3">
         <div class="card bg-primary p-3">
-            <h4>
-                <a class="text-light" href="">Admission Waiting List
-                    <span class="badge badge-light">30</span>
+            <h5>
+                <a class="text-light" href="">Online Applicants
+                    <span class="badge badge-light">
+                        {{ online_applicants.count }}
+                    </span>
                 </a>
-            </h4>
+            </h5>
         </div>
     </div>
     <div class="col-sm-12 col-md-3">
         <div class="card bg-success p-3">
-            <h4>
+            <h5>
                 <a class="text-light" href="">
-                    Admitted <span class="badge badge-light">100</span>
+                    Admitted <span class="badge badge-light">
+                        {{ admitted_students.count }}
+                    </span>
                 </a>
-            </h4>
+            </h5>
         </div>
     </div>
     <div class="col-sm-12 col-md-3">
         <div class="card bg-danger p-3">
-            <h4>
+            <h5>
                 <a class="text-light" href="">
                     Rejected <span class="badge badge-light">5</span>
                 </a>
-            </h4>
+            </h5>
         </div>
     </div>
     <div class="col-sm-12 col-md-3">
         <div class="card bg-info p-3">
-            <h4>
+            <h5>
                 <a class="text-light" href="{% url 'pages:online_admission' %}" target="_blank">
                     MANAGE ADMISSION SITE
                 </a>
-            </h4>
+            </h5>
         </div>
     </div>
 </div>

@@ -9,12 +9,19 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from academics.views import user_is_staff
 from academics.models import Department, Semester
 from result.models import Result, Subject
-from .models import Student
+from .models import Student, AdmissionStudent
 from .forms import StudentForm
 
 
 def students_dashboard_index(request):
-    return render(request, 'students/dashboard_index.html')
+    online_applicants = AdmissionStudent.objects.filter(admitted=False)
+    admitted_students = AdmissionStudent.objects.filter(admitted=True)
+    print(online_applicants)
+    context = {
+        'online_applicants': online_applicants,
+        'admitted_students': admitted_students,
+    }
+    return render(request, 'students/dashboard_index.html', context)
 
 
 @user_passes_test(user_is_staff)
