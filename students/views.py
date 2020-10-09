@@ -14,6 +14,9 @@ from .forms import StudentForm
 
 
 def students_dashboard_index(request):
+    """
+    Dashboard for online admission system. 
+    """
     online_applicants = AdmissionStudent.objects.filter(admitted=False)
     admitted_students = AdmissionStudent.objects.filter(admitted=True)
     print(online_applicants)
@@ -22,6 +25,18 @@ def students_dashboard_index(request):
         'admitted_students': admitted_students,
     }
     return render(request, 'students/dashboard_index.html', context)
+
+
+def online_applicants_list(request):
+    """
+    Returns template with list of applicant students 
+    who aren't admitted yet. 
+    """
+    online_applicants = AdmissionStudent.objects.filter(admitted=False)
+    context = {
+        'online_applicants': online_applicants,
+    }
+    return render(request, 'students/dashboard_online_applicants.html', context)
 
 
 @user_passes_test(user_is_staff)
