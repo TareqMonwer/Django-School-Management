@@ -27,3 +27,11 @@ class StudentForm(forms.ModelForm):
         widgets = {
             'date_of_birth': forms.TextInput({'type': 'date'}),
         }
+
+
+class AdmissionForm(forms.ModelForm):
+    class Meta:
+        model = AdmissionStudent
+        fields = [
+            'choosen_department',
+        ]

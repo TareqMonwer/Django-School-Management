@@ -16,42 +16,46 @@
 </nav>
 
 <!-- Online Applicants Table Row -->
-<div class="row">
-    <!-- Online Applicants Table -->
-    <div id="online-applicants" class="mt-4">
-        <table class="table table-bordered table-hover">
-            <thead class="thead-light">
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Image</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Address</th>
-                    <th scope="col">Department Choice</th>
-                    <th scope="col">Application Date</th>
-                    <th scope="col">Actions</th>
-                </tr>
-            </thead>
-            <tbody class="bg-light">
+<div class="container">
+    <div class="row">
+        <!-- Online Applicants Table -->
+        <div id="online-applicants" class="mt-4">
+            <table class="table table-bordered table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Department Choice</th>
+                        <th scope="col">Application Date</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-light">
                 
-                {% for applicant in online_applicants %}
-                <tr>
-                    <th scope="row">{{ applicant.id }}</th>
-                    <td>
-                        <img src="{{ applicant.photo.url }}" width="50" height="50">
-                    </td>
-                    <td>{{ applicant.name }}</td>
-                    <td>{{ applicant.permanent_address }}</td>
-                    <td>{{ applicant.department_choice }}</td>
-                    <td>{{ applicant.created }}</td>
-                    <td>
-                        <a href="" class="btn btn-sm btn-primary">More</a>
-                        <a href="" class="btn btn-sm btn-success">Admission</a>
-                    </td>
-                </tr>
-                {% endfor %}
+                    {% for applicant in online_applicants %}
+                    <tr>
+                        <th scope="row">{{ applicant.id }}</th>
+                        <td>
+                            <img src="{{ applicant.photo.url }}" width="50" height="50">
+                        </td>
+                        <td>{{ applicant.name }}</td>
+                        <td>{{ applicant.permanent_address }}</td>
+                        <td>{{ applicant.department_choice }}</td>
+                        <td>{{ applicant.created }}</td>
+                        <td>
+                            <a href="" class="btn btn-sm btn-primary">More</a>
+                            <a href="{% url 'students:admit_student' pk=applicant.id %}" class="btn btn-sm btn-success">
+                                Admission
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
                     
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 {% endblock %}

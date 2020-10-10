@@ -10,6 +10,8 @@ urlpatterns = [
      path('add/', views.add_student_view, name='add_student'),
      path('online-applicants/', views.online_applicants_list, 
           name='online_applicants_list'),
+     path('online-applicants/<int:pk>/admit/', views.admit_student,
+          name='admit_student'),
      path('update/<int:pk>/', views.student_update_view.as_view(),
           name='update_student'),
      path('<int:pk>/detail/', views.student_detail_view.as_view(),
