@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.db import IntegrityError
@@ -10,9 +10,10 @@ from academics.views import user_is_staff
 from academics.models import Department, Semester
 from result.models import Result, Subject
 from .models import Student, AdmissionStudent
-from .forms import StudentForm
+from .forms import StudentForm, AdmissionForm
 
 
+@user_passes_test(user_is_staff)
 def students_dashboard_index(request):
     """
     Dashboard for online admission system. 
@@ -27,6 +28,7 @@ def students_dashboard_index(request):
     return render(request, 'students/dashboard_index.html', context)
 
 
+@user_passes_test(user_is_staff)
 def online_applicants_list(request):
     """
     Returns template with list of applicant students 
@@ -37,6 +39,25 @@ def online_applicants_list(request):
         'online_applicants': online_applicants,
     }
     return render(request, 'students/dashboard_online_applicants.html', context)
+
+
+@user_passes_test(user_is_staff)
+def admit_student(request, pk):
+    """ 
+    Admit applicant found by id/pk into choosen department 
+    """
+    applicant = get_object_or_404(AdmissionStudent, pk=pk)
+    if request.method == 'POST':
+        form = AdmissionForm(request.POST, instance=applicant)
+        if form.is_valid():
+            student = form.save(commit=False)
+            student.admitted = True
+            student.save()
+            return redirect('students:online_applicants_list')
+    else:
+        form = AdmissionForm()
+        context = {'form': form, 'applicant': applicant}
+    return render(request, 'students/dashboard_admit_student.html', context)
 
 
 @user_passes_test(user_is_staff)
