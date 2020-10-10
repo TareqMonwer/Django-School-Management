@@ -8,6 +8,8 @@ urlpatterns = [
           name='students_dashboard_index'),
      path('all/', views.students_view, name='all_student'),
      path('add/', views.add_student_view, name='add_student'),
+     path('admitted-students/', views.admitted_students_list,
+          name='admitted_student_list'),
      path('online-applicants/', views.online_applicants_list, 
           name='online_applicants_list'),
      path('online-applicants/<int:pk>/admit/', views.admit_student,

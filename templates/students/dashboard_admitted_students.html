@@ -11,18 +11,18 @@
         <li class="breadcrumb-item">
             <a href="{% url 'students:students_dashboard_index' %}">Students</a>
         </li>
-        <li class="breadcrumb-item active" aria-current="page">Online Applicants</li>
+        <li class="breadcrumb-item active" aria-current="page">Admitted Students</li>
     </ol>
 </nav>
 
-<!-- Online Applicants Table Row -->
+<!-- Online students Table Row -->
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 pl-0">
-            <h4 class="ml-0">Online Admission Registrants</h4>
+            <h4 class="ml-0">Admitted Students</h4>
         </div>
-        <!-- Online Applicants Table -->
-        <div id="online-applicants" class="mt-4">
+        <!-- Admitted Students Table -->
+        <div id="admitted-students" class="mt-4">
             <table class="table table-bordered table-hover">
                 <thead class="thead-light">
                     <tr>
@@ -30,27 +30,27 @@
                         <th scope="col">Image</th>
                         <th scope="col">Name</th>
                         <th scope="col">Address</th>
-                        <th scope="col">Department Choice</th>
-                        <th scope="col">Application Date</th>
+                        <th scope="col">Department</th>
+                        <th scope="col">Admission Date</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="bg-light">
                 
-                    {% for applicant in online_applicants %}
+                    {% for student in admitted_students %}
                     <tr>
-                        <th scope="row">{{ applicant.id }}</th>
+                        <th scope="row">{{ student.id }}</th>
                         <td>
-                            <img src="{{ applicant.photo.url }}" width="50" height="50">
+                            <img src="{{ student.photo.url }}" width="50" height="50">
                         </td>
-                        <td>{{ applicant.name }}</td>
-                        <td>{{ applicant.permanent_address }}</td>
-                        <td>{{ applicant.department_choice }}</td>
-                        <td>{{ applicant.created }}</td>
+                        <td>{{ student.name }}</td>
+                        <td>{{ student.permanent_address }}</td>
+                        <td>{{ student.department_choice }}</td>
+                        <td>{{ student.admission_date }}</td>
                         <td>
                             <a href="" class="btn btn-sm btn-primary">More</a>
-                            <a href="{% url 'students:admit_student' pk=applicant.id %}" class="btn btn-sm btn-success">
-                                Admission
+                            <a href="" class="btn btn-sm btn-success">
+                                Update
                             </a>
                         </td>
                     </tr>
