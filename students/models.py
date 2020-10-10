@@ -55,6 +55,7 @@ class AdmissionStudent(StudentBase):
     choosen_department = models.ForeignKey(Department, related_name='chosen_depts',
         on_delete=models.CASCADE, null=True)
     admitted = models.BooleanField(default=False)
+    admission_date = models.DateField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.name} for {self.department_choice}"

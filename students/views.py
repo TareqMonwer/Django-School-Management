@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.urls import reverse_lazy
@@ -42,6 +44,18 @@ def online_applicants_list(request):
 
 
 @user_passes_test(user_is_staff)
+def admitted_students_list(request):
+    """ 
+    Returns list of students admitted from online registration.
+    """
+    admitted_students = AdmissionStudent.objects.filter(admitted=True)
+    context = {
+        'admitted_students': admitted_students,
+    }
+    return render(request, 'students/dashboard_admitted_students.html', context)
+
+
+@user_passes_test(user_is_staff)
 def admit_student(request, pk):
     """ 
     Admit applicant found by id/pk into choosen department 
@@ -52,8 +66,9 @@ def admit_student(request, pk):
         if form.is_valid():
             student = form.save(commit=False)
             student.admitted = True
+            student.admission_date = date.today()
             student.save()
-            return redirect('students:online_applicants_list')
+            return redirect('students:admitted_student_list')
     else:
         form = AdmissionForm()
         context = {'form': form, 'applicant': applicant}

@@ -31,7 +31,7 @@
     <div class="col-sm-12 col-md-3">
         <div class="card bg-success p-3">
             <h5>
-                <a class="text-light" href="">
+                <a class="text-light" href="{% url 'students:admitted_student_list' %}">
                     Admitted <span class="badge badge-light">
                         {{ admitted_students.count }}
                     </span>
@@ -43,7 +43,8 @@
         <div class="card bg-danger p-3">
             <h5>
                 <a class="text-light" href="">
-                    Rejected <span class="badge badge-light">5</span>
+                    Rejected 
+                    <!-- <span class="badge badge-light">5</span> -->
                 </a>
             </h5>
         </div>
@@ -52,7 +53,7 @@
         <div class="card bg-info p-3">
             <h5>
                 <a class="text-light" href="{% url 'pages:online_admission' %}" target="_blank">
-                    MANAGE ADMISSION SITE
+                    ADMISSION SITE
                 </a>
             </h5>
         </div>
