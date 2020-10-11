@@ -13,13 +13,17 @@
             {% csrf_token %}
         </form>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
+        <!-- Update Counseling Data -->
         <div class="card p-3 mb-5">
-            <a href="" class="btn btn-block btn-success"
-                data-toggle="modal" data-target="#counselingModal">
-                Add Counseling Infromation
-            </a>
+            <form action="{% url 'students:add_counseling_data' student_id=applicant.id %}" method="post">
+                {{ counseling_form|crispy }}
+                {% csrf_token %}
+                <input type="submit" class="btn btn-primary" value="Save Changes">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </form>
         </div>
+        <!-- Display Counseling Data -->
         <ul class="list-group card">
             <li class="list-group-item active">Counseling Information</li>           
             {% for record in counseling_records.all %}
@@ -32,33 +36,6 @@
                 </li>
             {% endfor %}              
         </ul>
-    </div>
-</div>
-
-<!-- Counseling Information Modal Form -->
-<div class="modal fade" id="counselingModal" tabindex="-1" role="dialog" 
-aria-labelledby="counselingModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="counselingModalLabel">Counseling Information</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="{% url 'students:add_counseling_data' student_id=applicant.id %}" method="post">
-                    {{ counseling_form|crispy }}
-                    {% csrf_token %}
-                    <input type="submit" class="btn btn-primary" value="Save Changes">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </form>
-            </div>
-            <!-- <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <input type="submit" class="btn btn-primary">Save changes</button>
-            </div> -->
-        </div>
     </div>
 </div>
 {% endblock %}

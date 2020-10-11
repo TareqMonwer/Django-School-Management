@@ -94,7 +94,6 @@ def update_online_registrant(request, pk):
     else:
         form = StudentRegistrantUpdateForm(instance=applicant)
         counseling_form = CounselingDataForm()
-        print(dir(counseling_records))
         context = {
             'form': form, 
             'applicant': applicant, 
