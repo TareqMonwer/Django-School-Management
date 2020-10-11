@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 from django.conf import settings
 from model_utils.models import TimeStampedModel
@@ -45,7 +46,8 @@ class CounselingComment(TimeStampedModel):
     comment = models.CharField(max_length=150)
 
     def __str__(self):
-        return f"{self.registrant_student.name} | {self.comment} at {self.created}"
+        date = self.created.strftime("%d %B %Y")
+        return f"{self.registrant_student.name} | {self.comment} at {date}"
 
 
 class AdmissionStudent(StudentBase):
