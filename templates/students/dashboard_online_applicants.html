@@ -52,6 +52,10 @@
                             <a href="{% url 'students:admit_student' pk=applicant.id %}" class="btn btn-sm btn-success">
                                 Admission
                             </a>
+                            <a href="{% url 'students:update_online_registrant' pk=applicant.id %}"
+                                class="btn btn-sm btn-info">
+                                Update
+                            </a>
                         </td>
                     </tr>
                     {% endfor %}
