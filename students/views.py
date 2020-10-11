@@ -11,8 +11,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from academics.views import user_is_staff
 from academics.models import Department, Semester
 from result.models import Result, Subject
-from .models import Student, AdmissionStudent
-from .forms import StudentForm, AdmissionForm
+from .models import Student, AdmissionStudent, CounselingComment
+from .forms import (StudentForm, AdmissionForm, 
+    StudentRegistrantUpdateForm, CounselingDataForm)
 
 
 @user_passes_test(user_is_staff)
@@ -74,6 +75,46 @@ def admit_student(request, pk):
         context = {'form': form, 'applicant': applicant}
     return render(request, 'students/dashboard_admit_student.html', context)
 
+
+@user_passes_test(user_is_staff)
+def update_online_registrant(request, pk):
+    """ 
+    Update applicants details, counseling information
+    """
+    applicant = get_object_or_404(AdmissionStudent, pk=pk)
+    counseling_records = CounselingComment.objects.filter(registrant_student=applicant)
+    if request.method == 'POST':
+        form = StudentRegistrantUpdateForm(
+            request.POST, 
+            request.FILES, 
+            instance=applicant)
+        if form.is_valid():
+            form.save()
+            return redirect('students:online_applicants_list')
+    else:
+        form = StudentRegistrantUpdateForm(instance=applicant)
+        counseling_form = CounselingDataForm()
+        print(dir(counseling_records))
+        context = {
+            'form': form, 
+            'applicant': applicant, 
+            'counseling_records': counseling_records,
+            'counseling_form': counseling_form}
+    return render(request, 'students/dashboard_update_online_applicant.html', context)
+
+
+@user_passes_test(user_is_staff)
+def add_counseling_data(request, student_id):
+    registrant = get_object_or_404(AdmissionStudent, id=student_id)
+    if request.method == 'POST':
+        form = CounselingDataForm(request.POST)
+        if form.is_valid():
+            counseling_comment = form.save(commit=False)
+            # TODO: NEEDS IMPROVEMENT
+            # counseling_comment.counselor = "SHOULD BE A USER/COUNSELOR"
+            counseling_comment.registrant_student = registrant
+            counseling_comment.save()
+            return redirect('students:update_online_registrant', pk=student_id)
 
 @user_passes_test(user_is_staff)
 def student_result_view(request):

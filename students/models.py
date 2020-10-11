@@ -45,7 +45,7 @@ class CounselingComment(TimeStampedModel):
     comment = models.CharField(max_length=150)
 
     def __str__(self):
-        return f"{self.registrant_student.name} | {self.comment} at {self.created_at}"
+        return f"{self.registrant_student.name} | {self.comment} at {self.created}"
 
 
 class AdmissionStudent(StudentBase):
