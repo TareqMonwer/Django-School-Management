@@ -3,6 +3,10 @@ from students.forms import StudentForm
 from students.models import AdmissionStudent
 
 
+def index(request):
+    return render(request, 'landing/index.html')
+
+
 def online_admission(request):
     if request.method == 'POST':
         form = StudentForm(request.POST, request.FILES)

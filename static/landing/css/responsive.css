@@ -1,0 +1,440 @@
+@media only screen and (min-width: 2160px) {
+  #showcase {
+    padding-bottom: 530px; }
+  #showcase .showcase-area {
+    width: 98%; }
+  #showcase .showcase-slider .screenshot-thumb p {
+    color: #fff;
+    font-size: 20px;
+    font-style: italic;
+    margin-bottom: 10px; }
+  #showcase .showcase-slider .screenshot-thumb .fancy-table {
+    padding-top: 165px !important; }
+  #showcase .showcase-slider .screenshot-thumb > .hover-content {
+    width: 89% !important;
+    height: 89% !important; }
+  .hero-area .overlay :nth-child(1) {
+    height: 294px !important; } }
+
+@media screen and (min-width: 1920px) {
+  .hero-area .contents {
+    padding: 280px 0 390px; }
+  .hero-area .overlay :nth-child(1) {
+    height: 250px; }
+  .showcase-slider .owl-item img {
+    width: 100%; }
+  #showcase .showcase-slider .screenshot-thumb > .hover-content {
+    width: 85%; }
+  #showcase .showcase-slider .screenshot-thumb .fancy-table {
+    padding-top: 100px; } }
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .hero-area .contents h2 {
+    font-size: 38px; }
+  .navbar-expand-md .navbar-nav .nav-link {
+    padding: 12px 5px;
+    font-size: 13px;
+    margin-left: 15px; }
+  .hero-area .contents {
+    padding: 210px 0 280px; }
+  #business-plan .business-item-info h3 {
+    font-size: 28px; }
+  #business-plan .business-item-info p {
+    font-size: 13px;
+    margin-bottom: 20px; }
+  .section {
+    padding: 80px 0px; }
+  #business-plan {
+    padding-bottom: 80px; }
+  .feature-info {
+    width: 60%; }
+  #features .feature-item {
+    padding: 15px; }
+  #features .feature-item h4 {
+    margin-bottom: 10px; }
+  #showcase .gradient-bg {
+    padding: 80px 0px 60px 0px; }
+  #pricing {
+    padding-bottom: 80px; }
+  #testimonial #client-testimonial .content-inner p {
+    font-size: 18px;
+    color: #5e629c;
+    font-style: italic;
+    line-height: 35px; }
+  #team .single-team .team-social-icons {
+    bottom: 27%; }
+  #blog .blog-item-wrapper h3 {
+    font-size: 16px;
+    line-height: 23px; }
+  #footer-Content h3.block-title {
+    font-size: 16px; }
+  #footer-Content ul.menu li a {
+    font-size: 14px;
+    line-height: 31px; }
+  #footer-Content {
+    padding-top: 80px; }
+  #footer-Content .copyright {
+    margin-top: 80px; }
+  .hero-area .contents h2 {
+    color: #fff;
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 60px;
+    margin-bottom: 20px; }
+  #testimonial .testimonial-area {
+    width: 98%; }
+  #showcase .showcase-slider .screenshot-thumb > .hover-content {
+    height: 80%;
+    width: 80%; }
+  #showcase .showcase-slider .screenshot-thumb .fancy-table {
+    padding-top: 45px; }
+  #footer-Content h3.block-title {
+    margin-bottom: 20px;
+    margin-top: 20px; } }
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .hero-area .contents h2 {
+    color: #fff;
+    font-size: 40px !important; }
+  .navbar-expand-md .navbar-nav .nav-link {
+    padding: 12px 0px;
+    font-size: 13px;
+    margin-left: 12px; }
+  .hero-area .contents {
+    padding: 200px 0 0px; }
+  #features .feature-item p {
+    font-size: 14px;
+    display: block;
+    line-height: 25px; }
+  #pricing .pricing-table {
+    padding: 30px 15px; }
+  #pricing .pricing-table h1 span {
+    left: 10%; }
+  #team .single-team, .blog-item-wrapper, .services-item {
+    margin-bottom: 20px; }
+  .contact-img img {
+    max-width: 100%;
+    display: block;
+    margin: 0px auto; }
+  #footer-Content .footer-logo img {
+    padding-top: 0; }
+  #footer-Content .copyright p {
+    color: #3ecf8e;
+    font-size: 14px; }
+  .hero-area .intro-img {
+    padding: 100px 0 0px; }
+  .blog-hero-area .contents h2 {
+    font-size: 36px; }
+  .btn-singin {
+    background: #7fc9fb;
+    color: #fff;
+    padding: 10px 14px;
+    margin-left: 12px;
+    box-shadow: 0px 8px 9px 0px rgba(96, 94, 94, 0.17);
+    font-size: 11px; }
+  .btn-light-singin {
+    background: #7fc9fb;
+    color: #fff;
+    padding: 10px 14px;
+    margin-left: 12px;
+    box-shadow: 0px 8px 9px 0px rgba(96, 94, 94, 0.17);
+    font-size: 11px; }
+  .navbar-expand-md .navbar-nav .nav-link {
+    padding: 12px 0px;
+    font-size: 13px;
+    margin-left: 9px; }
+  .pt-70 {
+    padding-top: 20px; }
+  .showcase-area .pr-0, .px-0 {
+    padding-right: 15px !important; }
+  #showcase {
+    padding-bottom: 275px; }
+  #testimonial .testimonial-area {
+    width: 98%; } }
+
+@media only screen and (max-width: 767px) {
+  .bg-inverse {
+    background: #191c1e; }
+  .navbar-expand-md .navbar-brand, .navbar-expand-md .navbar-toggler {
+    margin: 6px 15px; }
+  .bg-inverse {
+    background: #191c1e; }
+  .navbar {
+    padding: 0; }
+  .navbar-brand img {
+    width: 100px; } }
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .bg-inverse {
+    background: #191c1e; }
+  .navbar {
+    padding: 0; }
+  .navbar-brand img {
+    width: 100px; }
+  .navbar-expand-md .navbar-brand, .navbar-expand-md .navbar-toggler {
+    margin: 6px 15px; }
+  .btn-singin {
+    background: transparent;
+    color: #fff;
+    padding: 10px 23px;
+    margin-left: 0;
+    box-shadow: 0px 0px 0px 0px rgba(96, 94, 94, 0.17); }
+  .hero-area .contents h2 {
+    font-size: 20px;
+    line-height: 35px;
+    margin-bottom: 10px; }
+  .hero-area .contents {
+    padding: 200px 0 50px; }
+  .hero-area .contents p {
+    color: #fff;
+    font-size: 14px;
+    line-height: 26px; }
+  .hero-area .contents .btn {
+    margin-top: 30px;
+    margin-right: 4px;
+    text-transform: uppercase;
+    width: 125px;
+    height: 45px;
+    padding: 15px 14px;
+    font-size: 12px; }
+  .hero-area .contents .btn-border {
+    border: 1px solid #fff;
+    color: #fff;
+    -webkit-box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+    width: 122px;
+    height: 45px;
+    padding: 15px 15px; }
+  .hero-area .intro-img {
+    padding: 30px 0 0px; }
+  .section {
+    padding: 70px 0px; }
+  #services .services-item {
+    padding: 30px 15px;
+    margin-bottom: 15px; }
+  #business-plane .business-item-info h3 {
+    font-size: 25px; }
+  .section-header .section-title {
+    font-size: 25px; }
+  #services .services-item p {
+    font-size: 14px; }
+  #business-plane .business-item-info p {
+    font-size: 14px;
+    margin-bottom: 20px; }
+  .section-header .desc-text p {
+    font-size: 14px;
+    color: #5e629c;
+    line-height: 24px;
+    margin-bottom: 0; }
+  #features .feature-item {
+    padding: 10px; }
+  #features .feature-item .feature-icon {
+    margin-bottom: 20px; }
+  #features .feature-item p {
+    font-size: 15px;
+    display: block; }
+  .showcase-area .pr-0, .px-0 {
+    padding-right: 15px !important; }
+  #showcase {
+    padding-bottom: 250px; }
+  #pricing .pricing-table h1 span {
+    left: 4%; }
+  #pricing .pricing-table {
+    margin-bottom: 15px; }
+  #testimonial #client-testimonial {
+    padding: 30px 10px; }
+  #testimonial #client-testimonial .content-inner p {
+    font-size: 15px;
+    line-height: 22px; }
+  #testimonial #client-testimonial .author-info h5 {
+    color: #151948;
+    font-size: 15px; }
+  #testimonial #client-testimonial h5 span {
+    font-size: 13px;
+    color: #5e629c;
+    font-style: italic; }
+  #testimonial .testimonial-area {
+    position: inherit;
+    width: 100%;
+    z-index: 12;
+    top: 0;
+    margin: 0px auto; }
+  #testimonial {
+    margin-bottom: 0;
+    background-size: cover; }
+  #team .single-team {
+    margin-bottom: 15px; }
+  #team .single-team .team-social-icons {
+    bottom: 22%; }
+  #blog .blog-item-wrapper .blog-item-text {
+    padding: 20px 15px 15px 15px; }
+  #blog .blog-item-wrapper h3 {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 25px;
+    margin-bottom: 12px; }
+  #blog .blog-item-wrapper {
+    margin-bottom: 15px; }
+  #footer-Content .copyright p {
+    color: #3ecf8e;
+    font-size: 12px; }
+  #footer-Content ul.menu li a {
+    color: #e2e2e2;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 30px; }
+  #footer-Content h3.block-title {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    margin-top: 15px; }
+  #footer-Content .footer-logo img {
+    padding-top: 0; }
+  #footer-Content {
+    padding-top: 30px;
+    background: #180e29; }
+  #footer-Content .footer-logo img {
+    padding-top: 0;
+    width: 40%; }
+  #blog .blog-item-wrapper .author {
+    border-top: 1px solid #ddd;
+    padding: 18px 10px 15px 10px; }
+  .owl-theme .owl-controls {
+    display: none !important; }
+  #business-plane {
+    padding-bottom: 40px; }
+  #showcase .showcase-area {
+    width: 90%; }
+  #light-featured .light-feature-item .light-feature-icon {
+    margin-bottom: 20px; }
+  #light-featured .right-feature-info h3 {
+    font-size: 25px;
+    line-height: 35px; }
+  #light-featured .light-feature-item .light-feature-info p {
+    font-size: 15px;
+    display: block; }
+  #download-app .download-info h3 {
+    font-size: 25px;
+    line-height: 38px; }
+  #download-app .download-info .downlaod-btn a.play-store {
+    width: 195px;
+    height: 65px;
+    line-height: 18px;
+    margin-right: 0;
+    margin-bottom: 20px; }
+  .download-statatics {
+    text-align: center;
+    margin-bottom: 15px; }
+  #client-talk .client-words {
+    padding: 20px;
+    margin-bottom: 15px; }
+  #footer-Content .copyright {
+    margin-top: 30px; }
+  .blog-hero-area .contents h2 {
+    color: #fff;
+    font-size: 25px; }
+  .blog-hero-area .contents {
+    padding: 100px 0 90px; }
+  #brand-area .brand-subtitle h5 {
+    font-size: 18px; }
+  #brand-area {
+    padding: 50px 0px 60px 0; }
+  #light-featured {
+    padding-bottom: 50px;
+    padding-top: 100px; }
+  #light-featured .light-feature-item .light-feature-info h4 {
+    font-size: 18px; }
+  #light-featured .right-feature-info h3 {
+    font-size: 20px;
+    line-height: 30px; }
+  #light-featured .right-feature-info p {
+    font-size: 15px; }
+  #showcase .showcase-slider .screenshot-thumb .fancy-table {
+    padding-top: 50px; }
+  #showcase .showcase-slider .screenshot-thumb > .hover-content {
+    height: 81%;
+    width: 80%; }
+  #footer-Content h3.block-title {
+    margin-bottom: 18px;
+    margin-top: 15px; }
+  .back-to-top {
+    display: none !important; } }
+
+@media (min-width: 375px) and (max-width: 667px) {
+  #showcase .showcase-slider .screenshot-thumb > .hover-content {
+    height: 83%;
+    width: 83%; }
+  #showcase .showcase-slider .screenshot-thumb .fancy-table {
+    padding-top: 68px; }
+  #pricing .pricing-table h1 span {
+    left: 16%; } }
+
+@media (min-width: 414px) and (max-width: 736px) {
+  #showcase .showcase-slider .screenshot-thumb .fancy-table {
+    padding-top: 80px; }
+  #showcase .showcase-slider .screenshot-thumb > .hover-content {
+    height: 85%;
+    width: 85%; }
+  #pricing .pricing-table h1 span {
+    left: 20%; } }
+
+@media only screen and (min-width: 992px) and (max-width: 1280px) {
+  .navbar-expand-md .navbar-nav .nav-link {
+    font-size: 15px;
+    padding: 8px 0px;
+    margin-left: 18px; }
+  .hero-area .contents h2 {
+    font-size: 38px; }
+  #light-featured .right-feature-info h3 {
+    font-size: 29px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    line-height: 40px;
+    margin-top: 0; }
+  #light-featured .light-feature-item .light-feature-icon {
+    margin-bottom: 15px; }
+  #light-featured {
+    padding-bottom: 100px;
+    padding-top: 100px; }
+  .section {
+    padding: 100px 0px; }
+  .feature-info {
+    width: 80%; }
+  .feature-info {
+    width: 68%; }
+  #team .single-team .team-social-icons {
+    bottom: 27%; }
+  #blog .blog-item-wrapper .blog-item-text {
+    padding: 20px 15px 15px 15px; }
+  #blog .blog-item-wrapper h3 {
+    font-size: 18px; }
+  #blog .blog-item-wrapper a.read-more {
+    font-size: 12px; }
+  #footer-Content {
+    padding-top: 100px; }
+  #footer-Content .copyright {
+    margin-top: 100px; }
+  .hero-area .contents p {
+    color: #fff;
+    font-size: 16px;
+    line-height: 26px; }
+  .hero-area2 .contents p {
+    color: #fff;
+    font-size: 16px;
+    line-height: 26px; }
+  #business-plane .business-item-info h3 {
+    font-size: 29px; }
+  .showcase-area .pr-0, .px-0 {
+    padding-right: 15px !important; }
+  #showcase {
+    padding-bottom: 280px; }
+  #pricing .pricing-table h1 span {
+    left: 10%; }
+  #pricing2 .pricing-table h1 span {
+    left: 10%; }
+  #testimonial #client-testimonial .content-inner p {
+    font-size: 20px;
+    color: #5e629c;
+    font-style: italic;
+    line-height: 33px; } }
