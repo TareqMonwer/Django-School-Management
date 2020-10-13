@@ -11,6 +11,14 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import environ
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+# reading .env file
+environ.Env.read_env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -19,10 +27,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '6pjp4sudwgh&pib=5*^qg3958+c$#r7du^&gn%mb_qkn52tf2n'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = [
     '0.0.0.0',
@@ -162,11 +170,11 @@ MEDIA_URL = '/media/'
 # https://www.youtube.com/watch?v=51mmqf5a0Ss
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
-EMAIL_HOST = "email_host"
-EMAIL_PORT = "email_port"
-EMAIL_HOST_USER = "email_host_user"
-EMAIL_HOST_PASSWORD = "email_host_password"
-DEFAULT_FROM_EMAIL = "default_from_email"
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_PORT = env('EMAIL_PORT')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
 
 # login/register redirects
 LOGIN_REDIRECT_URL = 'index_view'
@@ -179,3 +187,8 @@ INTERNAL_IPS = ['127.0.0.1', '0.0.0.0']
 
 # Django taggit.
 TAGGIT_CASE_INSENSITIVE = True
+
+# BRAINTREE FOR HANDLING PAYMENTS
+BRAINTREE_MERCHANT_ID = env('BRAINTREE_MERCHANT_ID')
+BRAINTREE_PUBLIC_KEY = env('BRAINTREE_PUBLIC_KEY')
+BRAINTREE_PRIVATE_KEY = env('BRAINTREE_PRIVATE_KEY')

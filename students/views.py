@@ -23,10 +23,11 @@ def students_dashboard_index(request):
     """
     online_applicants = AdmissionStudent.objects.filter(admitted=False)
     admitted_students = AdmissionStudent.objects.filter(admitted=True)
-    print(online_applicants)
+    paid_registrants = online_applicants.filter(paid=True)
     context = {
         'online_applicants': online_applicants,
         'admitted_students': admitted_students,
+        'paid_registrants': paid_registrants,
     }
     return render(request, 'students/dashboard_index.html', context)
 
@@ -54,6 +55,18 @@ def admitted_students_list(request):
         'admitted_students': admitted_students,
     }
     return render(request, 'students/dashboard_admitted_students.html', context)
+
+
+@user_passes_test(user_is_staff)
+def paid_registrants(request):
+    """ 
+    Returns list of students already paid from online registration.
+    """
+    paid_students = AdmissionStudent.objects.filter(paid=True)
+    context = {
+        'paid_students': paid_students,
+    }
+    return render(request, 'students/dashboard_paid_students.html', context)
 
 
 @user_passes_test(user_is_staff)

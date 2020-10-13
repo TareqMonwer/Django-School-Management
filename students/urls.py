@@ -16,6 +16,8 @@ urlpatterns = [
           name='online_applicants_list'),
      path('online-applicants/<int:pk>/admit/', views.admit_student,
           name='admit_student'),
+     path('paid-registrants/', views.paid_registrants, 
+          name='paid_registrants'),
      path('update-registrant/<int:pk>/', views.update_online_registrant, 
           name='update_online_registrant'),
      path('update/<int:pk>/', views.student_update_view.as_view(),

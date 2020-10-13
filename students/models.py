@@ -58,6 +58,7 @@ class AdmissionStudent(StudentBase):
         on_delete=models.CASCADE, null=True)
     admitted = models.BooleanField(default=False)
     admission_date = models.DateField(blank=True, null=True)
+    paid = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.name} for {self.department_choice}"
