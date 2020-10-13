@@ -36,6 +36,8 @@ wcwidth = "==0.1.7"
 Django = "==2.2.13"
 django-model-utils = "*"
 django-taggit = "*"
+braintree = "*"
+django-environ = "*"
 
 [requires]
 python_version = "3.8"

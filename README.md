@@ -4,9 +4,14 @@ A fullstack school management project in django, bootstrap-4 and javascript.
 # Installation:
 1. go to the project folder
 2. run `pipenv install`
-3. run `python manage.py migrate`
-4. then `python manage.py runserver`
+3. create `.env` under config folder and give credentials following `.env.example` template
+3.1. See additional resources section to setup/get more info.
+4. run `python manage.py migrate`
+5. then `python manage.py runserver`
 for testing, create a superuser too.
+
+# Additional Resources:
++ Create braintree sandbox account from: https://sandbox.braintreegateway.com/login
 
 # Usage/testing
 In order to test this project with dummy data:
