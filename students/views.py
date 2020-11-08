@@ -23,7 +23,10 @@ def students_dashboard_index(request):
     """
     Dashboard for online admission system. 
     """
-    online_applicants = AdmissionStudent.objects.filter(admitted=False)
+    online_applicants = AdmissionStudent.objects.filter(
+        admitted=False,
+        paid=False
+    )
     admitted_students = AdmissionStudent.objects.filter(admitted=True)
     paid_registrants = online_applicants.filter(paid=True)
     context = {
@@ -38,9 +41,10 @@ def students_dashboard_index(request):
 def online_applicants_list(request):
     """
     Returns template with list of applicant students 
-    who aren't admitted yet. 
+    who aren't admitted/payment not cleared yet. 
     """
-    online_applicants = AdmissionStudent.objects.filter(admitted=False)
+    online_applicants = AdmissionStudent.objects.filter(
+        admitted=False, paid=False)
     context = {
         'online_applicants': online_applicants,
     }
