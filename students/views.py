@@ -15,6 +15,8 @@ from .models import Student, AdmissionStudent, CounselingComment
 from .forms import (StudentForm, AdmissionForm, 
     StudentRegistrantUpdateForm, CounselingDataForm)
 
+from .tasks import send_admission_confirmation_email
+
 
 @user_passes_test(user_is_staff)
 def students_dashboard_index(request):
@@ -82,6 +84,7 @@ def admit_student(request, pk):
             student.admitted = True
             student.admission_date = date.today()
             student.save()
+            send_admission_confirmation_email.delay(student.id)
             return redirect('students:admitted_student_list')
     else:
         form = AdmissionForm()

@@ -23,3 +23,7 @@ In order to test this project with dummy data:
 
 then for result, subjects, combinations you can run your script or just 
 create data manually for now.
+
+* APPLY CARD INFO AT `admission` link
+`card number: 5555555555554444`
+`expiracy: any valid future date` 

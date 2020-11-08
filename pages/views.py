@@ -5,6 +5,8 @@ from django.shortcuts import render, redirect
 from students.forms import StudentForm
 from students.models import AdmissionStudent
 
+from students.tasks import send_admission_confirmation_email
+
 
 def index(request):
     return render(request, 'landing/index.html')
@@ -71,4 +73,6 @@ def payment(request, pk):
         if result.is_success:
             registrant.paid = True
             registrant.save()
+            print(registrant.email)
+            send_admission_confirmation_email(registrant.id)
             return redirect('pages:online_admission')
