@@ -38,6 +38,8 @@ django-model-utils = "*"
 django-taggit = "*"
 braintree = "*"
 django-environ = "*"
+celery = "*"
+redis = "*"
 
 [requires]
 python_version = "3.8"
