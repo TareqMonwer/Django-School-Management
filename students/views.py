@@ -68,7 +68,7 @@ def paid_registrants(request):
     """ 
     Returns list of students already paid from online registration.
     """
-    paid_students = AdmissionStudent.objects.filter(paid=True)
+    paid_students = AdmissionStudent.objects.filter(paid=True, admitted=False)
     context = {
         'paid_students': paid_students,
     }
@@ -86,6 +86,7 @@ def admit_student(request, pk):
         if form.is_valid():
             student = form.save(commit=False)
             student.admitted = True
+            student.paid = True
             student.admission_date = date.today()
             student.save()
             send_admission_confirmation_email.delay(student.id)
@@ -110,7 +111,7 @@ def update_online_registrant(request, pk):
             instance=applicant)
         if form.is_valid():
             form.save()
-            return redirect('students:online_applicants_list')
+            return redirect('students:paid_registrants')
     else:
         form = StudentRegistrantUpdateForm(instance=applicant)
         counseling_form = CounselingDataForm()

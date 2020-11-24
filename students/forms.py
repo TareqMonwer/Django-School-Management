@@ -55,6 +55,7 @@ class StudentRegistrantUpdateForm(forms.ModelForm):
             'last_exam_name',
             'last_exam_result',
             'choosen_department',
+            'admitted',
         ]
         widgets = {
             'date_of_birth': forms.TextInput({'type': 'date'}),
