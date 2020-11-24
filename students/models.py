@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.db import models
+from django.contrib.auth import get_user_model
 from django.conf import settings
 from model_utils.models import TimeStampedModel
 from academics.models import Department, Semester, AcademicSession
@@ -93,3 +94,13 @@ class Student(StudentBase):
 
     class Meta:
         ordering = ['semester', 'roll', 'registration_number']
+
+
+class RegularStudent(TimeStampedModel):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    semester = models.ForeignKey(
+        Semester, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return f"{self.student.name} {self.semester}"
