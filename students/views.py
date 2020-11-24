@@ -56,7 +56,7 @@ def admitted_students_list(request):
     """ 
     Returns list of students admitted from online registration.
     """
-    admitted_students = AdmissionStudent.objects.filter(admitted=True)
+    admitted_students = AdmissionStudent.objects.filter(admitted=True, paid=True)
     context = {
         'admitted_students': admitted_students,
     }

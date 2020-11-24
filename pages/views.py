@@ -72,6 +72,7 @@ def payment(request, pk):
         # mark registrant payment as done if payment is done.
         if result.is_success:
             registrant.paid = True
+            registrant.admitted = True
             registrant.save()
             print(registrant.email)
             send_admission_confirmation_email(registrant.id)
