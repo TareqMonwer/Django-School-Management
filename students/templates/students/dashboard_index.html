@@ -21,9 +21,9 @@
             <h5>
                 <a class="text-light" 
                     href="{% url 'students:online_applicants_list' %}">
-                    Online Applicants
+                    Unpaid Applicants
                     <span class="badge badge-light">
-                        {{ online_applicants.count }}
+                        {{ all_applicants.count }}
                     </span>
                 </a>
             </h5>
@@ -33,8 +33,19 @@
         <div class="card bg-info p-3">
             <h5>
                 <a class="text-light" href="{% url 'students:admitted_student_list' %}">
-                    Admitted <span class="badge badge-light">
+                    Admitted & Paid <span class="badge badge-light">
                         {{ admitted_students.count }}
+                    </span>
+                </a>
+            </h5>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-3">
+        <div class="card bg-danger p-3">
+            <h5>
+                <a class="text-light" href="{% url 'students:admitted_student_list' %}">
+                    UNPAID <span class="badge badge-light">
+                        {{ online_applicants.count }}
                     </span>
                 </a>
             </h5>
@@ -50,15 +61,6 @@
                         {{ paid_registrants.count }}
                     </span>
                     {% endif %}
-                </a>
-            </h5>
-        </div>
-    </div>
-    <div class="col-sm-12 col-md-3">
-        <div class="card bg-info p-3">
-            <h5>
-                <a class="text-light" href="{% url 'pages:online_admission' %}" target="_blank">
-                    ADMISSION SITE
                 </a>
             </h5>
         </div>

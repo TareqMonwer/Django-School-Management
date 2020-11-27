@@ -23,13 +23,12 @@ def students_dashboard_index(request):
     """
     Dashboard for online admission system. 
     """
-    online_applicants = AdmissionStudent.objects.filter(
-        admitted=False,
-        paid=False
-    )
-    admitted_students = AdmissionStudent.objects.filter(admitted=True)
+    online_applicants = AdmissionStudent.objects.filter(paid=False)
+    all_applicants = AdmissionStudent.objects.all().order_by('-created')
+    admitted_students = AdmissionStudent.objects.filter(admitted=True, paid=True)
     paid_registrants = online_applicants.filter(paid=True)
     context = {
+        'all_applicants': all_applicants,
         'online_applicants': online_applicants,
         'admitted_students': admitted_students,
         'paid_registrants': paid_registrants,

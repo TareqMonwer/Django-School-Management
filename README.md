@@ -10,6 +10,12 @@ A fullstack school management project in django, bootstrap-4 and javascript.
 5. then `python manage.py runserver`
 for testing, create a superuser too.
 
+# Celery-redis setup:
+1. Celery is installed, install redis as well. <br>
+2. for linux users (IDK about windows, if you know, please contribute): 
+- run redis server with `redis-server` command.
+- run celery worker with `celery -A config worker -l INFO` command.
+
 # Additional Resources:
 + Create braintree sandbox account from: https://sandbox.braintreegateway.com/login
 
