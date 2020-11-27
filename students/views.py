@@ -1,7 +1,7 @@
 from datetime import date
 
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.urls import reverse_lazy
 from django.db import IntegrityError
 from django.views.generic import DetailView, UpdateView
@@ -45,19 +45,6 @@ def all_applicants(request):
     }
     return render(request, 'students/all_applicants.html', ctx)
 
-@user_passes_test(user_is_staff)
-def online_applicants_list(request):
-    """
-    Returns template with list of applicant students 
-    who aren't admitted/payment not cleared yet. 
-    """
-    online_applicants = AdmissionStudent.objects.filter(
-        admitted=False, paid=False)
-    context = {
-        'online_applicants': online_applicants,
-    }
-    return render(request, 'students/dashboard_online_applicants.html', context)
-
 
 @user_passes_test(user_is_staff)
 def admitted_students_list(request):
@@ -84,9 +71,21 @@ def paid_registrants(request):
 
 
 @user_passes_test(user_is_staff)
+def unpaid_registrants(request):
+    """
+    Returns list of students haven't paid admission fee yet.
+    """
+    unpaid_registrants_list = AdmissionStudent.objects.filter(paid=False)
+    context = {
+        'unpaid_applicants': unpaid_registrants_list,
+    }
+    return render(request, 'students/unpaid_applicants.html', context)
+
+
+@user_passes_test(user_is_staff)
 def admit_student(request, pk):
     """ 
-    Admit applicant found by id/pk into choosen department 
+    Admit applicant found by id/pk into chosen department
     """
     applicant = get_object_or_404(AdmissionStudent, pk=pk)
     if request.method == 'POST':
@@ -103,6 +102,17 @@ def admit_student(request, pk):
         form = AdmissionForm()
         context = {'form': form, 'applicant': applicant}
     return render(request, 'students/dashboard_admit_student.html', context)
+
+
+def mark_as_paid(request):
+    if request.method == 'POST':
+        registrant_pk = request.POST.get('registrant_id')
+        applicant = get_object_or_404(AdmissionStudent, pk=registrant_pk)
+        if not applicant.paid:
+            applicant.paid = True
+            applicant.save()
+            return JsonResponse({'data': True})
+        return JsonResponse({'data': False})
 
 
 @user_passes_test(user_is_staff)
@@ -143,6 +153,7 @@ def add_counseling_data(request, student_id):
             counseling_comment.registrant_student = registrant
             counseling_comment.save()
             return redirect('students:update_online_registrant', pk=student_id)
+
 
 @user_passes_test(user_is_staff)
 def student_result_view(request):
