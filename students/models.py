@@ -53,10 +53,10 @@ class CounselingComment(TimeStampedModel):
 
 class AdmissionStudent(StudentBase):
     counseling_by = models.ForeignKey(Teacher, related_name='counselors',
-        on_delete=models.CASCADE, null=True)
+                                      on_delete=models.CASCADE, null=True)
     counsel_comment = models.ManyToManyField(Teacher)
     choosen_department = models.ForeignKey(Department, related_name='chosen_depts',
-        on_delete=models.CASCADE, null=True)
+                                           on_delete=models.CASCADE, null=True)
     admitted = models.BooleanField(default=False)
     admission_date = models.DateField(blank=True, null=True)
     paid = models.BooleanField(default=False)
@@ -68,8 +68,8 @@ class AdmissionStudent(StudentBase):
 class Student(StudentBase):
     roll = models.CharField(max_length=6, unique=True)
     registration_number = models.CharField(max_length=6, unique=True)
-    department = models.ForeignKey(Department, 
-        on_delete=models.CASCADE, related_name='departments')
+    department = models.ForeignKey(Department,
+                                   on_delete=models.CASCADE, related_name='departments')
     semester = models.ForeignKey(
         Semester, on_delete=models.CASCADE)
     ac_session = models.ForeignKey(
