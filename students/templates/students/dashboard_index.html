@@ -20,7 +20,7 @@
         <div class="card bg-primary p-3">
             <h5>
                 <a class="text-light" 
-                    href="{% url 'students:online_applicants_list' %}">
+                    href="{% url 'students:all_applicants' %}">
                     All Applicants
                     <span class="badge badge-light">
                         {{ all_applicants.count }}
@@ -56,11 +56,9 @@
             <h5>
                 <a class="text-light" href="{% url 'students:paid_registrants' %}">
                     PAID REGISTRANTS
-                    {% if paid_registrants.count > 0 %}
                     <span class="badge badge-light">
                         {{ paid_registrants.count }}
                     </span>
-                    {% endif %}
                 </a>
             </h5>
         </div>

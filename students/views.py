@@ -37,6 +37,15 @@ def students_dashboard_index(request):
 
 
 @user_passes_test(user_is_staff)
+def all_applicants(request):
+    """Display all registered students list"""
+    registrants = AdmissionStudent.objects.all().order_by('-created')
+    ctx = {
+        'registrants': registrants,
+    }
+    return render(request, 'students/all_applicants.html', ctx)
+
+@user_passes_test(user_is_staff)
 def online_applicants_list(request):
     """
     Returns template with list of applicant students 

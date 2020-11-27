@@ -1,0 +1,70 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+
+{% block dashboard-body %}
+
+<div class="row">
+  <div class="col-9">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">SYL</th>
+          <th scope="col">Name</th>
+          <th scope="col">Application Date</th>
+          <th scope="col">Payment Status</th>
+          <th scope="col">Admitted</th>
+          <th scope="col">Contact</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for applicant in registrants %}
+        <tr>
+          <th scope="row">
+            <a href="#">
+              {{ forloop.counter }}
+            </a>
+          </th>
+          <td>
+            <a href="#">
+              {{ applicant.name }}
+            </a>
+          </td>
+          <td>
+            <a href="#">
+              {{ applicant.created }}
+            </a>
+          </td>
+          <td style="text-align: center;">
+            <a href="#">
+              {% if applicant.paid %}
+                <img src="{% static 'images/checked.png' %}" width="16" alt="">
+              {% else %}
+                <img src="{% static 'images/cross.png' %}" width="16" alt="">
+              {% endif %}
+            </a>
+          </td>
+          <td style="text-align: center;">
+              <a href="#">
+                  {% if applicant.admitted %}
+                    <img src="{% static 'images/checked.png' %}" width="16" alt="">
+                  {% else %}
+                    <img src="{% static 'images/cross.png' %}" width="16" alt="">
+                  {% endif %}
+              </a>
+          </td>
+          <td>
+              <a href="">
+                  {{ applicant.mobile_number }}
+              </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="col-3">
+    {% include "students/student_list_sidebar.html" %}
+  </div>
+</div>
+
+{% endblock %}
