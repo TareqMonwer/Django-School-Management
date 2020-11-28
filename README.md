@@ -12,9 +12,14 @@ for testing, create a superuser too.
 
 # Celery-redis setup:
 1. Celery is installed, install redis as well. <br>
-2. for linux users (IDK about windows, if you know, please contribute): 
+2. for linux users: 
 - run redis server with `redis-server` command.
-- run celery worker with `celery -A config worker -l INFO` command.
+3. for windows users:
+- Download redis (https://github.com/microsoftarchive/redis/releases/tag/win-3.0.504)
+- Run redis-server.exe and redis-cli.exe.
+
+And finally, while django server is running, run this command on another terminal <br>
+`celery -A config worker -l INFO`
 
 # Additional Resources:
 + Create braintree sandbox account from: https://sandbox.braintreegateway.com/login
