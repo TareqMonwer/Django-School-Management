@@ -52,11 +52,16 @@
                             <form action="" method="post" id="mark-paid-form">
                                 {% csrf_token %}
                                 <input type="hidden" name="registrant_id" value="{{ applicant.pk }}">
-                                <button type="submit" class="btn btn-sm mark-paid-btn">
+                                <button type="submit" class="btn btn-sm mark-paid-btn btn-dark mb-1 d-block">
                                     <img src="{% static 'images/checked.png' %}" alt="" width="16">
                                     <span class="mark-paid-text">Mark as paid</span>
                                 </button>
                             </form>
+                            <a href="{% url 'students:admit_student' pk=applicant.pk %}" 
+                            class="btn btn-sm btn-primary d-block">
+                                <img src="{% static 'images/checked.png' %}" alt="" width="16">
+                                Admit
+                            </a>
                         </td>
                     </tr>
                     {% endfor %}

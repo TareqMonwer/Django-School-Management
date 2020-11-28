@@ -26,7 +26,7 @@ def students_dashboard_index(request):
     online_applicants = AdmissionStudent.objects.filter(paid=False)
     all_applicants = AdmissionStudent.objects.all().order_by('-created')
     admitted_students = AdmissionStudent.objects.filter(admitted=True, paid=True)
-    paid_registrants = online_applicants.filter(paid=True)
+    paid_registrants = AdmissionStudent.objects.filter(paid=True, admitted=False)
     context = {
         'all_applicants': all_applicants,
         'online_applicants': online_applicants,
