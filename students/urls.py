@@ -10,7 +10,7 @@ urlpatterns = [
      path('all/', views.students_view, name='all_student'),
      path('applicants/', views.all_applicants, name='all_applicants'),
      path('applicants/unpaid/', views.unpaid_registrants, name='unpaid_registrants'),
-     path('applicants/unpaid/mark-paid/', views.mark_as_paid, name='mark_as_paid'),
+     path('applicants/unpaid/mark-paid/', views.mark_as_paid_or_unpaid, name='mark_as_paid_or_unpaid'),
      path('add-counsel-data/<int:student_id>/', views.add_counseling_data, 
           name='add_counseling_data'),
      path('admitted-students/', views.admitted_students_list,

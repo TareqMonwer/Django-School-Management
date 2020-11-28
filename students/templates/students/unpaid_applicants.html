@@ -49,17 +49,15 @@
                         <td>{{ applicant.department_choice }}</td>
                         <td>{{ applicant.created }}</td>
                         <td>
-                            <form action="" method="post" id="mark-paid-form">
+                            <form action="" method="post" class="mark-paid-form">
                                 {% csrf_token %}
                                 <input type="hidden" name="registrant_id" value="{{ applicant.pk }}">
                                 <button type="submit" class="btn btn-sm mark-paid-btn btn-dark mb-1 d-block">
-                                    <img src="{% static 'images/checked.png' %}" alt="" width="16">
                                     <span class="mark-paid-text">Mark as paid</span>
                                 </button>
                             </form>
                             <a href="{% url 'students:admit_student' pk=applicant.pk %}" 
                             class="btn btn-sm btn-primary d-block">
-                                <img src="{% static 'images/checked.png' %}" alt="" width="16">
                                 Admit
                             </a>
                         </td>
@@ -75,25 +73,33 @@
 
 {% block extrajs %}
     <script>
-        $('#mark-paid-form').submit(function(e) {
-            e.preventDefault();
-            const serializedData = $(this).serialize();
-            const url = "{% url 'students:mark_as_paid' %}";
+        const forms = document.querySelectorAll('.mark-paid-form');
+        forms.forEach(function(element){
+            element.addEventListener('submit', function(event){
+                event.preventDefault();
+                const serializedData = $(this).serialize();
+                changePayStatus(element, serializedData)
+            });
+        });
+
+        function changePayStatus(element, data){
+            const url = "{% url 'students:mark_as_paid_or_unpaid' %}";
             $.ajax({
                 type: 'POST',
                 url: url,
-                data: serializedData,
+                data: data,
                 success: function(response) {
                     if (response.data) {
-                        document.querySelector('.mark-paid-text').innerHTML = '<b>PAID</b>'
+                        element.querySelector('.mark-paid-text').innerHTML = '<b>PAID</b>'
                     } else {
-                        document.querySelector('.mark-paid-text').innerHTML = '<b>ALREADY PAID</b>'
+                        element.querySelector('.mark-paid-text').innerHTML = '<b>Mark as paid</b>'
                     }
                 },
                 error: function(error){
                     console.log(error);
                 }
             });
-        })
+        }
+
     </script>
 {% endblock %}
