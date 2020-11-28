@@ -104,14 +104,19 @@ def admit_student(request, pk):
     return render(request, 'students/dashboard_admit_student.html', context)
 
 
-def mark_as_paid(request):
+def mark_as_paid_or_unpaid(request):
+    """ Change student applicants payment status """
     if request.method == 'POST':
         registrant_pk = request.POST.get('registrant_id')
         applicant = get_object_or_404(AdmissionStudent, pk=registrant_pk)
         if not applicant.paid:
+            # If applicant didn't pay fee already, change to paid
             applicant.paid = True
             applicant.save()
             return JsonResponse({'data': True})
+        # If applicant already paid the amount, change to unpaid
+        applicant.paid = False
+        applicant.save()
         return JsonResponse({'data': False})
 
 
