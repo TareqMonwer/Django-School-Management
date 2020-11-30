@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from . import pdf_views
 
 app_name = 'students'
 
@@ -31,4 +32,5 @@ urlpatterns = [
      path('result/', views.student_result_view, name='result'),
      path('add_result_from_student/<int:pk>/', views.add_result_from_student_detail_view, 
           name='add_result_in_details'),
+     path('pdf/', pdf_views.test_pdf, name='test_pdf'),
 ]
