@@ -4,6 +4,7 @@ FROM python:3.7-alpine
 ENV PYTHONUNBUFFERED 1
 
 COPY requirements.txt .
+
 RUN apk add --no-cache --virtual .build-deps \
     ca-certificates gcc linux-headers musl-dev \
     libffi-dev jpeg-dev zlib-dev \
@@ -22,10 +23,14 @@ RUN apk add --no-cache --virtual .build-deps \
     && apk add --virtual .rundeps $runDeps \
     && apk del .build-deps
 
+# create root directory for our project in the container
 RUN mkdir /code
+# set the working directory to /code
 WORKDIR /code
+# copy the current directory's content to /code
 COPY . .
 
+# expose port 8000 in container
 EXPOSE 8000
 
 RUN python manage.py collectstatic --noinput
