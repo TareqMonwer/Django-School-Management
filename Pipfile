@@ -40,6 +40,7 @@ braintree = "*"
 django-environ = "*"
 celery = "*"
 redis = "*"
+reportlab = "*"
 
 [requires]
 python_version = "3.8"
