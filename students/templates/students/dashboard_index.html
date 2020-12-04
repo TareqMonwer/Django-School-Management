@@ -88,6 +88,152 @@
         </div>
     </div>
 </div>
+<hr>
+
+<div class="row mt-5">
+    <div class="col-md-12">
+        <div class="dashboard-section-title mb-3">
+            <div class="title-v-line"></div>
+            <h4>Monthly Report <span class="color-2">Analysis</span></h4>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-top-meta-info d-flex justify-content-between lio-primary-bg border-bottom
+                align-items-center p-3 text-light">
+                <div class="card-collapse">
+                    <div class="card-actions-action">
+                        <i class="fas fa-chevron-up"></i> <span class="">Collapse</span>
+                    </div>
+                </div>
+                <div class="card-print-pdf-actions d-flex justify-content-between">
+                    <div class="card-actions-action">
+                        <i class="fas fa-cloud-download-alt"></i>
+                    </div>
+                    <div class="card-actions-action">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="card-actions-action">
+                        <i class="fas fa-print"></i>
+                    </div>
+                </div>
+                <div class="card-record-date">
+                    <form action="" method="get">
+                        <div class="form-row justify-content-around align-items-center">
+                            <div class="form-group col-md-3">Date:</div>
+                            <div class="form-group col-md-9">
+                                <select name="monthly_report_date" id="monthly_report_date">
+                                    <option selected>Choose...</option>
+                                    <option value="">December 2020</option>
+                                    <option value="">November 2020</option>
+                                    <option value="">October 2020</option>
+                                    <option value="">September 2020</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12 m-0 p-0" id="monthly-report-table">
+              <!-- Applications -->
+              <div class="">
+                  <p class="bg-info text-light pl-4 py-1 mb-0">Total Application</p>
+                  <table class="table table-striped">
+                      <thead>
+                          <tr>
+                              <th scope="col">TOTAL</th>
+                              <th scope="col">Online</th>
+                              <th scope="col">On-visit/Call</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td>{{ total_applications }}</td>
+                              <td>{Online Applicant Number}</td>
+                              <td>{Offline Applicant Number}</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+
+              <!-- Admissions -->
+              <div class="">
+                  <p class="bg-info text-light pl-4 py-1 mb-0">Total Admission</p>
+                  <table class="table table-striped">
+                      <thead>
+                          <tr>
+                              <th scope="col">TOTAL</th>
+                              <th scope="col">Online</th>
+                              <th scope="col">On-visit/Call</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td>{{ total_admissions }}</td>
+                              <td>{Online Admission Number}</td>
+                              <td>{Offline Admission Number}</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+
+              <!-- By Department -->
+              <div class="">
+                  <p class="bg-info text-light pl-4 py-1 mb-0">Admission/Migration/NA By Department</p>
+                  <table class="table table-striped">
+                      <thead>
+                          <tr>
+                              <th scope="col">Department</th>
+                              <th scope="col">Applications</th>
+                              <th scope="col">Admission</th>
+                              <th scope="col">Migrated</th>
+                              <th scope="col">Missed</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          {% for dept_name, departmental_record in departmental_records.items %}
+                              <tr>
+                                  <th scope="row">{{ dept_name }}</th>
+                                  <td>{{ departmental_record.applications_count }}</td>
+                                  <td>{{ departmental_record.admission_count }}</td>
+                                  <td>{TO BE IMPLEMENTED}</td>
+                                  <td>{{ departmental_record.missed }}</td>
+                              </tr>
+                          {% endfor %}
+                      </tbody>
+                  </table>
+              </div>
+
+              <!-- By City -->
+              <div class="">
+                  <p class="bg-info text-light pl-4 py-1 mb-0">Total Admission/Application by Cities</p>
+                  <table class="table table-striped">
+                      <thead>
+                          <tr>
+                              <th scope="col">SYL</th>
+                              <th scope="col">City Name</th>
+                              <th scope="col">Applications</th>
+                              <th scope="col">Admission</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          {% for zila, zila_record in zila_records.items %}
+                              <tr>
+                                  <th scope="row">{{ forloop.counter }}</th>
+                                  <td>{{ zila }}</td>
+                                  <td>{{ zila_record.application_count }}</td>
+                                  <td>{{ zila_record.admission_count }}</td>
+                              </tr>
+                          {% endfor %}
+                      </tbody>
+                  </table>
+              </div>
+
+          </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block extrajs %}
@@ -96,6 +242,10 @@
     $('input[type="file"]').change(function(e){
         const fileName = e.target.files[0].name;
         $('.custom-file-label').html(fileName);
+    });
+
+    $('.card-collapse').click(function(){
+        $('#monthly-report-table').toggleClass('hide');
     });
     </script>
 {% endblock %}

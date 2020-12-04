@@ -1,0 +1,123 @@
+p {
+    margin-bottom: 5px;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+#home-hero {
+    background: url(../images/studentsbg.jpg) no-repeat;
+    background-size: cover;
+    background-position: bottom;
+    color: #ddd;
+    clip-path: polygon(100% 70.26%, 100% 0px, 0px 0px, 0px 78%, 11.69% 96.57%);
+    /*! padding: 300px; */
+}
+
+#home-hero--inner {
+    background: #000000;
+    background: -webkit-linear-gradient(to right, #0f9b0f9c, #0000008f);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #0f9b0f9c, #0000008f); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    padding-bottom: 200px;
+}
+
+.student-box,
+.teacher-box {
+    border: 1px solid
+    ghostwhite;
+    padding: 20px;
+    margin-bottom: 1rem !important;
+}
+
+#student-detail-section, 
+#teacher-detail-section {
+    background: url(../images/student.jpg) no-repeat;
+    background-size: cover;
+    background-position: center;
+    color: #ddd;
+}
+
+#student-detail-section--inner, 
+#teacher-detail-section--inner {
+    background: #000000;
+    background: -webkit-linear-gradient(to right, #0f9b0f9c, #0000008f);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #0000009c, #ffe3008f);
+}
+
+.student-profile-img,
+.teacher-profile-img {
+    border: 4px solid #f5f5f5;
+    box-shadow: 2px 2px 41px #423f3fc9;
+}
+
+#student-detail-section--inner h2::before {
+    content: 'Details Of';
+    position: absolute;
+    font-size: 17px;
+    color:
+    darkslateblue;
+    font-weight: bold;
+    opacity: .6;
+}
+
+#result_row h4 {
+    color: red !important;
+}
+
+/* bootstrap class override */
+.list-group-item {
+    border: 1px solid ghostwhite;
+}
+
+#student-search {
+    width: 68% !important;
+    margin-right: 3px;
+}
+
+
+/* ADMIN DASHBOARD */
+.sidenav, .bg-sidebarbg {
+    background: currentColor;
+}
+
+.col-2.pr-0.bg-sidebarbg {
+    min-height: 100vh;
+}
+
+.sidenav.sidelink {
+    padding: 15px 25px;
+    border-bottom: 1px solid
+    darkslateblue;
+}
+
+.sidenav.sidelink:hover {
+    background: black;
+    border-left: 8px solid coral;
+}
+.sidenav.sidelink:hover a {
+    color: #fff;
+}
+.sidenav.sidelink a {
+    color: #ffffff85;
+}
+
+.top-cards {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.top-cards .info-card {
+    background: #f9f9f9;
+    padding: 19px 60px;
+    text-align: center;
+    text-transform: uppercase;
+    border-radius: 5px;
+    border-left: 4px solid blueviolet;
+    box-shadow: 3px 3px 10px #eee;
+}
+
+/* STUDENT UPDATE FORM */
+.sudent-update-form .custom-file-label {
+    margin-top: 3rem;
+}
