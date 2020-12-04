@@ -35,4 +35,6 @@ urlpatterns = [
           name='add_result_in_details'),
      path('pdf/', pdf_views.test_pdf, name='test_pdf'),
      path('counsel-report/', report_views.counsel_monthly_report, name='counsel_monthly_report'),
+     path('counsel-report/<str:response_type>/', report_views.counsel_monthly_report,
+          name='counsel_monthly_report_typed'),
 ]
