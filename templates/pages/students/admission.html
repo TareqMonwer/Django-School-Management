@@ -1,17 +1,21 @@
+{% extends 'website/partials/website_base.html' %}
 {% load crispy_forms_tags %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Admission at SMSLIO</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-    <div id="admission-header" class="bg-primary text-light py-5 text-center">
+{% block extra_css %}
+    <!-- SELECT 2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        .selection {
+            width: 100% !important;
+        }
+    </style>
+{% endblock %}
+
+{% block main_content %}
+    {% include 'website/partials/website_navbar.html' %}
+    <div id="admission-header" class="text-light py-5 text-center" style="background: linear-gradient(95deg, #5533ff 40%, #25ddf5 100%)">
         <div class="container">
-            <div class="row">
+            <div class="row mt-5">
                 <div class="col-12">
                     <h2>Admission Form SMS-LIO</h2>
                     <p>Please Fillout the form with proper information. We'll contact you shortly.</p>
@@ -19,7 +23,7 @@
             </div>
         </div>
     </div>
-    <div id="admission-form-main">
+    <div id="admission-form-main" class="py-4">
         <div class="container">
             {% if form.errors %}
                 {% for field in form %}
@@ -37,7 +41,7 @@
             {% endif %}
             <div class="row justify-content-center">
                 <div class="col-md-6">
-                    <form action="" method="POST" enctype="multipart/form-data">
+                    <form id="admission-form" action="" method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                         {{ form|crispy }}
                         <input type="submit" value="Submit" class="btn btn-success">
@@ -47,13 +51,20 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script>
         // Select image
         $('input[type="file"]').change(function(e){
             const fileName = e.target.files[0].name;
             $('.custom-file-label').html(fileName);
         });
+
+        // Select2 for city choice
+        $(document).ready(function() {
+            $('#id_city').select2();
+        });
     </script>
-</body>
-</html>
+{% endblock %}

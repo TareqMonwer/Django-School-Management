@@ -9,7 +9,7 @@ from students.tasks import send_admission_confirmation_email
 
 
 def index(request):
-    return render(request, 'landing/index.html')
+    return render(request, 'website/index.html')
 
 
 def online_admission(request):
