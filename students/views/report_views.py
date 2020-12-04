@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 from students.models import AdmissionStudent
 from academics.models import Department
+from students.utils.bd_zila import ALL_ZILA
 
 
 def counsel_monthly_report(request):
@@ -25,7 +26,6 @@ def counsel_monthly_report(request):
     # }
     departmental_records = {}
     for department in departments:
-        # applications
         departmental_records[department.name] = {
             'applications_count': AdmissionStudent.objects.filter(department_choice=department).count(),
             'admission_count': total_admission.filter(choosen_department=department).count(),
@@ -33,12 +33,20 @@ def counsel_monthly_report(request):
             'missed': total_applications.filter(department_choice=department, admitted=False).count()
         }
 
-    # TODO: Implement records by Cities
+    zila_records = {}
+    for k, v in ALL_ZILA:
+        application_count = AdmissionStudent.objects.filter(city=k).count()
+        admission_count = total_admission.filter(city=k).count()
+        if application_count > 0 or admission_count > 0:
+            zila_records[v] = {
+                'application_count': application_count,
+                'admission_count': admission_count
+            }
 
     ctx = {
         'total_applications': total_applications.count(),
         'total_admissions': total_admission.count(),
         'departmental_records': departmental_records,
+        'zila_records': zila_records,
     }
-    print(departmental_records)
     return render(request, 'students/reports/counsel_monthly_report.html', ctx)
