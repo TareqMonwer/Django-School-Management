@@ -189,7 +189,10 @@ def add_student_view(request):
     if request.method == 'POST':
         form = StudentForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            student = form.save(commit=False)
+            # check student as offline registration
+            student.application_type = '2'
+            student.save()
             pk = form.instance.pk
             return redirect('students:student_details', pk=pk)
     else:

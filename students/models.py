@@ -26,27 +26,26 @@ class StudentBase(TimeStampedModel):
     current_address = models.TextField()
     permanent_address = models.TextField()
     mobile_number = models.CharField('Mobile Number', max_length=11)
-    department_choice = models.ForeignKey(Department, 
-        on_delete=models.CASCADE)
+    department_choice = models.ForeignKey(Department,
+                                          on_delete=models.CASCADE)
     last_exam_name = models.CharField(
         'Last Exam', choices=LAST_EXAMS, max_length=10)
     last_exam_roll = models.CharField(max_length=10)
     last_exam_registration = models.CharField(max_length=10)
     last_exam_result = models.CharField(max_length=5)
 
-
     class Meta:
         abstract = True
-    
+
     def __str__(self):
         return self.name
 
 
 class CounselingComment(TimeStampedModel):
-    counselor = models.ForeignKey(Teacher, 
-        on_delete=models.CASCADE, null=True)
-    registrant_student = models.ForeignKey('AdmissionStudent', 
-        on_delete=models.CASCADE, null=True)
+    counselor = models.ForeignKey(Teacher,
+                                  on_delete=models.CASCADE, null=True)
+    registrant_student = models.ForeignKey('AdmissionStudent',
+                                           on_delete=models.CASCADE, null=True)
     comment = models.CharField(max_length=150)
 
     def __str__(self):
@@ -55,6 +54,10 @@ class CounselingComment(TimeStampedModel):
 
 
 class AdmissionStudent(StudentBase):
+    APPLICATION_TYPE_CHOICE = (
+        ('1', 'Online'),
+        ('2', 'Offline')
+    )
     counseling_by = models.ForeignKey(Teacher, related_name='counselors',
                                       on_delete=models.CASCADE, null=True)
     counsel_comment = models.ManyToManyField(Teacher)
@@ -63,6 +66,9 @@ class AdmissionStudent(StudentBase):
     admitted = models.BooleanField(default=False)
     admission_date = models.DateField(blank=True, null=True)
     paid = models.BooleanField(default=False)
+    application_type = models.CharField(max_length=1, 
+                                        choices=APPLICATION_TYPE_CHOICE, 
+                                        default='1')
 
     def __str__(self):
         return f"{self.name} for {self.department_choice}"
@@ -104,6 +110,6 @@ class RegularStudent(TimeStampedModel):
     created_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     semester = models.ForeignKey(
         Semester, on_delete=models.CASCADE)
-    
+
     def __str__(self):
         return f"{self.student.name} {self.semester}"
