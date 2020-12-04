@@ -30,6 +30,8 @@ WORKDIR /code
 # copy the current directory's content to /code
 COPY . .
 
+RUN pip install -r requirements.txt
+
 # expose port 8000 in container
 EXPOSE 8000
 

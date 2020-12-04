@@ -1,7 +1,7 @@
 from django.urls import path
 
 from . import views
-from students.views import student_result_view
+from students.views.students_views import student_result_view
 
 app_name = 'result'
 

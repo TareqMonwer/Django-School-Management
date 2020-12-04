@@ -11,11 +11,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from academics.views import user_is_staff
 from academics.models import Department, Semester
 from result.models import Result, Subject
-from .models import Student, AdmissionStudent, CounselingComment
-from .forms import (StudentForm, AdmissionForm, 
-    StudentRegistrantUpdateForm, CounselingDataForm)
+from students.models import Student, AdmissionStudent, CounselingComment
+from students.forms import (StudentForm, AdmissionForm,
+                            StudentRegistrantUpdateForm,
+                            CounselingDataForm)
 
-from .tasks import send_admission_confirmation_email
+from students.tasks import send_admission_confirmation_email
 
 
 @user_passes_test(user_is_staff)
@@ -129,8 +130,8 @@ def update_online_registrant(request, pk):
     counseling_records = CounselingComment.objects.filter(registrant_student=applicant)
     if request.method == 'POST':
         form = StudentRegistrantUpdateForm(
-            request.POST, 
-            request.FILES, 
+            request.POST,
+            request.FILES,
             instance=applicant)
         if form.is_valid():
             form.save()
@@ -139,8 +140,8 @@ def update_online_registrant(request, pk):
         form = StudentRegistrantUpdateForm(instance=applicant)
         counseling_form = CounselingDataForm()
         context = {
-            'form': form, 
-            'applicant': applicant, 
+            'form': form,
+            'applicant': applicant,
             'counseling_records': counseling_records,
             'counseling_form': counseling_form}
     return render(request, 'students/dashboard_update_online_applicant.html', context)
@@ -209,8 +210,8 @@ def students_view(request):
     departments = Department.objects.select_related(
         'head').all()
     context = {'students': all_students,
-                'departments': departments,
-                }
+               'departments': departments,
+               }
     return render(request, 'students/students_list.html', context)
 
 
@@ -219,7 +220,7 @@ def students_by_department_view(request, pk):
     dept_name = Department.objects.get(pk=pk)
     students = Student.objects.select_related(
         'department', 'semester', 'ac_session').filter(department=dept_name)
-    context = {'students': students,}
+    context = {'students': students, }
     return render(request, 'students/students_by_department.html', context)
 
 
@@ -229,7 +230,7 @@ class student_update_view(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     """
     model = Student
     fields = ['photo', 'semester', 'mobile',
-                'guardian_mobile', 'email']
+              'guardian_mobile', 'email']
     template_name = 'students/update_student.html'
 
     def test_func(self):
