@@ -69,9 +69,17 @@ class AdmissionStudent(StudentBase):
     application_type = models.CharField(max_length=1, 
                                         choices=APPLICATION_TYPE_CHOICE, 
                                         default='1')
+    migration_status = models.CharField(max_length=255,
+                                        blank=True, null=True)
 
     def __str__(self):
         return f"{self.name} for {self.department_choice}"
+
+    def save(self, *args, **kwargs):
+        if self.department_choice != self.choosen_department:
+            status = f'From {self.department_choice} to {self.choosen_department}'
+            self.migration_status = status
+            super(AdmissionStudent, self).save(*args, **kwargs)
 
 
 class Student(StudentBase):
