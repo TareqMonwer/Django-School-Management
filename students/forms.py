@@ -2,8 +2,9 @@ from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.bootstrap import Tab, TabHolder
 from crispy_forms.layout import (Layout, Field,
-                                ButtonHolder, Submit)
+                                 ButtonHolder, Submit)
 from .models import AdmissionStudent, CounselingComment
+
 
 class StudentForm(forms.ModelForm):
     class Meta:
@@ -15,6 +16,7 @@ class StudentForm(forms.ModelForm):
             'mothers_name',
             'date_of_birth',
             'last_exam_roll',
+            'city',
             'current_address',
             'permanent_address',
             'last_exam_registration',

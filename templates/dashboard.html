@@ -9,6 +9,8 @@
   <script src="https://kit.fontawesome.com/16475baae0.js" crossorigin="anonymous"></script>
   <!-- GOOGLE FONT -->
   <link href="https://fonts.googleapis.com/css?family=Nunito:400,700&display=swap" rel="stylesheet">
+  <!-- SELECT 2 -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
   <!-- BOOTSTRAP4 CSS -->
   <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
   {% block extra_header %}
@@ -290,6 +292,13 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
   integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
   crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+  <script>
+      // Select2 for city choice
+      $(document).ready(function() {
+          $('#id_city').select2();
+      });
+  </script>
   {% block extrajs %}
   {% endblock %}
 </body>
