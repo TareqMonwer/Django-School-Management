@@ -1,6 +1,7 @@
 from django.urls import path
-from . import views
-from . import pdf_views
+from .views import students_views as views
+from .views import pdf_views
+from .views import report_views
 
 app_name = 'students'
 
@@ -33,4 +34,5 @@ urlpatterns = [
      path('add_result_from_student/<int:pk>/', views.add_result_from_student_detail_view, 
           name='add_result_in_details'),
      path('pdf/', pdf_views.test_pdf, name='test_pdf'),
+     path('counsel-report/', report_views.counsel_monthly_report, name='counsel_monthly_report'),
 ]
