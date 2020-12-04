@@ -1,3 +1,4 @@
+import datetime
 from django.shortcuts import render
 
 from students.models import AdmissionStudent
@@ -6,12 +7,21 @@ from students.utils.bd_zila import ALL_ZILA
 
 
 def counsel_monthly_report(request):
-    total_applications = AdmissionStudent.objects.order_by('-created')
+    # Find last month to generate last months report.
+    date = datetime.date.today()
+    first_day_of_month = date.replace(day=1)
+    last_month = first_day_of_month - datetime.timedelta(days=1)
+
+    total_applications = AdmissionStudent.objects.order_by('-created').filter(
+        created__year=date.year,
+        created__month=last_month.month)
     # TODO: get online/offline registrants
     # online_applications = total_applications.filter(application_method='online')
     # offline_applications = total_applications.filter(application_method='offline')
 
-    total_admission = AdmissionStudent.objects.filter(admitted=True)
+    total_admission = AdmissionStudent.objects.filter(admitted=True).filter(
+        created__year=date.year,
+        created__month=last_month.month)
     # TODO: get online/offline admissions
     # total_admission_online = total_admission.filter(application_method='online')
     # total_admission_offline = total_admission.filter(application_method='offline')
@@ -27,7 +37,7 @@ def counsel_monthly_report(request):
     departmental_records = {}
     for department in departments:
         departmental_records[department.name] = {
-            'applications_count': AdmissionStudent.objects.filter(department_choice=department).count(),
+            'applications_count': total_applications.filter(department_choice=department).count(),
             'admission_count': total_admission.filter(choosen_department=department).count(),
             # TODO: get migrated students
             'missed': total_applications.filter(department_choice=department, admitted=False).count()
@@ -35,7 +45,7 @@ def counsel_monthly_report(request):
 
     zila_records = {}
     for k, v in ALL_ZILA:
-        application_count = AdmissionStudent.objects.filter(city=k).count()
+        application_count = total_applications.filter(city=k).count()
         admission_count = total_admission.filter(city=k).count()
         if application_count > 0 or admission_count > 0:
             zila_records[v] = {
@@ -44,6 +54,7 @@ def counsel_monthly_report(request):
             }
 
     ctx = {
+        'date': date,
         'total_applications': total_applications.count(),
         'total_admissions': total_admission.count(),
         'departmental_records': departmental_records,
