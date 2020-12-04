@@ -15,16 +15,18 @@ def counsel_monthly_report(request):
     total_applications = AdmissionStudent.objects.order_by('-created').filter(
         created__year=date.year,
         created__month=last_month.month)
-    # TODO: get online/offline registrants
-    # online_applications = total_applications.filter(application_method='online')
-    # offline_applications = total_applications.filter(application_method='offline')
+
+    # Online/offline applications
+    online_applications = total_applications.filter(application_type='1')   # 1 is online
+    offline_applications = total_applications.filter(application_type='2')
 
     total_admission = AdmissionStudent.objects.filter(admitted=True).filter(
         created__year=date.year,
         created__month=last_month.month)
-    # TODO: get online/offline admissions
-    # total_admission_online = total_admission.filter(application_method='online')
-    # total_admission_offline = total_admission.filter(application_method='offline')
+
+    # Online/offline admissions
+    total_admission_online = total_admission.filter(application_type='1')   # 1 is online
+    total_admission_offline = total_admission.filter(application_type='2')   # 2 is offline
 
     # TODO: Report By Department
     departments = Department.objects.all()
@@ -55,8 +57,13 @@ def counsel_monthly_report(request):
 
     ctx = {
         'date': date,
+        'report_month': last_month.strftime('%B'),
         'total_applications': total_applications.count(),
         'total_admissions': total_admission.count(),
+        'online_applications': online_applications.count(),
+        'offline_applications': offline_applications.count(),
+        'total_admission_online': total_admission_online.count(),
+        'total_admission_offline': total_admission_offline.count(),
         'departmental_records': departmental_records,
         'zila_records': zila_records,
     }
