@@ -27,10 +27,10 @@ def counsel_monthly_report(request):
     for department in departments:
         # applications
         departmental_records[department.name] = {
-            'applications_count': total_applications.filter(choosen_department=department).count(),
+            'applications_count': AdmissionStudent.objects.filter(department_choice=department).count(),
             'admission_count': total_admission.filter(choosen_department=department).count(),
             # TODO: get migrated students
-            'missed': total_applications.filter(choosen_department=department, admitted=False).count()
+            'missed': total_applications.filter(department_choice=department, admitted=False).count()
         }
 
     # TODO: Implement records by Cities
@@ -40,6 +40,5 @@ def counsel_monthly_report(request):
         'total_admissions': total_admission.count(),
         'departmental_records': departmental_records,
     }
-    dc = departmental_records['Computer']
-    print(dc, 'DC')
+    print(departmental_records)
     return render(request, 'students/reports/counsel_monthly_report.html', ctx)
