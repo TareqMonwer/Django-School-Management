@@ -19,7 +19,7 @@
           <div class="text-center col-sm-12 col-md-12">
               <h2 style="text-transform: uppercase;">Admission Report for {Month Name} {Year}</h2>
               <h4>Report Verified By: {{ request.user.get_full_name }}</h4>
-              <h4>Date: {Date}</h4>
+              <h4>Date: {{ date|date:"d/m/Y" }}</h4>
           </div>
           <div class="col-sm-12 col-md-12 mt-3">
               <!-- Applications -->
