@@ -17,7 +17,7 @@ def counsel_monthly_report(request):
         created__month=last_month.month)
 
     # Online/offline applications
-    online_applications = total_applications.filter(application_type='1')   # 1 is online
+    online_applications = total_applications.filter(application_type='1')  # 1 is online
     offline_applications = total_applications.filter(application_type='2')
 
     total_admission = AdmissionStudent.objects.filter(admitted=True).filter(
@@ -25,8 +25,8 @@ def counsel_monthly_report(request):
         created__month=last_month.month)
 
     # Online/offline admissions
-    total_admission_online = total_admission.filter(application_type='1')   # 1 is online
-    total_admission_offline = total_admission.filter(application_type='2')   # 2 is offline
+    total_admission_online = total_admission.filter(application_type='1')  # 1 is online
+    total_admission_offline = total_admission.filter(application_type='2')  # 2 is offline
 
     # TODO: Report By Department
     departments = Department.objects.all()
@@ -41,7 +41,10 @@ def counsel_monthly_report(request):
         departmental_records[department.name] = {
             'applications_count': total_applications.filter(department_choice=department).count(),
             'admission_count': total_admission.filter(choosen_department=department).count(),
-            # TODO: get migrated students
+            'migrated_from_count': total_admission.filter(department_choice=department,
+                                                          migration_status__icontains='from').count(),
+            'migrated_to_count': total_admission.filter(choosen_department=department,
+                                                        migration_status__icontains='from').count(),
             'missed': total_applications.filter(department_choice=department, admitted=False).count()
         }
 

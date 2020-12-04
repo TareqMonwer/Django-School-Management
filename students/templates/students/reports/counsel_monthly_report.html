@@ -73,7 +73,8 @@
                               <th scope="col">Department</th>
                               <th scope="col">Applications</th>
                               <th scope="col">Admission</th>
-                              <th scope="col">Migrated</th>
+                              <th scope="col">Migrated From</th>
+                              <th scope="col">Migrated To</th>
                               <th scope="col">Missed</th>
                           </tr>
                       </thead>
@@ -83,7 +84,8 @@
                                   <th scope="row">{{ dept_name }}</th>
                                   <td>{{ departmental_record.applications_count }}</td>
                                   <td>{{ departmental_record.admission_count }}</td>
-                                  <td>{TO BE IMPLEMENTED}</td>
+                                  <td>{{ departmental_record.migrated_from_count }}</td>
+                                  <td>{{ departmental_record.migrated_to_count }}</td>
                                   <td>{{ departmental_record.missed }}</td>
                               </tr>
                           {% endfor %}
