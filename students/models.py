@@ -3,8 +3,10 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.conf import settings
 from model_utils.models import TimeStampedModel
+
 from academics.models import Department, Semester, AcademicSession
 from teachers.models import Teacher
+from .utils.bd_zila import ALL_ZILA
 
 
 class StudentBase(TimeStampedModel):
@@ -20,6 +22,7 @@ class StudentBase(TimeStampedModel):
     mothers_name = models.CharField("Mother's Name", max_length=100)
     date_of_birth = models.DateField("Birth Date", blank=True, null=True)
     email = models.EmailField("Email Address")
+    city = models.CharField(max_length=2, choices=ALL_ZILA)
     current_address = models.TextField()
     permanent_address = models.TextField()
     mobile_number = models.CharField('Mobile Number', max_length=11)
