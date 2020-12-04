@@ -6,7 +6,52 @@ from academics.models import Department
 from students.utils.bd_zila import ALL_ZILA
 
 
+def get_departments_record(departments_qs, applications, admissions):
+    """
+    Takes all departments, all applications (non-admitted students),
+    admitted students as admissions and  returns a dictionary containing
+    all required information as shown here:
+    {
+        'department1': {'applications': 100, 'admission': 30, 'migrated_to': 2, 'migrated_from: 3, 'missed': 4},
+        'department2': {'applications': 100, 'admission': 30, 'migrated_to': 2, 'migrated_from: 3, 'missed': 4},
+    }
+    """
+    departmental_records = {}
+    for department in departments_qs:
+        departmental_records[department.name] = {
+            'applications_count': applications.filter(department_choice=department).count(),
+            'admission_count': admissions.filter(choosen_department=department).count(),
+            'migrated_from_count': admissions.filter(department_choice=department,
+                                                     migration_status__icontains='from').count(),
+            'migrated_to_count': admissions.filter(choosen_department=department,
+                                                   migration_status__icontains='from').count(),
+            'missed': applications.filter(department_choice=department, admitted=False).count()
+        }
+    return departmental_records
+
+
+def get_active_cities_record(cities, applications, admissions):
+    """
+    Takes list of all zila ('1', 'Zila Name), all applications (non-admitted students),
+    admitted students as admissions and  returns a dictionary containing total
+    number of applications and admissions.
+    """
+    zila_records = {}
+    for k, v in cities:
+        application_count = applications.filter(city=k).count()
+        admission_count = admissions.filter(city=k).count()
+        if application_count > 0 or admission_count > 0:
+            zila_records[v] = {
+                'application_count': application_count,
+                'admission_count': admission_count
+            }
+    return zila_records
+
+
 def counsel_monthly_report(request):
+    """
+    Renders a template containing last mont's report of counsel (admission, application related stuff).
+    """
     # Find last month to generate last months report.
     date = datetime.date.today()
     first_day_of_month = date.replace(day=1)
@@ -28,35 +73,12 @@ def counsel_monthly_report(request):
     total_admission_online = total_admission.filter(application_type='1')  # 1 is online
     total_admission_offline = total_admission.filter(application_type='2')  # 2 is offline
 
-    # TODO: Report By Department
+    # Report By Department
     departments = Department.objects.all()
-    # Illustration for how departmental tale will be stored and used in template.
-    # {
-    #     'cmt': {'applications': 100, 'admission': 30, 'migrated': 2, 'missed': 4},
-    #     'aidt': {'applications': 100, 'admission': 30, 'migrated': 2, 'missed': 4},
-    #     'tel': {'applications': 100, 'admission': 30, 'migrated': 2, 'missed': 4}
-    # }
-    departmental_records = {}
-    for department in departments:
-        departmental_records[department.name] = {
-            'applications_count': total_applications.filter(department_choice=department).count(),
-            'admission_count': total_admission.filter(choosen_department=department).count(),
-            'migrated_from_count': total_admission.filter(department_choice=department,
-                                                          migration_status__icontains='from').count(),
-            'migrated_to_count': total_admission.filter(choosen_department=department,
-                                                        migration_status__icontains='from').count(),
-            'missed': total_applications.filter(department_choice=department, admitted=False).count()
-        }
+    departmental_records = get_departments_record(departments, total_applications, total_admission)
 
-    zila_records = {}
-    for k, v in ALL_ZILA:
-        application_count = total_applications.filter(city=k).count()
-        admission_count = total_admission.filter(city=k).count()
-        if application_count > 0 or admission_count > 0:
-            zila_records[v] = {
-                'application_count': application_count,
-                'admission_count': admission_count
-            }
+    # Report by cities
+    zila_records = get_active_cities_record(ALL_ZILA, total_applications, total_admission)
 
     ctx = {
         'date': date,
