@@ -1,5 +1,6 @@
 import datetime
 from django.shortcuts import render
+from django.http import JsonResponse
 
 from students.models import AdmissionStudent
 from academics.models import Department
@@ -48,7 +49,7 @@ def get_active_cities_record(cities, applications, admissions):
     return zila_records
 
 
-def counsel_monthly_report(request):
+def counsel_monthly_report(request, response_type='html'):
     """
     Renders a template containing last mont's report of counsel (admission, application related stuff).
     """
@@ -92,4 +93,8 @@ def counsel_monthly_report(request):
         'departmental_records': departmental_records,
         'zila_records': zila_records,
     }
+
+    if response_type.lower() == 'json':
+        return JsonResponse({'data': ctx})
+
     return render(request, 'students/reports/counsel_monthly_report.html', ctx)
