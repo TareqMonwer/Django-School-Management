@@ -1,9 +1,22 @@
-from django.urls import path
+from datetime import datetime
+from django.urls import path, register_converter
 from .views import students_views as views
 from .views import pdf_views
 from .views import report_views
 
 app_name = 'students'
+
+
+class DateConverter:
+     regex = '\d{4}-\d{2}-\d{2}'
+
+     def to_python(self, value):
+          return datetime.strptime(value, '%Y-%m-%d')
+     
+     def to_url(self, value):
+          return value
+
+register_converter(DateConverter, 'date')
 
 urlpatterns = [
      path('', views.students_dashboard_index, 
@@ -12,7 +25,8 @@ urlpatterns = [
      path('all/', views.students_view, name='all_student'),
      path('applicants/', views.all_applicants, name='all_applicants'),
      path('applicants/unpaid/', views.unpaid_registrants, name='unpaid_registrants'),
-     path('applicants/unpaid/mark-paid/', views.mark_as_paid_or_unpaid, name='mark_as_paid_or_unpaid'),
+     path('applicants/unpaid/mark-paid/', views.mark_as_paid_or_unpaid,
+          name='mark_as_paid_or_unpaid'),
      path('add-counsel-data/<int:student_id>/', views.add_counseling_data, 
           name='add_counseling_data'),
      path('admitted-students/', views.admitted_students_list,
@@ -37,4 +51,7 @@ urlpatterns = [
      path('counsel-report/', report_views.counsel_monthly_report, name='counsel_monthly_report'),
      path('counsel-report/<str:response_type>/', report_views.counsel_monthly_report,
           name='counsel_monthly_report_typed'),
+     path('counsel-report/<str:response_type>/<date:date_param>/',
+          report_views.counsel_monthly_report,
+          name='counsel_report_monthly'),
 ]
