@@ -49,18 +49,24 @@ def get_active_cities_record(cities, applications, admissions):
     return zila_records
 
 
-def counsel_monthly_report(request, response_type='html'):
+def counsel_monthly_report(request, response_type='html', date_param=None):
     """
     Renders a template containing last mont's report of counsel (admission, application related stuff).
     """
-    # Find last month to generate last months report.
-    date = datetime.date.today()
-    first_day_of_month = date.replace(day=1)
-    last_month = first_day_of_month - datetime.timedelta(days=1)
+    # Find last month(if month is not given in date_param) 
+    # to generate last months report.
+    if date_param:
+        date = date_param.date()
+        report_month = date.month
+        print(report_month)
+    else:
+        date = datetime.date.today()
+        first_day_of_month = date.replace(day=1)
+        report_month = first_day_of_month - datetime.timedelta(days=1).month
 
     total_applications = AdmissionStudent.objects.order_by('-created').filter(
         created__year=date.year,
-        created__month=last_month.month)
+        created__month=report_month)
 
     # Online/offline applications
     online_applications = total_applications.filter(application_type='1')  # 1 is online
@@ -68,7 +74,7 @@ def counsel_monthly_report(request, response_type='html'):
 
     total_admission = AdmissionStudent.objects.filter(admitted=True).filter(
         created__year=date.year,
-        created__month=last_month.month)
+        created__month=report_month)
 
     # Online/offline admissions
     total_admission_online = total_admission.filter(application_type='1')  # 1 is online
@@ -82,8 +88,8 @@ def counsel_monthly_report(request, response_type='html'):
     zila_records = get_active_cities_record(ALL_ZILA, total_applications, total_admission)
 
     ctx = {
-        'date': date,
-        'report_month': last_month.strftime('%B'),
+        'date': datetime.date.today(),
+        'report_month': date.strftime('%B'),
         'total_applications': total_applications.count(),
         'total_admissions': total_admission.count(),
         'online_applications': online_applications.count(),
