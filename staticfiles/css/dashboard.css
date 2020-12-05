@@ -12,8 +12,26 @@
 	color: #fff;
 }
 
-.dashboard-section-title {
-	background: #000;
+.hide {
+	display: none;
+}
+
+.dashboard-section-title {position: relative;}
+.dashboard-section-title .title-v-line {
+	content: "";
+	width: 5px;
+	height: 100%;
+	background: var(--green-color);
+	position: absolute;
+}
+.dashboard-section-title h4 {
+	margin-left: 7px;
+	font-weight: 600;
+	text-transform: uppercase;
+	text-shadow: 2px 2px 2px #a8c2ff;
+}
+.dashboard-section-title .color-2 {
+	border-bottom: 2px solid var(--cyan-color);
 }
 
 /* RESETS */
@@ -315,3 +333,28 @@ body {
 /* ==================================== */
 /* ---------- ALL STUDENTS ------------ */
 /* ==================================== */
+
+
+
+/* ==================================== */
+/* --------- STUDENTS INDEX ----------- */
+/* ------------------------------------ */
+.card-top-meta-info {
+	/*height: 100%;*/
+	max-height: 35px;
+}
+.card-record-date {
+	max-height: 35px;
+}
+.card-actions-action {
+	cursor: pointer;
+}
+.card-print-pdf-actions .card-actions-action {
+	margin: 5px;
+}
+#monthly-report-table {
+	transition: all 2s linear;
+}
+#monthly-report-table .table.table-striped {
+	margin-bottom: 0;
+}

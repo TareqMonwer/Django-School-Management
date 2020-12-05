@@ -15,52 +15,64 @@
 
 <!-- Stats - Links -->
 <div class="row">
-    <!-- Topbar Informations -->
-    <div class="col-sm-12 col-md-3">
-        <div class="card bg-primary p-3">
-            <h5>
-                <a class="text-light" 
-                    href="{% url 'students:all_applicants' %}">
-                    All Applicants
-                    <span class="badge badge-light">
-                        {{ all_applicants.count }}
-                    </span>
-                </a>
-            </h5>
+    <div class="col-12 d-flex justify-content-between">
+        <!-- Topbar Informations -->
+        <div class="">
+            <div class="card bg-primary p-3">
+                <h5>
+                    <a class="text-light" href="{% url 'students:all_applicants' %}">
+                        All Applicants
+                        <span class="badge badge-light">
+                            {{ all_applicants.count }}
+                        </span>
+                    </a>
+                </h5>
+            </div>
         </div>
-    </div>
-    <div class="col-sm-12 col-md-3">
-        <div class="card bg-info p-3">
-            <h5>
-                <a class="text-light" href="{% url 'students:admitted_student_list' %}">
-                    Admitted & Paid <span class="badge badge-light">
-                        {{ admitted_students.count }}
-                    </span>
-                </a>
-            </h5>
+        <div class="">
+            <div class="card bg-info p-3">
+                <h5>
+                    <a class="text-light" href="{% url 'students:admitted_student_list' %}">
+                        Admitted & Paid <span class="badge badge-light">
+                            {{ admitted_students.count }}
+                        </span>
+                    </a>
+                </h5>
+            </div>
         </div>
-    </div>
-    <div class="col-sm-12 col-md-3">
-        <div class="card bg-warning p-3">
-            <h5>
-                <a class="text-light" href="{% url 'students:unpaid_registrants' %}">
-                    UNPAID <span class="badge badge-light">
-                        {{ online_applicants.count }}
-                    </span>
-                </a>
-            </h5>
+        <div class="">
+            <div class="card bg-warning p-3">
+                <h5>
+                    <a class="text-light" href="{% url 'students:unpaid_registrants' %}">
+                        Unpaid <span class="badge badge-light">
+                            {{ online_applicants.count }}
+                        </span>
+                    </a>
+                </h5>
+            </div>
         </div>
-    </div>
-    <div class="col-sm-12 col-md-3">
-        <div class="card bg-success p-3">
-            <h5>
-                <a class="text-light" href="{% url 'students:paid_registrants' %}">
-                    PAID REGISTRANTS
-                    <span class="badge badge-light">
-                        {{ paid_registrants.count }}
-                    </span>
-                </a>
-            </h5>
+        <div class="">
+            <div class="card bg-danger p-3">
+                <h5>
+                    <a class="text-light" href="{% url 'students:unpaid_registrants' %}">
+                        Rejected <span class="badge badge-light">
+                            {{ rejected_applicants.count }}
+                        </span>
+                    </a>
+                </h5>
+            </div>
+        </div>
+        <div class="">
+            <div class="card bg-success p-3">
+                <h5>
+                    <a class="text-light" href="{% url 'students:paid_registrants' %}">
+                        PAID REGISTRANTS
+                        <span class="badge badge-light">
+                            {{ paid_registrants.count }}
+                        </span>
+                    </a>
+                </h5>
+            </div>
         </div>
     </div>
 </div>
@@ -136,116 +148,116 @@
                 </div>
             </div>
             <div class="col-sm-12 col-md-12 m-0 p-0" id="monthly-report-table">
-              <!-- Applications -->
-              <div class="">
-                  <p class="bg-info text-light pl-4 py-1 mb-0">Total Application</p>
-                  <table class="table table-striped">
-                      <thead>
-                          <tr>
-                              <th scope="col">TOTAL</th>
-                              <th scope="col">Online</th>
-                              <th scope="col">On-visit/Call</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                          <tr>
-                              <td id="total_applications_number"></td>
-                              <td id="total_online_applications"></td>
-                              <td id="total_offline_applications"></td>
-                          </tr>
-                      </tbody>
-                  </table>
-              </div>
+                <!-- Applications -->
+                <div class="">
+                    <p class="bg-info text-light pl-4 py-1 mb-0">Total Application</p>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">TOTAL</th>
+                                <th scope="col">Online</th>
+                                <th scope="col">On-visit/Call</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="total_applications_number"></td>
+                                <td id="total_online_applications"></td>
+                                <td id="total_offline_applications"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-              <!-- Admissions -->
-              <div class="">
-                  <p class="bg-info text-light pl-4 py-1 mb-0">Total Admission</p>
-                  <table class="table table-striped">
-                      <thead>
-                          <tr>
-                              <th scope="col">TOTAL</th>
-                              <th scope="col">Online</th>
-                              <th scope="col">On-visit/Call</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                          <tr>
-                              <td id="total_admission_number"></td>
-                              <td id="total_online_admission"></td>
-                              <td id="total_offline_admission"></td>
-                          </tr>
-                      </tbody>
-                  </table>
-              </div>
+                <!-- Admissions -->
+                <div class="">
+                    <p class="bg-info text-light pl-4 py-1 mb-0">Total Admission</p>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">TOTAL</th>
+                                <th scope="col">Online</th>
+                                <th scope="col">On-visit/Call</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="total_admission_number"></td>
+                                <td id="total_online_admission"></td>
+                                <td id="total_offline_admission"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-              <!-- By Department -->
-              <div class="">
-                  <p class="bg-info text-light pl-4 py-1 mb-0">Admission/Migration/NA By Department</p>
-                  <table class="table table-striped">
-                      <thead>
-                          <tr>
-                              <th scope="col">Department</th>
-                              <th scope="col">Applications</th>
-                              <th scope="col">Admission</th>
-                              <th scope="col">Migrated From</th>
-                              <th scope="col">Migrated To</th>
-                              <th scope="col">Missed</th>
-                          </tr>
-                      </thead>
-                      <tbody id="departmental_report_tbody">
-{#                          <tr>#}
-{#                              <th scope="row">{{ dept_name }}</th>#}
-{#                              <td>{{ departmental_record.applications_count }}</td>#}
-{#                              <td>{{ departmental_record.admission_count }}</td>#}
-{#                              <td>{TO BE IMPLEMENTED}</td>#}
-{#                              <td>{{ departmental_record.missed }}</td>#}
-{#                          </tr>#}
-                      </tbody>
-                  </table>
-              </div>
+                <!-- By Department -->
+                <div class="">
+                    <p class="bg-info text-light pl-4 py-1 mb-0">Admission/Migration/NA By Department</p>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Department</th>
+                                <th scope="col">Applications</th>
+                                <th scope="col">Admission</th>
+                                <th scope="col">Migrated From</th>
+                                <th scope="col">Migrated To</th>
+                                <th scope="col">Missed</th>
+                            </tr>
+                        </thead>
+                        <tbody id="departmental_report_tbody">
+                            {# <tr>#}
+                            {#     <th scope="row">{{ dept_name }}</th>#}
+                            {#     <td>{{ departmental_record.applications_count }}</td>#}
+                            {#     <td>{{ departmental_record.admission_count }}</td>#}
+                            {#     <td>{TO BE IMPLEMENTED}</td>#}
+                            {#     <td>{{ departmental_record.missed }}</td>#}
+                            {# </tr>#}
+                        </tbody>
+                    </table>
+                </div>
 
-              <!-- By City -->
-              <div class="">
-                  <p class="bg-info text-light pl-4 py-1 mb-0">Total Admission/Application by Cities</p>
-                  <table class="table table-striped">
-                      <thead>
-                          <tr>
-                              <th scope="col">City Name</th>
-                              <th scope="col">Applications</th>
-                              <th scope="col">Admission</th>
-                          </tr>
-                      </thead>
-                      <tbody id="cities_report_tbody">
-{#                          <tr>#}
-{#                              <th scope="row">{{ forloop.counter }}</th>#}
-{#                              <td>{{ zila }}</td>#}
-{#                              <td>{{ zila_record.application_count }}</td>#}
-{#                              <td>{{ zila_record.admission_count }}</td>#}
-{#                          </tr>#}
-                      </tbody>
-                  </table>
-              </div>
+                <!-- By City -->
+                <div class="">
+                    <p class="bg-info text-light pl-4 py-1 mb-0">Total Admission/Application by Cities</p>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">City Name</th>
+                                <th scope="col">Applications</th>
+                                <th scope="col">Admission</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cities_report_tbody">
+                            {# <tr>#}
+                            {#     <th scope="row">{{ forloop.counter }}</th>#}
+                            {#     <td>{{ zila }}</td>#}
+                            {#     <td>{{ zila_record.application_count }}</td>#}
+                            {#     <td>{{ zila_record.admission_count }}</td>#}
+                            {# </tr>#}
+                        </tbody>
+                    </table>
+                </div>
 
-          </div>
+            </div>
         </div>
     </div>
 </div>
 {% endblock %}
 
 {% block extrajs %}
-    <script>
+<script>
     // Select Image
-    $('input[type="file"]').change(function(e){
+    $('input[type="file"]').change(function (e) {
         const fileName = e.target.files[0].name;
         $('.custom-file-label').html(fileName);
     });
 
-    $('.card-collapse').click(function(){
-        $('#monthly-report-table').toggleClass('hide');
+    $('.card-collapse').click(function () {
+        $('#monthly-report-table').fadeToggle( "fast", "linear" );
     });
 
-    {# Fetch Monthly Reporting Data to Dashboard #}
-    $(function(){
+    // {# Fetch Monthly Reporting Data to Dashboard # }
+    $(function () {
         // report metadata elements
         const total_applications_number_elem = document.getElementById('total_applications_number');
         const reporting_month_elem = document.getElementById('reporting_month_selected');
@@ -261,12 +273,12 @@
 
         const url = "{% url 'students:counsel_monthly_report_typed' response_type='json' %}"
         $.ajax({
-            type:'GET',
+            type: 'GET',
             url: url,
-            success: function(data) {
+            success: function (data) {
                 const record = data.data;
 
-                {#  Update UI From Data Records  #}
+                // {#  Update UI From Data Records  # }
                 reporting_month_elem.innerHTML = record.report_month;
                 total_applications_number_elem.textContent = record.total_applications;
                 total_online_applications_elem.textContent = record.online_applications;
@@ -319,10 +331,10 @@
 
                 cities_report_tbody_elem.innerHTML = cities_template;
             },
-            error: function(err) {
+            error: function (err) {
                 console.log(err);
             }
         });
     });
-    </script>
+</script>
 {% endblock %}
