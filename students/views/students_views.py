@@ -28,12 +28,13 @@ def students_dashboard_index(request):
     all_applicants = AdmissionStudent.objects.all().order_by('-created')
     admitted_students = AdmissionStudent.objects.filter(admitted=True, paid=True)
     paid_registrants = AdmissionStudent.objects.filter(paid=True, admitted=False)
-    rejected_applicants = all_applicants.filter(rejected=True)
+    rejected_applicants = AdmissionStudent.objects.filter(rejected=True)
     context = {
         'all_applicants': all_applicants,
         'online_applicants': online_applicants,
         'admitted_students': admitted_students,
         'paid_registrants': paid_registrants,
+        'rejected_applicants': rejected_applicants,
     }
     return render(request, 'students/dashboard_index.html', context)
 
@@ -82,6 +83,14 @@ def unpaid_registrants(request):
         'unpaid_applicants': unpaid_registrants_list,
     }
     return render(request, 'students/unpaid_applicants.html', context)
+
+
+@user_passes_test(user_is_staff)
+def rejected_registrants(request):
+    ctx = {
+        'rejected_registrants': AdmissionStudent.objects.filter(rejected=True),
+    }
+    return render(request, 'students/list/rejected_registrants.html', ctx)
 
 
 @user_passes_test(user_is_staff)
