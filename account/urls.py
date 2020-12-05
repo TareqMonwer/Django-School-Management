@@ -9,4 +9,5 @@ urlpatterns = [
     path('auth/', include('django.contrib.auth.urls')),
     path('register/', views.register, name='register'),
     path('dashboard/', views.dashboard, name='dashboard'),
+    path('groups/', views.GroupListView.as_view(), name='groups'),
 ]

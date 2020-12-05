@@ -105,7 +105,7 @@
             </nav>
           </div>
           <div class="sn-group">
-            <h5>Administrative options</h5>
+            <h5>Administrative</h5>
             <nav>
               {% if perms.auth.add_user %}
               <a href="{% url 'academics:add_user' %}" class="sn-link">
@@ -115,7 +115,7 @@
               <a href="{% url 'academics:all_accounts' %}" class="sn-link">
                 <i class="fas fa-plus"></i>all users
               </a>
-              <a href="" class="sn-link">
+              <a href="{% url 'account:groups' %}" class="sn-link">
                 <i class="fas fa-plus"></i>Groups
               </a>
             </nav>

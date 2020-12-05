@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from students.models import Student
 from teachers.models import Teacher
 from .forms import UserRegistrationForm
+from .models import CustomGroup
 
 
 def user_is_staff(user):
@@ -58,6 +59,21 @@ class AccountListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = User
     template_name = 'academics/accounts_list.html'
     context_object_name = 'accounts'
+
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def handle_no_permission(self):
+        if self.request.user.is_authenticated:
+            return redirect('account:home')
+        return redirect('account:login')
+
+
+
+class GroupListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = CustomGroup
+    template_name = 'academics/group_list.html'
+    context_object_name = 'groups'
 
     def test_func(self):
         return self.request.user.is_staff
