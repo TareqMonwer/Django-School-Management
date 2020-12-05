@@ -58,11 +58,11 @@ def counsel_monthly_report(request, response_type='html', date_param=None):
     if date_param:
         date = date_param.date()
         report_month = date.month
-        print(report_month)
     else:
         date = datetime.date.today()
         first_day_of_month = date.replace(day=1)
-        report_month = first_day_of_month - datetime.timedelta(days=1).month
+        report_month = first_day_of_month - datetime.timedelta(days=1)
+        report_month = report_month.month
 
     total_applications = AdmissionStudent.objects.order_by('-created').filter(
         created__year=date.year,
