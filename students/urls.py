@@ -35,6 +35,8 @@ urlpatterns = [
           name='admit_student'),
      path('paid-registrants/', views.paid_registrants, 
           name='paid_registrants'),
+     path('rejected-registrants/', views.rejected_registrants,
+          name='rejected_registrants'),
      path('update-registrant/<int:pk>/', views.update_online_registrant, 
           name='update_online_registrant'),
      path('update/<int:pk>/', views.student_update_view.as_view(),

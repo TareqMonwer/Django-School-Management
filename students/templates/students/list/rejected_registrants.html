@@ -1,0 +1,62 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block extra_header %}
+{% endblock %}
+
+{% block dashboard-body %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'students:students_dashboard_index' %}">Students</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Rejected Applicants</li>
+    </ol>
+</nav>
+
+<!-- Online Applicants Table Row -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 pl-0">
+            <h4 class="ml-0">Rejected Registrants</h4>
+        </div>
+        <!-- Online Applicants Table -->
+        <div id="online-applicants" class="mt-4">
+            <table class="table table-bordered table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">SYL</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Contact</th>
+                        <th scope="col">Department Choice</th>
+                        <th scope="col">Application Date</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-light">
+                
+                    {% for applicant in rejected_registrants %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>
+                            <img src="{{ applicant.photo.url }}" width="50" height="50">
+                        </td>
+                        <td>{{ applicant.name }}</td>
+                        <td>{{ applicant.mobile_number }}</td>
+                        <td>{{ applicant.department_choice }}</td>
+                        <td>{{ applicant.created }}</td>
+                        <td>
+                            --
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
