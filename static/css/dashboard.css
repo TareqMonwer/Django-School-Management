@@ -358,3 +358,20 @@ body {
 #monthly-report-table .table.table-striped {
 	margin-bottom: 0;
 }
+
+
+/* ==================================== */
+/* --------- ADMINISTRATIVE ----------- */
+/* ------------------------------------ */
+
+.group-table-perms {
+	max-height: 100px;
+	overflow: hidden;
+	position: relative;
+}
+.table-td-show-more {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	cursor: pointer;
+}
