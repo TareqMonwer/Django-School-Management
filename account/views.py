@@ -56,7 +56,7 @@ def register(request):
 
 class AccountListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = User
-    template_name = 'admin_tools/accounts_list.html'
+    template_name = 'academics/accounts_list.html'
     context_object_name = 'accounts'
 
     def test_func(self):
