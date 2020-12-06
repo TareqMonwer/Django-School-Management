@@ -10,4 +10,3 @@ class CustomGroup(Group):
     
     def display_group(self):
         return f'{self.name} created by {self.group_creator}'
-

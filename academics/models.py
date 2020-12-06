@@ -55,3 +55,19 @@ class Semester(TimeStampedModel):
             return '3rd'
         if 3 < self.number <= 12:
             return '%sth' % self.number
+
+
+class Batch(TimeStampedModel):
+    year = models.ForeignKey(AcademicSession, on_delete=models.CASCADE)
+    number = models.PositiveIntegerField('Batch Number')
+    department = models.ForeignKey(Department, on_delete=models.CASCADE)
+    
+    class Meta:
+        verbose_name_plural = 'Batches'
+
+    def __str__(self):
+        return f'{self.department.name} Batch {self.number} ({self.year})'
+
+    @classmethod
+    def get_current_batch(year):
+        Batch.objects.find_one(year=year)
