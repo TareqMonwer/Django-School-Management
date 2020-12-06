@@ -30,7 +30,7 @@
                     <td>
                         <div class="group-table-perms">
                             {% for perm in group.permissions.all %}
-                                <p>{{ perm }}</p>
+                                <p>{{ perm.name }}</p>
                             {% endfor %}
 
                             <div class="table-td-show-more">
