@@ -365,7 +365,7 @@ body {
 /* ------------------------------------ */
 
 .group-table-perms {
-	max-height: 100px;
+	height: 100px;
 	overflow: hidden;
 	position: relative;
 }

@@ -56,14 +56,27 @@
 {% endblock %}
 
 {% block extrajs %}
-<!-- <script>
+<script>
     // TODO: Add show more on click
     const permsTd = $('.table-td-show-more');
-    console.log(permsTd);
+    // console.log(permsTd);
 
-    for (td in permsTd) {
-        console.log(td);
+    const toggleHeight = (element) => {
+        const currentHeight = element.style.height;
+        if (currentHeight == '100%') {
+            element.style.height = '100px';
+        } else {
+            element.style.height = '100%';
+        }
     }
 
-</script> -->
+    permsTd.map(function(cell){
+        const cellElem = permsTd[cell];
+        cellElem.addEventListener('click', function(e){
+            element = this.parentElement
+            toggleHeight(element);
+        })
+    })
+
+</script>
 {% endblock %}
