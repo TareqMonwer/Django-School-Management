@@ -55,5 +55,5 @@ urlpatterns = [
           name='counsel_monthly_report_typed'),
      path('counsel-report/<str:response_type>/<date:date_param>/',
           report_views.counsel_monthly_report,
-          name='counsel_report_monthly'),
+          name='counsel_report_monthly_with_date'),
 ]
