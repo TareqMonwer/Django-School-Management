@@ -70,4 +70,4 @@ class Batch(TimeStampedModel):
 
     @classmethod
     def get_current_batch(year):
-        Batch.objects.find_one(year=year)
+        Batch.objects.find(year=year)

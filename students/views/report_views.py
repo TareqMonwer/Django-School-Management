@@ -27,7 +27,6 @@ def get_departments_record(departments_qs, applications, admissions):
             'migrated_to_count': admissions.filter(choosen_department=department,
                                                    migration_status__icontains='from').count(),
             'missed': applications.filter(department_choice=department, rejected=True).count(),
-            'creation_status': applications[0].created
         }
     return departmental_records
 
