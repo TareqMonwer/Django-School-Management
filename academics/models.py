@@ -3,6 +3,8 @@ from django.conf import settings
 from model_utils.models import TimeStampedModel
 
 from teachers.models import Teacher
+from students.models import RegularStudent
+from academics.models import Batch
 
 
 class Department(TimeStampedModel):
@@ -12,6 +14,9 @@ class Department(TimeStampedModel):
     code = models.PositiveIntegerField()
     head = models.ForeignKey(
         Teacher, on_delete=models.CASCADE, blank=True, null=True)
+    current_batch = models.ForeignKey(Batch, on_delete=models.CASCADE,
+                    blank=True, null=True, related_name='current_batches')
+    batches = models.ManyToManyField(Batch, blank=True, null=True)
     establish_date = models.DateField(auto_now_add=True)
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -87,3 +92,21 @@ class Batch(TimeStampedModel):
     @classmethod
     def get_current_batch(year):
         Batch.objects.find(year=year)
+
+
+class TempSerialID(TimeStampedModel):
+    student = models.ForeignKey(RegularStudent, on_delete=models.CASCADE)
+    serial = models.CharField(max_length=50, blank=True)
+
+    def get_serial(self):
+        # Get current year last two digit
+        yf = self.student.created.date().year[-2:]
+        # TODO: Get current batch of student's department
+        bn = self.student.department.get_current_batch()
+        # Get department code
+        dc = self.student.department.code
+        # Get admission serial of student by department
+        syl = self.student.serial_key
+
+        # return something like: 21-15-666-15
+        return f'{yf}-{bn}-{dc}-{syl}'
