@@ -61,7 +61,7 @@ class AdmissionStudent(StudentBase):
     counseling_by = models.ForeignKey(Teacher, related_name='counselors',
                                       on_delete=models.CASCADE, null=True)
     counsel_comment = models.ManyToManyField(Teacher)
-    choosen_department = models.ForeignKey(Department, related_name='chosen_depts',
+    choosen_department = models.ForeignKey(Department, related_name='admission_students',
                                            on_delete=models.CASCADE, null=True)
     admitted = models.BooleanField(default=False)
     admission_date = models.DateField(blank=True, null=True)
@@ -85,20 +85,36 @@ class AdmissionStudent(StudentBase):
 
 
 class Student(StudentBase):
-    roll = models.CharField(max_length=6, unique=True)
-    registration_number = models.CharField(max_length=6, unique=True)
-    department = models.ForeignKey(Department,
-                                   on_delete=models.CASCADE, related_name='departments')
+    student = models.ForeignKey(AdmissionStudent, on_delete=models.CASCADE)
+    roll = models.CharField(max_length=6, unique=True, blank=True, null=True)
+    registration_number = models.CharField(max_length=6, unique=True, blank=True, null=True)
+    temp_serial = models.CharField(max_length=50, blank=True, null=True)
     semester = models.ForeignKey(
         Semester, on_delete=models.CASCADE)
     ac_session = models.ForeignKey(
         AcademicSession, on_delete=models.CASCADE, blank=True, null=True)
+    batch = models.ForeignKey(Batch, on_delete=models.CASCADE, 
+                              blank=True, null=True, related_name='students')
     guardian_mobile = models.CharField(max_length=11, blank=True, null=True)
     admitted_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.DO_NOTHING, null=True)
     is_alumni = models.BooleanField(default=False)
     is_dropped = models.BooleanField(default=False)
+
+    def find_last_admitted_student_serial(self):
+        try:
+            Student.objects.order_by('created').filter(choosen_department=self.choosen_department)
+        except expression as identifier:
+            pass
+
+    def save(self, *args, **kwargs):
+        # Set batch as student's department's current batch
+        dept_current_batch = self.student.choosen_department.current_batch
+        self.batch = dept_current_batch
+        # create serial_key by department
+        # (serial id will be unique for year-dept-serial_number)
+
 
     def has_subjects(self):
         from result.models import SubjectCombination
