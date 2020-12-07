@@ -58,11 +58,16 @@ def counsel_monthly_report(request, response_type='html', date_param=None):
     # to generate last months report.
     if date_param:
         date = date_param.date()
+        # Used for filtering qs
         report_month = date.month
+        # Used to return reporting month name
+        report_month_dt = date
     else:
         date = datetime.date.today()
         first_day_of_month = date.replace(day=1)
+        # Used to return reporting month name
         report_month_dt = first_day_of_month - datetime.timedelta(days=1)
+        # Used for filtering qs
         report_month = report_month_dt.month
 
     total_applications = AdmissionStudent.objects.order_by('-created').filter(

@@ -34,9 +34,9 @@ def students_dashboard_index(request):
     first_application_date = AdmissionStudent.objects.all()[0].created.date()
     last_application_date = AdmissionStudent.objects.order_by('-created')[0].created.date()
     dates = [str(first_application_date), str(last_application_date)]
-    print(dir(dates[0]), type(dates[0]))
     months_start, months_end = [datetime.strptime(_, '%Y-%m-%d') for _ in dates]
-    month_list = OrderedDict(((months_start + timedelta(_)).strftime(r"%B-%y"), None) for _ in
+    # List of month to display options in student dashboard index
+    month_list = OrderedDict(((months_start + timedelta(_)).strftime(r"%B-%Y"), None) for _ in
                              range((months_end - months_start).days)).keys()
     context = {
         'all_applicants': all_applicants,
