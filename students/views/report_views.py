@@ -26,7 +26,8 @@ def get_departments_record(departments_qs, applications, admissions):
                                                      migration_status__icontains='from').count(),
             'migrated_to_count': admissions.filter(choosen_department=department,
                                                    migration_status__icontains='from').count(),
-            'missed': applications.filter(department_choice=department, rejected=True).count()
+            'missed': applications.filter(department_choice=department, rejected=True).count(),
+            'creation_status': applications[0].created
         }
     return departmental_records
 
@@ -61,8 +62,8 @@ def counsel_monthly_report(request, response_type='html', date_param=None):
     else:
         date = datetime.date.today()
         first_day_of_month = date.replace(day=1)
-        report_month = first_day_of_month - datetime.timedelta(days=1)
-        report_month = report_month.month
+        report_month_dt = first_day_of_month - datetime.timedelta(days=1)
+        report_month = report_month_dt.month
 
     total_applications = AdmissionStudent.objects.order_by('-created').filter(
         created__year=date.year,
@@ -89,7 +90,7 @@ def counsel_monthly_report(request, response_type='html', date_param=None):
 
     ctx = {
         'date': datetime.date.today(),
-        'report_month': date.strftime('%B'),
+        'report_month': report_month_dt.strftime('%B'),
         'total_applications': total_applications.count(),
         'total_admissions': total_admission.count(),
         'online_applications': online_applications.count(),

@@ -15,9 +15,9 @@
 
 <!-- Stats - Links -->
 <div class="row">
-    <div class="col-12 d-flex justify-content-between">
+    <div class="col-12 d-flex">
         <!-- Topbar Informations -->
-        <div class="">
+        <div class="mr-3">
             <div class="card bg-primary p-3">
                 <h5>
                     <a class="text-light" href="{% url 'students:all_applicants' %}">
@@ -29,7 +29,7 @@
                 </h5>
             </div>
         </div>
-        <div class="">
+        <div class="mr-3">
             <div class="card bg-info p-3">
                 <h5>
                     <a class="text-light" href="{% url 'students:admitted_student_list' %}">
@@ -40,7 +40,7 @@
                 </h5>
             </div>
         </div>
-        <div class="">
+        <div class="mr-3">
             <div class="card bg-warning p-3">
                 <h5>
                     <a class="text-light" href="{% url 'students:unpaid_registrants' %}">
@@ -51,7 +51,7 @@
                 </h5>
             </div>
         </div>
-        <div class="">
+        <div class="mr-3">
             <div class="card bg-danger p-3">
                 <h5>
                     <a class="text-light" href="{% url 'students:rejected_registrants' %}">
@@ -62,7 +62,7 @@
                 </h5>
             </div>
         </div>
-        <div class="">
+        <div class="mr-3">
             <div class="card bg-success p-3">
                 <h5>
                     <a class="text-light" href="{% url 'students:paid_registrants' %}">
@@ -137,10 +137,10 @@
                             <div class="form-group col-md-8">
                                 <select name="monthly_report_date" id="monthly_report_date">
                                     <option selected id="reporting_month_selected"></option>
-                                    <option value="">December 2020</option>
-                                    <option value="">November 2020</option>
-                                    <option value="">October 2020</option>
-                                    <option value="">September 2020</option>
+                                    {% for month in month_list %}
+                                        <option value="{{ month }}">{{ month }}</option>
+                                    {% endfor %}
+
                                 </select>
                             </div>
                         </div>
@@ -237,7 +237,6 @@
                         </tbody>
                     </table>
                 </div>
-
             </div>
         </div>
     </div>
@@ -271,7 +270,9 @@
         const dept_report_tbody_elem = document.getElementById('departmental_report_tbody');
         const cities_report_tbody_elem = document.getElementById('cities_report_tbody');
 
-        const url = "{% url 'students:counsel_monthly_report_typed' response_type='json' %}"
+        const url = `
+            {% url 'students:counsel_monthly_report_typed' response_type='json' %}
+        `
         $.ajax({
             type: 'GET',
             url: url,
