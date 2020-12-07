@@ -31,13 +31,15 @@ def students_dashboard_index(request):
     rejected_applicants = AdmissionStudent.objects.filter(rejected=True)
 
     # List of months since first application registration date
-    first_application_date = AdmissionStudent.objects.all()[0].created.date()
-    last_application_date = AdmissionStudent.objects.order_by('-created')[0].created.date()
+    first_application_date = AdmissionStudent.objects.order_by('created')[0].created.date()
+    last_application_date = date.today()
     dates = [str(first_application_date), str(last_application_date)]
+    print(dates)
     months_start, months_end = [datetime.strptime(_, '%Y-%m-%d') for _ in dates]
     # List of month to display options in student dashboard index
     month_list = OrderedDict(((months_start + timedelta(_)).strftime(r"%B-%Y"), None) for _ in
-                             range((months_end - months_start).days)).keys()
+                            range((months_end - months_start).days)).keys()
+    print(month_list)
     context = {
         'all_applicants': all_applicants,
         'online_applicants': online_applicants,
