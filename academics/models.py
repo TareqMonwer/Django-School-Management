@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from model_utils.models import TimeStampedModel
+
 from teachers.models import Teacher
 
 
@@ -55,6 +56,21 @@ class Semester(TimeStampedModel):
             return '3rd'
         if 3 < self.number <= 12:
             return '%sth' % self.number
+
+
+class Subject(TimeStampedModel):
+    name = models.CharField(max_length=50)
+    subject_code = models.PositiveIntegerField(unique=True)
+    instructor = models.ForeignKey(Teacher, on_delete=models.CASCADE,
+                                    blank=True, null=True)
+    theory_marks = models.PositiveIntegerField(blank=True, null=True)
+    practical_marks = models.PositiveIntegerField(blank=True, null=True)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.DO_NOTHING, null=True)
+
+    def __str__(self):
+        return "{} ({})".format(self.name, self.subject_code)
 
 
 class Batch(TimeStampedModel):

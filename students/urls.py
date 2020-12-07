@@ -21,6 +21,8 @@ register_converter(DateConverter, 'date')
 urlpatterns = [
      path('', views.students_dashboard_index, 
           name='students_dashboard_index'),
+     # TEST PDF PRINTER
+     path('pdf/', pdf_views.test_pdf, name='test_pdf'),
      path('add/', views.add_student_view, name='add_student'),
      path('all/', views.students_view, name='all_student'),
      path('applicants/', views.all_applicants, name='all_applicants'),
@@ -46,10 +48,6 @@ urlpatterns = [
      path('<int:pk>/delete/', views.student_delete_view, name='delete_student'),
      path('<int:pk>/students/', views.students_by_department_view,
           name='students_by_dept'),
-     path('result/', views.student_result_view, name='result'),
-     path('add_result_from_student/<int:pk>/', views.add_result_from_student_detail_view, 
-          name='add_result_in_details'),
-     path('pdf/', pdf_views.test_pdf, name='test_pdf'),
      path('counsel-report/', report_views.counsel_monthly_report, name='counsel_monthly_report'),
      path('counsel-report/<str:response_type>/', report_views.counsel_monthly_report,
           name='counsel_monthly_report_typed'),

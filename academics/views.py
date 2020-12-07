@@ -1,3 +1,4 @@
+import csv, io
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.generic.edit import UpdateView
@@ -129,3 +130,35 @@ def delete_department(request, pk):
     obj = get_object_or_404(Department, pk=pk)
     obj.delete()
     return redirect('academics:departments')
+
+
+@user_passes_test(user_is_staff)
+def upload_subjects_csv(request):
+    if request.user.has_perm('create_stuff'):
+        template = 'result/add_subject_csv.html'
+        prompt = {
+            'order': 'Subject name, Subject Code'
+        }
+        if request.method == 'GET':
+            return render(request, template, prompt)
+        
+        csv_file = request.FILES['file']
+        if not csv_file.name.endswith('.csv'):
+            messages.error(request, 'Please, upload a CSV file.')
+        try:
+            data_set = csv_file.read().decode('UTF-8')
+            io_string = io.StringIO(data_set)
+            next(io_string)
+            # TODO: upload data for foreignkey also, and
+            # create object for foreignkey if no data found.
+            for column in csv.reader(io_string, delimiter=',', quotechar='|'):
+                _, created = Subject.objects.update_or_create(
+                    name=column[0],
+                    subject_code=column[1]
+                )
+        except:
+            pass
+        context = {}
+        return render(request, template, context)
+    else:
+        return render(request, 'admin_tools/permission_required.html')

@@ -9,8 +9,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 from academics.views import user_is_staff
-from academics.models import Department, Semester
-from result.models import Result, Subject
+from academics.models import Department, Semester, Subject
 from students.models import Student, AdmissionStudent, CounselingComment
 from students.forms import (StudentForm, AdmissionForm,
                             StudentRegistrantUpdateForm,
@@ -184,24 +183,6 @@ def add_counseling_data(request, student_id):
 
 
 @user_passes_test(user_is_staff)
-def student_result_view(request):
-    if request.method == 'POST':
-        student_id = request.POST.get('student_id')
-        semester = request.POST.get('semester')
-        student = Student.objects.get(roll=student_id)
-        res_semester = Semester.objects.get(number=semester)
-        results = Result.objects.filter(student=student, semester=res_semester)
-        ctx = {
-            'semester': res_semester,
-            'results': results,
-            'student': student,
-        }
-        return render(request, 'students/result.html', ctx)
-    else:
-        return render(request, 'students/result.html')
-
-
-@user_passes_test(user_is_staff)
 def add_student_view(request):
     """
     :param request:
@@ -308,24 +289,3 @@ def student_delete_view(request, pk):
     student = Student.objects.get(pk=pk)
     student.delete()
     return redirect('students:all_student')
-
-
-@user_passes_test(user_is_staff)
-def add_result_from_student_detail_view(request, pk):
-    student = Student.objects.get(id=pk)
-    if request.method == 'POST':
-        subject = request.POST.get('subject')
-        subject = Subject.objects.get(subject_code=int(subject))
-        marks = request.POST.get('marks')
-        semester = student.semester
-        try:
-            result = Result(
-                subject=subject,
-                marks=marks,
-                semester=semester,
-                student=student)
-            result.save()
-        except IntegrityError:
-            return HttpResponse('This result already recorded!')
-
-        return redirect('students:student_details', pk=pk)
