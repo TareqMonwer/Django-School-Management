@@ -1,5 +1,5 @@
-from datetime import date
-
+from datetime import date, timedelta, datetime
+from collections import OrderedDict
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.urls import reverse_lazy
@@ -29,12 +29,22 @@ def students_dashboard_index(request):
     admitted_students = AdmissionStudent.objects.filter(admitted=True, paid=True)
     paid_registrants = AdmissionStudent.objects.filter(paid=True, admitted=False)
     rejected_applicants = AdmissionStudent.objects.filter(rejected=True)
+
+    # List of months since first application registration date
+    first_application_date = AdmissionStudent.objects.all()[0].created.date()
+    last_application_date = AdmissionStudent.objects.order_by('-created')[0].created.date()
+    dates = [str(first_application_date), str(last_application_date)]
+    print(dir(dates[0]), type(dates[0]))
+    months_start, months_end = [datetime.strptime(_, '%Y-%m-%d') for _ in dates]
+    month_list = OrderedDict(((months_start + timedelta(_)).strftime(r"%B-%y"), None) for _ in
+                             range((months_end - months_start).days)).keys()
     context = {
         'all_applicants': all_applicants,
         'online_applicants': online_applicants,
         'admitted_students': admitted_students,
         'paid_registrants': paid_registrants,
         'rejected_applicants': rejected_applicants,
+        'month_list': month_list,
     }
     return render(request, 'students/dashboard_index.html', context)
 
