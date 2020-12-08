@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.conf import settings
 from model_utils.models import TimeStampedModel
 
-from academics.models import Department, Semester, AcademicSession
+from academics.models import Department, Semester, AcademicSession, Batch, TempSerialID
 from teachers.models import Teacher
 from .utils.bd_zila import ALL_ZILA
 
@@ -74,7 +74,7 @@ class AdmissionStudent(StudentBase):
     rejected = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.name} for {self.department_choice}"
+        return f"{self.name}"
 
     def save(self, *args, **kwargs):
         if self.department_choice != self.choosen_department:
@@ -84,8 +84,8 @@ class AdmissionStudent(StudentBase):
         super().save(*args, **kwargs)
 
 
-class Student(StudentBase):
-    student = models.ForeignKey(AdmissionStudent, on_delete=models.CASCADE)
+class Student(TimeStampedModel):
+    admission_student = models.ForeignKey(AdmissionStudent, on_delete=models.CASCADE)
     roll = models.CharField(max_length=6, unique=True, blank=True, null=True)
     registration_number = models.CharField(max_length=6, unique=True, blank=True, null=True)
     temp_serial = models.CharField(max_length=50, blank=True, null=True)
@@ -103,28 +103,47 @@ class Student(StudentBase):
     is_dropped = models.BooleanField(default=False)
 
     def find_last_admitted_student_serial(self):
-        try:
-            Student.objects.order_by('created').filter(choosen_department=self.choosen_department)
-        except expression as identifier:
-            pass
+        # What is the last temp_id for this year, dept?
+        item_serial_obj = TempSerialID.objects.filter(
+            department=self.admission_student.choosen_department,
+            year=self.ac_session,
+        ).order_by('serial').last()
+
+        if item_serial_obj:
+            # Return last temp_id
+            serial_number = item_serial_obj.serial
+            return int(serial_number)
+        else:
+            # If no temp_id object for this year and department found
+            # return 0
+            return 0
 
     def save(self, *args, **kwargs):
         # Set batch as student's department's current batch
-        dept_current_batch = self.student.choosen_department.current_batch
+        dept_current_batch = Batch.objects.get(
+            year=self.ac_session,
+            department=self.admission_student.choosen_department
+        )
         self.batch = dept_current_batch
         # create serial_key by department
         # (serial id will be unique for year-dept-serial_number)
-
-
-    def has_subjects(self):
-        from result.models import SubjectCombination
-        return SubjectCombination.objects.filter(
-            semester=self.semester, department=self.department
+        last_temp_id = self.find_last_admitted_student_serial()
+        current_temp_id = str(last_temp_id + 1)
+        self.temp_serial = current_temp_id
+        super().save(*args, **kwargs)
+        temp_serial_id = TempSerialID.objects.create(
+            student=self,
+            department=self.admission_student.choosen_department,
+            year=self.ac_session,
+            serial=current_temp_id
         )
+        temp_serial_id.save()
 
     def __str__(self):
         return '{} ({}) semester {} dept.'.format(
-            self.name, self.semester, self.department
+            self.admission_student.name,
+            self.semester,
+            self.admission_student.choosen_department
         )
 
     class Meta:

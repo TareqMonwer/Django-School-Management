@@ -6,6 +6,13 @@ class AdmissionStudentAdmin(admin.ModelAdmin):
     list_display = ('name', 'created')
 
 
-admin.site.register(Student)
+class StudentAdmin(admin.ModelAdmin):
+    list_display = ('admission_student',
+                    'ac_session',
+                    'batch',
+                    'temp_serial',)
+
+
+admin.site.register(Student, StudentAdmin)
 admin.site.register(AdmissionStudent, AdmissionStudentAdmin)
 admin.site.register(RegularStudent)

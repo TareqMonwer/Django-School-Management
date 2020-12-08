@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'rolepermissions',
     'taggit',
+    'django_extensions',
 ]
 
 # for permission management
