@@ -41,6 +41,7 @@ django-environ = "*"
 celery = "*"
 redis = "*"
 reportlab = "*"
+django-extensions = "*"
 
 [requires]
 python_version = "3.8"
