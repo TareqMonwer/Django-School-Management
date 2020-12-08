@@ -85,7 +85,10 @@ class AdmissionStudent(StudentBase):
 
 
 class Student(TimeStampedModel):
-    admission_student = models.ForeignKey(AdmissionStudent, on_delete=models.CASCADE)
+    admission_student = models.ForeignKey(
+        AdmissionStudent, 
+        on_delete=models.CASCADE
+    )
     roll = models.CharField(max_length=6, unique=True, blank=True, null=True)
     registration_number = models.CharField(max_length=6, unique=True, blank=True, null=True)
     temp_serial = models.CharField(max_length=50, blank=True, null=True)
@@ -102,7 +105,7 @@ class Student(TimeStampedModel):
     is_alumni = models.BooleanField(default=False)
     is_dropped = models.BooleanField(default=False)
 
-    def find_last_admitted_student_serial(self):
+    def _find_last_admitted_student_serial(self):
         # What is the last temp_id for this year, dept?
         item_serial_obj = TempSerialID.objects.filter(
             department=self.admission_student.choosen_department,
@@ -127,7 +130,7 @@ class Student(TimeStampedModel):
         self.batch = dept_current_batch
         # create serial_key by department
         # (serial id will be unique for year-dept-serial_number)
-        last_temp_id = self.find_last_admitted_student_serial()
+        last_temp_id = self._find_last_admitted_student_serial()
         current_temp_id = str(last_temp_id + 1)
         self.temp_serial = current_temp_id
         super().save(*args, **kwargs)
@@ -138,6 +141,21 @@ class Student(TimeStampedModel):
             serial=current_temp_id
         )
         temp_serial_id.save()
+    
+    
+    def get_temp_id(self):
+        # Get current year (academic) last two digit
+        year_digits = str(self.ac_session.year)[-2:]
+        # Get batch of student's department
+        batch_digits = self.batch.number
+        # Get department code
+        department_code = self.department.code
+        # Get admission serial of student by department
+        temp_serial_key = self.temp_serial
+        # return something like: 21-15-666-15
+        temp_id =  f'{year_digits}-{batch_digits}-'\
+               f'{department_code}-{temp_serial_key}'
+        return temp_id
 
     def __str__(self):
         return '{} ({}) semester {} dept.'.format(
