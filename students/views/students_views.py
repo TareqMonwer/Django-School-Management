@@ -105,6 +105,27 @@ def rejected_registrants(request):
 
 
 @user_passes_test(user_is_staff)
+def amission_confirmation(request):
+    """
+    If request is get, show list of applicants to be admitted finally as student,
+    for POST request, it will create Student, RegularStudent.
+    """
+    selected_registrants = AdmissionStudent.objects.filter(
+        admitted=True, 
+        paid=True, 
+        rejected=False
+    )
+    student_candidates = Student.objects
+    ctx = {
+        'selected_registrants': selected_registrants,
+    }
+    if request.method == 'POST':
+        return
+    else:
+        return render(request, 'students/list/confirm_admission.html', ctx)
+
+
+@user_passes_test(user_is_staff)
 def admit_student(request, pk):
     """ 
     Admit applicant found by id/pk into chosen department

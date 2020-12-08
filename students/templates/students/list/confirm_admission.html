@@ -1,0 +1,57 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block extra_header %}
+{% endblock %}
+
+{% block dashboard-body %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'students:students_dashboard_index' %}">Students</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Rejected Applicants</li>
+    </ol>
+</nav>
+
+<!-- Online Applicants Table Row -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 pl-0">
+            <h4 class="ml-0">Confirm Students</h4>
+        </div>
+        <!-- Online Applicants Table -->
+        <div id="online-applicants" class="mt-4">
+            <table class="table table-bordered table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Department</th>
+                        <th scope="col">Batch</th>
+                        <th scope="col">Semester</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-light">
+                
+                    {% for student in selected_registrants %}
+                    <tr>
+                        <td scope="row">{{ student.get_temp_id }}</td>
+                        <td>{{ student.name }}</td>
+                        <td>{{ student.choosen_department }}</td>
+                        <td> student.semester </td>
+                        <td> student.batch </td>
+                        <td>
+                            --
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

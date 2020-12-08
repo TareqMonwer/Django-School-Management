@@ -33,6 +33,8 @@ urlpatterns = [
           name='add_counseling_data'),
      path('admitted-students/', views.admitted_students_list,
           name='admitted_student_list'),
+     path('admission-confirm/', views.amission_confirmation,
+          name='amission_confirmation'),
      path('online-applicants/<int:pk>/admit/', views.admit_student,
           name='admit_student'),
      path('paid-registrants/', views.paid_registrants, 

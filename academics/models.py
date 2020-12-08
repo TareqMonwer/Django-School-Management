@@ -105,19 +105,6 @@ class TempSerialID(TimeStampedModel):
     def __str__(self):
         return self.serial
 
-    # def get_serial(self):
-    #     # Get current year last two digit
-    #     yf = self.student.created.date().year[-2:]
-    #     # TODO: Get current batch of student's department
-    #     bn = self.student.department.get_current_batch()
-    #     # Get department code
-    #     dc = self.student.department.code
-    #     # Get admission serial of student by department
-    #     syl = self.student.serial_key
-    #
-    #     # return something like: 21-15-666-15
-    #     return f'{yf}-{bn}-{dc}-{syl}'
-
     def save(self, *args, **kwargs):
         if self.student.admission_student.admitted:
             super(TempSerialID, self).save(*args, **kwargs)

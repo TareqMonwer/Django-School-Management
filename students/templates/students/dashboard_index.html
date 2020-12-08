@@ -15,6 +15,13 @@
 
 <!-- Stats - Links -->
 <div class="row">
+    <div class="col-md-12">
+        <div class="dashboard-section-title mb-3">
+            <div class="title-v-line"></div>
+            <h4>Registrants <span class="color-2">Operations</span></h4>
+        </div>
+    </div>
+
     <div class="col-12 d-flex">
         <!-- Topbar Informations -->
         <div class="mr-3">
@@ -66,9 +73,21 @@
             <div class="card bg-success p-3">
                 <h5>
                     <a class="text-light" href="{% url 'students:paid_registrants' %}">
-                        PAID REGISTRANTS
+                        Paid
                         <span class="badge badge-light">
                             {{ paid_registrants.count }}
+                        </span>
+                    </a>
+                </h5>
+            </div>
+        </div>
+        <div class="mr-3">
+            <div class="card bg-secondary p-3">
+                <h5>
+                    <a class="text-light" href="#">
+                        Confirm
+                        <span class="badge badge-light">
+                            TBI
                         </span>
                     </a>
                 </h5>
