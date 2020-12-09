@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 from academics.views import user_is_staff
-from academics.models import Department, Semester, Subject
+from academics.models import Department, Semester, Subject, Batch
 from students.models import Student, AdmissionStudent, CounselingComment
 from students.forms import (StudentForm, AdmissionForm,
                             StudentRegistrantUpdateForm,
@@ -115,10 +115,19 @@ def amission_confirmation(request):
         paid=True, 
         rejected=False
     )
-    student_candidates = Student.objects
+    departments = Department.objects.order_by('name')
+    batches = Batch.objects.all()
+    # student_candidates = Student.objects
     ctx = {
         'selected_registrants': selected_registrants,
+        'departments': departments,
+        'batches': batches
     }
+    
+    if request.method == 'GET' and request.GET.get('dept') and request.GET.get('batch'):
+        pass
+        # Handle form submission
+
     if request.method == 'POST':
         return
     else:
