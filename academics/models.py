@@ -93,7 +93,8 @@ class Batch(TimeStampedModel):
 
 
 class TempSerialID(TimeStampedModel):
-    student = models.OneToOneField('students.Student', on_delete=models.CASCADE)
+    student = models.OneToOneField('students.Student', on_delete=models.CASCADE,
+                                   related_name='student_serial')
     department = models.ForeignKey(Department, on_delete=models.CASCADE,
                                    related_name='temp_serials')
     year = models.ForeignKey(AcademicSession, on_delete=models.CASCADE)
@@ -105,21 +106,21 @@ class TempSerialID(TimeStampedModel):
     def __str__(self):
         return self.serial
 
-    # def get_serial(self):
-    #     # Get current year last two digit
-    #     yf = self.student.created.date().year[-2:]
-    #     # TODO: Get current batch of student's department
-    #     bn = self.student.department.get_current_batch()
-    #     # Get department code
-    #     dc = self.student.department.code
-    #     # Get admission serial of student by department
-    #     syl = self.student.serial_key
-    #
-    #     # return something like: 21-15-666-15
-    #     return f'{yf}-{bn}-{dc}-{syl}'
-
     def save(self, *args, **kwargs):
         if self.student.admission_student.admitted:
             super(TempSerialID, self).save(*args, **kwargs)
         else:
             raise OperationalError('Please check if student is admitted or not.')
+
+    def get_serial(self):
+        # Get current year last two digit
+        yf = str(self.student.ac_session)[-2:]
+        # Get current batch of student's department
+        bn = self.student.batch.number
+        # Get department code
+        dc = self.department.code
+        # Get admission serial of student by department
+        syl = self.serial
+
+        # return something like: 21-15-666-15
+        return f'{yf}-{bn}-{dc}-{syl}'
