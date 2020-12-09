@@ -97,11 +97,10 @@ class Student(TimeStampedModel):
     ac_session = models.ForeignKey(
         AcademicSession, on_delete=models.CASCADE, blank=True, null=True)
     batch = models.ForeignKey(Batch, on_delete=models.CASCADE, 
-                              blank=True, null=True, related_name='students')
+                            blank=True, null=True, related_name='students')
     guardian_mobile = models.CharField(max_length=11, blank=True, null=True)
-    admitted_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.DO_NOTHING, null=True)
+    admitted_by = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                    on_delete=models.DO_NOTHING, null=True)
     is_alumni = models.BooleanField(default=False)
     is_dropped = models.BooleanField(default=False)
 

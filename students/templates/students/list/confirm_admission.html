@@ -22,36 +22,66 @@
         <div class="col-12 pl-0">
             <h4 class="ml-0">Confirm Students</h4>
         </div>
-        <!-- Online Applicants Table -->
-        <div id="online-applicants" class="mt-4">
-            <table class="table table-bordered table-hover">
-                <thead class="thead-light">
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Department</th>
-                        <th scope="col">Batch</th>
-                        <th scope="col">Semester</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-light">
-                
-                    {% for student in selected_registrants %}
-                    <tr>
-                        <td scope="row">{{ student.get_temp_id }}</td>
-                        <td>{{ student.name }}</td>
-                        <td>{{ student.choosen_department }}</td>
-                        <td> student.semester </td>
-                        <td> student.batch </td>
-                        <td>
-                            --
-                        </td>
-                    </tr>
-                    {% endfor %}
+
+        <form action="">
+            <div class="">
+                <div class="form-row align-items-center justify-content-end">
+                    <div class="form-group col-md-3">
+                        <label for="dept">Department</label>
+                        <select id="dept" class="form-control" name="dept">
+                            <option selected>Choose...</option>                            
+                            {% for dept in departments %}
+                                <option value="{{ dept.code }}">{{ dept.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="batch">Batch</label>
+                        <select id="batch" class="form-control" name="batch">
+                            <option selected>Choose...</option>
+                            {% for batch in batches %}
+                                <option value="">{{ batch }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group align-self-end">
+                        <button type="submit" class="btn btn-success">
+                            Create Students
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Online Applicants Table -->
+            <div id="online-applicants" class="mt-4">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Department</th>
+                            <th scope="col">Batch</th>
+                            <th scope="col">Semester</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-light">
                     
-                </tbody>
-            </table>
-        </div>
+                        {% for student in selected_registrants %}
+                        <tr>
+                            <td scope="row">{{ student.get_temp_id }}</td>
+                            <td>{{ student.name }}</td>
+                            <td>{{ student.choosen_department }}</td>
+                            <td> student.semester </td>
+                            <td> student.batch </td>
+                            <td>
+                                --
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        
+                    </tbody>
+                </table>
+            </div>
+        </form>
     </div>
 </div>
 {% endblock %}
