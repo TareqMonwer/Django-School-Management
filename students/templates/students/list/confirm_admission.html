@@ -28,7 +28,7 @@
                 <div class="form-row align-items-center justify-content-end">
                     <div class="form-group col-md-3">
                         <label for="dept">Department</label>
-                        <select id="dept" class="form-control" name="dept">
+                        <select id="dept" class="form-control" name="department_code">
                             <option selected>Choose...</option>                            
                             {% for dept in departments %}
                                 <option value="{{ dept.code }}">{{ dept.name }}</option>
@@ -38,7 +38,7 @@
                     <div class="form-group col-md-3">
                         <label for="batch">Batch</label>
                         <select id="batch" class="form-control" name="batch">
-                            <option selected>Choose...</option>
+                            <option selected id="default-chosen-batch">Choose...</option>
                             {% for batch in batches %}
                                 <option value="">{{ batch }}</option>
                             {% endfor %}
@@ -61,10 +61,10 @@
                             <th scope="col">Department</th>
                             <th scope="col">Batch</th>
                             <th scope="col">Semester</th>
+                            <td scope="col">Action</td>
                         </tr>
                     </thead>
                     <tbody class="bg-light">
-                    
                         {% for student in selected_registrants %}
                         <tr>
                             <td scope="row">{{ student.get_temp_id }}</td>
@@ -77,11 +77,45 @@
                             </td>
                         </tr>
                         {% endfor %}
-                        
                     </tbody>
                 </table>
             </div>
         </form>
     </div>
 </div>
+{% endblock %}
+
+{% block extrajs %}
+    <script>
+        const departmentDropdown = document.getElementById('dept');
+        let batchesDropdown = document.getElementById('batch');
+        const defaultChosenBatch = document.getElementById('default-chosen-batch');
+
+        departmentDropdown.addEventListener('change', event => {
+            const deptCode = parseInt(event.target.value);
+
+            batchesDropdown.length = 0;
+            batchesDropdown.appendChild(defaultChosenBatch);
+
+            // Used to get host name
+            let uri = window.location.origin;
+
+            $.ajax({
+                type: 'GET',
+                url: `${uri}/students/api/batches/${deptCode}/`,
+                success: function (response) {
+                    const batches = response.data;
+                    batches.forEach(batch => {
+                        let option = document.createElement('option');
+                        option.value = batch.id;
+                        option.innerText = batch.number;
+                        batchesDropdown.appendChild(option);
+                    });
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+    </script>
 {% endblock %}

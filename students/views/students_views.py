@@ -3,7 +3,6 @@ from collections import OrderedDict
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.urls import reverse_lazy
-from django.db import IntegrityError
 from django.views.generic import DetailView, UpdateView
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -104,8 +103,16 @@ def rejected_registrants(request):
     return render(request, 'students/list/rejected_registrants.html', ctx)
 
 
+def get_json_batch_data(request, *args, **kwargs):
+    selected_department_code = kwargs.get('department_code')
+    department_batches = list(
+        Batch.objects.filter(department__code=selected_department_code).values()
+    )
+    return JsonResponse({'data': department_batches})
+
+
 @user_passes_test(user_is_staff)
-def amission_confirmation(request):
+def admission_confirmation(request):
     """
     If request is get, show list of applicants to be admitted finally as student,
     for POST request, it will create Student, RegularStudent.
@@ -156,6 +163,7 @@ def admit_student(request, pk):
     return render(request, 'students/dashboard_admit_student.html', context)
 
 
+@user_passes_test(user_is_staff)
 def mark_as_paid_or_unpaid(request):
     """ Change student applicants payment status """
     if request.method == 'POST':

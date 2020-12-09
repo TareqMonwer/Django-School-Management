@@ -66,8 +66,8 @@ class AdmissionStudent(StudentBase):
     admitted = models.BooleanField(default=False)
     admission_date = models.DateField(blank=True, null=True)
     paid = models.BooleanField(default=False)
-    application_type = models.CharField(max_length=1, 
-                                        choices=APPLICATION_TYPE_CHOICE, 
+    application_type = models.CharField(max_length=1,
+                                        choices=APPLICATION_TYPE_CHOICE,
                                         default='1')
     migration_status = models.CharField(max_length=255,
                                         blank=True, null=True)
@@ -86,7 +86,7 @@ class AdmissionStudent(StudentBase):
 
 class Student(TimeStampedModel):
     admission_student = models.ForeignKey(
-        AdmissionStudent, 
+        AdmissionStudent,
         on_delete=models.CASCADE
     )
     roll = models.CharField(max_length=6, unique=True, blank=True, null=True)
@@ -96,8 +96,8 @@ class Student(TimeStampedModel):
         Semester, on_delete=models.CASCADE)
     ac_session = models.ForeignKey(
         AcademicSession, on_delete=models.CASCADE, blank=True, null=True)
-    batch = models.ForeignKey(Batch, on_delete=models.CASCADE, 
-                            blank=True, null=True, related_name='students')
+    batch = models.ForeignKey(Batch, on_delete=models.CASCADE,
+                              blank=True, null=True, related_name='students')
     guardian_mobile = models.CharField(max_length=11, blank=True, null=True)
     admitted_by = models.ForeignKey(settings.AUTH_USER_MODEL,
                                     on_delete=models.DO_NOTHING, null=True)
@@ -140,8 +140,7 @@ class Student(TimeStampedModel):
             serial=current_temp_id
         )
         temp_serial_id.save()
-    
-    
+
     def get_temp_id(self):
         # Get current year (academic) last two digit
         year_digits = str(self.ac_session.year)[-2:]
@@ -152,8 +151,8 @@ class Student(TimeStampedModel):
         # Get admission serial of student by department
         temp_serial_key = self.temp_serial
         # return something like: 21-15-666-15
-        temp_id =  f'{year_digits}-{batch_digits}-'\
-               f'{department_code}-{temp_serial_key}'
+        temp_id = f'{year_digits}-{batch_digits}-' \
+                  f'{department_code}-{temp_serial_key}'
         return temp_id
 
     def __str__(self):
