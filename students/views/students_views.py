@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 from academics.views import user_is_staff
-from academics.models import Department, Semester, Subject, Batch
+from academics.models import Department, Semester, Subject, Batch, AcademicSession
 from students.models import Student, AdmissionStudent, CounselingComment
 from students.forms import (StudentForm, AdmissionForm,
                             StudentRegistrantUpdateForm,
@@ -124,19 +124,36 @@ def admission_confirmation(request):
     )
     departments = Department.objects.order_by('name')
     batches = Batch.objects.all()
-    # student_candidates = Student.objects
+    sessions = AcademicSession.objects.all()
     ctx = {
         'selected_registrants': selected_registrants,
         'departments': departments,
-        'batches': batches
+        'sessions': sessions
     }
-    
-    if request.method == 'GET' and request.GET.get('dept') and request.GET.get('batch'):
-        pass
-        # Handle form submission
 
     if request.method == 'POST':
-        return
+        dept_code = request.POST.get('department_code')
+        batch_id = request.POST.get('batch_id')
+        session_id = request.POST.get('session_id')
+        to_be_admitted = selected_registrants.filter(
+            choosen_department__code=int(dept_code)
+        )
+        # print('*' * 10, '\n', batch_id)
+        semester = Semester.objects.get(id=1)
+        batch = Batch.objects.get(id=batch_id)
+        students = []
+        for candidate in to_be_admitted:
+            session = AcademicSession.objects.get(id=session_id)
+            student = Student.objects.create(
+                admission_student=candidate,
+                semester=semester,
+                batch=batch,
+                ac_session=session,
+                admitted_by=request.user,
+            )
+            students.append(student)
+        ctx['students'] = students
+        return render(request, 'students/list/confirm_admission.html', ctx)
     else:
         return render(request, 'students/list/confirm_admission.html', ctx)
 
