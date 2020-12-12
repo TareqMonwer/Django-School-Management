@@ -12,7 +12,7 @@
         <li class="breadcrumb-item">
             <a href="{% url 'students:students_dashboard_index' %}">Students</a>
         </li>
-        <li class="breadcrumb-item active" aria-current="page">Rejected Applicants</li>
+        <li class="breadcrumb-item active" aria-current="page">Confrim Admission</li>
     </ol>
 </nav>
 
@@ -23,7 +23,8 @@
             <h4 class="ml-0">Confirm Students</h4>
         </div>
 
-        <form action="">
+        <form action="" method="POST">
+            {% csrf_token %}
             <div class="">
                 <div class="form-row align-items-center justify-content-end">
                     <div class="form-group col-md-3">
@@ -37,10 +38,19 @@
                     </div>
                     <div class="form-group col-md-3">
                         <label for="batch">Batch</label>
-                        <select id="batch" class="form-control" name="batch">
+                        <select id="batch" class="form-control" name="batch_id">
                             <option selected id="default-chosen-batch">Choose...</option>
                             {% for batch in batches %}
-                                <option value="">{{ batch }}</option>
+                                <option value="{{ batch.id }}">{{ batch }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="batch">Session</label>
+                        <select id="batch" class="form-control" name="session_id">
+                            <option selected id="default-chosen-batch">Choose...</option>
+                            {% for session in sessions %}
+                                <option value="{{ session.id }}">{{ session }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -65,18 +75,33 @@
                         </tr>
                     </thead>
                     <tbody class="bg-light">
-                        {% for student in selected_registrants %}
-                        <tr>
-                            <td scope="row">{{ student.get_temp_id }}</td>
-                            <td>{{ student.name }}</td>
-                            <td>{{ student.choosen_department }}</td>
-                            <td> student.semester </td>
-                            <td> student.batch </td>
-                            <td>
-                                --
-                            </td>
-                        </tr>
-                        {% endfor %}
+                        {% if not students %}
+                            {% for student in selected_registrants %}
+                                <tr>
+                                    <td scope="row">{{ student.get_temp_id }}</td>
+                                    <td>{{ student.name }}</td>
+                                    <td>{{ student.choosen_department }}</td>
+                                    <td> student.semester </td>
+                                    <td> student.batch </td>
+                                    <td>
+                                        --
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                        {% else %}
+                            {% for student in students %}
+                                <tr>
+                                <td scope="row">{{ student.get_temp_id }}</td>
+                                <td>{{ student.admission_student.name }}</td>
+                                <td>{{ student.admission_student.choosen_department }}</td>
+                                <td> {{ student.semester }} </td>
+                                <td> {{ student.batch }} </td>
+                                <td>
+                                    --
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% endif %}
                     </tbody>
                 </table>
             </div>
