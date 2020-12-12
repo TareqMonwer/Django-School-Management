@@ -139,7 +139,16 @@ def admission_confirmation(request):
         to_be_admitted = selected_registrants.filter(
             choosen_department__code=int(dept_code)
         )
-        # print('*' * 10, '\n', batch_id)
+
+        # If confirmation processes is followed by checkmarks, 
+        # then we confirm admission for only selected candidates.
+        checked_registrant_ids = request.POST.getlist('registrant_choice')
+        
+        if checked_registrant_ids:
+            to_be_admitted = AdmissionStudent.objects.filter(
+                id__in=list(map(int, checked_registrant_ids))
+            )
+        
         semester = Semester.objects.get(id=1)
         batch = Batch.objects.get(id=batch_id)
         students = []

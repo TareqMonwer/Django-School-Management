@@ -84,13 +84,14 @@
                             {% for student in selected_registrants %}
                                 <tr>
                                     <td>
-                                        <input type="checkbox"/>
+                                        <input name="registrant_choice" type="checkbox"
+                                        value="{{ student.pk }}"/>
                                     </td>
                                     <td scope="row">{{ student.get_temp_id }}</td>
                                     <td>{{ student.name }}</td>
                                     <td>{{ student.choosen_department }}</td>
-                                    <td> student.semester </td>
                                     <td> student.batch </td>
+                                    <td> student.semester </td>
                                     <td>
                                         --
                                     </td>
@@ -105,8 +106,8 @@
                                 <td scope="row">{{ student.get_temp_id }}</td>
                                 <td>{{ student.admission_student.name }}</td>
                                 <td>{{ student.admission_student.choosen_department }}</td>
-                                <td> {{ student.semester }} </td>
                                 <td> {{ student.batch }} </td>
+                                <td> {{ student.semester }} </td>
                                 <td>
                                     --
                                 </td>
