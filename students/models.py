@@ -139,6 +139,13 @@ class Student(TimeStampedModel):
         )
         temp_serial_id.save()
 
+    def delete(self, *args, **kwargs):
+        """ Override delete method """
+        # If student is deleted, AdmissionStudent.assigned_as_student
+        # should be false.
+        self.admission_student.assigned_as_student = False
+        self.admission_student.save(*args, **kwargs)
+
     def get_temp_id(self):
         # Get current year (academic) last two digit
         year_digits = str(self.ac_session.year)[-2:]
