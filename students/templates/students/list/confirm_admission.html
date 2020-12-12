@@ -66,6 +66,11 @@
                 <table class="table table-bordered table-hover">
                     <thead class="thead-light">
                         <tr>
+                            <th scope="col">
+                                <input class="btn btn-success btn-sm mb-1" id="toggle-check" type="button" value="check all"/>
+                                <br>
+                                <input class="btn btn-danger btn-sm" id="toggle-uncheck" type="button" value="uncheck all"/>
+                            </th>
                             <th scope="col">ID</th>
                             <th scope="col">Name</th>
                             <th scope="col">Department</th>
@@ -78,11 +83,15 @@
                         {% if not students %}
                             {% for student in selected_registrants %}
                                 <tr>
+                                    <td>
+                                        <input name="registrant_choice" type="checkbox"
+                                        value="{{ student.pk }}"/>
+                                    </td>
                                     <td scope="row">{{ student.get_temp_id }}</td>
                                     <td>{{ student.name }}</td>
                                     <td>{{ student.choosen_department }}</td>
-                                    <td> student.semester </td>
                                     <td> student.batch </td>
+                                    <td> student.semester </td>
                                     <td>
                                         --
                                     </td>
@@ -90,12 +99,15 @@
                                 {% endfor %}
                         {% else %}
                             {% for student in students %}
-                                <tr>
+                            <tr>
+                                <td>
+                                    <input type="checkbox"/>
+                                </td>
                                 <td scope="row">{{ student.get_temp_id }}</td>
                                 <td>{{ student.admission_student.name }}</td>
                                 <td>{{ student.admission_student.choosen_department }}</td>
-                                <td> {{ student.semester }} </td>
                                 <td> {{ student.batch }} </td>
+                                <td> {{ student.semester }} </td>
                                 <td>
                                     --
                                 </td>
@@ -115,6 +127,9 @@
         const departmentDropdown = document.getElementById('dept');
         let batchesDropdown = document.getElementById('batch');
         const defaultChosenBatch = document.getElementById('default-chosen-batch');
+
+        const actionToggler = document.getElementById('toggle-action');
+        const actionChecks = document.querySelectorAll('check-mark');
 
         departmentDropdown.addEventListener('change', event => {
             const deptCode = parseInt(event.target.value);
@@ -142,5 +157,14 @@
                 }
             });
         });
+
+        $('#toggle-check').click(function () {
+            $('input:checkbox').attr('checked','checked');
+        })
+
+        $('#toggle-uncheck').click(function () {
+            $('input:checkbox').removeAttr('checked');
+        })
+        
     </script>
 {% endblock %}
