@@ -66,6 +66,10 @@
                 <table class="table table-bordered table-hover">
                     <thead class="thead-light">
                         <tr>
+                            <th scope="col">
+                                <input type="checkbox" name=""
+                                    id="toggle-action">
+                            </th>
                             <th scope="col">ID</th>
                             <th scope="col">Name</th>
                             <th scope="col">Department</th>
@@ -78,6 +82,10 @@
                         {% if not students %}
                             {% for student in selected_registrants %}
                                 <tr>
+                                    <td>
+                                        <input type="checkbox" name="check-marked" 
+                                        class="check-mark">
+                                    </td>
                                     <td scope="row">{{ student.get_temp_id }}</td>
                                     <td>{{ student.name }}</td>
                                     <td>{{ student.choosen_department }}</td>
@@ -90,7 +98,11 @@
                                 {% endfor %}
                         {% else %}
                             {% for student in students %}
-                                <tr>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="check-marked" 
+                                    class="check-mark">
+                                </td>
                                 <td scope="row">{{ student.get_temp_id }}</td>
                                 <td>{{ student.admission_student.name }}</td>
                                 <td>{{ student.admission_student.choosen_department }}</td>

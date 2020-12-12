@@ -120,7 +120,8 @@ def admission_confirmation(request):
     selected_registrants = AdmissionStudent.objects.filter(
         admitted=True, 
         paid=True, 
-        rejected=False
+        rejected=False,
+        assigned_as_student=False
     )
     departments = Department.objects.order_by('name')
     batches = Batch.objects.all()

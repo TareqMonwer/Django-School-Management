@@ -72,6 +72,7 @@ class AdmissionStudent(StudentBase):
     migration_status = models.CharField(max_length=255,
                                         blank=True, null=True)
     rejected = models.BooleanField(default=False)
+    assigned_as_student = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.name}"
@@ -121,14 +122,11 @@ class Student(TimeStampedModel):
             return 0
 
     def save(self, *args, **kwargs):
-        # Set batch as student's department's current batch
-        # dept_current_batch = Batch.objects.get(
-        #     year=self.ac_session,
-        #     department=self.admission_student.choosen_department
-        # )
-        # self.batch = dept_current_batch
-        # create serial_key by department
-        # (serial id will be unique for year-dept-serial_number)
+        # Set AdmissionStudent assigned_as_student=True
+        self.admission_student.assigned_as_student = True
+        self.admission_student.save()
+
+        # Create temporary id for student id
         last_temp_id = self._find_last_admitted_student_serial()
         current_temp_id = str(last_temp_id + 1)
         self.temp_serial = current_temp_id
