@@ -108,7 +108,7 @@ class TempSerialID(TimeStampedModel):
 
     def save(self, *args, **kwargs):
         if self.student.admission_student.admitted:
-            super(TempSerialID, self).save(*args, **kwargs)
+            super().save(*args, **kwargs)
         else:
             raise OperationalError('Please check if student is admitted or not.')
 
