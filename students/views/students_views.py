@@ -22,7 +22,7 @@ def students_dashboard_index(request):
     """
     Dashboard for online admission system. 
     """
-    online_applicants = AdmissionStudent.objects.filter(paid=False)
+    unpaid_registrants = AdmissionStudent.objects.filter(paid=False)
     all_applicants = AdmissionStudent.objects.all().order_by('-created')
     admitted_students = AdmissionStudent.objects.filter(admitted=True, paid=True)
     paid_registrants = AdmissionStudent.objects.filter(paid=True, admitted=False)
@@ -32,15 +32,14 @@ def students_dashboard_index(request):
     first_application_date = AdmissionStudent.objects.order_by('created')[0].created.date()
     last_application_date = date.today()
     dates = [str(first_application_date), str(last_application_date)]
-    print(dates)
     months_start, months_end = [datetime.strptime(_, '%Y-%m-%d') for _ in dates]
     # List of month to display options in student dashboard index
     month_list = OrderedDict(((months_start + timedelta(_)).strftime(r"%B-%Y"), None) for _ in
                             range((months_end - months_start).days)).keys()
-    print(month_list)
+
     context = {
         'all_applicants': all_applicants,
-        'online_applicants': online_applicants,
+        'unpaid_registrants': unpaid_registrants,
         'admitted_students': admitted_students,
         'paid_registrants': paid_registrants,
         'rejected_applicants': rejected_applicants,

@@ -1,316 +1,355 @@
-{% extends 'dashboard.html' %}
-{% load crispy_forms_tags %}
-
-{% block extra_header %}
-{% endblock %}
+{% extends 'dashboard.html' %} 
+{% load crispy_forms_tags %} 
+{% block extra_header %} {% endblock %} 
 
 {% block dashboard-body %}
 <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-        <li class="breadcrumb-item"><a href="#">Students</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Index</li>
-    </ol>
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="#">Students</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Index</li>
+  </ol>
 </nav>
 
 <!-- Stats - Links -->
 <div class="row">
-    <div class="col-md-12">
-        <div class="dashboard-section-title mb-3">
-            <div class="title-v-line"></div>
-            <h4>Registrants <span class="color-2">Operations</span></h4>
-        </div>
+  <div class="col-md-12">
+    <div class="dashboard-section-title mb-3">
+      <div class="title-v-line"></div>
+      <h4>Registrants <span class="color-2">Operations</span></h4>
     </div>
+  </div>
 
-    <div class="col-12 d-flex">
-        <!-- Topbar Informations -->
-        <div class="mr-3">
-            <div class="card bg-primary p-3">
-                <h5>
-                    <a class="text-light" href="{% url 'students:all_applicants' %}">
-                        All Applicants
-                        <span class="badge badge-light">
-                            {{ all_applicants.count }}
-                        </span>
-                    </a>
-                </h5>
-            </div>
-        </div>
-        <div class="mr-3">
-            <div class="card bg-info p-3">
-                <h5>
-                    <a class="text-light" href="{% url 'students:admitted_student_list' %}">
-                        Admitted & Paid <span class="badge badge-light">
-                            {{ admitted_students.count }}
-                        </span>
-                    </a>
-                </h5>
-            </div>
-        </div>
-        <div class="mr-3">
-            <div class="card bg-warning p-3">
-                <h5>
-                    <a class="text-light" href="{% url 'students:unpaid_registrants' %}">
-                        Unpaid <span class="badge badge-light">
-                            {{ online_applicants.count }}
-                        </span>
-                    </a>
-                </h5>
-            </div>
-        </div>
-        <div class="mr-3">
-            <div class="card bg-danger p-3">
-                <h5>
-                    <a class="text-light" href="{% url 'students:rejected_registrants' %}">
-                        Rejected <span class="badge badge-light">
-                            {{ rejected_applicants.count }}
-                        </span>
-                    </a>
-                </h5>
-            </div>
-        </div>
-        <div class="mr-3">
-            <div class="card bg-success p-3">
-                <h5>
-                    <a class="text-light" href="{% url 'students:paid_registrants' %}">
-                        Paid
-                        <span class="badge badge-light">
-                            {{ paid_registrants.count }}
-                        </span>
-                    </a>
-                </h5>
-            </div>
-        </div>
-        <div class="mr-3">
-            <div class="card bg-secondary p-3">
-                <h5>
-                    <a class="text-light" href="{% url 'students:admission_confirmation' %}">
-                        Confirm
-                        <span class="badge badge-light">
-                            TBI
-                        </span>
-                    </a>
-                </h5>
-            </div>
-        </div>
+  <div class="col-12 d-flex">
+    <!-- Topbar Informations -->
+    <div class="mr-3">
+      <div class="card bg-primary p-3">
+        <h5>
+          <a class="text-light" href="{% url 'students:all_applicants' %}">
+            All Applicants
+            <span class="badge badge-light"> {{ all_applicants.count }} </span>
+          </a>
+        </h5>
+      </div>
     </div>
+    <div class="mr-3">
+      <div class="card bg-info p-3">
+        <h5>
+          <a
+            class="text-light"
+            href="{% url 'students:admitted_student_list' %}"
+          >
+            Admitted & Paid
+            <span class="badge badge-light">
+              {{ admitted_students.count }}
+            </span>
+          </a>
+        </h5>
+      </div>
+    </div>
+    <div class="mr-3">
+      <div class="card bg-warning p-3">
+        <h5>
+          <a class="text-light" href="{% url 'students:unpaid_registrants' %}">
+            Unpaid
+            <span class="badge badge-light">
+              {{ unpaid_registrants.count }}
+            </span>
+          </a>
+        </h5>
+      </div>
+    </div>
+    <div class="mr-3">
+      <div class="card bg-danger p-3">
+        <h5>
+          <a
+            class="text-light"
+            href="{% url 'students:rejected_registrants' %}"
+          >
+            Rejected
+            <span class="badge badge-light">
+              {{ rejected_applicants.count }}
+            </span>
+          </a>
+        </h5>
+      </div>
+    </div>
+    <div class="mr-3">
+      <div class="card bg-success p-3">
+        <h5>
+          <a class="text-light" href="{% url 'students:paid_registrants' %}">
+            Paid
+            <span class="badge badge-light">
+              {{ paid_registrants.count }}
+            </span>
+          </a>
+        </h5>
+      </div>
+    </div>
+    <div class="mr-3">
+      <div class="card bg-secondary p-3">
+        <h5>
+          <a
+            class="text-light"
+            href="{% url 'students:admission_confirmation' %}"
+          >
+            Confirm
+            <span class="badge badge-light"> TBI </span>
+          </a>
+        </h5>
+      </div>
+    </div>
+  </div>
 </div>
-<hr>
+<hr />
 <!-- Actions -->
 <div class="row">
-    <div class="col-12 d-flex">
-        <div class="action-btn-box mr-1">
-            <a href="{% url 'students:add_student' %}" class="btn btn-sm btn-success">Add New Student</a>
-        </div>
-        <div class="action-btn-box mr-1">
-            <a href="{% url 'students:counsel_monthly_report' %}" class="btn btn-info btn-sm">
-                Counsel Monthly Report
-            </a>
-        </div>
-        <div class="action-btn-box mr-1">
-            <a href="" class="btn btn-sm btn-dark">
-                Counsel Yearly Report
-            </a>
-        </div>
-        <div class="action-btn-box mr-1">
-            <a href="" class="btn btn-sm btn-danger">
-                Extract data from registrants
-            </a>
-        </div>
+  <div class="col-12 d-flex">
+    <div class="action-btn-box mr-1">
+      <a href="{% url 'students:add_student' %}" class="btn btn-sm btn-success"
+        >Add New Student</a
+      >
     </div>
+    <div class="action-btn-box mr-1">
+      <a
+        href="{% url 'students:counsel_monthly_report' %}"
+        class="btn btn-info btn-sm"
+      >
+        Counsel Monthly Report
+      </a>
+    </div>
+    <div class="action-btn-box mr-1">
+      <a href="" class="btn btn-sm btn-dark"> Counsel Yearly Report </a>
+    </div>
+    <div class="action-btn-box mr-1">
+      <a href="" class="btn btn-sm btn-danger">
+        Extract data from registrants
+      </a>
+    </div>
+  </div>
 </div>
-<hr>
+<hr />
+
+<!-- Charts -->
+<div class="row">
+  <div class="col-md-6">
+    <div class="card p-4">
+      <h5 class="card-title text-center">Counsel Chart for Nov 2020</h5>
+      <div id="canvas-holder" style="width: 100%">
+        <canvas id="chart-area"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+<hr />
 
 <div class="row mt-5">
-    <div class="col-md-12">
-        <div class="dashboard-section-title mb-3">
-            <div class="title-v-line"></div>
-            <h4>Monthly Report <span class="color-2">Analysis</span></h4>
-        </div>
+  <div class="col-md-12">
+    <div class="dashboard-section-title mb-3">
+      <div class="title-v-line"></div>
+      <h4>Monthly Report <span class="color-2">Analysis</span></h4>
     </div>
+  </div>
 
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-top-meta-info d-flex justify-content-between lio-primary-bg border-bottom
-                align-items-center p-3 text-light">
-                <div class="card-collapse">
-                    <div class="card-actions-action">
-                        <i class="fas fa-chevron-up"></i> <span class="">Collapse</span>
-                    </div>
-                </div>
-                <div class="card-print-pdf-actions d-flex justify-content-between">
-                    <div class="card-actions-action">
-                        <i class="fas fa-cloud-download-alt"></i>
-                    </div>
-                    <div class="card-actions-action">
-                        <i class="fas fa-file-pdf"></i>
-                    </div>
-                    <div class="card-actions-action">
-                        <i class="fas fa-print"></i>
-                    </div>
-                </div>
-                <div class="card-record-date">
-                    <form action="" method="get">
-                        <div class="form-row align-items-center">
-                            <!-- <div class="form-group col-md-5">Month:</div> -->
-                            <div class="form-group">
-                                <select name="monthly_report_date" id="monthly_report_date" class="form-control">
-                                    <option selected id="reporting_month_selected" disabled></option>
-                                    {% for month in month_list %}
-                                        <option value="{{ month }}">{{ month }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-12 m-0 p-0" id="monthly-report-table">
-                <!-- Applications -->
-                <div class="">
-                    <p class="bg-info text-light pl-4 py-1 mb-0">Total Application</p>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">TOTAL</th>
-                                <th scope="col">Online</th>
-                                <th scope="col">On-visit/Call</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td id="total_applications_number"></td>
-                                <td id="total_online_applications"></td>
-                                <td id="total_offline_applications"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Admissions -->
-                <div class="">
-                    <p class="bg-info text-light pl-4 py-1 mb-0">Total Admission</p>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">TOTAL</th>
-                                <th scope="col">Online</th>
-                                <th scope="col">On-visit/Call</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td id="total_admission_number"></td>
-                                <td id="total_online_admission"></td>
-                                <td id="total_offline_admission"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- By Department -->
-                <div class="">
-                    <p class="bg-info text-light pl-4 py-1 mb-0">Admission/Migration/NA By Department</p>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">Department</th>
-                                <th scope="col">Applications</th>
-                                <th scope="col">Admission</th>
-                                <th scope="col">Migrated From</th>
-                                <th scope="col">Migrated To</th>
-                                <th scope="col">Missed</th>
-                            </tr>
-                        </thead>
-                        <tbody id="departmental_report_tbody">
-                            {# <tr>#}
-                            {#     <th scope="row">{{ dept_name }}</th>#}
-                            {#     <td>{{ departmental_record.applications_count }}</td>#}
-                            {#     <td>{{ departmental_record.admission_count }}</td>#}
-                            {#     <td>{TO BE IMPLEMENTED}</td>#}
-                            {#     <td>{{ departmental_record.missed }}</td>#}
-                            {# </tr>#}
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- By City -->
-                <div class="">
-                    <p class="bg-info text-light pl-4 py-1 mb-0">Total Admission/Application by Cities</p>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">City Name</th>
-                                <th scope="col">Applications</th>
-                                <th scope="col">Admission</th>
-                            </tr>
-                        </thead>
-                        <tbody id="cities_report_tbody">
-                            {# <tr>#}
-                            {#     <th scope="row">{{ forloop.counter }}</th>#}
-                            {#     <td>{{ zila }}</td>#}
-                            {#     <td>{{ zila_record.application_count }}</td>#}
-                            {#     <td>{{ zila_record.admission_count }}</td>#}
-                            {# </tr>#}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+  <div class="col-md-12">
+    <div class="card">
+      <div
+        class="card-top-meta-info d-flex justify-content-between lio-primary-bg border-bottom align-items-center p-3 text-light"
+      >
+        <div class="card-collapse">
+          <div class="card-actions-action">
+            <i class="fas fa-chevron-up"></i> <span class="">Collapse</span>
+          </div>
         </div>
+        <div class="card-print-pdf-actions d-flex justify-content-between">
+          <div class="card-actions-action">
+            <i class="fas fa-cloud-download-alt"></i>
+          </div>
+          <div class="card-actions-action">
+            <i class="fas fa-file-pdf"></i>
+          </div>
+          <div class="card-actions-action">
+            <i class="fas fa-print"></i>
+          </div>
+        </div>
+        <div class="card-record-date">
+          <form action="" method="get">
+            <div class="form-row align-items-center">
+              <!-- <div class="form-group col-md-5">Month:</div> -->
+              <div class="form-group">
+                <select
+                  name="monthly_report_date"
+                  id="monthly_report_date"
+                  class="form-control"
+                >
+                  <option
+                    selected
+                    id="reporting_month_selected"
+                    disabled
+                  ></option>
+                  {% for month in month_list %}
+                  <option value="{{ month }}">{{ month }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-12 m-0 p-0" id="monthly-report-table">
+        <!-- Applications -->
+        <div class="">
+          <p class="bg-info text-light pl-4 py-1 mb-0">Total Application</p>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">TOTAL</th>
+                <th scope="col">Online</th>
+                <th scope="col">On-visit/Call</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td id="total_applications_number"></td>
+                <td id="total_online_applications"></td>
+                <td id="total_offline_applications"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Admissions -->
+        <div class="">
+          <p class="bg-info text-light pl-4 py-1 mb-0">Total Admission</p>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">TOTAL</th>
+                <th scope="col">Online</th>
+                <th scope="col">On-visit/Call</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td id="total_admission_number"></td>
+                <td id="total_online_admission"></td>
+                <td id="total_offline_admission"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- By Department -->
+        <div class="">
+          <p class="bg-info text-light pl-4 py-1 mb-0">
+            Admission/Migration/NA By Department
+          </p>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Department</th>
+                <th scope="col">Applications</th>
+                <th scope="col">Admission</th>
+                <th scope="col">Migrated From</th>
+                <th scope="col">Migrated To</th>
+                <th scope="col">Missed</th>
+              </tr>
+            </thead>
+            <tbody id="departmental_report_tbody">
+              <!-- Updated from ajax -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- By City -->
+        <div class="">
+          <p class="bg-info text-light pl-4 py-1 mb-0">
+            Total Admission/Application by Cities
+          </p>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">City Name</th>
+                <th scope="col">Applications</th>
+                <th scope="col">Admission</th>
+              </tr>
+            </thead>
+            <tbody id="cities_report_tbody">
+              <!-- Updating from ajax -->
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
-{% endblock %}
-
-{% block extrajs %}
+{% endblock %} {% block extrajs %}
 <script>
-    // Select Image
-    $('input[type="file"]').change(function (e) {
-        const fileName = e.target.files[0].name;
-        $('.custom-file-label').html(fileName);
-    });
+  // Select Image
+  $('input[type="file"]').change(function (e) {
+    const fileName = e.target.files[0].name;
+    $(".custom-file-label").html(fileName);
+  });
 
-    $('.card-collapse').click(function () {
-        $('#monthly-report-table').fadeToggle( "fast", "linear" );
-    });
+  $(".card-collapse").click(function () {
+    $("#monthly-report-table").fadeToggle("fast", "linear");
+  });
 
-    // Update Monthly Report UI
-    function update_monthly_report_ui(record) {
-        // report metadata elements
-        const total_applications_number_elem = document.getElementById('total_applications_number');
-        const reporting_month_elem = document.getElementById('reporting_month_selected');
-        const total_online_applications_elem = document.getElementById('total_online_applications');
-        const total_offline_applications_elem = document.getElementById('total_offline_applications');
+  // Update Monthly Report UI
+  function update_monthly_report_ui(record) {
+    // report metadata elements
+    const total_applications_number_elem = document.getElementById(
+      "total_applications_number"
+    );
+    const reporting_month_elem = document.getElementById(
+      "reporting_month_selected"
+    );
+    const total_online_applications_elem = document.getElementById(
+      "total_online_applications"
+    );
+    const total_offline_applications_elem = document.getElementById(
+      "total_offline_applications"
+    );
 
-        const total_admission_elem = document.getElementById('total_admission_number');
-        const total_online_admission_elem = document.getElementById('total_online_admission');
-        const total_offline_admission_elem = document.getElementById('total_offline_admission');
+    const total_admission_elem = document.getElementById(
+      "total_admission_number"
+    );
+    const total_online_admission_elem = document.getElementById(
+      "total_online_admission"
+    );
+    const total_offline_admission_elem = document.getElementById(
+      "total_offline_admission"
+    );
 
-        const dept_report_tbody_elem = document.getElementById('departmental_report_tbody');
-        const cities_report_tbody_elem = document.getElementById('cities_report_tbody');
+    const dept_report_tbody_elem = document.getElementById(
+      "departmental_report_tbody"
+    );
+    const cities_report_tbody_elem = document.getElementById(
+      "cities_report_tbody"
+    );
 
-        // Update UI From Data Records
-        reporting_month_elem.innerHTML = record.report_month;
-        total_applications_number_elem.textContent = record.total_applications;
-        total_online_applications_elem.textContent = record.online_applications;
-        total_offline_applications_elem.textContent = record.offline_applications;
+    // Update UI From Data Records
+    reporting_month_elem.innerHTML = record.report_month;
+    total_applications_number_elem.textContent = record.total_applications;
+    total_online_applications_elem.textContent = record.online_applications;
+    total_offline_applications_elem.textContent = record.offline_applications;
 
-        // Update Total Admission Section
-        total_admission_elem.innerHTML = record.total_admissions;
-        total_online_admission_elem.innerHTML = record.total_admission_online;
-        total_offline_admission_elem.innerHTML = record.total_admission_offline;
+    // Update Total Admission Section
+    total_admission_elem.innerHTML = record.total_admissions;
+    total_online_admission_elem.innerHTML = record.total_admission_online;
+    total_offline_admission_elem.innerHTML = record.total_admission_offline;
 
-        // Update Admission/Migration/NA By Department Part
-        const departments = record.departmental_records;
-        let template = '';
-        for (let department in departments) {
+    // Update Admission/Migration/NA By Department Part
+    const departments = record.departmental_records;
+    let template = "";
+    for (let department in departments) {
+      const applications = departments[department].applications_count;
+      const admission = departments[department].admission_count;
+      const migrated_from = departments[department].migrated_from_count;
+      const migrated_to = departments[department].migrated_to_count;
+      const missed = departments[department].missed;
 
-            const applications = departments[department].applications_count;
-            const admission = departments[department].admission_count;
-            const migrated_from = departments[department].migrated_from_count;
-            const migrated_to = departments[department].migrated_to_count;
-            const missed = departments[department].missed;
-
-            const new_tr = `
+      const new_tr = `
             <tr>
                 <th scope="row">${department}</th>
                 <td>${applications}</td>
@@ -319,61 +358,124 @@
                 <td>${migrated_to}</td>
                 <td>${missed}</td>
             </tr>`;
-            template += new_tr;
-        }
-        dept_report_tbody_elem.innerHTML = template;
+      template += new_tr;
+    }
+    dept_report_tbody_elem.innerHTML = template;
 
-        // Update Total Admission/Application by Cities Part
-        let cities = record.zila_records;
-        let cities_template = '';
-        for (let city in cities) {
-            const applications = cities[city].application_count;
-            const admissions = cities[city].admission_count;
+    // Update Total Admission/Application by Cities Part
+    let cities = record.zila_records;
+    let cities_template = "";
+    for (let city in cities) {
+      const applications = cities[city].application_count;
+      const admissions = cities[city].admission_count;
 
-            const city_tr = `
+      const city_tr = `
             <tr>
                 <td>${city}</td>
                 <td>${applications}</>
                 <td>${admissions}</>
             </tr>`;
-            cities_template += city_tr;
-        }
-
-        cities_report_tbody_elem.innerHTML = cities_template;
+      cities_template += city_tr;
     }
 
-    // Monthly Report API Call
-    function monthly_report_api_call(url) {
-        $.ajax({
-            type: 'GET',
-            url: url,
-            success: function (data) {
-                const record = data.data;
-                update_monthly_report_ui(record);
+    cities_report_tbody_elem.innerHTML = cities_template;
+  }
+
+  // Monthly Report API Call
+  function monthly_report_api_call(url) {
+    $.ajax({
+      type: "GET",
+      url: url,
+      success: function (data) {
+        const record = data.data;
+        update_monthly_report_ui(record);
+      },
+      error: function (err) {
+        console.log(err);
+      },
+    });
+  }
+
+  // Fetch Monthly Reporting Data to Dashboard
+  $(function () {
+    const url =
+      "{% url 'students:counsel_monthly_report_typed' response_type='json' %}";
+    monthly_report_api_call(url);
+  });
+
+  // Select monthly report from months option
+  $("#monthly_report_date option").click(function (e) {
+    const dateOptionValue = this.textContent.split("-");
+    const optionMonth = dateOptionValue[0];
+    const optionYear = dateOptionValue[1];
+    const monthNumberRaw =
+      new Date(`1 ${optionMonth} ${optionYear}`).getMonth() + 1;
+    const monthNumber =
+      monthNumberRaw < 10 ? `0${monthNumberRaw}` : monthNumberRaw;
+    const dateQuery = `${optionYear}-${monthNumber}-01`;
+    let url = `{% url 'students:counsel_monthly_report_typed' response_type='json' %}`;
+    url = url + dateQuery;
+    monthly_report_api_call(url);
+  });
+
+  // Chart
+  // window.onload = function() {
+  // 	var ctx = document.getElementById('chart-area').getContext('2d');
+  // 	window.myPie = new Chart(ctx, config);
+  // };
+  $(function () {
+    const url =
+        "{% url 'students:counsel_monthly_report_typed' response_type='json' %}";
+    $.ajax({
+      type: "GET",
+      url: url,
+      success: function (data) {
+        const record = data.data;
+        console.log(record);
+        var config = {
+          type: "pie",
+          data: {
+            datasets: [
+              {
+                data: [
+                    record.online_applications,
+                    record.offline_applications,
+                    record.total_admissions,
+                    '{{ unpaid_registrants.count }}',
+                    '{{ rejected_applicants.count }}'
+                ],
+                backgroundColor: [
+                  "#FF3D67",
+                  "#FF9124",
+                  "#22CECE",
+                  "#069BFF",
+                  "#8142FF",
+                ],
+                label: "Dataset 1",
+              },
+            ],
+            labels: [
+              "Online Application",
+              "Offline Application",
+              "Admitted",
+              "Pending",
+              "Rejected",
+            ],
+          },
+          options: {
+            responsive: true,
+            legend: {
+              position: "left",
             },
-            error: function (err) {
-                console.log(err);
-            }
-        });
-    }
-
-    // Fetch Monthly Reporting Data to Dashboard
-    $(function () {
-        const url = "{% url 'students:counsel_monthly_report_typed' response_type='json' %}";
-        monthly_report_api_call(url);
+          },
+        };
+        var ctx = document.getElementById("chart-area").getContext("2d");
+        window.myPie = new Chart(ctx, config);
+      },
+      error: function (err) {
+        console.log(err);
+      },
     });
-
-    // Select monthly report from months option
-    $('#monthly_report_date option').click(function (e){
-        const dateOptionValue = this.textContent.split('-');
-        const optionMonth = dateOptionValue[0];
-        const optionYear = dateOptionValue[1];
-        const monthNumberRaw = new Date(`1 ${optionMonth} ${optionYear}`).getMonth() + 1;
-        const monthNumber = monthNumberRaw < 10 ? `0${monthNumberRaw}` : monthNumberRaw;
-        const dateQuery = `${optionYear}-${monthNumber}-01`;
-        let url = `{% url 'students:counsel_monthly_report_typed' response_type='json' %}`;
-        url = url + dateQuery;
-        monthly_report_api_call(url);
-    });
+  });
 </script>
 {% endblock %}
