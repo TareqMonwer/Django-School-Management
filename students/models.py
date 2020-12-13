@@ -1,5 +1,5 @@
 from datetime import datetime
-from django.db import models
+from django.db import models, OperationalError
 from django.contrib.auth import get_user_model
 from django.conf import settings
 from model_utils.models import TimeStampedModel
@@ -122,6 +122,11 @@ class Student(TimeStampedModel):
             return 0
 
     def save(self, *args, **kwargs):
+        # Check if chosen_dept == batch.dept is same or not.
+        if self.admission_student.choosen_department != self.batch.department:
+            raise OperationalError(
+                f'Cannot assign {self.admission_student.choosen_department} '
+                f'departments student to {self.batch.department} department.')
         # Set AdmissionStudent assigned_as_student=True
         self.admission_student.assigned_as_student = True
         self.admission_student.save()

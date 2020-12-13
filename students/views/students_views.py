@@ -121,8 +121,7 @@ def admission_confirmation(request):
         admitted=True, 
         paid=True, 
         rejected=False,
-        assigned_as_student=False
-    )
+        assigned_as_student=False)
     departments = Department.objects.order_by('name')
     batches = Batch.objects.all()
     sessions = AcademicSession.objects.all()
@@ -154,14 +153,19 @@ def admission_confirmation(request):
         students = []
         for candidate in to_be_admitted:
             session = AcademicSession.objects.get(id=session_id)
-            student = Student.objects.create(
-                admission_student=candidate,
-                semester=semester,
-                batch=batch,
-                ac_session=session,
-                admitted_by=request.user,
-            )
-            students.append(student)
+            # If student.save() doesn't raise any exceptions, 
+            # we save student, except, we skip making student object.
+            try:
+                student = Student.objects.create(
+                    admission_student=candidate,
+                    semester=semester,
+                    batch=batch,
+                    ac_session=session,
+                    admitted_by=request.user,
+                )
+                students.append(student)
+            except:
+                pass
         ctx['students'] = students
         return render(request, 'students/list/confirm_admission.html', ctx)
     else:
