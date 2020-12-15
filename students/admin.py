@@ -4,6 +4,7 @@ from .models import Student, AdmissionStudent, RegularStudent
 
 class AdmissionStudentAdmin(admin.ModelAdmin):
     list_display = ('name', 'created')
+    list_filter = ('paid', 'rejected')
 
 
 class StudentAdmin(admin.ModelAdmin):
