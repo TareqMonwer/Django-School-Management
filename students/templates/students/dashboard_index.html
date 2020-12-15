@@ -480,15 +480,15 @@
               record.online_applications,
               record.offline_applications,
               record.total_admissions,
-              '{{ unpaid_registrants.count }}',
-              '{{ rejected_applicants.count }}'
+              record.unpaid_registrants,
+              record.rejected_registrants
             ],
             backgroundColor: [
-              "#FF3D67",
-              "#FF9124",
               "#22CECE",
               "#069BFF",
               "#8142FF",
+              "#FF9124",
+              "#FF3D67",
             ],
             label: "Dataset 1",
           },
@@ -535,7 +535,7 @@
   
     // get a date like: 2020-12-01
     const dateQuery = `${optionYear}-${monthNumber}-01`;
-    
+
     let url = `{% url 'students:counsel_monthly_report_typed' response_type='json' %}`;
     url = url + dateQuery;
     monthly_report_piechart_api_call(url);
