@@ -408,10 +408,16 @@
     const dateOptionValue = this.textContent.split("-");
     const optionMonth = dateOptionValue[0];
     const optionYear = dateOptionValue[1];
+    // Create date object from extracted year and month from option tag
     const monthNumberRaw =
       new Date(`1 ${optionMonth} ${optionYear}`).getMonth() + 1;
+    
+    // Convert month number 1 to 01, 2 to 02 ... 9 to 09 because, 
+    // route requires numbers less than ten prefixed with 0.
     const monthNumber =
       monthNumberRaw < 10 ? `0${monthNumberRaw}` : monthNumberRaw;
+  
+    // get a date like: 2020-12-01
     const dateQuery = `${optionYear}-${monthNumber}-01`;
     let url = `{% url 'students:counsel_monthly_report_typed' response_type='json' %}`;
     url = url + dateQuery;
