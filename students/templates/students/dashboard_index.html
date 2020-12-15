@@ -132,6 +132,7 @@
 
 <!-- Charts -->
 <div class="row">
+  <!-- Monthly Report PieChart -->
   <div class="col-md-6">
     <div class="card p-4">
       <h5 class="card-title text-center">
@@ -157,8 +158,39 @@
             </div>
           </form>
       </h5>
-      <div id="canvas-holder" style="width: 100%">
-        <canvas id="chart-area"></canvas>
+      <div id="monthly-report-canvas-holder" style="width: 100%">
+        <canvas id="monthly-report--chart-area"></canvas>
+      </div>
+    </div>
+  </div>
+  <!-- Monthly Report Departmentwise bar Chart -->
+  <div class="col-md-6">
+    <div class="card p-4">
+      <h5 class="card-title text-center">
+        <form action="" method="get">
+            <div class="form-row align-items-center">
+              <!-- <div class="form-group col-md-5">Month:</div> -->
+              <div class="form-group">
+                <select
+                  name="monthly_report_department_date"
+                  id="monthly_report_department_date"
+                  class="form-control"
+                >
+                  <option
+                    selected
+                    id="monthly_report_department_month_selected"
+                    disabled
+                  ></option>
+                  {% for month in month_list %}
+                  <option value="{{ month }}">{{ month }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </form>
+      </h5>
+      <div id="monthly-report-by-dept-canvas-holder" style="width: 100%">
+        <canvas id="monthly-report--dept-barchart-area"></canvas>
       </div>
     </div>
   </div>
@@ -508,7 +540,7 @@
         },
       },
     };
-    var ctx = document.getElementById("chart-area").getContext("2d");
+    var ctx = document.getElementById("monthly-report--chart-area").getContext("2d");
     window.myPie = new Chart(ctx, config);
   }
 
@@ -541,5 +573,55 @@
     monthly_report_piechart_api_call(url);
   });
 
+  // Department-twise Monthly report chart
+  var barChartData = {
+    labels: ['Computer', 'Electrical', 'AIDT', 'Telecom'],
+    datasets: [{
+      label: 'Admitted',
+      backgroundColor: [
+        "#22CECE",
+        "#069BFF",
+        "#8142FF",
+        "#FF9124",
+        "#FF3D67",
+      ],
+      borderColor: '#FF3D67',
+      borderWidth: 2,
+      data: [10,11,12,11,15,8,5]
+    }, 
+    { 
+      label: 'Pending',
+      backgroundColor: [
+        "#22CECE",
+        "#069BFF",
+        "#8142FF",
+        "#FF9124",
+        "#FF3D67",
+      ],
+      borderColor: '#FF3D67',
+      borderWidth: 2,
+      data: [5, 6, 6,8,6,2]
+    }]
+
+		};
+
+  window.onload = function() {
+    var ctx = document.getElementById('monthly-report--dept-barchart-area').getContext('2d');
+    window.myBar = new Chart(ctx, {
+      type: 'bar',
+      data: barChartData,
+      options: {
+        responsive: true,
+        legend: {
+          position: 'top',
+        },
+        title: {
+          display: true,
+          text: 'Department-wise Admission Info'
+        }
+      }
+    });
+
+  };
 </script>
 {% endblock %}
