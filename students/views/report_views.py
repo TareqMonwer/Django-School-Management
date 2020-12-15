@@ -87,6 +87,11 @@ def counsel_monthly_report(request, response_type='html', date_param=None):
     total_admission_online = total_admission.filter(application_type='1')  # 1 is online
     total_admission_offline = total_admission.filter(application_type='2')  # 2 is offline
 
+    # Unpaid and rejected registrants
+    # rejected applications are filtered out because they will not admit.
+    unpaid_registrants = total_applications.filter(paid=False, rejected=False)
+    rejected_registrants = total_applications.filter(rejected=True)
+
     # Report By Department
     departments = Department.objects.all()
     departmental_records = get_departments_record(departments, total_applications, total_admission)
@@ -96,13 +101,15 @@ def counsel_monthly_report(request, response_type='html', date_param=None):
 
     ctx = {
         'date': datetime.date.today(),
-        'report_month': report_month_dt.strftime('%B'),
+        'report_month': report_month_dt.strftime('%B'), # Format full month name (July)
         'total_applications': total_applications.count(),
         'total_admissions': total_admission.count(),
         'online_applications': online_applications.count(),
         'offline_applications': offline_applications.count(),
         'total_admission_online': total_admission_online.count(),
         'total_admission_offline': total_admission_offline.count(),
+        'unpaid_registrants': unpaid_registrants.count(),
+        'rejected_registrants': rejected_registrants.count(),
         'departmental_records': departmental_records,
         'zila_records': zila_records,
     }
