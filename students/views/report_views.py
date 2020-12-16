@@ -1,10 +1,12 @@
 import datetime
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
+from django.template.loader import get_template
 
 from students.models import AdmissionStudent
 from academics.models import Department
 from students.utils.bd_zila import ALL_ZILA
+from students.utils.helpers import render_to_pdf
 
 
 def get_departments_record(departments_qs, applications, admissions):
@@ -116,5 +118,9 @@ def counsel_monthly_report(request, response_type='html', date_param=None):
 
     if response_type.lower() == 'json':
         return JsonResponse({'data': ctx})
+    elif response_type.lower() == 'pdf':
+        # template = get_template('students/reports/counsel_monthly_report.html')
+        pdf = render_to_pdf('students/reports/counsel_monthly_report.html', ctx)
+        return HttpResponse(pdf, content_type='application/pdf')
 
     return render(request, 'students/reports/counsel_monthly_report.html', ctx)
