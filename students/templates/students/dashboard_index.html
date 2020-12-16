@@ -209,6 +209,7 @@
 </div>
 <hr />
 
+<!-- Monthly Report Table -->
 <div class="row mt-5">
   <div class="col-md-12">
     <div class="dashboard-section-title mb-3">
@@ -220,7 +221,8 @@
   <div class="col-md-12">
     <div class="card">
       <div
-        class="card-top-meta-info d-flex justify-content-between lio-primary-bg border-bottom align-items-center p-3 text-light"
+        class="card-top-meta-info d-flex justify-content-between 
+        lio-primary-bg border-bottom align-items-center p-3 text-light"
       >
         <div class="card-collapse">
           <div class="card-actions-action">
@@ -232,7 +234,11 @@
             <i class="fas fa-cloud-download-alt"></i>
           </div>
           <div class="card-actions-action">
-            <i class="fas fa-file-pdf"></i>
+            <a class="text-light" 
+              href="{% url 'students:counsel_monthly_report_typed' response_type='pdf' %}"
+              target="_blank">
+              <i class="fas fa-file-pdf"></i>
+            </a>
           </div>
           <div class="card-actions-action">
             <i class="fas fa-print"></i>
