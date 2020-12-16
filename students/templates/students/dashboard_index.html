@@ -12,11 +12,11 @@
 </nav>
 
 <!-- Stats - Links -->
-<div class="row">
+<div class="row my-5">
   <div class="col-md-12">
     <div class="dashboard-section-title mb-3">
       <div class="title-v-line"></div>
-      <h4>Registrants <span class="color-2">Operations</span></h4>
+      <h4>Counseling <span class="color-2">Operations</span></h4>
     </div>
   </div>
 
@@ -93,8 +93,19 @@
             class="text-light"
             href="{% url 'students:admission_confirmation' %}"
           >
-            Confirm
-            <span class="badge badge-light"> TBI </span>
+            Confirm Admission
+          </a>
+        </h5>
+      </div>
+    </div>
+    <div class="mr-3">
+      <div class="card lio-primary-bg p-3">
+        <h5>
+          <a
+            class="text-light"
+            href="#"
+          >
+            Visits
           </a>
         </h5>
       </div>
@@ -102,36 +113,9 @@
   </div>
 </div>
 <hr />
-<!-- Actions -->
-<div class="row">
-  <div class="col-12 d-flex">
-    <div class="action-btn-box mr-1">
-      <a href="{% url 'students:add_student' %}" class="btn btn-sm btn-success"
-        >Add New Student</a
-      >
-    </div>
-    <div class="action-btn-box mr-1">
-      <a
-        href="{% url 'students:counsel_monthly_report' %}"
-        class="btn btn-info btn-sm"
-      >
-        Counsel Monthly Report
-      </a>
-    </div>
-    <div class="action-btn-box mr-1">
-      <a href="" class="btn btn-sm btn-dark"> Counsel Yearly Report </a>
-    </div>
-    <div class="action-btn-box mr-1">
-      <a href="" class="btn btn-sm btn-danger">
-        Extract data from registrants
-      </a>
-    </div>
-  </div>
-</div>
-<hr />
 
 <!-- Charts -->
-<div class="row">
+<div class="row my-5">
   <!-- Monthly Report PieChart -->
   <div class="col-md-6">
     <div class="card p-4">
@@ -210,7 +194,7 @@
 <hr />
 
 <!-- Monthly Report Table -->
-<div class="row mt-5">
+<div class="row my-5">
   <div class="col-md-12">
     <div class="dashboard-section-title mb-3">
       <div class="title-v-line"></div>
@@ -222,33 +206,41 @@
     <div class="card">
       <div
         class="card-top-meta-info d-flex justify-content-between 
-        lio-primary-bg border-bottom align-items-center p-3 text-light"
-      >
-        <div class="card-collapse">
-          <div class="card-actions-action">
-            <i class="fas fa-chevron-up"></i> <span class="">Collapse</span>
+        lio-primary-bg border-bottom align-items-center p-3 text-light">
+        <div class="card-top-meta-info--left d-flex align-items-center">
+          <div class="card-collapse pr-3 border-right">
+            <div class="card-actions-action">
+              <i class="fas fa-chevron-up"></i> <span class="">Collapse</span>
+            </div>
+          </div>
+          <div class="card-print-pdf-actions d-flex justify-content-between">
+            <div class="card-actions-action">
+              <a href="{% url 'students:counsel_monthly_report' %}" 
+                target="_blank" class="text-light">
+                <i class="fas fa-external-link-alt"></i>
+              </a>
+            </div>
+            <div class="card-actions-action">
+              <form action="{% url 'students:counsel_monthly_report_typed' response_type='pdf' %}" method="get">
+                <input type="hidden" name="download" value="yes" />
+                <button type="submit" class="btn p-0">
+                  <i class="fas fa-cloud-download-alt text-light"></i>
+                </button>
+              </form>
+            </div>
+            <div class="card-actions-action">
+              <a class="text-light" 
+                href="{% url 'students:counsel_monthly_report_typed' response_type='pdf' %}"
+                target="_blank">
+                <i class="fas fa-file-pdf"></i>
+              </a>
+            </div>
+            <div class="card-actions-action">
+              <i class="fas fa-print"></i>
+            </div>
           </div>
         </div>
-        <div class="card-print-pdf-actions d-flex justify-content-between">
-          <div class="card-actions-action">
-            <form action="{% url 'students:counsel_monthly_report_typed' response_type='pdf' %}" method="get">
-              <input type="hidden" name="download" value="yes" />
-              <button type="submit" class="btn p-0">
-                <i class="fas fa-cloud-download-alt text-light"></i>
-              </button>
-            </form>
-          </div>
-          <div class="card-actions-action">
-            <a class="text-light" 
-              href="{% url 'students:counsel_monthly_report_typed' response_type='pdf' %}"
-              target="_blank">
-              <i class="fas fa-file-pdf"></i>
-            </a>
-          </div>
-          <div class="card-actions-action">
-            <i class="fas fa-print"></i>
-          </div>
-        </div>
+        
         <div class="card-record-date">
           <form action="" method="get">
             <div class="form-row align-items-center">
@@ -283,7 +275,7 @@
         <!-- Applications -->
         <div class="">
           <p class="bg-info text-light pl-4 py-1 mb-0">Total Application</p>
-          <table class="table table-striped">
+          <table class="table table-striped table-bordered">
             <thead>
               <tr>
                 <th scope="col">TOTAL</th>
@@ -304,7 +296,7 @@
         <!-- Admissions -->
         <div class="">
           <p class="bg-info text-light pl-4 py-1 mb-0">Total Admission</p>
-          <table class="table table-striped">
+          <table class="table table-striped table-bordered">
             <thead>
               <tr>
                 <th scope="col">TOTAL</th>
@@ -327,7 +319,7 @@
           <p class="bg-info text-light pl-4 py-1 mb-0">
             Admission/Migration/NA By Department
           </p>
-          <table class="table table-striped">
+          <table class="table table-striped table-bordered">
             <thead>
               <tr>
                 <th scope="col">Department</th>
@@ -349,7 +341,7 @@
           <p class="bg-info text-light pl-4 py-1 mb-0">
             Total Admission/Application by Cities
           </p>
-          <table class="table table-striped">
+          <table class="table table-striped table-bordered">
             <thead>
               <tr>
                 <th scope="col">City Name</th>
