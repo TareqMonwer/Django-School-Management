@@ -144,6 +144,7 @@
                   name="monthly_report_piechart_date"
                   id="monthly_report_piechart_date"
                   class="form-control"
+                  onchange="clickSelectedOption(this)"
                 >
                   <option
                     selected
@@ -151,7 +152,12 @@
                     disabled
                   ></option>
                   {% for month in month_list %}
-                  <option value="{{ month }}">{{ month }}</option>
+                  <option 
+                    value="{{ month }}" id="report-piechart-{{ month }}"
+                    onclick="monthlyReportPieChartByMonth(
+                    document.getElementById('report-piechart-{{ month }}').value)">
+                    {{ month }}
+                  </option>
                   {% endfor %}
                 </select>
               </div>
@@ -168,7 +174,7 @@
     <div class="card p-4">
       <h5 class="card-title text-center">
         <form action="" method="get">
-            <div class="form-row align-items-center">
+            <div class="form-row align-items-center justify-content-end">
               <!-- <div class="form-group col-md-5">Month:</div> -->
               <div class="form-group">
                 <select
@@ -243,8 +249,12 @@
                     disabled
                   ></option>
                   {% for month in month_list %}
-                  <option value="{{ month }}" id="report-table-{{ month }}"
-                  onclick="monthlyReportByMonth(document.getElementById('report-table-{{ month }}').value)">{{ month }}</option>
+                  <option 
+                    value="{{ month }}" id="report-table-{{ month }}"
+                    onclick="monthlyReportTableByMonth(
+                    document.getElementById('report-table-{{ month }}').value)">
+                    {{ month }}
+                  </option>
                   {% endfor %}
                 </select>
               </div>
@@ -341,12 +351,23 @@
 </div>
 {% endblock %} {% block extrajs %}
 <script>  
+  // Google Chrome change event support code.
+  const is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+
+  // Get the selected item on click from select options
+  function clickSelectedOption(select) {
+    // 'select' should be passed as 'this' from the function call.
+    if(!is_chrome) return;
+    select.options[select.selectedIndex].click();
+  }
+
   // Select Image
   $('input[type="file"]').change(function (e) {
     const fileName = e.target.files[0].name;
     $(".custom-file-label").html(fileName);
   });
 
+  // Collapse the monthly report table card
   $(".card-collapse").click(function () {
     $("#monthly-report-table").fadeToggle("fast", "linear");
   });
@@ -452,23 +473,15 @@
     });
   }
 
-  // Fetch Monthly Reporting Data to Dashboard
+  // Fetch Monthly Reporting Data Table to Dashboard
   $(function () {
     const url =
       "{% url 'students:counsel_monthly_report_typed' response_type='json' %}";
     monthly_report_api_call(url);
   });
 
-  const is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
-
-  function clickSelectedOption(select) {
-    // 'select' should be passed as 'this' from the function call.
-    if(!is_chrome) return;
-    select.options[select.selectedIndex].click();
-  }
-
   // Monthly report table month filter onclick event function
-  function monthlyReportByMonth(yearMonth) {
+  function monthlyReportTableByMonth(yearMonth) {
     const dateOptionValue = yearMonth.split("-");
     const optionMonth = dateOptionValue[0];
     const optionYear = dateOptionValue[1];
@@ -487,7 +500,7 @@
     monthly_report_api_call(url);
   }
 
-  // Charting
+  // Charting on the top section
   function monthly_report_piechart_api_call(url){
     $.ajax({
       type: "GET",
@@ -561,8 +574,8 @@
   });
 
   // Select monthly report month from monthly report pie chart
-  $("#monthly_report_piechart_date option").click(function (e) {
-    const dateOptionValue = this.textContent.split("-");
+  function monthlyReportPieChartByMonth(yearMonth) {
+    const dateOptionValue = yearMonth.split("-");
     const optionMonth = dateOptionValue[0];
     const optionYear = dateOptionValue[1];
     // Create date object from extracted year and month from option tag
@@ -580,41 +593,36 @@
     let url = `{% url 'students:counsel_monthly_report_typed' response_type='json' %}`;
     url = url + dateQuery;
     monthly_report_piechart_api_call(url);
-  });
+  }
 
-  // Department-twise Monthly report chart
-  var barChartData = {
-    labels: ['Computer', 'Electrical', 'AIDT', 'Telecom'],
-    datasets: [{
-      label: 'Admitted',
-      backgroundColor: [
-        "#22CECE",
-        "#069BFF",
-        "#8142FF",
-        "#FF9124",
-        "#FF3D67",
-      ],
-      borderColor: '#FF3D67',
-      borderWidth: 2,
-      data: [10,11,12,11,15,8,5]
-    }, 
-    { 
-      label: 'Pending',
-      backgroundColor: [
-        "#22CECE",
-        "#069BFF",
-        "#8142FF",
-        "#FF9124",
-        "#FF3D67",
-      ],
-      borderColor: '#FF3D67',
-      borderWidth: 2,
-      data: [5, 6, 6,8,6,2]
-    }]
+  // Update selected month for Dept-wise bar chart
+  function updateMonthlyReportByDepartmentsBarChartUI(record) {
+    const reporting_chart_month_elem = document.getElementById(
+      'monthly_report_department_month_selected');
+    reporting_chart_month_elem.innerHTML = record.report_month;
+  }
 
+  // Display and bar chart for department-wise data information
+  function displayMonthlyReportByDepartmentsBarChar(record) {
+    var color = Chart.helpers.color;
+    var barChartData = {
+			labels: [
+        'Computer', 'Electrical', 'AIDT', 'Telecom', 'Civil',
+        'Texttile', 'GDPM', 'T&H'],
+			datasets: [{
+				label: 'Admitted',
+				backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+				borderColor: window.chartColors.red,
+				borderWidth: 1,
+				data:[10,11,12,11,15,8,5]
+			}, {
+				label: 'Pending',
+				backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+				borderColor: window.chartColors.blue,
+				borderWidth: 1,
+				data: [5, 6, 6,8,6,2]
+			}]
 		};
-
-  window.onload = function() {
     var ctx = document.getElementById('monthly-report--dept-barchart-area').getContext('2d');
     window.myBar = new Chart(ctx, {
       type: 'bar',
@@ -622,15 +630,39 @@
       options: {
         responsive: true,
         legend: {
-          position: 'top',
+          position: 'right',
         },
         title: {
           display: true,
-          text: 'Department-wise Admission Info'
+          text: 'Report By Departments',
+          position: 'right'
         }
       }
     });
+  }
+  
+  // API call to grab barChartData and update the barchart UI
+  function monthlyReportByDepartmentsBarChartAPICall(url) {
+    $.ajax({
+      type: "GET",
+      url: url,
+      success: function (data) {
+        const record = data.data;
+        updateMonthlyReportByDepartmentsBarChartUI(record);
+        displayMonthlyReportByDepartmentsBarChar(record)
+      },
+      error: function (err) {
+        console.log(err);
+      },
+    });
+  }
+  
+  // Immediate call to display monthly report by departments bar chart
+  $(function () {
+    let url =
+      "{% url 'students:counsel_monthly_report_typed' response_type='json' %}";
+    monthlyReportByDepartmentsBarChartAPICall(url);
+  });
 
-  };
-</script>
+  </script>
 {% endblock %}
