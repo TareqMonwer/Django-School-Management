@@ -531,6 +531,12 @@
 
   // Show monthly report pie chart on UI
   function displayMonthlyReportPieChart(record) {
+    // if the chart is not undefined (e.g. it has been created)
+    // then destory the old one so we can create a new one later 
+    // also fix of showing old data on hover/mouseover
+    if(window.admissionDataPie != undefined) {
+      window.admissionDataPie.destroy(); 
+    }
     var config = {
       type: "pie",
       data: {
@@ -569,7 +575,7 @@
       },
     };
     var ctx = document.getElementById("monthly-report--chart-area").getContext("2d");
-    window.myPie = new Chart(ctx, config);
+    window.admissionDataPie = new Chart(ctx, config);
   }
 
   // Immediate call to display monthly report pie chart
@@ -627,6 +633,13 @@
       );
     }
 
+    // if the chart is not undefined (e.g. it has been created)
+    // then destory the old one so we can create a new one later 
+    // also fix of showing old data on hover/mouseover
+    if(window.deptDataBar != undefined) {
+      window.deptDataBar.destroy(); 
+    }
+
     // fetch and diplay Bar data
     const departmentsBarChartData = {
 			labels: dept_names_array,
@@ -645,7 +658,8 @@
 			}]
 		};
     const ctx = document.getElementById('monthly-report--dept-barchart-area').getContext('2d');
-    window.myBar = new Chart(ctx, {
+
+    window.deptDataBar = new Chart(ctx, {
       type: 'bar',
       data: departmentsBarChartData,
       options: {
