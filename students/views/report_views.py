@@ -119,8 +119,21 @@ def counsel_monthly_report(request, response_type='html', date_param=None):
     if response_type.lower() == 'json':
         return JsonResponse({'data': ctx})
     elif response_type.lower() == 'pdf':
-        # template = get_template('students/reports/counsel_monthly_report.html')
-        pdf = render_to_pdf('students/reports/counsel_monthly_report.html', ctx)
-        return HttpResponse(pdf, content_type='application/pdf')
+        template = get_template('students/reports/counsel_monthly_report.html')
+        html = template.render(ctx)
+        pdf = render_to_pdf(
+            'students/reports/counsel_monthly_report.html', ctx)
+        
+        if pdf:
+            response = HttpResponse(pdf, content_type='application/pdf')
+            filename = 'counsel_report_%s' % (ctx.get('report_month'))
+            content = f'inline; filename="{filename}"'
+            # To download document as PDF
+            download = request.GET.get('download')
+            if download:
+                content = f'attachment; filename="{filename}"'
+            response['Content-Disposition'] = content
+            return response
+        return HttpResponse('Not found')
 
     return render(request, 'students/reports/counsel_monthly_report.html', ctx)

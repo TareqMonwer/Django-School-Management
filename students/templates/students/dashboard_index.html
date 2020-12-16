@@ -231,7 +231,12 @@
         </div>
         <div class="card-print-pdf-actions d-flex justify-content-between">
           <div class="card-actions-action">
-            <i class="fas fa-cloud-download-alt"></i>
+            <form action="{% url 'students:counsel_monthly_report_typed' response_type='pdf' %}" method="get">
+              <input type="hidden" name="download" value="yes" />
+              <button type="submit" class="btn p-0">
+                <i class="fas fa-cloud-download-alt text-light"></i>
+              </button>
+            </form>
           </div>
           <div class="card-actions-action">
             <a class="text-light" 
