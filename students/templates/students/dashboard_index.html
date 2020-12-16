@@ -181,6 +181,7 @@
                   name="monthly_report_department_date"
                   id="monthly_report_department_date"
                   class="form-control"
+                  onchange="clickSelectedOption(this)"
                 >
                   <option
                     selected
@@ -188,7 +189,12 @@
                     disabled
                   ></option>
                   {% for month in month_list %}
-                  <option value="{{ month }}">{{ month }}</option>
+                  <option 
+                    value="{{ month }}" id="report-dept-barchart-{{ month }}"
+                    onclick="monthlyReportByDepartmentsBarChartByMonth(
+                    document.getElementById('report-dept-barchart-{{ month }}').value)">
+                    {{ month }}
+                  </option>
                   {% endfor %}
                 </select>
               </div>
@@ -604,38 +610,54 @@
 
   // Display and bar chart for department-wise data information
   function displayMonthlyReportByDepartmentsBarChar(record) {
-    var color = Chart.helpers.color;
-    var barChartData = {
-			labels: [
-        'Computer', 'Electrical', 'AIDT', 'Telecom', 'Civil',
-        'Texttile', 'GDPM', 'T&H'],
+    const dept_names_array = Object.keys(record.departmental_records)
+    const color = Chart.helpers.color;
+
+    // Get array of applications and admissions for chart data
+    const applications_arr = [];
+    for(const item in record.departmental_records) {
+      applications_arr.push(
+        record.departmental_records[item].applications_count
+      );
+    }
+    const admissions_arr = [];
+    for(const item in record.departmental_records) {
+      admissions_arr.push(
+        record.departmental_records[item].admission_count
+      );
+    }
+
+    // fetch and diplay Bar data
+    const departmentsBarChartData = {
+			labels: dept_names_array,
 			datasets: [{
-				label: 'Admitted',
+				label: 'Applications',
 				backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
 				borderColor: window.chartColors.red,
 				borderWidth: 1,
-				data:[10,11,12,11,15,8,5]
+				data: applications_arr
 			}, {
-				label: 'Pending',
+				label: 'Admitted',
 				backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
 				borderColor: window.chartColors.blue,
 				borderWidth: 1,
-				data: [5, 6, 6,8,6,2]
+				data: admissions_arr
 			}]
 		};
-    var ctx = document.getElementById('monthly-report--dept-barchart-area').getContext('2d');
+    const ctx = document.getElementById('monthly-report--dept-barchart-area').getContext('2d');
     window.myBar = new Chart(ctx, {
       type: 'bar',
-      data: barChartData,
+      data: departmentsBarChartData,
       options: {
         responsive: true,
         legend: {
-          position: 'right',
+          position: 'top',
+          align: 'start'
         },
         title: {
           display: true,
           text: 'Report By Departments',
-          position: 'right'
+          position: 'right',
         }
       }
     });
@@ -663,6 +685,28 @@
       "{% url 'students:counsel_monthly_report_typed' response_type='json' %}";
     monthlyReportByDepartmentsBarChartAPICall(url);
   });
+
+  // Event on Select monthly report month from monthly report bar chart by deartments
+  function monthlyReportByDepartmentsBarChartByMonth(yearMonth) {
+    const dateOptionValue = yearMonth.split("-");
+    const optionMonth = dateOptionValue[0];
+    const optionYear = dateOptionValue[1];
+    // Create date object from extracted year and month from option tag
+    const monthNumberRaw =
+      new Date(`1 ${optionMonth} ${optionYear}`).getMonth() + 1;
+    
+    // Convert month number 1 to 01, 2 to 02 ... 9 to 09 because, 
+    // route requires numbers less than ten prefixed with 0.
+    const monthNumber =
+      monthNumberRaw < 10 ? `0${monthNumberRaw}` : monthNumberRaw;
+  
+    // get a date like: 2020-12-01
+    const dateQuery = `${optionYear}-${monthNumber}-01`;
+
+    let url = `{% url 'students:counsel_monthly_report_typed' response_type='json' %}`;
+    url = url + dateQuery;
+    monthlyReportByDepartmentsBarChartAPICall(url);
+  }
 
   </script>
 {% endblock %}
