@@ -38,3 +38,13 @@ create data manually for now.
 * APPLY CARD INFO AT `admission` link
 `card number: 5555555555554444`
 `expiracy: any valid future date` 
+
+# Working Components:
+* Create application for admission manually (it will save candidate as offline admission candidate)
+* Online application for admission (payment and admission process handled automatically)
+* Handle payment, admission, rejection, update candidate's status after communication
+* Assign student to an academic batch, class
+* Manage counseling (admission) dashboard with data visualization (download/view pdf reports)
+* CRUD departments, subjects, teachers, academic session, semester; import subjects from csv file
+* Teacher list view, students list view, designation CRUD
+* Create users, users list, view user groups and permissions
