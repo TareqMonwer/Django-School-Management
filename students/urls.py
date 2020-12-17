@@ -38,6 +38,8 @@ urlpatterns = [
           name='admission_confirmation'),
      path('api/batches/<int:department_code>/', views.get_json_batch_data,
           name='get_json_batch_data'),
+     path('api/yearly-graph/', report_views.yearly_graph_api,
+          name='yearly_graph_api'),
      path('online-applicants/<int:pk>/admit/', views.admit_student,
           name='admit_student'),
      path('paid-registrants/', views.paid_registrants, 

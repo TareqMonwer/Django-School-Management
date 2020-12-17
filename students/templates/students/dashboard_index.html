@@ -741,19 +741,43 @@
 
 
   // Yearly report graph
-  var config = {
+  $(function() {
+    const months = {
+      1: 'January', 2: 'February', 3: 'March', 4: 'April',
+      5: 'May', 6: 'June', 7: 'July', 8: 'August', 9: 'September', 10: 'October',
+      11: 'November', 12: 'December'
+    }
+
+    $.ajax({
+      type: "GET",
+      url: '{% url "students:yearly_graph_api"  %}',
+      success: function (data) {
+        console.log(data);
+      },
+      error: function (err) {
+        console.log(err);
+      },
+    });
+
+    var config = {
 			type: 'line',
 			data: {
-				labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 
+                'August', 'September', 'October', 'November', 'December'],
 				datasets: [{
-					label: 'dataset - big points',
+					label: 'Applications',
 					data: [
 						randomScalingFactor(),
 						randomScalingFactor(),
 						randomScalingFactor(),
 						randomScalingFactor(),
 						randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor(),
 						randomScalingFactor(),
+						randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor(),
 						randomScalingFactor()
 					],
 					backgroundColor: window.chartColors.red,
@@ -763,14 +787,19 @@
 					pointRadius: 15,
 					pointHoverRadius: 10,
 				}, {
-					label: 'dataset - individual point sizes',
+					label: 'Admissions',
 					data: [
 						randomScalingFactor(),
 						randomScalingFactor(),
 						randomScalingFactor(),
 						randomScalingFactor(),
 						randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor(),
 						randomScalingFactor(),
+						randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor(),
 						randomScalingFactor()
 					],
 					backgroundColor: window.chartColors.blue,
@@ -779,14 +808,19 @@
 					borderDash: [5, 5],
 					pointRadius: [2, 4, 6, 18, 0, 12, 20],
 				}, {
-					label: 'dataset - large pointHoverRadius',
+					label: 'Pendings',
 					data: [
 						randomScalingFactor(),
 						randomScalingFactor(),
 						randomScalingFactor(),
 						randomScalingFactor(),
 						randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor(),
 						randomScalingFactor(),
+						randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor(),
 						randomScalingFactor()
 					],
 					backgroundColor: window.chartColors.green,
@@ -794,14 +828,19 @@
 					fill: false,
 					pointHoverRadius: 30,
 				}, {
-					label: 'dataset - large pointHitRadius',
+					label: 'Rejections',
 					data: [
 						randomScalingFactor(),
 						randomScalingFactor(),
 						randomScalingFactor(),
 						randomScalingFactor(),
 						randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor(),
 						randomScalingFactor(),
+						randomScalingFactor(),
+            randomScalingFactor(),
+            randomScalingFactor(),
 						randomScalingFactor()
 					],
 					backgroundColor: window.chartColors.yellow,
@@ -841,9 +880,10 @@
 			}
 		};
 
-		window.onload = function() {
-			var ctx = document.getElementById('year-graph--chart-area').getContext('2d');
-			window.myLine = new Chart(ctx, config);
-		};
+    window.onload = function() {
+      var ctx = document.getElementById('year-graph--chart-area').getContext('2d');
+      window.myLine = new Chart(ctx, config);
+    };
+  })
   </script>
 {% endblock %}
