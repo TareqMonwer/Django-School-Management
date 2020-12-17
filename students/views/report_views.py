@@ -147,7 +147,7 @@ def yearly_graph_api(request):
         month=ExtractMonth('created')).values('month').annotate(
             count=Count('id')).order_by('month')
     admissions = AdmissionStudent.objects.filter(
-        admitted=True, paid=True, assigned_as_student=True).annotate(
+        admitted=True, paid=True).annotate(
         month=ExtractMonth('created')).values('month').annotate(
             count=Count('id')).order_by('month')
     pendings = AdmissionStudent.objects.filter(paid=False, admitted=False).annotate(
