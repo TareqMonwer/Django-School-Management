@@ -739,112 +739,77 @@
   }
 
 
+  // Yearly data array generate for unlisted months
+  function getDataForUnlistedMonths(dataArr, originalDataObj) {
+    for (let i = 1; i <= 12; i++) {
+      // by default month number is not found in originalDataObj
+      let found = false;
+      originalDataObj.forEach(item => {
+        if(i == item.month) {
+          // If month number found in originalDataObj, store count data in dataArr.
+          dataArr.push(item.count);
+          // make found true for this month
+          found = true;
+        }
+      })
+
+      // If month number not found in originalDataObj, add 0 into dataArr.
+      if (!found) {
+        dataArr.push(0);
+      }
+    }
+    return dataArr;
+  }
 
   // Yearly report graph
-  $(function() {
-    const months = {
-      1: 'January', 2: 'February', 3: 'March', 4: 'April',
-      5: 'May', 6: 'June', 7: 'July', 8: 'August', 9: 'September', 10: 'October',
-      11: 'November', 12: 'December'
-    }
+  function display_yearly_graph(record) {
+    const applications = record.applications;
+    const admissions = record.admissions;
+    const pendings = record.pendings;
+    const rejections = record.rejections;
 
-    $.ajax({
-      type: "GET",
-      url: '{% url "students:yearly_graph_api"  %}',
-      success: function (data) {
-        console.log(data);
-      },
-      error: function (err) {
-        console.log(err);
-      },
-    });
+    const application_data_arr = getDataForUnlistedMonths([], applications);
+    const admission_data_arr = getDataForUnlistedMonths([], admissions);
+    const pending_data_arr = getDataForUnlistedMonths([], pendings);
+    const rejection_data_arr = getDataForUnlistedMonths([], rejections);
 
-    var config = {
+    console.log(application_data_arr);
+
+
+    const config = {
 			type: 'line',
 			data: {
         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 
                 'August', 'September', 'October', 'November', 'December'],
 				datasets: [{
 					label: 'Applications',
-					data: [
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor(),
-						randomScalingFactor()
-					],
-					backgroundColor: window.chartColors.red,
-					borderColor: window.chartColors.red,
+					data: application_data_arr,
+					backgroundColor: window.chartColors.blue,
+					borderColor: window.chartColors.blue,
 					fill: false,
 					borderDash: [5, 5],
 					pointRadius: 15,
 					pointHoverRadius: 10,
 				}, {
 					label: 'Admissions',
-					data: [
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor(),
-						randomScalingFactor()
-					],
-					backgroundColor: window.chartColors.blue,
-					borderColor: window.chartColors.blue,
+					data: admission_data_arr,
+					backgroundColor: window.chartColors.purple,
+					borderColor: window.chartColors.purple,
 					fill: false,
 					borderDash: [5, 5],
 					pointRadius: [2, 4, 6, 18, 0, 12, 20],
 				}, {
 					label: 'Pendings',
-					data: [
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor(),
-						randomScalingFactor()
-					],
-					backgroundColor: window.chartColors.green,
-					borderColor: window.chartColors.green,
+					data: pending_data_arr,
+					backgroundColor: window.chartColors.orange,
+					borderColor: window.chartColors.orange,
 					fill: false,
 					pointHoverRadius: 30,
 				}, {
 					label: 'Rejections',
-					data: [
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor(),
-						randomScalingFactor(),
-						randomScalingFactor(),
-            randomScalingFactor(),
-            randomScalingFactor(),
-						randomScalingFactor()
-					],
-					backgroundColor: window.chartColors.yellow,
-					borderColor: window.chartColors.yellow,
+					data: rejection_data_arr,
+					backgroundColor: window.chartColors.red,
+					borderColor: window.chartColors.red,
 					fill: false,
 					pointHitRadius: 20,
 				}]
@@ -875,15 +840,29 @@
 				},
 				title: {
 					display: true,
-					text: 'Chart.js Line Chart - Different point sizes'
+					text: 'Last 12 Months Counsel Chart'
 				}
 			}
 		};
 
-    window.onload = function() {
-      var ctx = document.getElementById('year-graph--chart-area').getContext('2d');
-      window.myLine = new Chart(ctx, config);
-    };
+    const ctx = document.getElementById('year-graph--chart-area').getContext('2d');
+    window.yearlyReportLine = new Chart(ctx, config);
+  }
+
+  // Display yearly report graph immediately
+  $(function() {
+    $.ajax({
+      type: "GET",
+      url: '{% url "students:yearly_graph_api"  %}',
+      success: function (data) {
+        const record = data.data;
+        display_yearly_graph(record);
+      },
+      error: function (err) {
+        console.log(err);
+      },
+    });
+
   })
   </script>
 {% endblock %}
