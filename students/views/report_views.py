@@ -1,4 +1,6 @@
 import datetime
+from django.db.models.functions import ExtractMonth
+from django.db.models import Count
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.template.loader import get_template
@@ -9,7 +11,8 @@ from students.utils.bd_zila import ALL_ZILA
 from students.utils.helpers import render_to_pdf
 
 
-def get_departments_record(departments_qs, applications, admissions):
+# Helper functions
+def _get_departments_record(departments_qs, applications, admissions):
     """
     Takes all departments, all applications (non-admitted students),
     admitted students as admissions and  returns a dictionary containing
@@ -35,7 +38,7 @@ def get_departments_record(departments_qs, applications, admissions):
     return departmental_records
 
 
-def get_active_cities_record(cities, applications, admissions):
+def _get_active_cities_record(cities, applications, admissions):
     """
     Takes list of all zila ('1', 'Zila Name), all applications (non-admitted students),
     admitted students as admissions and  returns a dictionary containing total
@@ -96,10 +99,10 @@ def counsel_monthly_report(request, response_type='html', date_param=None):
 
     # Report By Department
     departments = Department.objects.all()
-    departmental_records = get_departments_record(departments, total_applications, total_admission)
+    departmental_records = _get_departments_record(departments, total_applications, total_admission)
 
     # Report by cities
-    zila_records = get_active_cities_record(ALL_ZILA, total_applications, total_admission)
+    zila_records = _get_active_cities_record(ALL_ZILA, total_applications, total_admission)
 
     ctx = {
         'date': datetime.date.today(),
@@ -137,3 +140,26 @@ def counsel_monthly_report(request, response_type='html', date_param=None):
         return HttpResponse('Not found')
 
     return render(request, 'students/reports/counsel_monthly_report.html', ctx)
+
+
+def yearly_graph_api(request):
+    applications = AdmissionStudent.objects.annotate(
+        month=ExtractMonth('created')).values('month').annotate(
+            count=Count('id')).order_by('month')
+    admissions = AdmissionStudent.objects.filter(
+        admitted=True, paid=True, assigned_as_student=True).annotate(
+        month=ExtractMonth('created')).values('month').annotate(
+            count=Count('id')).order_by('month')
+    pendings = AdmissionStudent.objects.filter(paid=False, admitted=False).annotate(
+        month=ExtractMonth('created')).values('month').annotate(
+            count=Count('id')).order_by('month')
+    rejections = AdmissionStudent.objects.filter(rejected=True).annotate(
+        month=ExtractMonth('created')).values('month').annotate(
+            count=Count('id')).order_by('month')
+    ctx = {
+        'applications': list(applications),
+        'admissions': list(admissions),
+        'pendings': list(pendings),
+        'rejections': list(rejections)
+    }
+    return JsonResponse({'data': ctx})
