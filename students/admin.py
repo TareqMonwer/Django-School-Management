@@ -4,7 +4,10 @@ from .models import Student, AdmissionStudent, RegularStudent
 
 class AdmissionStudentAdmin(admin.ModelAdmin):
     list_display = ('name', 'created', 'city', 'department_choice')
-    list_filter = ('paid', 'rejected', 'department_choice', 'city',)
+    list_filter = (
+        'paid', 'rejected', 'department_choice',
+        'admitted', 'city',
+    )
 
 
 class StudentAdmin(admin.ModelAdmin):
