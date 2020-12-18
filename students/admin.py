@@ -3,8 +3,8 @@ from .models import Student, AdmissionStudent, RegularStudent
 
 
 class AdmissionStudentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'created')
-    list_filter = ('paid', 'rejected')
+    list_display = ('name', 'created', 'city', 'department_choice')
+    list_filter = ('paid', 'rejected', 'department_choice', 'city',)
 
 
 class StudentAdmin(admin.ModelAdmin):
