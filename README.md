@@ -28,8 +28,9 @@ And finally, while django server is running, run this command on another termina
 Use provided [fixtures](https://docs.djangoproject.com/en/3.1/howto/initial-data/) for each applications. <br>
 *Provided Fixtures:*
 - teachers/teacher_fixtures.json
-*How to load fixtures?*
-**For example, you want to load `teachers/teacher_fixtures.json` you have simply run this management command on you terminal: <br>
+*How to load fixtures?* <br>
+*For example, you want to load `teachers/teacher_fixtures.json` <br>
+you have to simply run this management command on your terminal:*
 `python manage.py loaddata teachers/teacher_fixtures.json`
 <br>
 this command will load initial data for teachers app.
