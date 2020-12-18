@@ -9,7 +9,7 @@ class AcademicSessionAdmin(admin.ModelAdmin):
 
 
 class BatchAdmin(admin.ModelAdmin):
-    list_display = ('year', 'number')
+    list_display = ('year', 'number', 'department',)
 
 
 class TempSerialIDAdmin(admin.ModelAdmin):
