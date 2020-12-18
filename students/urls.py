@@ -1,5 +1,7 @@
 from datetime import datetime
+
 from django.urls import path, register_converter
+
 from .views import students_views as views
 from .views import pdf_views
 from .views import report_views
