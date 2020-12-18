@@ -1,5 +1,6 @@
 from datetime import date, timedelta, datetime
 from collections import OrderedDict
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.urls import reverse_lazy

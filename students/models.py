@@ -1,10 +1,13 @@
 from datetime import datetime
+
+from model_utils.models import TimeStampedModel
+
 from django.db import models, OperationalError
 from django.contrib.auth import get_user_model
 from django.conf import settings
-from model_utils.models import TimeStampedModel
 
-from academics.models import Department, Semester, AcademicSession, Batch, TempSerialID
+from academics.models import (Department, Semester,
+    AcademicSession, Batch, TempSerialID)
 from teachers.models import Teacher
 from .utils.bd_zila import ALL_ZILA
 
@@ -26,10 +29,15 @@ class StudentBase(TimeStampedModel):
     current_address = models.TextField()
     permanent_address = models.TextField()
     mobile_number = models.CharField('Mobile Number', max_length=11)
-    department_choice = models.ForeignKey(Department,
-                                          on_delete=models.CASCADE)
+    department_choice = models.ForeignKey(
+        Department,
+        on_delete=models.CASCADE
+    )
     last_exam_name = models.CharField(
-        'Last Exam', choices=LAST_EXAMS, max_length=10)
+        'Last Exam',
+        choices=LAST_EXAMS,
+        max_length=10
+    )
     last_exam_roll = models.CharField(max_length=10)
     last_exam_registration = models.CharField(max_length=10)
     last_exam_result = models.CharField(max_length=5)
@@ -42,10 +50,14 @@ class StudentBase(TimeStampedModel):
 
 
 class CounselingComment(TimeStampedModel):
-    counselor = models.ForeignKey(Teacher,
-                                  on_delete=models.CASCADE, null=True)
-    registrant_student = models.ForeignKey('AdmissionStudent',
-                                           on_delete=models.CASCADE, null=True)
+    counselor = models.ForeignKey(
+        Teacher,
+        on_delete=models.CASCADE, null=True
+    )
+    registrant_student = models.ForeignKey(
+        'AdmissionStudent',
+        on_delete=models.CASCADE, null=True
+    )
     comment = models.CharField(max_length=150)
 
     def __str__(self):
@@ -58,19 +70,27 @@ class AdmissionStudent(StudentBase):
         ('1', 'Online'),
         ('2', 'Offline')
     )
-    counseling_by = models.ForeignKey(Teacher, related_name='counselors',
-                                      on_delete=models.CASCADE, null=True)
+    counseling_by = models.ForeignKey(
+        Teacher, related_name='counselors',
+        on_delete=models.CASCADE, null=True
+    )
     counsel_comment = models.ManyToManyField(Teacher)
-    choosen_department = models.ForeignKey(Department, related_name='admission_students',
-                                           on_delete=models.CASCADE, null=True)
+    choosen_department = models.ForeignKey(
+        Department, related_name='admission_students',
+        on_delete=models.CASCADE, null=True
+    )
     admitted = models.BooleanField(default=False)
     admission_date = models.DateField(blank=True, null=True)
     paid = models.BooleanField(default=False)
-    application_type = models.CharField(max_length=1,
-                                        choices=APPLICATION_TYPE_CHOICE,
-                                        default='1')
-    migration_status = models.CharField(max_length=255,
-                                        blank=True, null=True)
+    application_type = models.CharField(
+        max_length=1,
+        choices=APPLICATION_TYPE_CHOICE,
+        default='1'
+    )
+    migration_status = models.CharField(
+        max_length=255,
+        blank=True, null=True
+    )
     rejected = models.BooleanField(default=False)
     assigned_as_student = models.BooleanField(default=False)
 
@@ -96,14 +116,30 @@ class Student(TimeStampedModel):
     semester = models.ForeignKey(
         Semester, on_delete=models.CASCADE)
     ac_session = models.ForeignKey(
-        AcademicSession, on_delete=models.CASCADE, blank=True, null=True)
-    batch = models.ForeignKey(Batch, on_delete=models.CASCADE,
-                              blank=True, null=True, related_name='students')
+        AcademicSession, on_delete=models.CASCADE,
+        blank=True, null=True
+    )
+    batch = models.ForeignKey(
+        Batch, on_delete=models.CASCADE,
+        blank=True, null=True, related_name='students'
+    )
     guardian_mobile = models.CharField(max_length=11, blank=True, null=True)
-    admitted_by = models.ForeignKey(settings.AUTH_USER_MODEL,
-                                    on_delete=models.DO_NOTHING, null=True)
+    admitted_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.DO_NOTHING, null=True
+    )
     is_alumni = models.BooleanField(default=False)
     is_dropped = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ['semester', 'roll', 'registration_number']
+
+    def __str__(self):
+        return '{} ({}) semester {} dept.'.format(
+            self.admission_student.name,
+            self.semester,
+            self.admission_student.choosen_department
+        )
 
     def _find_last_admitted_student_serial(self):
         # What is the last temp_id for this year, dept?
@@ -164,16 +200,7 @@ class Student(TimeStampedModel):
         temp_id = f'{year_digits}-{batch_digits}-' \
                   f'{department_code}-{temp_serial_key}'
         return temp_id
-
-    def __str__(self):
-        return '{} ({}) semester {} dept.'.format(
-            self.admission_student.name,
-            self.semester,
-            self.admission_student.choosen_department
-        )
-
-    class Meta:
-        ordering = ['semester', 'roll', 'registration_number']
+    
 
 
 class RegularStudent(TimeStampedModel):

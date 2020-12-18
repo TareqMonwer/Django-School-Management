@@ -1,6 +1,9 @@
 import io
-from django.http import FileResponse
+
 from reportlab.pdfgen import canvas
+
+from django.http import FileResponse
+
 
 
 def test_pdf(request):

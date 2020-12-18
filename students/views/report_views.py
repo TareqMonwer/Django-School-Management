@@ -1,4 +1,5 @@
 import datetime
+
 from django.db.models.functions import ExtractMonth
 from django.db.models import Count
 from django.shortcuts import render
