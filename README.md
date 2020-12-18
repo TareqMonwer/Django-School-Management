@@ -25,15 +25,16 @@ And finally, while django server is running, run this command on another termina
 + Create braintree sandbox account from: https://sandbox.braintreegateway.com/login
 
 # Usage/testing
-In order to test this project with dummy data:
-
-* `populate_department` script to create departments
-* create an academic session object from admin or dashboard
-* populate_teachers
-* populate_students
-
-then for result, subjects, combinations you can run your script or just 
-create data manually for now.
+Use provided [fixtures](https://docs.djangoproject.com/en/3.1/howto/initial-data/) for each applications. <br>
+*Provided Fixtures:*
+- teachers/teacher_fixtures.json
+*How to load fixtures?* <br>
+*For example, you want to load `teachers/teacher_fixtures.json` <br>
+you have to simply run this management command on your terminal:*
+`python manage.py loaddata teachers/teacher_fixtures.json`
+<br>
+this command will load initial data for teachers app.
+Follow the same pattern to install initial data for other applications.
 
 * APPLY CARD INFO AT `admission` link
 `card number: 5555555555554444`
@@ -48,3 +49,14 @@ create data manually for now.
 * CRUD departments, subjects, teachers, academic session, semester; import subjects from csv file
 * Teacher list view, students list view, designation CRUD
 * Create users, users list, view user groups and permissions
+
+
+<br>
+
+# Contact me:
+- [Facebook](https://www.facebook.com/tareqmonwer1/)
+- [Linkedin](linkedin.com/in/tareqmonwer)
+- [Twitter](https://twitter.com/TareqMonwerDPI)
+- [Github](https://github.com/TareqMonwer)
+- [Website](www.tareqmonwer.com)
+- email: tareqmonwer137@gmail.com

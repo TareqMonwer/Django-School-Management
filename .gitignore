@@ -119,3 +119,7 @@ GitHub.sublime-settings
 
 # Custom Files #
 .fuse_hidden0000f8a300000018
+
+
+# Dumpdata main file
+dumpeddata.json

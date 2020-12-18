@@ -74,10 +74,13 @@ class AdmissionStudent(StudentBase):
         Teacher, related_name='counselors',
         on_delete=models.CASCADE, null=True
     )
-    counsel_comment = models.ManyToManyField(Teacher)
+    counsel_comment = models.ManyToManyField(
+        CounselingComment, blank=True
+    )
     choosen_department = models.ForeignKey(
         Department, related_name='admission_students',
-        on_delete=models.CASCADE, null=True
+        on_delete=models.CASCADE,
+        blank=True, null=True
     )
     admitted = models.BooleanField(default=False)
     admission_date = models.DateField(blank=True, null=True)
