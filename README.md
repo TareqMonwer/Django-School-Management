@@ -36,6 +36,16 @@ you have to simply run this management command on your terminal:*
 this command will load initial data for teachers app.
 Follow the same pattern to install initial data for other applications.
 
+### Fixture Load Order:
++ `python manage.py loaddata teachers/teacher_fixtures.json`
++ `python manage.py loaddata academics/academic_fixtures.json`
++ `python manage.py loaddata students\fixtures\offline_applications.json`
++ `python manage.py loaddata students\fixtures\online_admitted.json`
++ `python manage.py loaddata students\fixtures\online_paid.json`
++ `python manage.py loaddata students\fixtures\online_rejected.json`
++ `python manage.py loaddata students\fixtures\online_unpaid.json`
+
+
 * APPLY CARD INFO AT `admission` link
 `card number: 5555555555554444`
 `expiracy: any valid future date` 
