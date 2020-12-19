@@ -1,6 +1,17 @@
 [
     {
         "model": "academics.semester",
+        "pk": 1,
+        "fields": {
+            "created": "2020-12-08T02:37:33.599Z",
+            "modified": "2020-12-08T02:37:33.599Z",
+            "number": 1,
+            "guide": 2,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.semester",
         "pk": 2,
         "fields": {
             "created": "2020-12-08T02:37:33.599Z",

@@ -1,6 +1,15 @@
 [
     {
         "model": "teachers.designation",
+        "pk": 1,
+        "fields": {
+            "modified": "2020-10-09T01:01:32.344Z",
+            "title": "Instructor",
+            "created": "2020-10-09"
+        }
+    },
+    {
+        "model": "teachers.designation",
         "pk": 2,
         "fields": {
             "modified": "2020-10-09T01:01:32.344Z",
@@ -24,6 +33,22 @@
             "modified": "2020-10-09T01:01:32.344Z",
             "title": "Asst. Instructor",
             "created": "2018-11-13"
+        }
+    },
+    {
+        "model": "teachers.teacher",
+        "pk": 1,
+        "fields": {
+            "created": "2020-10-09T01:02:20.376Z",
+            "modified": "2020-10-09T01:02:20.376Z",
+            "name": "Tareq Monwer",
+            "photo": "teachers/tareqmonwer.jpg",
+            "date_of_birth": "1998-05-15",
+            "designation": 1,
+            "mobile": null,
+            "email": null,
+            "joining_date": "2020-10-09",
+            "created_by": null
         }
     },
     {
