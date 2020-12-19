@@ -386,5 +386,170 @@
             "number": 7,
             "department": 4
         }
+    },
+    {
+        "model": "academics.subject",
+        "pk": 1,
+        "fields": {
+            "name": "Bangla",
+            "subject_code": 101,
+            "theory_marks": 50,
+            "practical_marks": 50,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.subject",
+        "pk": 2,
+        "fields": {
+            "name": "English",
+            "subject_code": 102,
+            "theory_marks": 50,
+            "practical_marks": 50,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.subject",
+        "pk": 3,
+        "fields": {
+            "name": "Math 1",
+            "subject_code": 103,
+            "theory_marks": 50,
+            "practical_marks": 50,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.subject",
+        "pk": 4,
+        "fields": {
+            "name": "Math 2",
+            "subject_code": 104,
+            "theory_marks": 50,
+            "practical_marks": 50,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.subject",
+        "pk": 5,
+        "fields": {
+            "name": "Intro to Programming 1",
+            "subject_code": 105,
+            "theory_marks": 50,
+            "practical_marks": 50,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.subject",
+        "pk": 6,
+        "fields": {
+            "name": "Intro to Programming 2",
+            "subject_code": 106,
+            "theory_marks": 50,
+            "practical_marks": 50,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.subject",
+        "pk": 7,
+        "fields": {
+            "name": "Electronics 1",
+            "subject_code": 107,
+            "theory_marks": 50,
+            "practical_marks": 50,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.subject",
+        "pk": 8,
+        "fields": {
+            "name": "Electronics 2",
+            "subject_code": 108,
+            "theory_marks": 50,
+            "practical_marks": 50,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.subject",
+        "pk": 9,
+        "fields": {
+            "name": "Software Development Lifecycle",
+            "subject_code": 109,
+            "theory_marks": 50,
+            "practical_marks": 50,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.subject",
+        "pk": 10,
+        "fields": {
+            "name": "Media and Graphics",
+            "subject_code": 110,
+            "theory_marks": 50,
+            "practical_marks": 50,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.subject",
+        "pk": 11,
+        "fields": {
+            "name": "Networking 1",
+            "subject_code": 111,
+            "theory_marks": 50,
+            "practical_marks": 50,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.subject",
+        "pk": 12,
+        "fields": {
+            "name": "Networking 2",
+            "subject_code": 112,
+            "theory_marks": 50,
+            "practical_marks": 50,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.subject",
+        "pk": 13,
+        "fields": {
+            "name": "Networking 3",
+            "subject_code": 113,
+            "theory_marks": 50,
+            "practical_marks": 50,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.subject",
+        "pk": 14,
+        "fields": {
+            "name": "Telecommunication System",
+            "subject_code": 114,
+            "theory_marks": 50,
+            "practical_marks": 50,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.subject",
+        "pk": 15,
+        "fields": {
+            "name": "Python",
+            "subject_code": 115,
+            "theory_marks": 50,
+            "practical_marks": 50,
+            "created_by": 1
+        }
     }
 ]

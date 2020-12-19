@@ -68,8 +68,10 @@ class Semester(TimeStampedModel):
 class Subject(TimeStampedModel):
     name = models.CharField(max_length=50)
     subject_code = models.PositiveIntegerField(unique=True)
-    instructor = models.ForeignKey(Teacher, on_delete=models.CASCADE,
-                                   blank=True, null=True)
+    instructor = models.ForeignKey(
+        Teacher, on_delete=models.CASCADE,
+        blank=True, null=True
+    )
     theory_marks = models.PositiveIntegerField(blank=True, null=True)
     practical_marks = models.PositiveIntegerField(blank=True, null=True)
     created_by = models.ForeignKey(
