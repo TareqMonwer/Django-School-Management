@@ -19,6 +19,9 @@
                     {{ filter.form.subject|as_crispy_field }}
                 </div>
                 <div class="col">
+                    {{ filter.form.student__temporary_id|as_crispy_field }}
+                </div>
+                <div class="col">
                     <div class="form-group">
                         <div class="">
                             <input type="submit" value="Submit" class="btn btn-primary">
@@ -61,7 +64,12 @@
                         {{ obj.theory_marks }}
                     </td>
                 </tr>
-               
+                {% empty %}
+                    <tr>
+                        <td colspan="5">
+                            NO RESULT FOUND
+                        </td>
+                    </tr>
                 {% endfor %}
             </tbody>
         </table>

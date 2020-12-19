@@ -2,7 +2,7 @@ from datetime import datetime
 
 from model_utils.models import TimeStampedModel
 
-from django.db import models, OperationalError
+from django.db import models, OperationalError, IntegrityError
 from django.contrib.auth import get_user_model
 from django.conf import settings
 
@@ -116,6 +116,7 @@ class Student(TimeStampedModel):
     roll = models.CharField(max_length=6, unique=True, blank=True, null=True)
     registration_number = models.CharField(max_length=6, unique=True, blank=True, null=True)
     temp_serial = models.CharField(max_length=50, blank=True, null=True)
+    temporary_id = models.CharField(max_length=50, blank=True, null=True)
     semester = models.ForeignKey(
         Semester, on_delete=models.CASCADE)
     ac_session = models.ForeignKey(
@@ -159,6 +160,20 @@ class Student(TimeStampedModel):
             # If no temp_id object for this year and department found
             # return 0
             return 0
+    
+    def get_temp_id(self):
+        # Get current year (academic) last two digit
+        year_digits = str(self.ac_session.year)[-2:]
+        # Get batch of student's department
+        batch_digits = self.batch.number
+        # Get department code
+        department_code = self.admission_student.choosen_department.code
+        # Get admission serial of student by department
+        temp_serial_key = self.temp_serial
+        # return something like: 21-15-666-15
+        temp_id = f'{year_digits}-{batch_digits}-' \
+                    f'{department_code}-{temp_serial_key}'
+        return temp_id
 
     def save(self, *args, **kwargs):
         # Check if chosen_dept == batch.dept is same or not.
@@ -174,14 +189,18 @@ class Student(TimeStampedModel):
         last_temp_id = self._find_last_admitted_student_serial()
         current_temp_id = str(last_temp_id + 1)
         self.temp_serial = current_temp_id
+        self.temporary_id = self.get_temp_id()
         super().save(*args, **kwargs)
-        temp_serial_id = TempSerialID.objects.create(
-            student=self,
-            department=self.admission_student.choosen_department,
-            year=self.ac_session,
-            serial=current_temp_id
-        )
-        temp_serial_id.save()
+        try:
+            temp_serial_id = TempSerialID.objects.create(
+                student=self,
+                department=self.admission_student.choosen_department,
+                year=self.ac_session,
+                serial=current_temp_id
+            )
+            temp_serial_id.save()
+        except IntegrityError as e:
+            pass
 
     def delete(self, *args, **kwargs):
         """ Override delete method """
@@ -189,21 +208,6 @@ class Student(TimeStampedModel):
         # should be false.
         self.admission_student.assigned_as_student = False
         self.admission_student.save(*args, **kwargs)
-
-    def get_temp_id(self):
-        # Get current year (academic) last two digit
-        year_digits = str(self.ac_session.year)[-2:]
-        # Get batch of student's department
-        batch_digits = self.batch.number
-        # Get department code
-        department_code = self.admission_student.choosen_department.code
-        # Get admission serial of student by department
-        temp_serial_key = self.temp_serial
-        # return something like: 21-15-666-15
-        temp_id = f'{year_digits}-{batch_digits}-' \
-                  f'{department_code}-{temp_serial_key}'
-        return temp_id
-    
 
 
 class RegularStudent(TimeStampedModel):
