@@ -9,14 +9,18 @@ from academics.models import Subject, Semester
 
 class Exam(TimeStampedModel):
     EXAM_CHOICES = (
-        ('Mid Term', 'm'),
-        ('Final', 'f')
+        ('m', 'Mid Term'),
+        ('f', 'Final')
     )
     exam_name = models.CharField(
         max_length=1,
         choices=EXAM_CHOICES
     )
     exam_date = models.DateTimeField()
+
+    def __str__(self):
+        return f'{self.get_exam_name_display()} - \
+            {self.exam_date.year}'
 
 
 class Result(TimeStampedModel):
@@ -32,6 +36,10 @@ class Result(TimeStampedModel):
     subject = models.ForeignKey(
         Subject,
         on_delete=models.CASCADE
+    )
+    exam = models.ForeignKey(
+        Exam, on_delete=models.CASCADE,
+        blank=True, null=True
     )
     practical_marks = models.SmallIntegerField(
         blank=True,
