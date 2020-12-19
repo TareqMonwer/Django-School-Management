@@ -1,0 +1,15 @@
+{% extends 'dashboard.html' %}
+{% load crispy_forms_tags %}
+
+{% block dashboard-body %}
+
+
+<form method="get">
+        {{ form.form.as_p }}
+        <input type="submit" />
+    </form>
+    {% for obj in form.qs %}
+        {{ obj.name }} - ${{ obj.price }}<br />
+    {% endfor %}
+
+{% endblock %}

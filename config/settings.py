@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'rolepermissions',
     'taggit',
     'django_extensions',
+    'django_filters',
 ]
 
 # for permission management
