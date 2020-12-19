@@ -7,22 +7,31 @@ from teachers.models import Teacher
 
 class Department(TimeStampedModel):
     name = models.CharField(max_length=255, unique=True)
-    short_name = models.CharField('Department Short Form',
-                                  max_length=5)
+    short_name = models.CharField(
+        'Department Short Form',
+        max_length=5
+    )
     code = models.PositiveIntegerField()
     head = models.ForeignKey(
-        Teacher, on_delete=models.CASCADE, blank=True, null=True)
+        Teacher, on_delete=models.CASCADE,
+        blank=True, null=True
+    )
     current_batch = models.ForeignKey(
         'Batch', on_delete=models.CASCADE,
-        blank=True, null=True, related_name='current_batches')
+        blank=True, null=True,
+        related_name='current_batches'
+    )
     batches = models.ManyToManyField(
         'Batch',
         related_name='department_batches',
-        blank=True, null=True)
+        blank=True, null=True
+    )
     establish_date = models.DateField(auto_now_add=True)
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.DO_NOTHING, null=True)
+        on_delete=models.DO_NOTHING,
+        null=True
+    )
 
     def dept_code(self):
         if not self.code:
@@ -46,10 +55,13 @@ class AcademicSession(TimeStampedModel):
 class Semester(TimeStampedModel):
     number = models.PositiveIntegerField(unique=True)
     guide = models.ForeignKey(
-        Teacher, on_delete=models.CASCADE, default=None, null=True, blank=True)
+        Teacher, on_delete=models.CASCADE,
+        default=None, null=True, blank=True
+    )
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.DO_NOTHING, null=True)
+        on_delete=models.DO_NOTHING, null=True
+    )
 
     class Meta:
         ordering = ['number', ]
