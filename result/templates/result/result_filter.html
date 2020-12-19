@@ -46,10 +46,13 @@
                 </tr>
             </thead>
             <tbody>
-                {% for obj in filter.qs %}
+                {% for obj in filter.qs %} 
                 <tr>
                     <td>
-                        {{ obj.student.admission_student.name }}
+                        <a href="{% url 'result:result_detail_view' student_pk=obj.student.pk %}"
+                            class="text-dark">
+                            {{ obj.student.admission_student.name }}
+                        </a>
                     </td>
                     <td>
                         {{ obj.subject.name }}
