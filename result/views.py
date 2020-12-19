@@ -1,5 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
+from students.models import Student
+from academics.models import Semester
 from .models import Result
 from .filters import ResultFilter
 
@@ -11,4 +13,23 @@ def result_view(request):
 
 
 def result_detail_view(request, student_pk):
-    return render(request, 'result/result_detail.html')
+    student = get_object_or_404(Student, pk=student_pk)
+    student_results = student.results.all()
+    semesters = list(Semester.objects.all())
+    semester_results = {}
+    active_semesters = []
+
+    for semester in semesters:
+        results = student_results.filter(semester=semester)
+        if results:
+            active_semesters.append(semester)
+            semester_results.update(
+                {f'{semester}': results}
+            )
+    print(semester_results)
+    ctx = {
+        'student': student,
+        'semester_results': semester_results,
+        'active_semesters': active_semesters
+    }
+    return render(request, 'result/result_detail.html', ctx)
