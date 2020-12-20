@@ -7,7 +7,11 @@ from .filters import ResultFilter
 
 
 def result_view(request):
-    f = ResultFilter(request.GET, queryset=Result.objects.all())
+    if not request.GET:
+        qs = Result.objects.none()
+    else:
+        qs = Result.objects.all()
+    f = ResultFilter(request.GET, queryset=qs)
     ctx = {'filter': f,}
     return render(request, 'result/result_filter.html', ctx)
 
@@ -26,7 +30,6 @@ def result_detail_view(request, student_pk):
             semester_results.update(
                 {f'{semester}': results}
             )
-    print(semester_results)
     ctx = {
         'student': student,
         'semester_results': semester_results,
