@@ -1,7 +1,7 @@
 import django_filters
 
 from students.models import Student
-from .models import Result
+from .models import Result, SubjectGroup
 
 class ResultFilter(django_filters.FilterSet):
     student__temporary_id = django_filters.CharFilter(
@@ -17,11 +17,10 @@ class ResultFilter(django_filters.FilterSet):
         ]
 
 
-class StudentFilter(django_filters.FilterSet):
+class SubjectGroupFilter(django_filters.FilterSet):
     class Meta:
-        model = Student
+        model = SubjectGroup
         fields = [
-            'admission_student__choosen_department',
-            'batch',
+            'department',
             'semester',
         ]

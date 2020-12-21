@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse
 
 from students.models import Student
 from academics.models import Semester
-from .models import Result
-from .filters import ResultFilter, StudentFilter
+from .models import Result, SubjectGroup
+from .filters import ResultFilter, SubjectGroupFilter
 
 
 def result_view(request):
@@ -38,17 +39,30 @@ def result_detail_view(request, student_pk):
     return render(request, 'result/result_detail.html', ctx)
 
 
+def find_student(request, student_id):
+    """ Find student by given id for result entry."""
+    student = Student.objects.get(
+        temporary_id=student_id
+    )
+    ctx = {
+        'student_name': student.admission_student.name,
+        'student_batch': student.batch.number,
+        'image_url': student.admission_student.photo.url
+    }
+    return JsonResponse({'data': ctx})
+
+
 def result_entry(request):
     if not request.GET:
-        qs = Student.objects.none()
+        qs = SubjectGroup.objects.none()
     else:
-        qs = Student.objects.all()
+        qs = SubjectGroup.objects.all()
 
-    student_filter = StudentFilter(
+    subject_group_filter = SubjectGroupFilter(
         request.GET,
         queryset=qs
     )
     ctx = {
-        'student_filter': student_filter,
+        'subject_group_filter': subject_group_filter,
     }
     return render(request, 'result/result_entry.html', ctx)
