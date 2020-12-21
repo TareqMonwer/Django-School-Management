@@ -11,5 +11,8 @@ urlpatterns = [
     ),
     path('entry/', views.result_entry,
         name='result_entry'
-    )
+    ),
+    path('student/find/<str:student_id>', views.find_student,
+        name='find_student'
+    ),
 ]
