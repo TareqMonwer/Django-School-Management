@@ -9,4 +9,7 @@ urlpatterns = [
     path('student/<int:student_pk>/', views.result_detail_view,
         name='result_detail_view'
     ),
+    path('entry/', views.result_entry,
+        name='result_entry'
+    )
 ]

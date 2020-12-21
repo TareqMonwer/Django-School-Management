@@ -1,0 +1,87 @@
+{% extends 'dashboard.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block extra_header %}
+<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap4.min.css' %}">
+{% endblock %}
+
+{% block dashboard-body %}
+
+<!-- Filter Form -->
+<div class="row border">
+    <div class="col-md-12 py-2">
+        <h3>Add Result for Students {DEPT}</h3>
+    </div>
+
+    <div class="col-md-12">
+        <form action="" method="get">
+            <div class="form-row align-items-end">
+                <div class="col">
+                    {{ student_filter.form.admission_student__choosen_department|as_crispy_field }}
+                </div>
+                <div class="col">
+                    {{ student_filter.form.batch|as_crispy_field }}
+                </div>
+                <div class="col">
+                    {{ student_filter.form.semester|as_crispy_field }}
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <div class="">
+                            <input type="submit" value="Submit" class="btn btn-primary">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Filtered out students -->
+<div class="row">
+    <div class="col-md-12">
+        <table id="studentsDataList" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Subject</th>
+                    <th>Practical Marks</th>
+                    <th>Theory Marks</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for obj in student_filter.qs %} 
+                <tr>
+                    <td>
+                        <a href="#"
+                            class="text-dark">
+                            {{ obj.temporary_id }}
+                        </a>
+                    </td>
+                    <td>
+                        {subject}
+                    </td>
+                    <td>
+                        <input type="number" name="practical_marks" id=""
+                            value="{{ obj.practical_marks }}">
+                    </td>
+                    <td>
+                        <input type="number" name="theory_marks" id=""
+                            value="{{ obj.theory_marks }}">
+                    </td>
+                </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5">
+                            NO RESULT FOUND
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

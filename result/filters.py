@@ -1,5 +1,6 @@
 import django_filters
 
+from students.models import Student
 from .models import Result
 
 class ResultFilter(django_filters.FilterSet):
@@ -13,4 +14,14 @@ class ResultFilter(django_filters.FilterSet):
             'semester',
             'subject',
             'student__temporary_id'
+        ]
+
+
+class StudentFilter(django_filters.FilterSet):
+    class Meta:
+        model = Student
+        fields = [
+            'admission_student__choosen_department',
+            'batch',
+            'semester',
         ]
