@@ -4,7 +4,7 @@ from django.db import models
 from django.conf import settings
 
 from students.models import Student
-from academics.models import Subject, Semester
+from academics.models import Subject, Semester, Department
 
 
 class Exam(TimeStampedModel):
@@ -65,3 +65,26 @@ class Result(TimeStampedModel):
         else:
             self.total_marks = self.theory_marks
         super().save(*args, **kwargs)
+
+
+class SubjectGroup(TimeStampedModel):
+    """ Keep track of group of subjects that belongs to a
+    department, semester
+    """
+    department = models.ForeignKey(
+        Department,
+        related_name='subjects',
+        on_delete=models.DO_NOTHING
+    )
+    semester = models.ForeignKey(
+        Semester,
+        related_name='subjects',
+        on_delete=models.CASCADE
+    )
+    subjects = models.ManyToManyField(Subject)
+
+    def __str__(self):
+        return f'{self.department} - {self.semester}'
+    
+    def get_subjects(self):
+        return "\n".join([sg.subjects for sg in self.subjects.all()])

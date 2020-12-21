@@ -50,8 +50,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
     # custom apps
-    'admin_tools',
     'students',
     'teachers',
     'result',
