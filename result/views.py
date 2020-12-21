@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from students.models import Student
 from academics.models import Semester
 from .models import Result
-from .filters import ResultFilter
+from .filters import ResultFilter, StudentFilter
 
 
 def result_view(request):
@@ -36,3 +36,19 @@ def result_detail_view(request, student_pk):
         'active_semesters': active_semesters
     }
     return render(request, 'result/result_detail.html', ctx)
+
+
+def result_entry(request):
+    if not request.GET:
+        qs = Student.objects.none()
+    else:
+        qs = Student.objects.all()
+
+    student_filter = StudentFilter(
+        request.GET,
+        queryset=qs
+    )
+    ctx = {
+        'student_filter': student_filter,
+    }
+    return render(request, 'result/result_entry.html', ctx)
