@@ -12,7 +12,7 @@
 <!-- Filter Form -->
 <div class="row border">
     <div class="col-md-12 py-2">
-        <h3>Add Result for Students {DEPT}</h3>
+        <h3>Add Result for Students <span id="title-dept"></span></h3>
     </div>
 
     <div class="col-md-12">
@@ -109,9 +109,9 @@
                             id="student_id">
                     </div>
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-2">
                     <div class="form-group">
-                        <input class="btn btn-primary" type="submit" value="Add Result">
+                        <input class="btn btn-block btn-primary" type="submit" value="Add Result">
                     </div>
                 </div>
             </div>
@@ -119,7 +119,7 @@
             <div class="row justify-content-end">
                 <div class="col-md-4">
                     <div id="student-preview-card" class="d-none">
-                        <div class="card" style="width: 18rem;">
+                        <div class="card" style="width: 100%;">
                             <img id="studentImg" class="card-img-top" src="" alt="Student Preview">
                             <div class="card-body">
                                 <p class="card-text">
@@ -128,6 +128,11 @@
                                 </p>
                             </div>
                         </div>
+                    </div>
+                    <div id="student-preview-card-placeholder">
+                        <p class="text-center">
+                            SUDENT PREVIEW
+                        </p>
                     </div>
                 </div>
             </div>
@@ -142,8 +147,10 @@
 {% block extrajs %}
 <script>
     $(document).ready(function(){
+        //  student preview card
         $('#student_id').keyup(function(){
             const prevCard = document.getElementById('student-preview-card');
+            const prevPlaceHolder = document.getElementById('student-preview-card-placeholder');
             const studentCardImage = document.getElementById('studentImg');
             const studentCardName = document.getElementById('studentName');
             const studentCardBatch = document.getElementById('studentBatch');
@@ -159,6 +166,8 @@
                 success: function(data){
                     prevCard.classList.remove('d-none');
 
+                    prevPlaceHolder.style.display = 'none';
+
                     const student = data.data;
                     // console.log(student);
                     studentCardImage.src = student.image_url;
@@ -167,6 +176,8 @@
                 },
                 error: function(error) {
                     prevCard.classList.add('d-none');
+                    prevPlaceHolder.style.display = 'block';
+                    prevPlaceHolder.innerHTML = '<p class="text-center">NO STUDENT MATCHES</p>';
                 }
             })
         });
