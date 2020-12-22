@@ -1,3 +1,5 @@
+from django.db import IntegrityError
+from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse, HttpResponse
 
@@ -78,7 +80,6 @@ def result_entry(request):
                     s_pk = int(key.split('.')[1])
                     subject = Subject.objects.get(pk=s_pk)
                     if not result_created.get(str(s_pk)):
-                        print(subject)
                         # get subject marks
                         practical_marks = int(
                             request.POST.get(f'practical_marks.{s_pk}')
@@ -93,8 +94,15 @@ def result_entry(request):
                             practical_marks=practical_marks,
                             theory_marks=theory_marks
                         )
-                        result.save()
-                        result_created[str(s_pk)] = True
+                        try:
+                            result.save()
+                            result_created[str(s_pk)] = True
+                        except IntegrityError:
+                            messages.error(
+                                request,
+                                f'{student.admission_student.name}\'s result '
+                                f'for {subject} has been created already.'
+                            )
                 except ValueError:
                     pass
         return redirect('result:result_entry')
@@ -102,26 +110,3 @@ def result_entry(request):
         'subject_group_filter': subject_group_filter,
     }
     return render(request, 'result/result_entry.html', ctx)
-
-
-"""
-K: 1 -- V: 
-K: practical_marks.1 -- V: 50
-K: theory_marks.1 -- V: 50
-K: 2 -- V: 
-K: practical_marks.2 -- V: 20
-K: theory_marks.2 -- V: 20
-K: 3 -- V: 
-K: practical_marks.3 -- V: 30
-K: theory_marks.3 -- V: 10
-K: 4 -- V: 
-K: practical_marks.4 -- V: 02
-K: theory_marks.4 -- V: 30
-K: 5 -- V: 
-K: practical_marks.5 -- V: 10
-K: theory_marks.5 -- V: 10
-K: 6 -- V: 
-K: practical_marks.6 -- V: 30
-K: theory_marks.6 -- V: 50
-K: student_id -- V: 
-"""

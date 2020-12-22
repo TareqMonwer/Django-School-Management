@@ -27,7 +27,7 @@
                 <div class="col">
                     <div class="form-group">
                         <div class="">
-                            <input type="submit" value="Submit" class="btn btn-primary">
+                            <input type="submit" value="Filter" class="btn btn-primary">
                         </div>
                     </div>
                 </div>
@@ -35,6 +35,21 @@
         </form>
     </div>
 </div>
+
+{% if messages %}
+<div class="row my-4">
+    <div class="col-md-12">
+        {% for message in messages %}
+            <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
 
 <!-- Filtered out students -->
 <form action="." method="POST">
