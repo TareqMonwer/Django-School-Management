@@ -54,6 +54,9 @@ class Result(TimeStampedModel):
         null=True
     )
 
+    class Meta:
+        unique_together =  ('student', 'semester', 'subject')
+
     def __str__(self):
         return f'{self.student} | {self.subject} | {self.total_marks}'
     

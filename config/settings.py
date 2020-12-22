@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 import environ
 
+from django.contrib.messages import constants as messages
+
+
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, True)
@@ -159,6 +162,13 @@ STATICFILES_DIRS = [
 #     os.path.join(BASE_DIR, "static"),
 # ]
 
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-info',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger'
+}
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
