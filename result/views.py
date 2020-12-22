@@ -1,8 +1,8 @@
-from django.shortcuts import render, get_object_or_404
-from django.http import JsonResponse
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import JsonResponse, HttpResponse
 
 from students.models import Student
-from academics.models import Semester
+from academics.models import Semester, Subject
 from .models import Result, SubjectGroup
 from .filters import ResultFilter, SubjectGroupFilter
 
@@ -13,7 +13,7 @@ def result_view(request):
     else:
         qs = Result.objects.all()
     f = ResultFilter(request.GET, queryset=qs)
-    ctx = {'filter': f,}
+    ctx = {'filter': f, }
     return render(request, 'result/result_filter.html', ctx)
 
 
@@ -62,7 +62,66 @@ def result_entry(request):
         request.GET,
         queryset=qs
     )
+
+    if request.method == 'POST':
+        data_items = request.POST.items()
+        # get student from pk
+        student_temp_id = request.POST.get('student_id')
+        student = Student.objects.get(temporary_id=student_temp_id)
+        semester = Semester.objects.get(pk=int(request.POST.get('semester')))
+
+        result_created = {}
+        for key, value in data_items:
+            # get subject from pk
+            if '.' in key:
+                try:
+                    s_pk = int(key.split('.')[1])
+                    subject = Subject.objects.get(pk=s_pk)
+                    if not result_created.get(str(s_pk)):
+                        print(subject)
+                        # get subject marks
+                        practical_marks = int(
+                            request.POST.get(f'practical_marks.{s_pk}')
+                        )
+                        theory_marks = int(
+                            request.POST.get(f'theory_marks.{s_pk}')
+                        )
+                        result = Result(
+                            student=student,
+                            semester=semester,
+                            subject=subject,
+                            practical_marks=practical_marks,
+                            theory_marks=theory_marks
+                        )
+                        result.save()
+                        result_created[str(s_pk)] = True
+                except ValueError:
+                    pass
+        return redirect('result:result_entry')
     ctx = {
         'subject_group_filter': subject_group_filter,
     }
     return render(request, 'result/result_entry.html', ctx)
+
+
+"""
+K: 1 -- V: 
+K: practical_marks.1 -- V: 50
+K: theory_marks.1 -- V: 50
+K: 2 -- V: 
+K: practical_marks.2 -- V: 20
+K: theory_marks.2 -- V: 20
+K: 3 -- V: 
+K: practical_marks.3 -- V: 30
+K: theory_marks.3 -- V: 10
+K: 4 -- V: 
+K: practical_marks.4 -- V: 02
+K: theory_marks.4 -- V: 30
+K: 5 -- V: 
+K: practical_marks.5 -- V: 10
+K: theory_marks.5 -- V: 10
+K: 6 -- V: 
+K: practical_marks.6 -- V: 30
+K: theory_marks.6 -- V: 50
+K: student_id -- V: 
+"""
