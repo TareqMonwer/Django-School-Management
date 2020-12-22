@@ -58,6 +58,9 @@
                 Counsel & Admission
               </a>
             </h5>
+          </div>
+          <div class="sn-group">
+            <h5>Students</h5>
             <nav>
               <a class="sn-link" href="{% url 'students:add_student' %}">
                 <i class="fas fa-user-plus"></i>admission
@@ -68,7 +71,8 @@
               <a href="{% url 'students:all_student' %}" class="sn-link">
                 <i class="fas fa-th-list"></i>all student
               </a>
-              <a href="#" class="sn-link">
+              <a href="{% url 'result:result_home' %}" 
+                class="sn-link">
                 <i class="fas fa-poll"></i>result
               </a>
             </nav>

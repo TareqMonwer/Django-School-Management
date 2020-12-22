@@ -381,3 +381,13 @@ body {
 	right: 0;
 	cursor: pointer;
 }
+
+
+/* ============================================== */
+/* --------- result/result_entry.html ----------- */
+/* ---------------------------------------------- */
+#student-preview-card-placeholder {
+    padding: 1rem;
+	border: 3px dotted rgb(95, 95, 95);
+	color:  rgb(95, 95, 95);
+}

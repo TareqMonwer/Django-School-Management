@@ -43,6 +43,7 @@ redis = "*"
 reportlab = "*"
 django-extensions = "*"
 xhtml2pdf = "*"
+django-filter = "*"
 
 [requires]
 python_version = "3.8"

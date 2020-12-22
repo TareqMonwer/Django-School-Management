@@ -13,7 +13,6 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('teachers', '__first__'),
-        ('admin_tools', '0001_initial'),
         ('students', '__first__'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
