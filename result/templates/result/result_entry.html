@@ -37,8 +37,9 @@
 </div>
 
 <!-- Filtered out students -->
-<form action="">
-    <div class="row">
+<form action="." method="POST">
+    {% csrf_token %}
+    <div class="row mt-3">
         <div class="col-md-12">
             <table id="studentsDataList" class="table table-striped table-bordered" style="width:100%">
                 <thead>
@@ -50,6 +51,8 @@
                 </thead>
                 <tbody>
                     {% for subject_group in subject_group_filter.qs %} 
+
+                        <input type="hidden" name="semester" value="{{ subject_group.semester.pk }}">
                         
                         {% for subject in subject_group.subjects.all %}
                             <tr>
@@ -57,13 +60,16 @@
                                     <a href="#"
                                         class="text-dark">
                                         {{ subject }}
+                                        <input type="hidden" name="subject.{{ subject.pk }}">
                                     </a>
                                 </td>
                                 <td>
-                                    <input type="number" name="practical_marks">
+                                    <input type="number" 
+                                        name="practical_marks.{{ subject.pk }}">
                                 </td>
                                 <td>
-                                    <input type="number" name="theory_marks">
+                                    <input type="number" 
+                                        name="theory_marks.{{ subject.pk }}">
                                 </td>
                             </tr>
                         {% endfor %}
@@ -94,6 +100,7 @@
                     </div>
                 </div>
             </div>
+            <!-- Student preveiw card -->
             <div class="row justify-content-end">
                 <div class="col-md-4">
                     <div id="student-preview-card" class="d-none">
