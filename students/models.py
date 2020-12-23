@@ -2,7 +2,7 @@ from datetime import datetime
 
 from model_utils.models import TimeStampedModel
 
-from django.db import models, OperationalError, IntegrityError
+from django.db import models, OperationalError, IntegrityError, transaction
 from django.contrib.auth import get_user_model
 from django.conf import settings
 
@@ -181,26 +181,29 @@ class Student(TimeStampedModel):
             raise OperationalError(
                 f'Cannot assign {self.admission_student.choosen_department} '
                 f'departments student to {self.batch.department} department.')
-        # Set AdmissionStudent assigned_as_student=True
-        self.admission_student.assigned_as_student = True
-        self.admission_student.save()
+        elif self.admission_student.choosen_department == self.batch.department:
+            # Set AdmissionStudent assigned_as_student=True
+            self.admission_student.assigned_as_student = True
+            self.admission_student.save()
 
-        # Create temporary id for student id
-        last_temp_id = self._find_last_admitted_student_serial()
-        current_temp_id = str(last_temp_id + 1)
-        self.temp_serial = current_temp_id
-        self.temporary_id = self.get_temp_id()
-        super().save(*args, **kwargs)
-        try:
-            temp_serial_id = TempSerialID.objects.create(
-                student=self,
-                department=self.admission_student.choosen_department,
-                year=self.ac_session,
-                serial=current_temp_id
-            )
-            temp_serial_id.save()
-        except IntegrityError as e:
-            pass
+        # Create temporary id for student id if temporary_id is not set yet.
+        if not self.temp_serial or not self.temporary_id:
+            last_temp_id = self._find_last_admitted_student_serial()
+            current_temp_id = str(last_temp_id + 1)
+            self.temp_serial = current_temp_id
+            self.temporary_id = self.get_temp_id()
+            super().save(*args, **kwargs)
+            try:
+                with transaction.atomic():  
+                    temp_serial_id = TempSerialID.objects.create(
+                        student=self,
+                        department=self.admission_student.choosen_department,
+                        year=self.ac_session,
+                        serial=current_temp_id
+                    )
+                    temp_serial_id.save()
+            except IntegrityError as e:
+                pass
 
     def delete(self, *args, **kwargs):
         """ Override delete method """
