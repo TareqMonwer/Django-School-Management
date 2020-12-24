@@ -6,6 +6,18 @@
 {% endblock %}
 
 {% block dashboard-body %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="{% url 'account:dashboard' %}">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'students:all_student' %}">Students</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">List</li>
+    </ol>
+</nav>
+
 
 <div class="row">
   <div class="col-12">
