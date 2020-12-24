@@ -9,7 +9,10 @@ from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 from academics.views import user_is_staff
-from academics.models import Department, Semester, Subject, Batch, AcademicSession
+from academics.models import (
+    Department, Semester, Subject, Batch, AcademicSession
+)
+from result.models import SubjectGroup
 from students.models import Student, AdmissionStudent, CounselingComment
 from students.forms import (
     StudentForm, AdmissionForm, StudentRegistrantUpdateForm,
@@ -327,7 +330,7 @@ class StudentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return reverse_lazy('students:student_details', kwargs={'pk': student_id})
 
 
-class student_detail_view(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+class StudentDetailsView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Student
     template_name = 'students/student_details.html'
 
@@ -347,15 +350,14 @@ class student_detail_view(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         student = Student.objects.get(pk=pk)
         # get student object
         # for showing subjects in option form
-        try:
-            student_subject_qs = student.has_subjects()[0]
-            student_subject_qs = student_subject_qs.subjects.all()
-            context['subjects'] = student_subject_qs
-        except IndexError:
-            context['subjects'] = None
+        student_subject_qs = SubjectGroup.objects.filter(
+            department=student.admission_student.choosen_department,
+            semester=student.semester
+        )
+        context['subjects'] = student_subject_qs
         # getting result objects
-        semesters = range(1, student.semester.number + 1)
-        context['semesters'] = semesters
+        results = student.results.all()
+        context['results'] = results
         return context
 
 

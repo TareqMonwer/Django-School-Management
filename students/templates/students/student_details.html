@@ -17,20 +17,26 @@
       </a>
       <div class="row py-5">
         <div class="col-3">
-          <img class="student-profile-img" src="{{ student.photo.url }}" alt="" width="200" height="200">
+          <img class="student-profile-img" src="{{ student.admission_student.photo.url }}" alt="" width="200"
+            height="200">
         </div>
         <div class="col-8">
-          <h2>{{ student.name }}</h2>
-          <h4>{{ student.department }} {{ student.semester }}</h4>
+          <h2>{{ student.admission_student.name }}</h2>
+          <h4>
+            {{ student.admission_student.choosen_department }} {{ student.semester }}
+          </h4>
+          <h4>
+            Temporary ID: {{ student.temporary_id }}
+          </h4>
           <h4>Session: {{ student.ac_session }}</h4>
           {% if student.mobile %}
-            <h4>Mobile: {{ student.mobile }}</h4>
+          <h4>Mobile: {{ student.mobile }}</h4>
           {% endif %}
           {% if student.email %}
           <h4>Mail: {{ student.email }}</h4>
           {% endif %}
           {% if student.guardian_mobile %}
-            <h4>Guardian: {{ student.guardian_mobile }}</h4>
+          <h4>Guardian: {{ student.guardian_mobile }}</h4>
           {% endif %}
         </div>
       </div>
@@ -38,106 +44,36 @@
   </div>
 </section>
 
-<section class="mt-5" id="student-information">
-  <div class="container">
-    <div class="row">
-      <div class="col-3">
-        <h3>Result(s):</h3>
-        
-        <!-- Result Form Modal -->
-        <div class="modal fade" id="resultForm" tabindex="-1">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Result For:</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <form action="{% url 'students:add_result_in_details' pk=student.id %}" method="post">
-                  {% csrf_token %}
-                  <div class="form-group">
-                    <label for="marks">Marks</label>
-                    <input type="number" class="form-control" name="marks" id="marks">
-                  </div>
-                  <div class="form-group">
-                    <label for="subject">Subject</label>
-                    <select class="form-control" id="subject" name="subject">
-                      {% for sub in subjects %}
-                        <option value="{{ sub.subject_code }}">{{ sub.name }}</option>
-                      {% endfor %}
-                    </select>                    
-                  </div>
-                  <input type="submit" value="Save">
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-        <table class="table table-bordered">
+<section id="student-results">
+  <div class="container-fluid">
+    <div class="row mt-5">
+      <div class="col-md-6">
+        <h3>Result Board</h3>
+        <table class='{% cycle "table table-striped table-bordered table-dark" "table table-striped table-bordered" %}'>
           <thead>
             <tr>
-              <th scope="col">
-                <button type="button" class="btn btn-sm btn-success btn-block" data-toggle="modal" data-target="#resultForm">
-                  <i class="fas fa-plus"></i> Add New Record
-                </button>
-              </th>
+              <th scope="col">#</th>
+              <th scope="col">Subject</th>
+              <th scope="col">Total</th>
+              <th scope="col">Theory</th>
+              <th scope="col">Practical</th>
             </tr>
           </thead>
           <tbody>
-            {% for semester in semesters %}
-              <tr>
-                <td>
-                  <a href="{% url 'result:result_by_semester' student_id=student.id semester=semester %}">
-                  {{ semester|num_suffix }} Semester</a>
-                </td>
-              </tr>
+            {% for result in results %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ result.subject }}</td>
+              <td>{{ result.total_marks }}</td>
+              <td>{{ result.theory_marks }}</td>
+              <td>{{ result.practical_marks }}</td>
+            </tr>
             {% endfor %}
           </tbody>
         </table>
       </div>
-      <div class="col-4">
-        <h3>Attendance:</h3>
-        <a href="" class="btn btn-sm btn-success">
-          <i class="fas fa-plus"></i> Add New Record
-        </a>
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th scope="col">Semester</th>
-              <th scope="col">Avg.</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="col-4">
-        <h3>Academic Report(s):</h3>
-        <a href="" class="btn btn-sm btn-success">
-          <i class="fas fa-plus"></i> Add New Record
-        </a>
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th scope="col">Semester</th>
-              <th scope="col">Refference</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Mark</td>
-              <td>Otto</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div> <!-- end of row -->
+    </div>
   </div>
 </section>
+
 {% endblock %}
