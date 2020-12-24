@@ -11,9 +11,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from academics.views import user_is_staff
 from academics.models import Department, Semester, Subject, Batch, AcademicSession
 from students.models import Student, AdmissionStudent, CounselingComment
-from students.forms import (StudentForm, AdmissionForm,
-                            StudentRegistrantUpdateForm,
-                            CounselingDataForm)
+from students.forms import (
+    StudentForm, AdmissionForm, StudentRegistrantUpdateForm,
+    CounselingDataForm, StudentUpdateForm
+)
 
 from students.tasks import send_admission_confirmation_email
 
@@ -305,13 +306,12 @@ def students_by_department_view(request, pk):
     return render(request, 'students/students_by_department.html', context)
 
 
-class student_update_view(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class StudentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     """
     renders a student update form to update students details.
     """
     model = Student
-    fields = ['photo', 'semester', 'mobile',
-              'guardian_mobile', 'email']
+    form_class = StudentUpdateForm
     template_name = 'students/update_student.html'
 
     def test_func(self):
