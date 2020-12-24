@@ -289,13 +289,11 @@ def students_view(request):
     and semesters list.
     """
     all_students = Student.objects.select_related(
-        'department', 'semester', 'ac_session').all()
-    departments = Department.objects.select_related(
-        'head').all()
-    context = {'students': all_students,
-               'departments': departments,
-               }
-    return render(request, 'students/students_list.html', context)
+        'admission_student', 'semester', 'ac_session').all()
+    context = {
+        'students': all_students,
+    }
+    return render(request, 'students/list/students_list.html', context)
 
 
 @user_passes_test(user_is_staff)
