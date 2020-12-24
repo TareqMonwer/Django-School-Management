@@ -52,7 +52,7 @@ urlpatterns = [
           name='update_online_registrant'),
      path('update/<int:pk>/', views.StudentUpdateView.as_view(),
           name='update_student'),
-     path('<int:pk>/detail/', views.student_detail_view.as_view(),
+     path('<int:pk>/detail/', views.StudentDetailsView.as_view(),
           name='student_details'),
      path('<int:pk>/delete/', views.student_delete_view, name='delete_student'),
      path('<int:pk>/students/', views.students_by_department_view,
