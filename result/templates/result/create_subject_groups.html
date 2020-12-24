@@ -16,7 +16,8 @@
 <div class="row">
   <div class="col-md-12">
     <!-- Dept, Semester form -->
-    <form action="" id="subjectGroupCreateForm">
+    <form action="" id="subjectGroupCreateForm" method="post">
+      {% csrf_token %}
       <!-- Inputs -->
       <div id="subjectGroupInputs">
         <div class="form-inline">
@@ -50,7 +51,10 @@
           <div class="col-sm-6 col-md-2 col-lg-3 subject-col" data-subject-pk="{{ subject.pk }}">
             <div class="subject-wrapper">
               <div class="card mb-3">
-                <img class="card-img-top" src="https://via.placeholder.com/100" alt="Card image cap">
+                <img class="card-img-top" 
+                  src="{{ subject.book_cover.url }}" 
+                  alt="{{ subject.name }}"
+                  style="max-height: 250px;">
                 <div class="card-body">
                   <h5 class="card-title">{{ subject.name }}</h5>
                   <div class="card-footer">
@@ -71,14 +75,39 @@
 {% block extrajs %}
   <script>
     const subjectsContainer = document.getElementById('subjects-container');
+    const dept = document.getElementById('department');
+    const semster = document.getElementById('semester');
 
     for (let i = 0; i < subjectsContainer.childNodes.length; i++) {
       if (subjectsContainer.childNodes[i].classList && 
         subjectsContainer.childNodes[i].classList.contains('subject-col')) {
+        
+        const subjectCol = subjectsContainer.childNodes[i];
+        
         // Conditional Code Runs from here
-        subjectsContainer.childNodes[i].addEventListener('click', function(){
+        subjectCol.addEventListener('click', function(){
           const cardItem = this.children[0].children[0] // get .card class
           cardItem.classList.toggle('selected-item');
+
+          if (cardItem.classList.contains('selected-item')) {
+            // remove border-radius from card, and card-img-top
+            cardItem.style.borderRadius = 0;
+            cardItem.children[0].style.borderRadius = 0;
+
+            // get data to add new subject to a subject group
+            const subjectPk = parseInt(subjectCol.attributes[1].value);
+            const semesterPk = parseInt(semester.value);
+            const deptPk = parseInt(dept.value);
+            console.log(subjectPk);
+            console.log(semesterPk);
+            console.log(deptPk);
+
+          } else {
+            // apply prev styles on deselect item.
+            cardItem.style.borderRadius = '.25rem';
+            cardItem.children[0].style.borderTopLeftRadius = 'calc(.25rem - 1px)';
+            cardItem.children[0].style.borderTopRightRadius = 'calc(.25rem - 1px)';
+          }         
         })
       }
     }
