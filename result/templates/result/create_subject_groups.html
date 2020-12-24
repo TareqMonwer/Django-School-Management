@@ -66,6 +66,10 @@
           </div>
         {% endfor %}        
       </div><!-- Subject Wrapper End  -->
+
+      <div id="hiddenInputs"></div>
+
+      <input type="submit" value="CREATE NEW SUBJECT GROUP">
     </form>
   </div>
 </div>
@@ -77,6 +81,12 @@
     const subjectsContainer = document.getElementById('subjects-container');
     const dept = document.getElementById('department');
     const semster = document.getElementById('semester');
+    const subjectGroupForm = document.getElementById('subjectGroupCreateForm');
+    const hiddenInputs = document.getElementById('hiddenInputs');
+    const semesterPk = parseInt(semester.value);
+    const deptPk = parseInt(dept.value);
+    const url = `{% url 'result:create_subject_group' dept_pk=${deptPk} semester_pk=${semesterPk}`;
+
 
     for (let i = 0; i < subjectsContainer.childNodes.length; i++) {
       if (subjectsContainer.childNodes[i].classList && 
@@ -89,24 +99,24 @@
           const cardItem = this.children[0].children[0] // get .card class
           cardItem.classList.toggle('selected-item');
 
+          // get data to add new subject to a subject group
+          const subjectPk = parseInt(subjectCol.attributes[1].value);
+
           if (cardItem.classList.contains('selected-item')) {
             // remove border-radius from card, and card-img-top
             cardItem.style.borderRadius = 0;
             cardItem.children[0].style.borderRadius = 0;
-
-            // get data to add new subject to a subject group
-            const subjectPk = parseInt(subjectCol.attributes[1].value);
-            const semesterPk = parseInt(semester.value);
-            const deptPk = parseInt(dept.value);
-            console.log(subjectPk);
-            console.log(semesterPk);
-            console.log(deptPk);
+            
+            let newInput = `<input type="hidden" name="subject" value="${subjectPk}" id="${subjectPk}-subject">`;
+            hiddenInputs.innerHTML += newInput;
 
           } else {
             // apply prev styles on deselect item.
             cardItem.style.borderRadius = '.25rem';
             cardItem.children[0].style.borderTopLeftRadius = 'calc(.25rem - 1px)';
             cardItem.children[0].style.borderTopRightRadius = 'calc(.25rem - 1px)';
+            const remHiddenInput = document.getElementById(`${subjectPk}-subject`);
+            remHiddenInput.remove();
           }         
         })
       }

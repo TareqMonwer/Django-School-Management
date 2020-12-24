@@ -84,7 +84,7 @@ class SubjectGroup(TimeStampedModel):
         related_name='subjects',
         on_delete=models.CASCADE
     )
-    subjects = models.ManyToManyField(Subject)
+    subjects = models.ManyToManyField(Subject, blank=True)
 
     def __str__(self):
         return f'{self.department} - {self.semester}'
