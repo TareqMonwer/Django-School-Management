@@ -28,6 +28,7 @@ urlpatterns = [
      path('pdf/', pdf_views.test_pdf, name='test_pdf'),
      path('add/', views.add_student_view, name='add_student'),
      path('all/', views.students_view, name='all_student'),
+     path('alumnus/', views.AlumnusListView.as_view(), name='alumnus'),
      path('applicants/', views.all_applicants, name='all_applicants'),
      path('applicants/unpaid/', views.unpaid_registrants, name='unpaid_registrants'),
      path('applicants/unpaid/mark-paid/', views.mark_as_paid_or_unpaid,

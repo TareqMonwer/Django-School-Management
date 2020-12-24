@@ -4,7 +4,7 @@ from collections import OrderedDict
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, UpdateView
+from django.views.generic import ListView, DetailView, UpdateView
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
@@ -373,3 +373,13 @@ def student_delete_view(request, pk):
     student = Student.objects.get(pk=pk)
     student.delete()
     return redirect('students:all_student')
+
+
+class AlumnusListView(ListView):
+    model = Student
+    context_object_name = 'alumnus'
+    template_name = 'students/list/alumnus.html'
+
+    def get_queryset(self):
+        queryset = Student.alumnus.all()
+        return queryset
