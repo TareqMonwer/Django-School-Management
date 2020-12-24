@@ -112,10 +112,32 @@ def result_entry(request):
     return render(request, 'result/result_entry.html', ctx)
 
 
-def create_subject_group(request, dept_pk=None, semster_pk=None):
+def create_subject_group(request):
     departments = Department.objects.all()
     semesters = Semester.objects.all()
     subjects = Subject.objects.all()
+
+    if request.method == 'POST':
+        dept_pk = int(request.POST.get('department'))
+        subject_list = request.POST.getlist('subject')
+        semester_pk = int(request.POST.get('semester'))
+
+        dept = Department.objects.get(pk=dept_pk)
+        semester = Semester.objects.get(pk=semester_pk)
+
+        subject_group = SubjectGroup.objects.create(
+            department=dept,
+            semester=semester
+        )
+
+        subject_objects = []
+        for s_pk in subject_list:
+            subj = Subject.objects.get(pk=int(s_pk))
+            subject_objects.append(subj)
+            subject_group.subjects.add(subj)
+
+        subject_group.save()
+        return JsonResponse({'data': 'ok'})
     ctx = {
         'departments': departments,
         'semesters': semesters,
