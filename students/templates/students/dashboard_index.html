@@ -20,94 +20,71 @@
     </div>
   </div>
 
-  <div class="col-12 d-flex">
-    <!-- Topbar Informations -->
-    <div class="mr-3">
-      <div class="card bg-primary p-3">
-        <h5>
-          <a class="text-light" href="{% url 'students:all_applicants' %}">
+  <div class="col-12">
+    <div class="topstat d-flex justify-content-between">
+      <div class="statbox">
+        <i class="fas fa-users fa-3x"></i>
+        <div class="text">
+          <a href="{% url 'students:all_applicants' %}">
             All Applicants
-            <span class="badge badge-light"> {{ all_applicants.count }} </span>
           </a>
-        </h5>
+          <h3>{{ all_applicants.count }}</h3>
+        </div>
       </div>
-    </div>
-    <div class="mr-3">
-      <div class="card bg-info p-3">
-        <h5>
-          <a
-            class="text-light"
-            href="{% url 'students:admitted_student_list' %}"
-          >
-            Admitted & Paid
-            <span class="badge badge-light">
-              {{ admitted_students.count }}
-            </span>
+      <div class="statbox">
+        <i class="fas fa-users fa-3x"></i>
+        <div class="text">
+          <a href="{% url 'students:admitted_student_list' %}">
+            Admitted
           </a>
-        </h5>
+          <h3>{{ admitted_students.count }}</h3>
+        </div>
       </div>
-    </div>
-    <div class="mr-3">
-      <div class="card bg-warning p-3">
-        <h5>
-          <a class="text-light" href="{% url 'students:unpaid_registrants' %}">
+      <div class="statbox">
+        <i class="fas fa-users fa-3x"></i>
+        <div class="text">
+          <a href="{% url 'students:unpaid_registrants' %}">
             Unpaid
-            <span class="badge badge-light">
-              {{ unpaid_registrants.count }}
-            </span>
           </a>
-        </h5>
+          <h3>{{ unpaid_registrants.count }}</h3>
+        </div>
       </div>
-    </div>
-    <div class="mr-3">
-      <div class="card bg-danger p-3">
-        <h5>
-          <a
-            class="text-light"
-            href="{% url 'students:rejected_registrants' %}"
-          >
+      <div class="statbox">
+        <i class="fas fa-users fa-3x"></i>
+        <div class="text">
+          <a href="{% url 'students:rejected_registrants' %}">
             Rejected
-            <span class="badge badge-light">
-              {{ rejected_applicants.count }}
-            </span>
           </a>
-        </h5>
+          <h3>{{ rejected_applicants.count }}</h3>
+        </div>
       </div>
     </div>
-    <div class="mr-3">
-      <div class="card bg-success p-3">
-        <h5>
-          <a class="text-light" href="{% url 'students:paid_registrants' %}">
-            Paid
-            <span class="badge badge-light">
-              {{ paid_registrants.count }}
-            </span>
-          </a>
-        </h5>
-      </div>
-    </div>
-    <div class="mr-3">
-      <div class="card bg-secondary p-3">
-        <h5>
-          <a
-            class="text-light"
-            href="{% url 'students:admission_confirmation' %}"
-          >
-            Confirm Admission
-          </a>
-        </h5>
-      </div>
-    </div>
-    <div class="mr-3">
-      <div class="card lio-primary-bg p-3">
-        <h5>
-          <a
-            class="text-light"
-            href="#"
-          >
+  </div>
+  <div class="col-12 my-3">
+    <div class="topstat d-flex">
+      <a href="{% url 'students:admission_confirmation' %}">
+        <div class="statbox mr-4">
+          <i class="fas fa-users fa-3x"></i>
+          <div class="text">
+            <a class="text-dark" href="{% url 'students:admission_confirmation' %}">
+              Confirmation
+            </a>
+            <h3>
+              <a class="text-dark"  href="{% url 'students:admission_confirmation' %}">
+                {{ admitted_students.count }}
+              </a>
+            </h3>
+          </div>
+        </div>
+      </a>
+      <div class="statbox">
+        <i class="fas fa-users fa-3x"></i>
+        <div class="text">
+          <a href="#">
             Visits
           </a>
-        </h5>
+          <h3>00</h3>
+        </div>
       </div>
     </div>
   </div>
