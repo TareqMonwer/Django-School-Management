@@ -144,3 +144,11 @@ def create_subject_group(request):
         'subjects': subjects,
     }
     return render(request, 'result/create_subject_groups.html', ctx)
+
+
+def subject_group_list(request):
+    subject_groups = SubjectGroup.objects.all()
+    ctx = {
+        'subject_groups': subject_groups,
+    }
+    return render(request, 'result/subject_group_list.html', ctx)
