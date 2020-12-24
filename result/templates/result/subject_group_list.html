@@ -1,0 +1,68 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+
+{% block extra_header %}
+<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap4.min.css' %}">
+{% endblock %}
+
+{% block dashboard-body %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="{% url 'account:dashboard' %}">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a href="{% url 'result:create_subject_group' %}">Create Subject Group</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">List</li>
+  </ol>
+</nav>
+
+
+<div class="row">
+  <div class="col-12">
+    <table class="table table-bordered" id="subjectGroupDataTable">
+      <thead>
+        <tr>
+          <th scope="col">Department</th>
+          <th scope="col">Semester</th>
+          <th scope="col">Subjects</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for subject_group in subject_groups %}
+        <tr>
+          <td>
+              {{ subject_group.department }}
+          </td>
+          <td>
+              {{ subject_group.semester }}
+          </td>
+          <td>
+            {% for subject in subject_group.subjects.all %}
+              <p>
+                <i>{{ subject }}</i>
+              </p>
+            {% endfor %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}
+
+
+
+{% block extrajs %}
+<script src="{% static 'js/jquery.dataTables.min.js' %}"></script>>
+<script src="{% static 'js/dataTables.bootstrap4.min.js' %}"></script>
+
+<script>
+  $(document).ready(function () {
+    $('#alumnussDataTable').dataTable();
+  });
+</script>
+{% endblock extrajs %}
