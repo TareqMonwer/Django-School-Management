@@ -6,9 +6,10 @@ app_name = 'result'
 
 urlpatterns = [
     path('', views.result_view, name='result_home'),
-    path('subject-groups/', views.create_subject_group,
-        name='subject_groups'
+    path('create-subject-group/', views.create_subject_group,
+        name='create_subject_group'
     ),
+    path('subject-groups/', views.subject_group_list, name='subject_groups'),
     path('student/<int:student_pk>/', views.result_detail_view,
         name='result_detail_view'
     ),
