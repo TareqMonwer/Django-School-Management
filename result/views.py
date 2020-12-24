@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse, HttpResponse
 
 from students.models import Student
-from academics.models import Semester, Subject
+from academics.models import Semester, Subject, Department
 from .models import Result, SubjectGroup
 from .filters import ResultFilter, SubjectGroupFilter
 
@@ -113,4 +113,12 @@ def result_entry(request):
 
 
 def create_subject_group(request, dept_pk=None, semster_pk=None):
-    return render(request, 'result/create_subject_groups.html')
+    departments = Department.objects.all()
+    semesters = Semester.objects.all()
+    subjects = Subject.objects.all()
+    ctx = {
+        'departments': departments,
+        'semesters': semesters,
+        'subjects': subjects,
+    }
+    return render(request, 'result/create_subject_groups.html', ctx)

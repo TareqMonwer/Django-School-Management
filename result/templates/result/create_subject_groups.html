@@ -2,6 +2,17 @@
 {% load static %}
 
 {% block dashboard-body %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'result:subject_groups' %}">Subject Groups</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Create Subject Group</li>
+    </ol>
+</nav>
+
+
 <div class="row">
   <div class="col-md-12">
     <!-- Dept, Semester form -->
@@ -11,20 +22,18 @@
         <div class="form-inline">
           <label class="sr-only" for="department">Department</label>
           <select name="department" class="form-control mb-2 mr-sm-2" id="department">
-            <option value="">Department</option>
-            <option value="">Department1</option>
-            <option value="">Department2</option>
-            <option value="">Department4</option>
-            <option value="">Department2</option>
+            <option value="" selected disabled>Choose Department</option>
+            {% for dept in departments %}
+              <option value="{{ dept.pk }}">{{ dept.name }}</option>
+            {% endfor %}
           </select>
 
           <label class="sr-only" for="semester">Semester</label>
           <select name="semester" class="form-control mb-2 mr-sm-2" id="semester">
-            <option value="">1st</option>
-            <option value="">2nd</option>
-            <option value="">3rd</option>
-            <option value="">5th</option>
-            <option value="">6th</option>
+            <option value="" selected disabled>Choose Semester</option>
+            {% for semester in semesters %}
+              <option value="{{ semester.pk }}">{{ semester }}</option>
+            {% endfor %}
           </select>
         </div>
       </div>
@@ -36,83 +45,22 @@
       </div>
       <!-- Subject Listing -->
       <div class="row" id="subjects-container">
-        <!-- Single Subject -->
-        <div class="col-sm-6 col-md-2 col-lg-3 subject-col">
-          <div class="subject-wrapper" data-subject-pk="1">
-            <div class="card mb-3">
-              <img class="card-img-top" src="https://via.placeholder.com/100" alt="Card image cap">
-              <div class="card-body">
-                <h5 class="card-title">Subject Name</h5>
-                <div class="card-footer">
-                  Subject Code
+        {% for subject in subjects %}
+          <!-- Single Subject -->
+          <div class="col-sm-6 col-md-2 col-lg-3 subject-col" data-subject-pk="{{ subject.pk }}">
+            <div class="subject-wrapper">
+              <div class="card mb-3">
+                <img class="card-img-top" src="https://via.placeholder.com/100" alt="Card image cap">
+                <div class="card-body">
+                  <h5 class="card-title">{{ subject.name }}</h5>
+                  <div class="card-footer">
+                    <i style="font-weight: bold;">Code: </i> {{ subject.subject_code }}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <!-- Single Subject End -->
-        <!-- Single Subject -->
-        <div class="col-sm-6 col-md-2 col-lg-3 subject-col">
-          <div class="subject-wrapper" data-subject-pk="1">
-            <div class="card mb-3">
-              <img class="card-img-top" src="https://via.placeholder.com/100" alt="Card image cap">
-              <div class="card-body">
-                <h5 class="card-title">Subject Name</h5>
-                <div class="card-footer">
-                  Subject Code
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Single Subject End -->
-        <!-- Single Subject -->
-        <div class="col-sm-6 col-md-2 col-lg-3 subject-col">
-          <div class="subject-wrapper" data-subject-pk="1">
-            <div class="card mb-3">
-              <img class="card-img-top" src="https://via.placeholder.com/100" alt="Card image cap">
-              <div class="card-body">
-                <h5 class="card-title">Subject Name</h5>
-                <div class="card-footer">
-                  Subject Code
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Single Subject End -->
-        <!-- Single Subject -->
-        <div class="col-sm-6 col-md-2 col-lg-3 subject-col">
-          <div class="subject-wrapper" data-subject-pk="1">
-            <div class="card mb-3">
-              <img class="card-img-top" src="https://via.placeholder.com/100" alt="Card image cap">
-              <div class="card-body">
-                <h5 class="card-title">Subject Name</h5>
-                <div class="card-footer">
-                  Subject Code
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Single Subject End -->
-        <!-- Single Subject -->
-        <div class="col-sm-6 col-md-2 col-lg-3 subject-col">
-          <div class="subject-wrapper" data-subject-pk="1">
-            <div class="card mb-3">
-              <img class="card-img-top" src="https://via.placeholder.com/100" alt="Card image cap">
-              <div class="card-body">
-                <h5 class="card-title">Subject Name</h5>
-                <div class="card-footer">
-                  Subject Code
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Single Subject End -->
-
-        
+        {% endfor %}        
       </div><!-- Subject Wrapper End  -->
     </form>
   </div>
