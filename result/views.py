@@ -110,3 +110,7 @@ def result_entry(request):
         'subject_group_filter': subject_group_filter,
     }
     return render(request, 'result/result_entry.html', ctx)
+
+
+def create_subject_group(request, dept_pk=None, semster_pk=None):
+    return render(request, 'result/create_subject_groups.html')
