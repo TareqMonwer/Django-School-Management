@@ -12,6 +12,21 @@ from teachers.models import Teacher
 from .utils.bd_zila import ALL_ZILA
 
 
+class StudentManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(
+            is_alumni=False,
+            is_dropped=False
+        )
+
+
+class AlumniManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(
+            is_alumni=True
+        )
+
+
 class StudentBase(TimeStampedModel):
     LAST_EXAMS = (
         ('HSC', 'Higher Secondary Certificate'),
@@ -134,6 +149,10 @@ class Student(TimeStampedModel):
     )
     is_alumni = models.BooleanField(default=False)
     is_dropped = models.BooleanField(default=False)
+
+    # Managers
+    objects = StudentManager()
+    alumnus = AlumniManager()
 
     class Meta:
         ordering = ['semester', 'roll', 'registration_number']
