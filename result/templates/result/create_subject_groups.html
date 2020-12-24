@@ -3,15 +3,14 @@
 
 {% block dashboard-body %}
 <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
-        <li class="breadcrumb-item">
-            <a href="{% url 'result:subject_groups' %}">Subject Groups</a>
-        </li>
-        <li class="breadcrumb-item active" aria-current="page">Create Subject Group</li>
-    </ol>
+  <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+      <li class="breadcrumb-item">
+          <a href="{% url 'result:subject_groups' %}">Subject Group List</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">Create Subject Group</li>
+  </ol>
 </nav>
-
 
 <div class="row">
   <div class="col-md-12">
@@ -69,7 +68,7 @@
 
       <div id="hiddenInputs"></div>
 
-      <input type="submit" value="CREATE NEW SUBJECT GROUP">
+      <input type="submit" value="CREATE NEW SUBJECT GROUP" class="float-right btn lio-primary-bg">
     </form>
   </div>
 </div>
