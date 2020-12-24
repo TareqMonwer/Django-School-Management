@@ -13,7 +13,6 @@
     new class
     new department
     new session
-    new combination
     subject set
 
 * EVENTS AND CLUB *

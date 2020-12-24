@@ -17,7 +17,11 @@ class Teacher(TimeStampedModel):
     photo = models.ImageField(upload_to='teachers',
                                 default='teacheravatar.jpg')
     date_of_birth = models.DateField(blank=True, null=True)
-    designation = models.ForeignKey(Designation, on_delete=models.CASCADE)
+    designation = models.ForeignKey(
+        Designation,
+        on_delete=models.CASCADE,
+        related_name='resources'
+    )
     expertise = TaggableManager(blank=True)
     mobile = models.CharField(max_length=11, blank=True, null=True)
     email = models.CharField(max_length=255, blank=True, null=True)

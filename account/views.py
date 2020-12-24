@@ -4,8 +4,9 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView
-
 from django.contrib.auth.models import User
+
+from academics.models import Department
 from students.models import Student
 from teachers.models import Teacher
 from .forms import UserRegistrationForm
@@ -24,9 +25,11 @@ def home(request):
 def dashboard(request):
     total_students = Student.objects.count()
     total_teachers = Teacher.objects.count()
+    total_departments = Department.objects.count()
     context = {
         'total_students': total_students,
         'total_teachers': total_teachers,
+        'total_departments': total_departments,
     }
     return render(request, 'dashboard.html', context)
 
