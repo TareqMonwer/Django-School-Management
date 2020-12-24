@@ -90,4 +90,4 @@ class SubjectGroup(TimeStampedModel):
         return f'{self.department} - {self.semester}'
     
     def get_subjects(self):
-        return "\n".join([sg.subjects for sg in self.subjects.all()])
+        return " | ".join([str(sg) for sg in self.subjects.all()])

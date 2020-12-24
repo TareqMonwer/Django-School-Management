@@ -6,10 +6,41 @@
 	--yellow-color: #F6C23E;
 }
 
+/* FONTS */
+@font-face {
+	font-family: 'fontello';
+	src: url('./font/fontello.eot?6968418');
+	src: url('./font/fontello.eot?6968418#iefix') format('embedded-opentype'),
+		url('./font/fontello.woff?6968418') format('woff'),
+		url('./font/fontello.ttf?6968418') format('truetype'),
+		url('./font/fontello.svg?6968418#fontello') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
 /* GENERIC CLASSES*/
 .lio-primary-bg {
 	background: var(--primary-color);
 	color: #fff;
+}
+
+.selected-item {
+	border: 4px solid rgb(1, 160, 73);
+}
+
+.selected-item::after {
+	content: '\f14a';
+	font-family: "fontello";
+	display: block;
+	width: 50px;
+	height: 50px;
+	position: absolute;
+	background: rgb(1, 160, 73);
+	right: 0;
+	bottom: 0;
+	color: #fff;
+	font-size: 33px;
+	text-align: center;
 }
 
 .hide {

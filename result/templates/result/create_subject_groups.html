@@ -1,0 +1,138 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+
+{% block dashboard-body %}
+<div class="row">
+  <div class="col-md-12">
+    <!-- Dept, Semester form -->
+    <form action="" id="subjectGroupCreateForm">
+      <!-- Inputs -->
+      <div id="subjectGroupInputs">
+        <div class="form-inline">
+          <label class="sr-only" for="department">Department</label>
+          <select name="department" class="form-control mb-2 mr-sm-2" id="department">
+            <option value="">Department</option>
+            <option value="">Department1</option>
+            <option value="">Department2</option>
+            <option value="">Department4</option>
+            <option value="">Department2</option>
+          </select>
+
+          <label class="sr-only" for="semester">Semester</label>
+          <select name="semester" class="form-control mb-2 mr-sm-2" id="semester">
+            <option value="">1st</option>
+            <option value="">2nd</option>
+            <option value="">3rd</option>
+            <option value="">5th</option>
+            <option value="">6th</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div><h3 class="py-4">Select Subjects</h3></div>
+        </div>
+      </div>
+      <!-- Subject Listing -->
+      <div class="row" id="subjects-container">
+        <!-- Single Subject -->
+        <div class="col-sm-6 col-md-2 col-lg-3 subject-col">
+          <div class="subject-wrapper" data-subject-pk="1">
+            <div class="card mb-3">
+              <img class="card-img-top" src="https://via.placeholder.com/100" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title">Subject Name</h5>
+                <div class="card-footer">
+                  Subject Code
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Single Subject End -->
+        <!-- Single Subject -->
+        <div class="col-sm-6 col-md-2 col-lg-3 subject-col">
+          <div class="subject-wrapper" data-subject-pk="1">
+            <div class="card mb-3">
+              <img class="card-img-top" src="https://via.placeholder.com/100" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title">Subject Name</h5>
+                <div class="card-footer">
+                  Subject Code
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Single Subject End -->
+        <!-- Single Subject -->
+        <div class="col-sm-6 col-md-2 col-lg-3 subject-col">
+          <div class="subject-wrapper" data-subject-pk="1">
+            <div class="card mb-3">
+              <img class="card-img-top" src="https://via.placeholder.com/100" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title">Subject Name</h5>
+                <div class="card-footer">
+                  Subject Code
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Single Subject End -->
+        <!-- Single Subject -->
+        <div class="col-sm-6 col-md-2 col-lg-3 subject-col">
+          <div class="subject-wrapper" data-subject-pk="1">
+            <div class="card mb-3">
+              <img class="card-img-top" src="https://via.placeholder.com/100" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title">Subject Name</h5>
+                <div class="card-footer">
+                  Subject Code
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Single Subject End -->
+        <!-- Single Subject -->
+        <div class="col-sm-6 col-md-2 col-lg-3 subject-col">
+          <div class="subject-wrapper" data-subject-pk="1">
+            <div class="card mb-3">
+              <img class="card-img-top" src="https://via.placeholder.com/100" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title">Subject Name</h5>
+                <div class="card-footer">
+                  Subject Code
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Single Subject End -->
+
+        
+      </div><!-- Subject Wrapper End  -->
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+
+{% block extrajs %}
+  <script>
+    const subjectsContainer = document.getElementById('subjects-container');
+
+    for (let i = 0; i < subjectsContainer.childNodes.length; i++) {
+      if (subjectsContainer.childNodes[i].classList && 
+        subjectsContainer.childNodes[i].classList.contains('subject-col')) {
+        // Conditional Code Runs from here
+        subjectsContainer.childNodes[i].addEventListener('click', function(){
+          const cardItem = this.children[0].children[0] // get .card class
+          cardItem.classList.toggle('selected-item');
+        })
+      }
+    }
+  </script>
+{% endblock %}
