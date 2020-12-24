@@ -1,10 +1,15 @@
 {% extends 'dashboard.html' %}
+{% load static %}
+
+{% block extra_header %}
+<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap4.min.css' %}">
+{% endblock %}
 
 {% block dashboard-body %}
 
 <div class="row">
   <div class="col-12">
-    <table class="table table-bordered">
+    <table class="table table-bordered" id="studentsDataTable">
       <thead>
         <tr>
           <th scope="col">ID</th>
@@ -47,3 +52,17 @@
 </div>
 
 {% endblock %}
+
+
+
+{% block extrajs %}
+  <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>>
+  <script src="{% static 'js/dataTables.bootstrap4.min.js' %}"></script>
+
+  <script>
+    $(document).ready(function() {
+      $('#studentsDataTable').dataTable();
+    });
+  </script>
+{% endblock extrajs %}
+  
