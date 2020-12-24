@@ -75,8 +75,10 @@ class CounselingDataForm(forms.ModelForm):
 class StudentUpdateForm(forms.ModelForm):
     class Meta:
         model = Student
-        fields = [
-            'roll', 'registration_number',
-            'semester', 'guardian_mobile',
+        fields = (
+            'roll',
+            'registration_number',
+            'semester',
+            'guardian_mobile',
             'is_alumni', 'is_dropped'
-        ]
+        )

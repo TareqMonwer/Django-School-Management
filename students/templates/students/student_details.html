@@ -28,6 +28,12 @@
           <h4>
             Temporary ID: {{ student.temporary_id }}
           </h4>
+          {% if student.roll %}
+            <h4>Roll: {{ student.roll }}</h4>
+          {% endif %}
+          {% if student.registration_number %}
+          <h4>Registration: {{ student.registration_number }}</h4>
+          {% endif %}
           <h4>Session: {{ student.ac_session }}</h4>
           {% if student.mobile %}
           <h4>Mobile: {{ student.mobile }}</h4>

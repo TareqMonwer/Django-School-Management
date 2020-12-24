@@ -325,6 +325,13 @@ class StudentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return redirect('account:home')
         return redirect('account:login')
 
+    def post(self, request, pk, *args, **kwargs):
+        obj = get_object_or_404(Student, pk=pk)
+        form = StudentUpdateForm(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()
+            return redirect('students:student_details', pk=obj.pk)
+
     def get_success_url(self):
         student_id = self.kwargs['pk']
         return reverse_lazy('students:student_details', kwargs={'pk': student_id})

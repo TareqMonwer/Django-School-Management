@@ -2,13 +2,43 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<section id="update-student">
+<section id="update-student" class="py-5">
   <div id="update-student-inner">
     <div class="container">
       <div class="row justify-content-center">
+        <div class="col-3">
+          <a href="{% url 'students:student_details' pk=student.id %}">
+          <div class="card" style="width: 100%;">
+            <img class="card-img-top" 
+              src="{{ object.admission_student.photo.url }}">
+            <div class="card-body bg-primary text-light">
+              <h5 class="card-title">
+                {{ object.admission_student.name }}
+              </h5>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                {{ object.admission_student.choosen_department }}
+              </li>
+              <li class="list-group-item">
+                Session: {{ object.ac_session }}
+              </li>
+              <li class="list-group-item">
+                Batch: {{ object.batch.number }}
+              </li>
+            </ul>
+            <div class="card-footer">
+              <a href="{% url 'students:student_details' pk=student.id %}" 
+                class="btn btn-sm btn-dark">
+                View Details
+              </a>
+            </div>
+          </div>
+          </a>
+        </div>
         <div class="col-8 py-5">
           <div id="student-update-form">
-            <form class="sudent-update-form" action="." method="post" enctype="multipart/form-data">
+            <form class="sudent-update-form" method="post" action="">
               {% csrf_token %}
               {{ form|crispy }}
               <a href="{% url 'index_view' %}" class="btn btn-dark">

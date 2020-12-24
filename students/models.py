@@ -204,6 +204,7 @@ class Student(TimeStampedModel):
                     temp_serial_id.save()
             except IntegrityError as e:
                 pass
+        super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
         """ Override delete method """
