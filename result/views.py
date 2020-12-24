@@ -137,7 +137,7 @@ def create_subject_group(request):
             subject_group.subjects.add(subj)
 
         subject_group.save()
-        return JsonResponse({'data': 'ok'})
+        return redirect('result:subject_groups')
     ctx = {
         'departments': departments,
         'semesters': semesters,
