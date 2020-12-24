@@ -72,6 +72,14 @@
     </form>
   </div>
 </div>
+
+<div class="row">
+  <div class="col-12">
+    <div id="subjectCounter" class="">
+      <span id="subjectCounterN">0</span>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 
@@ -85,7 +93,10 @@
     const semesterPk = parseInt(semester.value);
     const deptPk = parseInt(dept.value);
     const url = `{% url 'result:create_subject_group' dept_pk=${deptPk} semester_pk=${semesterPk}`;
-
+    const selectedCounterContainer = document.getElementById('subjectCounter');
+    const selectedCounter = document.getElementById('subjectCounterN');
+    
+    let selectedCards = 0;
 
     for (let i = 0; i < subjectsContainer.childNodes.length; i++) {
       if (subjectsContainer.childNodes[i].classList && 
@@ -108,7 +119,8 @@
             
             let newInput = `<input type="hidden" name="subject" value="${subjectPk}" id="${subjectPk}-subject">`;
             hiddenInputs.innerHTML += newInput;
-
+            selectedCards += 1;
+            selectedCounter.innerHTML = selectedCards;
           } else {
             // apply prev styles on deselect item.
             cardItem.style.borderRadius = '.25rem';
@@ -116,6 +128,8 @@
             cardItem.children[0].style.borderTopRightRadius = 'calc(.25rem - 1px)';
             const remHiddenInput = document.getElementById(`${subjectPk}-subject`);
             remHiddenInput.remove();
+            selectedCards -= 1
+            selectedCounter.innerHTML = selectedCards;
           }         
         })
       }
