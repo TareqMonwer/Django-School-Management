@@ -66,10 +66,10 @@
                 <i class="fas fa-user-plus"></i>admission
               </a>
               <a href="#" class="sn-link">
-                <i class="fas fa-id-card-alt"></i>promotion
+                <i class="fas fa-id-card-alt"></i>promotion [X]
               </a>
               <a href="{% url 'students:all_student' %}" class="sn-link">
-                <i class="fas fa-th-list"></i>all student
+                <i class="fas fa-th-list"></i>all student [X]
               </a>
               <a href="{% url 'result:result_home' %}" 
                 class="sn-link">
@@ -83,37 +83,36 @@
               <a class="sn-link" href="{% url 'teachers:add_teacher' %}">
                 <i class="fas fa-user-tie"></i>new teacher
               </a>
-              <a href="" class="sn-link">
-                <i class="fas fa-id-card-alt"></i>promotion</a>
+              <a href="#" class="sn-link">
+                <i class="fas fa-id-card-alt"></i>promotion [X]
+              </a>
               <a href="{% url 'teachers:all_teacher' %}" class="sn-link">
                 <i class="fas fa-th-list"></i>teachers
               </a>
-              <a href="{% url 'teachers:create_designation' %}" class="sn-link">
+              <a href="{% url 'teachers:designations' %}" class="sn-link">
                 <i class="fas fa-th-list"></i>designation
               </a>
             </nav>
           </div>
           <div class="sn-group">
-            <h5>departments</h5>
+            <h5>academics tools</h5>
             <nav>
               <a class="sn-link" href="{% url 'academics:departments' %}">
                 <i class="fas fa-plus"></i>departments
               </a>
-              <a href="" class="sn-link">
-                <i class="fas fa-plus"></i>new combination
-              </a>
               <a href="{% url 'academics:academic_sessions' %}" class="sn-link">
                 <i class="fas fa-plus"></i>academic sessions
               </a>
-              <a href="" class="sn-link"><i class="fas fa-plus"></i>combinations</a>
-              <a href="" class="sn-link"><i class="fas fa-plus"></i>subject set</a>
+              <a href="#" class="sn-link"><i class="fas fa-plus"></i>
+                subject set [X]
+              </a>
               <a href="{% url 'academics:all_semester' %}" class="sn-link">
                 <i class="fas fa-plus"></i>semesters
               </a>
             </nav>
           </div>
           <div class="sn-group">
-            <h5>Administrative</h5>
+            <h5>User & Permissions</h5>
             <nav>
               {% if perms.auth.add_user %}
               <a href="{% url 'academics:add_user' %}" class="sn-link">
@@ -188,8 +187,8 @@
                   <div class="statbox">
                     <i class="fas fa-users fa-3x"></i>
                     <div class="text">
-                      <p>clubs</p>
-                      <h3>20</h3>
+                      <p>departments</p>
+                      <h3>{{ total_departments }}</h3>
                     </div>
                   </div>
                   <div class="statbox">
@@ -251,7 +250,7 @@
                   <ul class="list-group list-group-flush">
                     <li class="title list-group-item d-flex justify-content-between">
                       <h5>unpaid</h5>
-                        <a href="" title="Mark as paid">
+                        <a href="#" title="Mark as paid">
                           <i class="far fa-check-circle"></i>
                         </a>
                     </li>
