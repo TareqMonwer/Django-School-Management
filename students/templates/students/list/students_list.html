@@ -8,7 +8,6 @@
       <thead>
         <tr>
           <th scope="col">ID</th>
-          <th scope="col">Registration</th>
           <th scope="col">Name</th>
           <th scope="col">Department</th>
           <th scope="col">Action</th>
@@ -19,19 +18,16 @@
         <tr>
           <th scope="row">
             <a href="{% url 'students:student_details' pk=student.id %}">
-              {{ student.roll }}
+              {{ student.temporary_id }}
           </th>
           <td>
             <a href="{% url 'students:student_details' pk=student.id %}">
-              {{ student.registration_number }}</td>
-          <td>
-            <a href="{% url 'students:student_details' pk=student.id %}">
             <img src="{{ student.photo.url }}" class="mr-2 rounded-circle" height=24 width=24>
-            {{ student.name }}
+            {{ student.admission_student.name }}
           </td>
           <td>
             <a href="{% url 'students:student_details' pk=student.id %}">
-              {{ student.department.name }}
+              {{ student.admission_student.choosen_department.name }}
           </td>
           <td>
             <div class="btn-group" role="group" aria-label="Basic example">
