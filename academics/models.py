@@ -80,6 +80,10 @@ class Semester(TimeStampedModel):
 class Subject(TimeStampedModel):
     name = models.CharField(max_length=50)
     subject_code = models.PositiveIntegerField(unique=True)
+    book_cover = models.ImageField(
+        upload_to='subjects/',
+        default='subjects/bookcover.png'
+    )
     instructor = models.ForeignKey(
         Teacher, on_delete=models.CASCADE,
         blank=True, null=True
