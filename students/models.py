@@ -221,7 +221,7 @@ class Student(TimeStampedModel):
                         serial=current_temp_id
                     )
                     temp_serial_id.save()
-            except IntegrityError as e:
+            except IntegrityError:
                 pass
         super().save(*args, **kwargs)
 

@@ -11,10 +11,15 @@ class ResultFilter(django_filters.FilterSet):
     class Meta:
         model = Result
         fields = [
+            'student__admission_student__choosen_department',
             'semester',
             'subject',
             'student__temporary_id'
         ]
+
+    def __init__(self, *args, **kwargs):
+        super(ResultFilter, self).__init__(*args, **kwargs)
+        self.filters['student__admission_student__choosen_department'].label = 'Department'
 
 
 class SubjectGroupFilter(django_filters.FilterSet):
