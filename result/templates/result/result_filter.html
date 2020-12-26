@@ -24,6 +24,9 @@
         <form action="" method="get">
             <div class="form-row align-items-end">
                 <div class="col">
+                    {{ filter.form.student__admission_student__choosen_department|as_crispy_field }}
+                </div>
+                <div class="col">
                     {{ filter.form.semester|as_crispy_field }}
                 </div>
                 <div class="col">
