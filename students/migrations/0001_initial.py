@@ -30,10 +30,7 @@ class Migration(migrations.Migration):
                 ('mobile', models.CharField(blank=True, max_length=11, null=True)),
                 ('guardian_mobile', models.CharField(blank=True, max_length=11, null=True)),
                 ('email', models.EmailField(blank=True, max_length=254, null=True)),
-                ('ac_session', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='admin_tools.AcademicSession')),
                 ('created_by', models.ForeignKey(null=True, on_delete=django.db.models.deletion.DO_NOTHING, to=settings.AUTH_USER_MODEL)),
-                ('department', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='admin_tools.Department')),
-                ('semester', models.ForeignKey(default='1st', on_delete=django.db.models.deletion.CASCADE, to='admin_tools.Semester')),
             ],
             options={
                 'ordering': ['semester', 'roll', 'registration_number'],

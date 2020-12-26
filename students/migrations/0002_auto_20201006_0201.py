@@ -95,22 +95,6 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name='student',
-            name='ac_session',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='academics.AcademicSession'),
-        ),
-        migrations.AlterField(
-            model_name='student',
-            name='date_of_birth',
-            field=models.DateField(verbose_name='Birth Date'),
-            preserve_default=False,
-        ),
-        migrations.AlterField(
-            model_name='student',
-            name='department',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='departments', to='academics.Department'),
-        ),
-        migrations.AlterField(
-            model_name='student',
             name='email',
             field=models.EmailField(default='', max_length=254, verbose_name='Email Address'),
             preserve_default=False,
@@ -124,11 +108,6 @@ class Migration(migrations.Migration):
             model_name='student',
             name='photo',
             field=models.ImageField(upload_to='students/applicant/'),
-        ),
-        migrations.AlterField(
-            model_name='student',
-            name='semester',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='academics.Semester'),
         ),
         migrations.CreateModel(
             name='AdmissionStudent',

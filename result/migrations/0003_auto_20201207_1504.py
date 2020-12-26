@@ -24,14 +24,6 @@ class Migration(migrations.Migration):
         ),
         migrations.RemoveField(
             model_name='subjectcombination',
-            name='department',
-        ),
-        migrations.RemoveField(
-            model_name='subjectcombination',
-            name='semester',
-        ),
-        migrations.RemoveField(
-            model_name='subjectcombination',
             name='subjects',
         ),
         migrations.DeleteModel(
