@@ -30,29 +30,35 @@
         </tr>
       </thead>
       <tbody>
-        {% for alumni in alumnus %}
-        <tr>
-          <td>
-            <a href="#">
-              <img src="{{ student.photo.url }}" class="mr-2 rounded-circle" height=24 width=24>
-              {{ alumni.admission_student.name }}
-          </td>
-          <td>
-            <a href="#">
-              {{ alumni.admission_student.choosen_department.name }}
-          </td>
-          <td>
-            <div class="btn-group" role="group" aria-label="Basic example">
-              <button type="button" class="btn btn-success">
-                <i class="fas fa-cogs"></i>
-              </button>
-              <a href="#" class="btn btn-secondary">
-                <i class="fas fa-edit"></i>
-              </a>
-            </div>
-          </td>
-        </tr>
-        {% endfor %}
+        {% if alumnus > 0 %}
+          {% for alumni in alumnus %}
+          <tr>
+            <td>
+              <a href="#">
+                <img src="{{ student.photo.url }}" class="mr-2 rounded-circle" height=24 width=24>
+                {{ alumni.admission_student.name }}
+            </td>
+            <td>
+              <a href="#">
+                {{ alumni.admission_student.choosen_department.name }}
+            </td>
+            <td>
+              <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-success">
+                  <i class="fas fa-cogs"></i>
+                </button>
+                <a href="#" class="btn btn-secondary">
+                  <i class="fas fa-edit"></i>
+                </a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="3">No alumni found</td>
+          </tr>
+        {% endif %}
       </tbody>
     </table>
   </div>
