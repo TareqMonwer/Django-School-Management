@@ -9,21 +9,3 @@ class Migration(migrations.Migration):
     dependencies = [
         ('result', '0001_initial'),
     ]
-
-    operations = [
-        migrations.AlterField(
-            model_name='result',
-            name='semester',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='academics.Semester'),
-        ),
-        migrations.AlterField(
-            model_name='subjectcombination',
-            name='department',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='academics.Department'),
-        ),
-        migrations.AlterField(
-            model_name='subjectcombination',
-            name='semester',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='academics.Semester'),
-        ),
-    ]
