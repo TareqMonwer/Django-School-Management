@@ -82,7 +82,7 @@
         "fields": {
             "student": 1,
             "semester": 2,
-            "subject": 8,
+            "subject": 15,
             "theory_marks": 35,
             "practical_marks": 40
         }
