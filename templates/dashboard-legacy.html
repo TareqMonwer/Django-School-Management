@@ -1,0 +1,324 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>SMS LIO DASHBOARD</title>
+  <!-- FONT AWESOME KIT -->
+  <script src="https://kit.fontawesome.com/16475baae0.js" crossorigin="anonymous"></script>
+  <!-- GOOGLE FONT -->
+  <link href="https://fonts.googleapis.com/css?family=Nunito:400,700&display=swap" rel="stylesheet">
+  <!-- SELECT 2 -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+  <!-- BOOTSTRAP4 CSS -->
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <!-- Fontello -->
+  <link rel="stylesheet" href="{% static 'css/fontello/fontello-codes.css' %}">
+  <link rel="stylesheet" href="{% static 'css/fontello/fontello-embeded.css' %}">
+  <link rel="stylesheet" href="{% static 'css/fontello/fontello-ie-7.css' %}">
+  <link rel="stylesheet" href="{% static 'css/fontello/fontello.css' %}">
+  <!-- Chart.js -->
+  <script src="{% static 'js/chartjs/Chart.min.js' %}"></script>
+  <script src="{% static 'js/chartjs/utils.js' %}"></script>
+  {% block extra_header %}
+
+  {% endblock %}
+  <!-- CUSTOM CSS -->
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+  <link rel="icon" href="{% static 'images/favicon.png' %}">
+</head>
+
+<body class="bg-light">
+
+  <section id="dashboard">
+    <div class="container-fluid">
+      <div class="dashboard-container row">
+        <!-- START SIDENAV -->
+        <div class="col-12 col-sm-12 col-md-4 col-lg-2 sidenav">
+          <div class="logo">
+            <!-- <img src="{% static 'images/logo.png' %}" alt="">-->
+            <h4>SMS-LIO ADMIN</h4>
+          </div>
+          <div class="sn-group">
+            <a href="{% url 'account:dashboard' %}" class="sn-link dash-home">
+              <i class="fas fa-tachometer-alt"></i>Dashboard
+            </a>
+            <a class="sn-link dash-home" href="{% url 'pages:landing' %}" target="_blank">
+              <i class="fas fa-globe-asia"></i>Visit Site
+            </a>
+          </div>
+          <div class="sn-group">
+            <h5>import</h5>
+            <nav>
+              <a class="sn-link" href="{% url 'academics:import_subject_csv' %}">
+                <i class="fas fa-book"></i>subjects from csv
+              </a>
+            </nav>
+          </div>
+          <div class="sn-group">
+            <h5>
+              <a class="text-light" href="{% url 'students:students_dashboard_index' %}">
+                <i class="fa fa-info-circle" aria-hidden="true"></i>
+                Counsel & Admission
+              </a>
+            </h5>
+          </div>
+          <div class="sn-group">
+            <h5>Students</h5>
+            <nav>
+              <a class="sn-link" href="{% url 'students:add_student' %}">
+                <i class="fas fa-user-plus"></i>admission
+              </a>
+              <a href="#" class="sn-link">
+                <i class="fas fa-id-card-alt"></i>promotion [X]
+              </a>
+              <a href="{% url 'students:all_student' %}" class="sn-link">
+                <i class="fas fa-th-list"></i>all student
+              </a>
+              <a href="{% url 'students:alumnus' %}" class="sn-link">
+                <i class="fas fa-th-list"></i>alumnus
+              </a>
+              <a href="{% url 'result:result_home' %}" 
+                class="sn-link">
+                <i class="fas fa-poll"></i>result
+              </a>
+            </nav>
+          </div>
+          <div class="sn-group">
+            <h5>teacher</h5>
+            <nav>
+              <a class="sn-link" href="{% url 'teachers:add_teacher' %}">
+                <i class="fas fa-user-tie"></i>new teacher
+              </a>
+              <a href="#" class="sn-link">
+                <i class="fas fa-id-card-alt"></i>promotion [X]
+              </a>
+              <a href="{% url 'teachers:all_teacher' %}" class="sn-link">
+                <i class="fas fa-th-list"></i>teachers
+              </a>
+              <a href="{% url 'teachers:designations' %}" class="sn-link">
+                <i class="fas fa-th-list"></i>designation
+              </a>
+            </nav>
+          </div>
+          <div class="sn-group">
+            <h5>academics tools</h5>
+            <nav>
+              <a class="sn-link" href="{% url 'academics:departments' %}">
+                <i class="fas fa-plus"></i>departments
+              </a>
+              <a href="{% url 'academics:academic_sessions' %}" class="sn-link">
+                <i class="fas fa-plus"></i>academic sessions
+              </a>
+              <a href="{% url 'result:create_subject_group' %}" class="sn-link"><i class="fas fa-plus"></i>
+                subject Group
+              </a>
+              <a href="{% url 'academics:all_semester' %}" class="sn-link">
+                <i class="fas fa-plus"></i>semesters
+              </a>
+            </nav>
+          </div>
+          <div class="sn-group">
+            <h5>User & Permissions</h5>
+            <nav>
+              {% if perms.auth.add_user %}
+              <a href="{% url 'academics:add_user' %}" class="sn-link">
+                <i class="fas fa-plus"></i>add new user
+              </a>
+              {% endif %}
+              <a href="{% url 'academics:all_accounts' %}" class="sn-link">
+                <i class="fas fa-plus"></i>all users
+              </a>
+              <a href="{% url 'account:groups' %}" class="sn-link">
+                <i class="fas fa-plus"></i>Groups
+              </a>
+            </nav>
+          </div>
+        </div>
+        <!-- END OF SIDENAV -->
+
+        <!-- START DASHBOARD BODY -->
+        <div class="col-12 col-sm-12 col-md-8 col-lg-10 px-0 dashbody">
+          <!-- NAVIGATION TOP -->
+          <nav class="navbar navbar-expand-lg navbar-light bg-light shadow py-3 px-5">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+              aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+              <form id="searchForm" class="form-inline">
+                <input class="form-control" type="search" placeholder="Search for..." aria-label="Search">
+                <button id="searchBtn" class="btn lio-primary-bg my-2 my-sm-0" type="submit"><i
+                    class="fas fa-search"></i></button>
+              </form>
+              <div class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                    aria-expanded="false"><i class="fas fa-user-circle fa-lg"></i></a>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Settings</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'account:logout' %}">
+                      Logout {{ user.username }}
+                    </a>
+                  </div>
+                </li>
+              </div>
+            </div>
+          </nav>
+          <!-- END NAV TOP -->
+
+          <div id="dash-body-inner" class="container-fluid p-5">
+
+            {% block dashboard-body %}
+
+            <!-- top stat row -->
+            <div class="row m-0 p-0">
+              <h3 class="mb-3">Dashboard</h3>
+              <div class="col-12 p-0">
+                <div class="topstat d-flex justify-content-between">
+                  <div class="statbox">
+                    <i class="fas fa-users fa-3x"></i>
+                    <div class="text">
+                      <p>students</p>
+                      <h3>{{ total_students }}</h3>
+                    </div>
+                  </div>
+                  <div class="statbox">
+                    <i class="fas fa-users fa-3x"></i>
+                    <div class="text">
+                      <p>teachers</p>
+                      <h3>{{ total_teachers }}</h3>
+                    </div>
+                  </div>
+                  <div class="statbox">
+                    <i class="fas fa-users fa-3x"></i>
+                    <div class="text">
+                      <p>departments</p>
+                      <h3>{{ total_departments }}</h3>
+                    </div>
+                  </div>
+                  <div class="statbox">
+                    <i class="fas fa-users fa-3x"></i>
+                    <div class="text">
+                      <p>books</p>
+                      <h3>2000</h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- second row -->
+            <div id="second-row" class="row m-0 p-0">
+              <div class="col-12 mt-5 p-0 d-flex justify-content-between">
+                <div class="card">
+                  <div class="card-header">
+                    <h5>upcoming events</h5>
+                  </div>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between">
+                      <span class="name">Seminar on Machine Learning</span>
+                      <span class="date">december 12</span>
+                      <span class="organizer">dpi decoder</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                      <span class="name">Spelling Bee</span>
+                      <span class="date">november 26</span>
+                      <span class="organizer">english club</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                      <span class="name">hello! you.</span>
+                      <span class="date">december 2</span>
+                      <span class="organizer">cultural club</span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="card">
+                  <div class="card-header">
+                    <h5>Notice Board</h5>
+                  </div>
+                  <ul class="list-group">
+                    <li class="list-group-item">
+                      <h5 class="date">23 nov 2019</h5>
+                      <h5>Admit card collecting notice.</h5>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <!-- end of second row -->
+
+            <!-- payment row -->
+            <div class="row m-0 p-0">
+              <h3 class="mt-5 mb-3">Stuff Payment</h3>
+              <div class="col-12 p-0 d-flex justify-content-between">
+                <div class="unpaid card">
+                  <ul class="list-group list-group-flush">
+                    <li class="title list-group-item d-flex justify-content-between">
+                      <h5>unpaid</h5>
+                        <a href="#" title="Mark as paid">
+                          <i class="far fa-check-circle"></i>
+                        </a>
+                    </li>
+                    <li class="list-group-item">
+                      <input type="checkbox" name="paid"> Md. Shariful Islam
+                    </li>
+                    <li class="list-group-item">
+                      <input type="checkbox" name="paid"> Md. Shariful Islam
+                    </li>
+                    <li class="list-group-item">
+                      <input type="checkbox" name="paid"> Md. Shariful Islam
+                    </li>
+                  </ul>
+                </div>
+                <div class="paid card">
+                  <ul class="list-group list-group-flush">
+                    <li class="title list-group-item">
+                      <h5>paid</h5>
+                    </li>
+                    <li class="list-group-item">Soma rani das</li>
+                    <li class="list-group-item">Johir chy</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {% endblock dashboard-body %}
+
+          </div>
+          <!-- <footer id="footer">
+            <div class="container">
+              <div class="row">
+                <div class="col-12 py-1">
+                  <p>&copy;copyright 2020, reserved by <em>pidevs</em></p>
+                </div>
+              </div>
+            </div>
+          </footer> -->
+        </div>
+        <!-- END DASHBOARD BODY -->
+      </div> <!-- dashboard container fluid -->
+
+    </div>
+  </section>
+
+  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/popper.min.js' %}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+  integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+  crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+  <script>
+      // Select2 for city choice
+      $(document).ready(function() {
+          $('#id_city').select2();
+      });
+  </script>
+  {% block extrajs %}
+  {% endblock %}
+</body>
+
+</html>

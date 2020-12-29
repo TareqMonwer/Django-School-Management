@@ -1,0 +1,223 @@
+{% load static %}
+
+<div class="sidebar">
+  <div class="sidebar-inner">
+    <div class="sidebar-logo">
+      <div class="peers ai-c fxw-nw">
+        <div class="peer peer-greed"><a class="sidebar-link td-n" href="index.html">
+            <div class="peers ai-c fxw-nw">
+              <div class="peer">
+                <div class="logo">
+                  <img src="{% static 'adminator_assets/static/images/logo.png' %}" alt="">
+                </div>
+              </div>
+              <div class="peer peer-greed">
+                <h5 class="lh-1 mB-0 logo-text">DJ.SMS</h5>
+              </div>
+            </div>
+          </a></div>
+        <div class="peer">
+          <div class="mobile-toggle sidebar-toggle">
+            <a href="" class="td-n"><i class="ti-arrow-circle-left"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ul class="sidebar-menu scrollable pos-r">
+      <li class="nav-item mT-30 actived">
+        <a class="sidebar-link" href="{% url 'account:dashboard' %}">
+          <span class="icon-holder">
+            <i class="c-blue-500 ti-home"></i>
+          </span>
+          <span class="title">
+            Dashboard
+          </span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="sidebar-link" href="{% url 'pages:landing' %}" target="_blank">
+          <span class="icon-holder">
+            <i class="c-blue-500 ti-share"></i> 
+          </span>
+          <span class="title">Visit Site</span>
+        </a>
+      </li>
+
+      <!-- MAIN SIDEBAR LINKS -->
+      <li class="nav-item">
+        <a class="sidebar-link" href="{% url 'students:students_dashboard_index' %}">
+          <span class="icon-holder">
+            <i class="c-indigo-500 ti-bar-chart"></i>
+          </span>
+          <span class="title">Counsel & Admissions</span>
+        </a>
+      </li>
+
+      <!-- Students -->
+      <li class="nav-item dropdown">
+        <a class="dropdown-toggle" href="javascript:void(0);">
+          <span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i> </span>
+          <span class="title">STUDENTS</span>
+          <span class="arrow"><i class="ti-angle-right"></i></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <a class="sidebar-link" 
+              href="{% url 'students:add_student' %}">
+              New Application
+            </a>
+          </li>
+          <li>
+            <a class="sidebar-link" 
+              href="{% url 'students:all_student' %}">
+              Students List
+            </a>
+          </li>
+          <li>
+            <a class="sidebar-link" href="{% url 'result:result_entry' %}">
+              Add Result
+            </a>
+          </li>
+          <li>
+            <a class="sidebar-link" href="{% url 'result:result_home' %}">
+              Results
+            </a>
+          </li>
+          <li>
+            <a class="sidebar-link" href="{% url 'students:alumnus' %}">
+              Alumnus
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- Teachers -->
+      <li class="nav-item dropdown">
+        <a class="dropdown-toggle" href="javascript:void(0);">
+          <span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i> </span>
+          <span class="title">TEACHERS</span>
+          <span class="arrow"><i class="ti-angle-right"></i></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <a class="sidebar-link" 
+              href="{% url 'teachers:add_teacher' %}">
+              Add Teacher
+            </a>
+          </li>
+          <li>
+            <a class="sidebar-link" 
+              href="{% url 'teachers:all_teacher' %}">
+              Teachers
+            </a>
+          </li>
+          <li>
+            <a class="sidebar-link" href="#">
+              Promotion
+            </a>
+          </li>
+          <li>
+            <a class="sidebar-link" href="{% url 'teachers:designations' %}">
+              Designations
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- Academic Tools -->
+      <li class="nav-item dropdown">
+        <a class="dropdown-toggle" href="javascript:void(0);">
+          <span class="icon-holder">
+            <i class="c-blue-500 ti-calendar"></i>
+          </span>
+          <span class="title">ACADEMIC OPTIONS</span>
+          <span class="arrow"><i class="ti-angle-right"></i></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <a class="sidebar-link" 
+              href="{% url 'academics:departments' %}">
+              Departments
+            </a>
+          </li>
+          <li>
+            <a class="sidebar-link" 
+              href="{% url 'result:subject_groups' %}">
+              Subject Groups
+            </a>
+          </li>
+          <li>
+            <a class="sidebar-link" 
+              href="{% url 'result:create_subject_group' %}">
+              Add Subject Group
+            </a>
+          </li>
+          <li>
+            <a class="sidebar-link" 
+              href="{% url 'academics:academic_sessions' %}">
+              Academic Sessions
+            </a>
+          </li>
+          <li>
+            <a class="sidebar-link" 
+              href="{% url 'academics:all_semester' %}">
+              Semesters
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- USER OPTIONS -->
+      <li class="nav-item dropdown">
+        <a class="dropdown-toggle" href="javascript:void(0);">
+          <span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i> </span>
+          <span class="title">SUPERADMIN OPTIONS</span>
+          <span class="arrow"><i class="ti-angle-right"></i></span>
+        </a>
+        <ul class="dropdown-menu">
+          {% if perms.auth.add_user %}
+            <li>
+              <a class="sidebar-link" 
+                href="{% url 'academics:add_user' %}">
+                Add People
+              </a>
+            </li>
+          {% endif %}
+          <li>
+            <a class="sidebar-link" 
+              href="{% url 'academics:all_accounts' %}">
+              Users
+            </a>
+          </li>
+          <li>
+            <a class="sidebar-link" 
+              href="{% url 'account:groups' %}">
+              Groups
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- Taken for Icons Classes -->
+      <li class="nav-item">
+        <a class="sidebar-link" href="">
+          <span class="icon-holder">
+            <i class="c-deep-purple-500 ti-comment-alt"></i>
+          </span>
+          <span class="icon-holder">
+            <i class="c-light-blue-500 ti-pencil"></i>
+          </span>
+          <span class="icon-holder">
+            <i class="c-pink-500 ti-palette"></i>
+          </span>
+          <span class="icon-holder">
+            <i class="c-purple-500 ti-map"></i> 
+          </span>
+          <span class="icon-holder">
+            <i class="c-red-500 ti-files"></i> 
+          </span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
