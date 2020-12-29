@@ -23,7 +23,7 @@
             <h4 class="ml-0">Unpaid Registrants</h4>
         </div>
         <!-- Online Applicants Table -->
-        <div id="online-applicants" class="mt-4">
+        <div id="online-applicants" class="col-md-12 mt-4">
             <table class="table table-bordered table-hover">
                 <thead class="thead-light">
                     <tr>
@@ -52,7 +52,7 @@
                             <form action="" method="post" class="mark-paid-form">
                                 {% csrf_token %}
                                 <input type="hidden" name="registrant_id" value="{{ applicant.pk }}">
-                                <button type="submit" class="btn btn-sm mark-paid-btn btn-dark mb-1 d-block">
+                                <button type="submit" class="btn btn-sm mark-paid-btn btn-dark mb-1 btn-block">
                                     <span class="mark-paid-text">Mark as paid</span>
                                 </button>
                             </form>
