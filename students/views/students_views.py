@@ -18,7 +18,7 @@ from students.forms import (
     StudentForm, AdmissionForm, StudentRegistrantUpdateForm,
     CounselingDataForm, StudentUpdateForm
 )
-
+from students.filters import AlumniFilter
 from students.tasks import send_admission_confirmation_email
 
 
@@ -383,3 +383,10 @@ class AlumnusListView(ListView):
     def get_queryset(self):
         queryset = Student.alumnus.all()
         return queryset
+    
+    def get_context_data(self, *args, object_list=None, **kwargs):
+        ctx = super().get_context_data(*args, object_list=object_list, **kwargs)
+        alumnus = Student.alumnus.all()
+        f = AlumniFilter(self.request.GET, queryset=alumnus)
+        ctx['filter'] = f
+        return ctx

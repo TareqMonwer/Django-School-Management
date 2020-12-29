@@ -1,5 +1,6 @@
 {% extends 'dashboard.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block extra_header %}
 <link rel="stylesheet" href="{% static 'css/dataTables.bootstrap4.min.css' %}">
@@ -18,7 +19,36 @@
   </ol>
 </nav>
 
-
+<div class="row border">
+    <div class="col-md-12 py-2">
+        <form action="" method="get">
+            <div class="form-row align-items-end">
+                <div class="col">
+                    {{ filter.form.admission_student__name|as_crispy_field }}
+                </div>
+                <div class="col">
+                    {{ filter.form.roll|as_crispy_field }}
+                </div>
+                <div class="col">
+                    {{ filter.form.admission_student__choosen_department|as_crispy_field }}
+                </div>
+                <div class="col">
+                    {{ filter.form.ac_session|as_crispy_field }}
+                </div>
+                <div class="col">
+                    {{ filter.form.batch|as_crispy_field }}
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <div class="">
+                            <input type="submit" value="Submit" class="btn btn-primary">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 <div class="row">
   <div class="col-12">
     <table class="table table-bordered" id="alumnussDataTable">
@@ -30,8 +60,7 @@
         </tr>
       </thead>
       <tbody>
-        {% if alumnus %}
-          {% for alumni in alumnus %}
+        {% for alumni in filter.qs %} 
           <tr>
             <td>
               <a href="#">
@@ -53,12 +82,7 @@
               </div>
             </td>
           </tr>
-          {% endfor %}
-        {% else %}
-          <tr>
-            <td colspan="3">No alumni found</td>
-          </tr>
-        {% endif %}
+        {% endfor %}
       </tbody>
     </table>
   </div>
