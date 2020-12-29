@@ -1,6 +1,8 @@
-{% extends 'dashboard.html' %} 
-{% load crispy_forms_tags %} 
-{% block extra_header %} {% endblock %} 
+{% extends 'dashboard.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block extra_header %}
+{% endblock %}
 
 {% block dashboard-body %}
 <nav aria-label="breadcrumb">
@@ -12,78 +14,175 @@
 </nav>
 
 <!-- Stats - Links -->
-<div class="row my-5">
-  <div class="col-md-12">
-    <div class="dashboard-section-title mb-3">
-      <div class="title-v-line"></div>
-      <h4>Counseling <span class="color-2">Operations</span></h4>
+<div class="row gap-20 masonry pos-r">
+  <div class="masonry-sizer col-md-6"></div>
+  <div class="masonry-item w-100">
+    <div class="row gap-20">
+      <div class="col-md-3">
+        <div class="layers bd bgc-white p-20">
+          <div class="layer w-100 mB-10">
+            <h6 class="lh-1">
+              <a href="{% url 'students:all_applicants' %}" class="text-dark">
+                Applications
+              </a>
+            </h6>
+          </div>
+          <div class="layer w-100">
+            <div class="peers ai-sb fxw-nw">
+              <div class="peer peer-greed">
+                <a href="{% url 'students:all_applicants' %}" class="text-dark">
+                  <i class="fas fa-users fa-3x"></i>
+                </a>
+              </div>
+              <div class="peer">
+                <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-green-50 c-green-500">
+                  <a href="{% url 'students:all_applicants' %}" class="text-dark">
+                    {{ all_applicants.count }}
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="layers bd bgc-white p-20">
+          <div class="layer w-100 mB-10">
+            <h6 class="lh-1">
+              <a href="{% url 'students:admitted_student_list' %}" class="text-dark">
+                Admitted
+              </a>
+            </h6>
+          </div>
+          <div class="layer w-100">
+            <div class="peers ai-sb fxw-nw">
+              <div class="peer peer-greed">
+                <a href="{% url 'students:admitted_student_list' %}" class="text-dark">
+                  <i class="fas fa-users fa-3x"></i>
+                </a>
+              </div>
+              <div class="peer">
+                <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-red-50 c-red-500">
+                  <a href="{% url 'students:admitted_student_list' %}" class="text-dark">
+                    {{ admitted_students.count }}
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="layers bd bgc-white p-20">
+          <div class="layer w-100 mB-10">
+            <h6 class="lh-1">
+              <a href="{% url 'students:unpaid_registrants' %}" class="text-dark">
+                Unpaid
+              </a>
+            </h6>
+          </div>
+          <div class="layer w-100">
+            <div class="peers ai-sb fxw-nw">
+              <div class="peer peer-greed">
+                <a href="{% url 'students:unpaid_registrants' %}" class="text-dark">
+                  <i class="fas fa-users fa-3x"></i>
+                </a>
+              </div>
+              <div class="peer">
+                <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-purple-50 c-purple-500">
+                  <a href="{% url 'students:unpaid_registrants' %}" class="text-dark">
+                    {{ unpaid_registrants.count }}
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="layers bd bgc-white p-20">
+          <div class="layer w-100 mB-10">
+            <h6 class="lh-1">
+              <a href="{% url 'students:rejected_registrants' %}" class="text-dark">
+                Rejected
+              </a>
+            </h6>
+          </div>
+          <div class="layer w-100">
+            <div class="peers ai-sb fxw-nw">
+              <div class="peer peer-greed">
+                <a href="{% url 'students:rejected_registrants' %}" class="text-dark">
+                  <i class="fas fa-users fa-3x"></i>
+                </a>
+              </div>
+              <div class="peer">
+                <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-blue-50 c-blue-500">
+                  <a href="{% url 'students:rejected_registrants' %}" class="text-dark">
+                    {{ rejected_applicants.count }}
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="col-12">
-    <div class="topstat d-flex justify-content-between">
-      <div class="statbox">
-        <i class="fas fa-users fa-3x"></i>
-        <div class="text">
-          <a href="{% url 'students:all_applicants' %}">
-            All Applicants
-          </a>
-          <h3>{{ all_applicants.count }}</h3>
-        </div>
-      </div>
-      <div class="statbox">
-        <i class="fas fa-users fa-3x"></i>
-        <div class="text">
-          <a href="{% url 'students:admitted_student_list' %}">
-            Admitted
-          </a>
-          <h3>{{ admitted_students.count }}</h3>
-        </div>
-      </div>
-      <div class="statbox">
-        <i class="fas fa-users fa-3x"></i>
-        <div class="text">
-          <a href="{% url 'students:unpaid_registrants' %}">
-            Unpaid
-          </a>
-          <h3>{{ unpaid_registrants.count }}</h3>
-        </div>
-      </div>
-      <div class="statbox">
-        <i class="fas fa-users fa-3x"></i>
-        <div class="text">
-          <a href="{% url 'students:rejected_registrants' %}">
-            Rejected
-          </a>
-          <h3>{{ rejected_applicants.count }}</h3>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-12 my-3">
-    <div class="topstat d-flex">
-      <a href="{% url 'students:admission_confirmation' %}">
-        <div class="statbox mr-4">
-          <i class="fas fa-users fa-3x"></i>
-          <div class="text">
-            <a class="text-dark" href="{% url 'students:admission_confirmation' %}">
-              Confirmation
-            </a>
-            <h3>
-              <a class="text-dark"  href="{% url 'students:admission_confirmation' %}">
-                {{ admitted_students.count }}
+  <div class="masonry-item w-100">
+    <div class="row gap-20">
+      <div class="col-md-3">
+        <div class="layers bd bgc-white p-20">
+          <div class="layer w-100 mB-10">
+            <h6 class="lh-1">
+              <a href="{% url 'students:admission_confirmation' %}" class="text-dark">
+                Confirmation
               </a>
-            </h3>
+            </h6>
+          </div>
+          <div class="layer w-100">
+            <div class="peers ai-sb fxw-nw">
+              <div class="peer peer-greed">
+                <a href="{% url 'students:admission_confirmation' %}" class="text-dark">
+                  <i class="fas fa-users fa-3x"></i>
+                </a>
+              </div>
+              <div class="peer">
+                <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-purple-50 c-purple-500">
+                  <a href="{% url 'students:admission_confirmation' %}" class="text-dark">
+                    {{ admitted_students.count }}
+                  </a>
+                </span>
+              </div>
+            </div>
           </div>
         </div>
-      </a>
-      <div class="statbox">
-        <i class="fas fa-users fa-3x"></i>
-        <div class="text">
-          <a href="#">
-            Visits
-          </a>
-          <h3>00</h3>
+      </div>
+      <div class="col-md-3">
+        <div class="layers bd bgc-white p-20">
+          <div class="layer w-100 mB-10">
+            <h6 class="lh-1">
+              <a href="#" class="text-dark">
+                Visits
+              </a>
+            </h6>
+          </div>
+          <div class="layer w-100">
+            <div class="peers ai-sb fxw-nw">
+              <div class="peer peer-greed">
+                <a href="#" class="text-dark">
+                  <i class="fas fa-users fa-3x"></i>
+                </a>
+              </div>
+              <div class="peer">
+                <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-green-50 c-green-500">
+                  <a href="#" class="text-dark">
+                    00
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -98,32 +197,22 @@
     <div class="card p-4">
       <h5 class="card-title text-center">
         <form action="" method="get">
-            <div class="form-row align-items-center">
-              <!-- <div class="form-group col-md-5">Mon th:</div> -->
-              <div class="form-group">
-                <select
-                  name="monthly_report_piechart_date"
-                  id="monthly_report_piechart_date"
-                  class="form-control"
-                  onchange="clickSelectedOption(this)"
-                >
-                  <option
-                    selected
-                    id="reporting_chart_month_selected"
-                    disabled
-                  ></option>
-                  {% for month in month_list %}
-                  <option 
-                    value="{{ month }}" id="report-piechart-{{ month }}"
-                    onclick="monthlyReportPieChartByMonth(
+          <div class="form-row align-items-center">
+            <!-- <div class="form-group col-md-5">Mon th:</div> -->
+            <div class="form-group">
+              <select name="monthly_report_piechart_date" id="monthly_report_piechart_date" class="form-control"
+                onchange="clickSelectedOption(this)">
+                <option selected id="reporting_chart_month_selected" disabled></option>
+                {% for month in month_list %}
+                <option value="{{ month }}" id="report-piechart-{{ month }}" onclick="monthlyReportPieChartByMonth(
                     document.getElementById('report-piechart-{{ month }}').value)">
-                    {{ month }}
-                  </option>
-                  {% endfor %}
-                </select>
-              </div>
+                  {{ month }}
+                </option>
+                {% endfor %}
+              </select>
             </div>
-          </form>
+          </div>
+        </form>
       </h5>
       <div id="monthly-report-canvas-holder" style="width: 100%">
         <canvas id="monthly-report--chart-area"></canvas>
@@ -135,32 +224,22 @@
     <div class="card p-4">
       <h5 class="card-title text-center">
         <form action="" method="get">
-            <div class="form-row align-items-center justify-content-end">
-              <!-- <div class="form-group col-md-5">Month:</div> -->
-              <div class="form-group">
-                <select
-                  name="monthly_report_department_date"
-                  id="monthly_report_department_date"
-                  class="form-control"
-                  onchange="clickSelectedOption(this)"
-                >
-                  <option
-                    selected
-                    id="monthly_report_department_month_selected"
-                    disabled
-                  ></option>
-                  {% for month in month_list %}
-                  <option 
-                    value="{{ month }}" id="report-dept-barchart-{{ month }}"
-                    onclick="monthlyReportByDepartmentsBarChartByMonth(
+          <div class="form-row align-items-center justify-content-end">
+            <!-- <div class="form-group col-md-5">Month:</div> -->
+            <div class="form-group">
+              <select name="monthly_report_department_date" id="monthly_report_department_date" class="form-control"
+                onchange="clickSelectedOption(this)">
+                <option selected id="monthly_report_department_month_selected" disabled></option>
+                {% for month in month_list %}
+                <option value="{{ month }}" id="report-dept-barchart-{{ month }}" onclick="monthlyReportByDepartmentsBarChartByMonth(
                     document.getElementById('report-dept-barchart-{{ month }}').value)">
-                    {{ month }}
-                  </option>
-                  {% endfor %}
-                </select>
-              </div>
+                  {{ month }}
+                </option>
+                {% endfor %}
+              </select>
             </div>
-          </form>
+          </div>
+        </form>
       </h5>
       <div id="monthly-report-by-dept-canvas-holder" style="width: 100%">
         <canvas id="monthly-report--dept-barchart-area"></canvas>
@@ -194,8 +273,7 @@
 
   <div class="col-md-12">
     <div class="card">
-      <div
-        class="card-top-meta-info d-flex justify-content-between 
+      <div class="card-top-meta-info d-flex justify-content-between 
         lio-primary-bg border-bottom align-items-center p-3 text-light">
         <div class="card-top-meta-info--left d-flex align-items-center">
           <div class="card-collapse pr-3 border-right">
@@ -205,8 +283,7 @@
           </div>
           <div class="card-print-pdf-actions d-flex justify-content-between">
             <div class="card-actions-action">
-              <a href="{% url 'students:counsel_monthly_report' %}" 
-                target="_blank" class="text-light">
+              <a href="{% url 'students:counsel_monthly_report' %}" target="_blank" class="text-light">
                 <i class="fas fa-external-link-alt"></i>
               </a>
             </div>
@@ -219,8 +296,7 @@
               </form>
             </div>
             <div class="card-actions-action">
-              <a class="text-light" 
-                href="{% url 'students:counsel_monthly_report_typed' response_type='pdf' %}"
+              <a class="text-light" href="{% url 'students:counsel_monthly_report_typed' response_type='pdf' %}"
                 target="_blank">
                 <i class="fas fa-file-pdf"></i>
               </a>
@@ -230,27 +306,17 @@
             </div>
           </div>
         </div>
-        
+
         <div class="card-record-date">
           <form action="" method="get">
             <div class="form-row align-items-center">
               <!-- <div class="form-group col-md-5">Month:</div> -->
               <div class="form-group">
-                <select
-                  name="monthly_report_date"
-                  id="monthly_report_date"
-                  class="form-control"
-                  onchange="clickSelectedOption(this)"
-                >
-                  <option
-                    selected
-                    id="reporting_month_selected"
-                    disabled
-                  ></option>
+                <select name="monthly_report_date" id="monthly_report_date" class="form-control"
+                  onchange="clickSelectedOption(this)">
+                  <option selected id="reporting_month_selected" disabled></option>
                   {% for month in month_list %}
-                  <option 
-                    value="{{ month }}" id="report-table-{{ month }}"
-                    onclick="monthlyReportTableByMonth(
+                  <option value="{{ month }}" id="report-table-{{ month }}" onclick="monthlyReportTableByMonth(
                     document.getElementById('report-table-{{ month }}').value)">
                     {{ month }}
                   </option>
@@ -348,15 +414,18 @@
     </div>
   </div>
 </div>
-{% endblock %} {% block extrajs %}
-<script>  
+{% endblock %}
+
+{% block extrajs %}
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+<script>
   // Google Chrome change event support code.
   const is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
 
   // Get the selected item on click from select options
   function clickSelectedOption(select) {
     // 'select' should be passed as 'this' from the function call.
-    if(!is_chrome) return;
+    if (!is_chrome) return;
     select.options[select.selectedIndex].click();
   }
 
@@ -487,11 +556,11 @@
     // Create date object from extracted year and month from option tag
     const monthNumberRaw =
       new Date(`1 ${optionMonth} ${optionYear}`).getMonth() + 1;
-    
+
     // Convert month number 1 to 01, 2 to 02 ... 9 to 09 because, 
     // route requires numbers less than ten prefixed with 0.
     const monthNumber = monthNumberRaw < 10 ? `0${monthNumberRaw}` : monthNumberRaw;
-  
+
     // get a date like: 2020-12-01
     const dateQuery = `${optionYear}-${monthNumber}-01`;
     let url = `{% url 'students:counsel_monthly_report_typed' response_type='json' %}`;
@@ -500,7 +569,7 @@
   }
 
   // Charting on the top section
-  function monthly_report_piechart_api_call(url){
+  function monthly_report_piechart_api_call(url) {
     $.ajax({
       type: "GET",
       url: url,
@@ -527,8 +596,8 @@
     // if the chart is not undefined (e.g. it has been created)
     // then destory the old one so we can create a new one later 
     // also fix of showing old data on hover/mouseover
-    if(window.admissionDataPie != undefined) {
-      window.admissionDataPie.destroy(); 
+    if (window.admissionDataPie != undefined) {
+      window.admissionDataPie.destroy();
     }
     var config = {
       type: "pie",
@@ -574,7 +643,7 @@
   // Immediate call to display monthly report pie chart
   $(function () {
     let url =
-        "{% url 'students:counsel_monthly_report_typed' response_type='json' %}";
+      "{% url 'students:counsel_monthly_report_typed' response_type='json' %}";
     monthly_report_piechart_api_call(url);
   });
 
@@ -586,12 +655,12 @@
     // Create date object from extracted year and month from option tag
     const monthNumberRaw =
       new Date(`1 ${optionMonth} ${optionYear}`).getMonth() + 1;
-    
+
     // Convert month number 1 to 01, 2 to 02 ... 9 to 09 because, 
     // route requires numbers less than ten prefixed with 0.
     const monthNumber =
       monthNumberRaw < 10 ? `0${monthNumberRaw}` : monthNumberRaw;
-  
+
     // get a date like: 2020-12-01
     const dateQuery = `${optionYear}-${monthNumber}-01`;
 
@@ -614,13 +683,13 @@
 
     // Get array of applications and admissions for chart data
     const applications_arr = [];
-    for(const item in record.departmental_records) {
+    for (const item in record.departmental_records) {
       applications_arr.push(
         record.departmental_records[item].applications_count
       );
     }
     const admissions_arr = [];
-    for(const item in record.departmental_records) {
+    for (const item in record.departmental_records) {
       admissions_arr.push(
         record.departmental_records[item].admission_count
       );
@@ -629,27 +698,27 @@
     // if the chart is not undefined (e.g. it has been created)
     // then destory the old one so we can create a new one later 
     // also fix of showing old data on hover/mouseover
-    if(window.deptDataBar != undefined) {
-      window.deptDataBar.destroy(); 
+    if (window.deptDataBar != undefined) {
+      window.deptDataBar.destroy();
     }
 
     // fetch and diplay Bar data
     const departmentsBarChartData = {
-			labels: dept_names_array,
-			datasets: [{
-				label: 'Applications',
-				backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
-				borderColor: window.chartColors.red,
-				borderWidth: 1,
-				data: applications_arr
-			}, {
-				label: 'Admitted',
-				backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
-				borderColor: window.chartColors.blue,
-				borderWidth: 1,
-				data: admissions_arr
-			}]
-		};
+      labels: dept_names_array,
+      datasets: [{
+        label: 'Applications',
+        backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+        borderColor: window.chartColors.red,
+        borderWidth: 1,
+        data: applications_arr
+      }, {
+        label: 'Admitted',
+        backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+        borderColor: window.chartColors.blue,
+        borderWidth: 1,
+        data: admissions_arr
+      }]
+    };
     const ctx = document.getElementById('monthly-report--dept-barchart-area').getContext('2d');
 
     window.deptDataBar = new Chart(ctx, {
@@ -669,7 +738,7 @@
       }
     });
   }
-  
+
   // API call to grab barChartData and update the barchart UI
   function monthlyReportByDepartmentsBarChartAPICall(url) {
     $.ajax({
@@ -685,7 +754,7 @@
       },
     });
   }
-  
+
   // Immediate call to display monthly report by departments bar chart
   $(function () {
     let url =
@@ -701,12 +770,12 @@
     // Create date object from extracted year and month from option tag
     const monthNumberRaw =
       new Date(`1 ${optionMonth} ${optionYear}`).getMonth() + 1;
-    
+
     // Convert month number 1 to 01, 2 to 02 ... 9 to 09 because, 
     // route requires numbers less than ten prefixed with 0.
     const monthNumber =
       monthNumberRaw < 10 ? `0${monthNumberRaw}` : monthNumberRaw;
-  
+
     // get a date like: 2020-12-01
     const dateQuery = `${optionYear}-${monthNumber}-01`;
 
@@ -722,7 +791,7 @@
       // by default month number is not found in originalDataObj
       let found = false;
       originalDataObj.forEach(item => {
-        if(i == item.month) {
+        if (i == item.month) {
           // If month number found in originalDataObj, store count data in dataArr.
           dataArr.push(item.count);
           // make found true for this month
@@ -751,50 +820,50 @@
     const rejection_data_arr = getDataForUnlistedMonths([], rejections);
 
     const config = {
-			type: 'line',
-			data: {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 
-                'August', 'September', 'October', 'November', 'December'],
-				datasets: [{
-					label: 'Applications',
-					data: application_data_arr,
-					backgroundColor: window.chartColors.blue,
-					borderColor: window.chartColors.blue,
-					fill: false,
-					borderDash: [5, 5],
-					pointRadius: 15,
-					pointHoverRadius: 10,
-				}, {
-					label: 'Admissions',
-					data: admission_data_arr,
-					backgroundColor: window.chartColors.purple,
-					borderColor: window.chartColors.purple,
-					fill: false,
-					borderDash: [5, 5],
-					pointRadius: [2, 4, 6, 18, 0, 12, 20],
-				}, {
-					label: 'Pendings',
-					data: pending_data_arr,
-					backgroundColor: window.chartColors.orange,
-					borderColor: window.chartColors.orange,
-					fill: false,
-					pointHoverRadius: 30,
-				}, {
-					label: 'Rejections',
-					data: rejection_data_arr,
-					backgroundColor: window.chartColors.red,
-					borderColor: window.chartColors.red,
-					fill: false,
-					pointHitRadius: 20,
-				}]
-			},
-			options: {
-				responsive: true,
-				legend: {
-					position: 'bottom',
-				},
-				hover: {
-					mode: 'index'
+      type: 'line',
+      data: {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+          'August', 'September', 'October', 'November', 'December'],
+        datasets: [{
+          label: 'Applications',
+          data: application_data_arr,
+          backgroundColor: window.chartColors.blue,
+          borderColor: window.chartColors.blue,
+          fill: false,
+          borderDash: [5, 5],
+          pointRadius: 15,
+          pointHoverRadius: 10,
+        }, {
+          label: 'Admissions',
+          data: admission_data_arr,
+          backgroundColor: window.chartColors.purple,
+          borderColor: window.chartColors.purple,
+          fill: false,
+          borderDash: [5, 5],
+          pointRadius: [2, 4, 6, 18, 0, 12, 20],
+        }, {
+          label: 'Pendings',
+          data: pending_data_arr,
+          backgroundColor: window.chartColors.orange,
+          borderColor: window.chartColors.orange,
+          fill: false,
+          pointHoverRadius: 30,
+        }, {
+          label: 'Rejections',
+          data: rejection_data_arr,
+          backgroundColor: window.chartColors.red,
+          borderColor: window.chartColors.red,
+          fill: false,
+          pointHitRadius: 20,
+        }]
+      },
+      options: {
+        responsive: true,
+        legend: {
+          position: 'bottom',
+        },
+        hover: {
+          mode: 'index'
         },
         elements: {
           point: {
@@ -803,35 +872,35 @@
             pointStyle: 'rectRot'
           }
         },
-				scales: {
-					xAxes: [{
-						display: true,
-						scaleLabel: {
-							display: true,
-							labelString: 'Month'
-						}
-					}],
-					yAxes: [{
-						display: true,
-						scaleLabel: {
-							display: true,
-							labelString: 'Value'
-						}
-					}]
-				},
-				title: {
-					display: true,
-					text: 'Last 12 Months Counsel Chart'
-				}
-			}
-		};
+        scales: {
+          xAxes: [{
+            display: true,
+            scaleLabel: {
+              display: true,
+              labelString: 'Month'
+            }
+          }],
+          yAxes: [{
+            display: true,
+            scaleLabel: {
+              display: true,
+              labelString: 'Value'
+            }
+          }]
+        },
+        title: {
+          display: true,
+          text: 'Last 12 Months Counsel Chart'
+        }
+      }
+    };
 
     const ctx = document.getElementById('year-graph--chart-area').getContext('2d');
     window.yearlyReportLine = new Chart(ctx, config);
   }
 
   // Display yearly report graph immediately
-  $(function() {
+  $(function () {
     $.ajax({
       type: "GET",
       url: '{% url "students:yearly_graph_api"  %}',
@@ -845,5 +914,5 @@
     });
 
   })
-  </script>
+</script>
 {% endblock %}
