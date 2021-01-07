@@ -9,6 +9,18 @@ urlpatterns = [
     # Semester
     path('semesters/', views.semesters, name='all_semester'),
     path('departments/', views.departments, name='departments'),
+    path('create-department/', views.create_department,
+        name='create_department'
+    ),
+    path('create-semester/', views.create_semester,
+        name='create_semester'
+    ),
+    path('create-academic-session/', views.create_academic_semester,
+        name='create_academic_session'
+    ),
+    path('create-subject', views.create_subject,
+        name='create_subject'
+    ),
     path('depts/delete/<int:pk>/', views.delete_department, name='delete_dept'),
     path('academic_sessions/', views.academic_session, name='academic_sessions'),
     path('add_user/', views.add_user_view, name='add_user'),

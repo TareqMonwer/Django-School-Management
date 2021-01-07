@@ -2,6 +2,7 @@ from model_utils.models import TimeStampedModel
 
 from django.db import models
 from django.conf import settings
+from django.urls import reverse
 
 from students.models import Student
 from academics.models import Subject, Semester, Department
@@ -91,3 +92,6 @@ class SubjectGroup(TimeStampedModel):
     
     def get_subjects(self):
         return " | ".join([str(sg) for sg in self.subjects.all()])
+
+    def create_resource(self):
+        return reverse('result:create_subject_group')

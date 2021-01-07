@@ -1,6 +1,8 @@
+from model_utils.models import TimeStampedModel
+
 from django.db import models, OperationalError
 from django.conf import settings
-from model_utils.models import TimeStampedModel
+from django.urls import reverse
 
 from teachers.models import Teacher
 
@@ -40,6 +42,9 @@ class Department(TimeStampedModel):
 
     def __str__(self):
         return str(self.name)
+    
+    def create_resource(self):
+        return reverse('academics:create_department')
 
 
 class AcademicSession(TimeStampedModel):
@@ -50,6 +55,9 @@ class AcademicSession(TimeStampedModel):
 
     def __str__(self):
         return '{} - {}'.format(self.year, self.year + 1)
+    
+    def create_resource(self):
+        return reverse('academics:create_academic_session')
 
 
 class Semester(TimeStampedModel):
@@ -73,8 +81,11 @@ class Semester(TimeStampedModel):
             return '2nd'
         if self.number == 3:
             return '3rd'
-        if 3 < self.number <= 12:
+        if self.number and 3 < self.number <= 12:
             return '%sth' % self.number
+    
+    def create_resource(self):
+        return reverse('academics:create_semester')
 
 
 class Subject(TimeStampedModel):
@@ -96,6 +107,9 @@ class Subject(TimeStampedModel):
 
     def __str__(self):
         return "{} ({})".format(self.name, self.subject_code)
+    
+    def create_resource(self):
+        return reverse('academics:create_subject')
 
 
 class Batch(TimeStampedModel):

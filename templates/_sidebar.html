@@ -43,6 +43,16 @@
         </a>
       </li>
 
+      <!-- USER GUIDE -->
+      <li class="nav-item">
+        <a class="sidebar-link" href="{% url 'pages:userguide' %}">
+          <span class="icon-holder">
+            <i class="c-purple-500 ti-map"></i>
+          </span>
+          <span class="title">User Guide</span>
+        </a>
+      </li>
+
       <!-- MAIN SIDEBAR LINKS -->
       <li class="nav-item">
         <a class="sidebar-link" href="{% url 'students:students_dashboard_index' %}">
@@ -142,6 +152,12 @@
           </li>
           <li>
             <a class="sidebar-link" 
+              href="{% url 'academics:create_subject' %}">
+              Create Subject
+            </a>
+          </li>
+          <li>
+            <a class="sidebar-link" 
               href="{% url 'result:subject_groups' %}">
               Subject Groups
             </a>
@@ -209,9 +225,6 @@
           </span>
           <span class="icon-holder">
             <i class="c-pink-500 ti-palette"></i>
-          </span>
-          <span class="icon-holder">
-            <i class="c-purple-500 ti-map"></i> 
           </span>
           <span class="icon-holder">
             <i class="c-red-500 ti-files"></i> 

@@ -1,0 +1,17 @@
+{% extends 'dashboard.html' %}
+
+
+{% block dashboard-body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            {% for model in models %}
+                <div class="alert alert-primary my-2" role="alert">
+                    You have not created any {{ model.classname }}, 
+                    <a href="{{ model.create_resource }}">create one</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock dashboard-body %}
