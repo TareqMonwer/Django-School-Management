@@ -90,7 +90,7 @@ class UserGuideView(TemplateView):
         models = []
 
         for model in check_models:
-            model_count = model.objects.count() > 100 # returns bool
+            model_count = model.objects.count() > 0 # returns bool
             if not model_count:
                 model.classname = model.__name__
                 models.append(model)
