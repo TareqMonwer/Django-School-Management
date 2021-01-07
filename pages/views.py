@@ -2,6 +2,10 @@ import braintree
 
 from config import settings
 from django.shortcuts import render, redirect
+from django.views.generic import TemplateView
+
+from academics.models import Department, Semester, AcademicSession, Subject
+from result.models import SubjectGroup
 from students.forms import StudentForm
 from students.models import AdmissionStudent
 
@@ -17,7 +21,6 @@ def online_admission(request):
         form = StudentForm(request.POST, request.FILES)
         if form.is_valid():
             data = form.save()
-            print(data)
             return redirect('pages:online_admission_payment', pk=data.pk)
     else:
         form = StudentForm()
@@ -74,6 +77,24 @@ def payment(request, pk):
             registrant.paid = True
             registrant.admitted = True
             registrant.save()
-            print(registrant.email)
             send_admission_confirmation_email(registrant.id)
             return redirect('pages:online_admission')
+
+
+class UserGuideView(TemplateView):
+    template_name = 'pages/user_guide.html'
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        check_models = [Department, Semester, AcademicSession, Subject, SubjectGroup]
+        models = []
+
+        for model in check_models:
+            model_count = model.objects.count() > 100 # returns bool
+            if not model_count:
+                model.classname = model.__name__
+                models.append(model)
+        context['models'] = models
+        return self.render_to_response(context)
+
+user_guide_view = UserGuideView.as_view()

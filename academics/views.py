@@ -1,11 +1,12 @@
 import csv, io
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse_lazy
 from rolepermissions.roles import assign_role
 
-from .models import Semester, Department, AcademicSession
+from .models import (Semester, Department,
+    AcademicSession, Subject)
 from .forms import SemesterForm, DepartmentForm, AcademicSessionForm
 from account.forms import UserRegistrationForm
 
@@ -162,3 +163,35 @@ def upload_subjects_csv(request):
         return render(request, template, context)
     else:
         return render(request, 'admin_tools/permission_required.html')
+
+
+class CreateDepartmentView(CreateView):
+    model = Department
+    fields = '__all__'
+    template_name = 'academics/create_department.html'
+
+create_department = CreateDepartmentView.as_view()
+
+
+class CreateSemesterView(CreateView):
+    model = Semester
+    fields = '__all__'
+    template_name = 'academics/create_semester.html'
+
+create_semester = CreateSemesterView.as_view()
+
+
+class CreateAcademicSession(CreateView):
+    model = AcademicSession
+    fields = '__all__'
+    template_name = 'academics/create_academic_semester.html'
+
+create_academic_semester = CreateAcademicSession.as_view()
+
+
+class CreateSubjectView(CreateView):
+    model = Subject
+    fields = '__all__'
+    template_name = 'academics/create_subject.html'
+
+create_subject = CreateSubjectView.as_view()
