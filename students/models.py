@@ -2,12 +2,16 @@ from datetime import datetime
 
 from model_utils.models import TimeStampedModel
 
-from django.db import models, OperationalError, IntegrityError, transaction
-from django.contrib.auth import get_user_model
+from django.db import (
+    models, OperationalError, 
+    IntegrityError, transaction
+)
 from django.conf import settings
-
-from academics.models import (Department, Semester,
-    AcademicSession, Batch, TempSerialID)
+from academics.models import (
+    Department, Semester,
+    AcademicSession, Batch, 
+    TempSerialID
+)
 from teachers.models import Teacher
 from .utils.bd_zila import ALL_ZILA
 
@@ -235,7 +239,10 @@ class Student(TimeStampedModel):
 
 class RegularStudent(TimeStampedModel):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    created_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, 
+        on_delete=models.CASCADE
+    )
     semester = models.ForeignKey(
         Semester, on_delete=models.CASCADE)
 

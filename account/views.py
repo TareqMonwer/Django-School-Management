@@ -4,13 +4,12 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView
-from django.contrib.auth.models import User
 
 from academics.models import Department
 from students.models import Student
 from teachers.models import Teacher
 from .forms import UserRegistrationForm
-from .models import CustomGroup
+from .models import CustomGroup, User
 
 
 def user_is_staff(user):
@@ -38,18 +37,20 @@ def register(request):
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():
-            new_user = user_form.save(commit=False)
-            new_user.set_password(
-                user_form.cleaned_data['password'])
-            new_user.save()
-            auth_user = authenticate(username=user_form.cleaned_data['username'],
-                                     password=user_form.cleaned_data['password'])
-            if auth_user is not None:
-                login(request, auth_user)
-            if auth_user.is_staff:
-                return redirect('account:dashboard')
-            else:
-                return redirect('account:home')
+            print(user_form.cleaned_data)
+            return HttpResponse('aaaaa')
+            # new_user = user_form.save(commit=False)
+            # new_user.set_password(
+            #     user_form.cleaned_data['password'])
+            # new_user.save()
+            # auth_user = authenticate(username=user_form.cleaned_data['username'],
+            #                          password=user_form.cleaned_data['password'])
+            # if auth_user is not None:
+            #     login(request, auth_user)
+            # if auth_user.is_staff:
+            #     return redirect('account:dashboard')
+            # else:
+            #     return redirect('account:home')
         else:
             return render(request, 'account/register.html', {'user_form': user_form})
 
