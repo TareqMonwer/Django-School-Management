@@ -13,16 +13,34 @@ class User(AbstractUser):
         ('c', 'Academic Officer'),
         ('a', 'Admin'),
     )
-    account_approved = models.BooleanField(
-        default=False,
-        blank=True,
-        null=True
+    APPROVAL_CHOICES = (
+        ('n', 'Not Requested For Approval'),
+        ('p', 'Approval Application on Pending'),
+        ('d', 'Approval Request Declined'),
+        ('a', 'Verified')
+    )
+    approval_status = models.CharField(
+        max_length=2,
+        choices=APPROVAL_CHOICES,
+        default=APPROVAL_CHOICES[0][0],
     )
     account_type = models.CharField(
         max_length=2,
         choices=ACCOUNT_TYPE_CHOICES,
-        default=ACCOUNT_TYPE_CHOICES[0]
-    )   # default will be general user who have zero perms in the app.
+        default=ACCOUNT_TYPE_CHOICES[0][0]
+    )  # default will be general user who have zero perms in the app.
+    employee_or_student_id = models.CharField(
+        max_length=10,
+        blank=True, null=True
+    )
+    requested_role = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True
+    )
+    approval_extra_note = models.TextField(
+        blank=True, null=True
+    )
 
 
 class CustomGroup(Group):

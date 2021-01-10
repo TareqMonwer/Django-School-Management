@@ -16,8 +16,23 @@ def user_is_staff(user):
     return user.is_staff
 
 
-def home(request):
-    return HttpResponse("Welcome Home")
+def profile_complete(request):
+    user = User.objects.get(pk=request.user.pk)
+    if request.method == 'POST':
+        employee_or_student_id = request.POST.get('employee_or_student_id')
+        role = request.POST.get('role')
+        email = request.POST.get('email')
+        extra_note = request.POST.get('extra_note')
+
+        user.email = email
+        user.employee_or_student_id = employee_or_student_id
+        user.requested_role = role
+        user.approval_extra_note = extra_note
+        user.approval_status = 'p'
+        user.save()
+        return redirect('account:profile_complete')
+
+    return render(request, 'account/profile_complete.html')
 
 
 @user_passes_test(user_is_staff, login_url='account:login')
@@ -37,20 +52,20 @@ def register(request):
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():
-            print(user_form.cleaned_data)
-            return HttpResponse('aaaaa')
-            # new_user = user_form.save(commit=False)
-            # new_user.set_password(
-            #     user_form.cleaned_data['password'])
-            # new_user.save()
-            # auth_user = authenticate(username=user_form.cleaned_data['username'],
-            #                          password=user_form.cleaned_data['password'])
-            # if auth_user is not None:
-            #     login(request, auth_user)
-            # if auth_user.is_staff:
-            #     return redirect('account:dashboard')
-            # else:
-            #     return redirect('account:home')
+            new_user = user_form.save(commit=False)
+            new_user.set_password(
+                user_form.cleaned_data['password1'])
+            new_user.save()
+            auth_user = authenticate(
+                username=user_form.cleaned_data['username'],
+                password=user_form.cleaned_data['password1']
+            )
+            if auth_user is not None:
+                login(request, auth_user)
+            if auth_user.is_staff:
+                return redirect('account:dashboard')
+            else:
+                return redirect('account:profile_complete')
         else:
             return render(request, 'account/register.html', {'user_form': user_form})
 
@@ -69,7 +84,7 @@ class AccountListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def handle_no_permission(self):
         if self.request.user.is_authenticated:
-            return redirect('account:home')
+            return redirect('account:profile_complete')
         return redirect('account:login')
 
 
@@ -84,5 +99,5 @@ class GroupListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def handle_no_permission(self):
         if self.request.user.is_authenticated:
-            return redirect('account:home')
+            return redirect('account:profile_complete')
         return redirect('account:login')

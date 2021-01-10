@@ -15,7 +15,7 @@ class UserAdmin(auth_admin.UserAdmin):
     form = UserChangeForm
     add_form = UserRegistrationForm
     fieldsets = (
-        ("User", {"fields": ("account_type",)}),
+        ("User", {"fields": ("account_type", "approval_status")}),
     ) + auth_admin.UserAdmin.fieldsets
     list_display = ["username", "is_superuser"]
 
