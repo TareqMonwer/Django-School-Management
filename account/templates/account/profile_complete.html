@@ -1,0 +1,86 @@
+{% extends 'website/partials/website_base.html' %} 
+{% load static %} 
+
+{% block main_content %}
+<!-- Header Section Start -->
+<header id="home" class="hero-area mt-5">
+  {% include 'website/partials/website_navbar.html' %}
+</header>
+
+<!-- section profile detail -->
+<section id="profile" class="profile-section py-5">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- profile card -->
+      <div class="col-md-4">
+        <div class="card text-center">
+          <div class="card-header">
+            {{ user.get_approval_status_display }}
+          </div>
+          <div class="card-body d-flex">
+            <img
+              src="https://via.placeholder.com/150" 
+              width="150">
+            <div class="card-text align-self-end ml-3">
+              <div class="text-left">
+                <h6>{{ request.user.username }}</h6>
+                <small>
+                  {{ request.user.email | default:"Please, add your email address" }}
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile Complete Form -->
+      <div class="col-md-8">
+        <div class="card p-3">
+          <div class="alert alert-warning" role="alert">
+            Complete Your Profile to Get Started
+          </div>
+
+          <form method="post">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col">
+                <input 
+                  name="employee_or_student_id" type="text" class="form-control" 
+                  placeholder="Employee/Student ID">
+              </div>
+              <div class="col">
+                <input name="role" type="text" class="form-control" 
+                  placeholder="Your Role">
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col">
+                <input name="email" type="email" 
+                  class="form-control"
+                  {% if user.email %} readonly value="{{ user.email }}"{% endif %}
+                  placeholder="Email Address">
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col">
+                <textarea 
+                  name="extra_note"
+                  class="form-control" 
+                  rows="2"
+                  placeholder="Write extra note">
+                </textarea>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col">
+                <input type="submit" value="Request for approval" class="btn btn-success">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
