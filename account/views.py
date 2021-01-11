@@ -101,3 +101,11 @@ class GroupListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         if self.request.user.is_authenticated:
             return redirect('account:profile_complete')
         return redirect('account:login')
+
+
+class UserRequestsListView(LoginRequiredMixin, ListView):
+    queryset = User.objects.exclude(approval_status='a')
+    template_name = 'account/user_requests.html'
+    context_object_name = 'users'
+
+user_requests_list = UserRequestsListView.as_view()
