@@ -68,5 +68,4 @@ Follow the same pattern to install initial data for other applications.
 - [Linkedin](linkedin.com/in/tareqmonwer)
 - [Twitter](https://twitter.com/TareqMonwerDPI)
 - [Github](https://github.com/TareqMonwer)
-- [Website](www.tareqmonwer.com)
-- email: tareqmonwer137@gmail.com
+- [Website](https://www.tareqmonwer.com)

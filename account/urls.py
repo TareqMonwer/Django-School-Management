@@ -10,4 +10,5 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('groups/', views.GroupListView.as_view(), name='groups'),
+    path('user-requests/', views.user_requests_list, name='user_requests'),
 ]

@@ -7,7 +7,7 @@ from django.conf import settings
 class User(AbstractUser):
     ACCOUNT_TYPE_CHOICES = (
         ('s', 'Subscriber'),
-        ('s', 'Student'),
+        ('st', 'Student'),
         ('t', 'Teacher'),
         ('e', 'Editor'),
         ('c', 'Academic Officer'),
