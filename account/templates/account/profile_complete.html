@@ -1,5 +1,6 @@
 {% extends 'website/partials/website_base.html' %} 
 {% load static %} 
+{% load crispy_forms_tags %}
 
 {% block main_content %}
 <!-- Header Section Start -->
@@ -36,46 +37,29 @@
       <!-- Profile Complete Form -->
       <div class="col-md-8">
         <div class="card p-3">
-          <div class="alert alert-warning" role="alert">
-            Complete Your Profile to Get Started
-          </div>
+          
+          {% if user.approval_status != 'a' %}
+            <div class="alert alert-warning" role="alert">
+              Complete Your Profile to Get Started
+            </div>
+          {% endif %}
+            
 
+          {% if messages %}
+            {% for message in messages %}
+            <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+              <strong>{{ message }}</strong>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            {% endfor %}
+          {% endif %}
+            
           <form method="post">
             {% csrf_token %}
-            <div class="row">
-              <div class="col">
-                <input 
-                  name="employee_or_student_id" type="text" class="form-control" 
-                  placeholder="Employee/Student ID">
-              </div>
-              <div class="col">
-                <input name="role" type="text" class="form-control" 
-                  placeholder="Your Role">
-              </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col">
-                <input name="email" type="email" 
-                  class="form-control"
-                  {% if user.email %} readonly value="{{ user.email }}"{% endif %}
-                  placeholder="Email Address">
-              </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col">
-                <textarea 
-                  name="extra_note"
-                  class="form-control" 
-                  rows="2"
-                  placeholder="Write extra note">
-                </textarea>
-              </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col">
-                <input type="submit" value="Request for approval" class="btn btn-success">
-              </div>
-            </div>
+            {{ form|crispy }}
+            <input type="submit" value="Request for approval" class="btn btn-success">
           </form>
         </div>
       </div>
