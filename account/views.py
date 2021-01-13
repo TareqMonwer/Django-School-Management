@@ -1,4 +1,5 @@
-from django.http import HttpResponse
+from rolepermissions.roles import assign_role
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
@@ -15,6 +16,9 @@ from .models import CustomGroup, User
 
 def user_is_staff(user):
     return user.is_staff
+
+def user_is_admin(user):
+    return user.account_type == 'a'
 
 
 @login_required
@@ -36,6 +40,21 @@ def profile_complete(request):
         'form': form,
     }
     return render(request, 'account/profile_complete.html', ctx)
+
+
+@user_passes_test(user_is_admin, login_url='account:permission_error')
+def user_approval(request, pk):
+    user = User.objects.get(pk=pk)
+    user.approval_status = 'a'
+    # TODO: Implement role assignment.
+    # assign_role(user, 'role')
+    suser.save()
+    return JsonResponse({'approval_status': 'approved'})
+
+
+@login_required
+def permission_error(request):
+    return HttpResponse('You don\'t have right permissio to access this page.')
 
 
 @user_passes_test(user_is_staff, login_url='account:login')

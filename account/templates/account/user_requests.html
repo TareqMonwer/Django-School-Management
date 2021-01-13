@@ -1,4 +1,5 @@
-{% extends 'dashboard.html' %} 
+{% extends 'dashboard.html' %}
+{% load static %} 
 
 {% block dashboard-body %}
 <h1>USER REQUESTS</h1>
@@ -21,7 +22,10 @@
       <td>{{ user.get_approval_status_display }}</td>
       <td>{{ user.get_account_type_display }}</td>
       <td>
-        <a href="#" class="btn btn-sm btn-success">Aprove</a>
+        <button class="btn btn-sm btn-success approve"
+          data-user-pk="{{ user.pk }}">
+          Aprove
+        </button>
         <a href="#" class="btn btn-sm btn-danger">Decline</a>
       </td>
     </tr>
@@ -29,3 +33,27 @@
   </tbody>
 </table>
 {% endblock dashboard-body %}
+
+{% block extrajs %}
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+  <script>
+    const approveBtns = document.querySelectorAll('.approve');
+
+    approveBtns.forEach(function(aproveBtn) {
+      aproveBtn.addEventListener('click', function(e){
+        // TODO: Implement ajax user approval system.
+        const userPk = this.dataset.userPk;
+        let url = '{% url "account:user_approval" pk="000" %}'
+        url = url.replace("000", userPk);
+        console.log(url);
+        $.ajax({
+          url: url,
+          type: 'GET',
+          success: function(data) {
+            console.log(data);
+          }
+        })
+      })
+    })
+  </script>
+{% endblock %}
