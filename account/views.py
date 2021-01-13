@@ -1,14 +1,15 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView
 
 from academics.models import Department
 from students.models import Student
 from teachers.models import Teacher
-from .forms import UserRegistrationForm
+from .forms import UserRegistrationForm, ProfileCompleteForm
 from .models import CustomGroup, User
 
 
@@ -16,23 +17,25 @@ def user_is_staff(user):
     return user.is_staff
 
 
+@login_required
 def profile_complete(request):
     user = User.objects.get(pk=request.user.pk)
+    form = ProfileCompleteForm(instance=user)
     if request.method == 'POST':
-        employee_or_student_id = request.POST.get('employee_or_student_id')
-        role = request.POST.get('role')
-        email = request.POST.get('email')
-        extra_note = request.POST.get('extra_note')
-
-        user.email = email
-        user.employee_or_student_id = employee_or_student_id
-        user.requested_role = role
-        user.approval_extra_note = extra_note
-        user.approval_status = 'p'
-        user.save()
-        return redirect('account:profile_complete')
-
-    return render(request, 'account/profile_complete.html')
+        form = ProfileCompleteForm(request.POST, instance=user)
+        if form.is_valid():
+            form.instance.approval_status = 'p'  # pending
+            form.save()
+            messages.add_message(
+                request,
+                messages.SUCCESS,
+                'Your request has been sent, please be patient.'
+            )
+            return redirect('account:profile_complete')
+    ctx = {
+        'form': form,
+    }
+    return render(request, 'account/profile_complete.html', ctx)
 
 
 @user_passes_test(user_is_staff, login_url='account:login')

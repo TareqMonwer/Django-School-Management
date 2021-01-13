@@ -41,3 +41,13 @@ class UserRegistrationForm(forms.UserCreationForm):
         if cd['password1'] != cd['password2']:
             raise forms.ValidationError('Password didn\'t match!')
         return cd['password2']
+
+
+class ProfileCompleteForm(djform.ModelForm):
+    class Meta:
+        model = User
+        fields = [
+            'employee_or_student_id',
+            'account_type',
+            'email',
+            'approval_extra_note']
