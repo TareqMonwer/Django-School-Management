@@ -5,13 +5,13 @@ from django.conf import settings
 
 
 class User(AbstractUser):
-    ACCOUNT_TYPE_CHOICES = (
-        ('s', 'Subscriber'),
-        ('st', 'Student'),
-        ('t', 'Teacher'),
-        ('e', 'Editor'),
-        ('c', 'Academic Officer'),
-        ('a', 'Admin'),
+    REQUESTED_ACCOUNT_TYPE_CHOICES = (
+        ('subscriber', 'Subscriber'),
+        ('student', 'Student'),
+        ('teacher', 'Teacher'),
+        ('editor', 'Editor'),
+        ('academic_oficer', 'Academic Officer'),
+        ('admin', 'Admin'),
     )
     APPROVAL_CHOICES = (
         ('n', 'Not Requested For Approval'),
@@ -24,19 +24,14 @@ class User(AbstractUser):
         choices=APPROVAL_CHOICES,
         default=APPROVAL_CHOICES[0][0],
     )
-    account_type = models.CharField(
-        max_length=2,
-        choices=ACCOUNT_TYPE_CHOICES,
-        default=ACCOUNT_TYPE_CHOICES[0][0]
-    )  # default will be general user who have zero perms in the app.
     employee_or_student_id = models.CharField(
         max_length=10,
         blank=True, null=True
     )
     requested_role = models.CharField(
+        choices=REQUESTED_ACCOUNT_TYPE_CHOICES,
         max_length=50,
-        blank=True,
-        null=True
+        default=REQUESTED_ACCOUNT_TYPE_CHOICES[0][0]
     )
     approval_extra_note = models.TextField(
         blank=True, null=True

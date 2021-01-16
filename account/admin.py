@@ -15,9 +15,10 @@ class UserAdmin(auth_admin.UserAdmin):
     form = UserChangeForm
     add_form = UserRegistrationForm
     fieldsets = (
-        ("User", {"fields": ("account_type", "approval_status")}),
+        ("User", {"fields": ("approval_status", "requested_role")}),
     ) + auth_admin.UserAdmin.fieldsets
-    list_display = ["username", "is_superuser"]
+    list_display = ["username", "is_superuser", "approval_status", "requested_role"]
+    search_fields = ["approval_status", "requested_role"]
 
 class CustomGroupAdmin(GroupAdmin):
     list_display = ('id', 'name', 'group_creator')

@@ -1,0 +1,24 @@
+{% extends 'dashboard.html' %} 
+{% load crispy_forms_tags %} 
+
+{% block dashboard-body %} 
+
+{% if messages %} 
+    {% for message in messages %}
+    <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+    <strong>{{ message }}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    {% endfor %} 
+{% endif %}
+<form
+  action="."
+  method="POST"
+  class="admission-form d-block"
+>
+  {% csrf_token %} {{ form|crispy }}
+  <input type="submit" value="Approve" class="btn btn-dark" />
+</form>
+{% endblock %}

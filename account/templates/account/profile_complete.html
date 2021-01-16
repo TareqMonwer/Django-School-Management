@@ -44,7 +44,6 @@
             </div>
           {% endif %}
             
-
           {% if messages %}
             {% for message in messages %}
             <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
@@ -55,12 +54,16 @@
             </div>
             {% endfor %}
           {% endif %}
-            
-          <form method="post">
-            {% csrf_token %}
-            {{ form|crispy }}
-            <input type="submit" value="Request for approval" class="btn btn-success">
-          </form>
+          
+          {% if user.approval_status != 'a' %}
+            <form method="post">
+              {% csrf_token %}
+              {{ form|crispy }}
+              <input type="submit" value="Request for approval" class="btn btn-success">
+            </form>
+          {% else %}
+            <h6>User Profile Information : To Be Implemented</h6>
+          {% endif %}
         </div>
       </div>
     </div>

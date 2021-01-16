@@ -9,6 +9,7 @@ User = get_user_model()
 class UserChangeForm(forms.UserChangeForm):
     class Meta(forms.UserChangeForm.Meta):
         model = User
+        fields = ('requested_role', )
 
 
 class UserRegistrationForm(forms.UserCreationForm):
@@ -48,6 +49,12 @@ class ProfileCompleteForm(djform.ModelForm):
         model = User
         fields = [
             'employee_or_student_id',
-            'account_type',
+            'requested_role',
             'email',
             'approval_extra_note']
+
+
+class ApprovalProfileUpdateForm(djform.ModelForm):
+    class Meta:
+        model = User
+        fields = ['requested_role']
