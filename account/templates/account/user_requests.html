@@ -20,12 +20,19 @@
       <th scope="row">{{ forloop.counter }}</th>
       <td>{{ user }}</td>
       <td>{{ user.get_approval_status_display }}</td>
-      <td>{{ user.get_account_type_display }}</td>
+      <td>{{ user.get_requested_role_display }}</td>
       <td>
-        <button class="btn btn-sm btn-success approve"
+        <a href="{% url 'account:user_approval' pk=user.pk %}"
+          class="btn btn-sm btn-success approve"
           data-user-pk="{{ user.pk }}">
           Aprove
-        </button>
+        </a>
+        <a 
+          href="{% url 'account:approval_with_modification' pk=user.pk %}" 
+          class="btn btn-sm btn-primary approve"
+          data-user-pk="{{ user.pk }}">
+          Modify & Approve
+        </a>
         <a href="#" class="btn btn-sm btn-danger">Decline</a>
       </td>
     </tr>
@@ -36,24 +43,4 @@
 
 {% block extrajs %}
 <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
-  <script>
-    const approveBtns = document.querySelectorAll('.approve');
-
-    approveBtns.forEach(function(aproveBtn) {
-      aproveBtn.addEventListener('click', function(e){
-        // TODO: Implement ajax user approval system.
-        const userPk = this.dataset.userPk;
-        let url = '{% url "account:user_approval" pk="000" %}'
-        url = url.replace("000", userPk);
-        console.log(url);
-        $.ajax({
-          url: url,
-          type: 'GET',
-          success: function(data) {
-            console.log(data);
-          }
-        })
-      })
-    })
-  </script>
 {% endblock %}
