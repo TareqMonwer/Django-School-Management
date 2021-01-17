@@ -91,7 +91,7 @@ def permission_error(request):
     return HttpResponse('You don\'t have right permissio to access this page.')
 
 
-@user_passes_test(user_is_staff, login_url='account:login')
+@user_passes_test(user_is_staff)
 def dashboard(request):
     total_students = Student.objects.count()
     total_teachers = Teacher.objects.count()

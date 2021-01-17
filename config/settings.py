@@ -46,13 +46,16 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
-    'account',  # must be in top
+    'account.apps.AccountConfig',  # must be in top
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # allauth required
+    'django.contrib.sites',
     
     # custom apps
     'students',
@@ -68,7 +71,11 @@ INSTALLED_APPS = [
     'taggit',
     'django_extensions',
     'django_filters',
+    'allauth',
+    'allauth.account',
 ]
+
+SITE_ID = 1
 
 # for permission management
 ROLEPERMISSIONS_MODULE = 'academics.roles'
@@ -138,6 +145,14 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL = 'account.User'
 
+AUTHENTICATION_BACKENDS = [
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_EMAIL_REQUIRED = True
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -190,8 +205,11 @@ EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 
 # login/register redirects
 LOGIN_REDIRECT_URL = 'index_view'
-LOGOUT_REDIRECT_URL = 'account:login'
-LOGIN_URL = 'account:login'
+# LOGOUT_REDIRECT_URL = 'account:login'
+LOGOUT_REDIRECT_URL = 'account_login'
+
+# LOGIN_URL = 'account:login'
+LOGIN_URL = 'account_login'
 LOGOUT_URL = 'account:logout'
 
 INTERNAL_IPS = ['127.0.0.1', '0.0.0.0', '*']
