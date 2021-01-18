@@ -15,17 +15,18 @@
 {% endblock %}
 
 {% block extrajs %}
-    <script src="{% static 'js/tagify/tagify.min.js' %}"></script>
-    <script>
-      // Select Image
-      $('input[type="file"]').change(function(e){
-        const fileName = e.target.files[0].name;
-        $('.custom-file-label').html(fileName);
-      });
+  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+  <script src="{% static 'js/tagify/tagify.min.js' %}"></script>
+  <script>
+    // Select Image
+    $('input[type="file"]').change(function(e){
+      const fileName = e.target.files[0].name;
+      $('.custom-file-label').html(fileName);
+    });
 
-      // Tagify
-      const input = document.getElementById('id_expertise'),
-	      tagify = new Tagify( input, {duplicates: false} );
+    // Tagify
+    const input = document.getElementById('id_expertise'),
+      tagify = new Tagify( input, {duplicates: false} );
 
-    </script>
+  </script>
 {% endblock %}

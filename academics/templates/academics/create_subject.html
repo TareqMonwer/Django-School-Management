@@ -1,4 +1,5 @@
 {% extends 'dashboard.html' %}
+{% load static %}
 {% load crispy_forms_tags %}
 
 {% block extra_header %}
@@ -11,3 +12,8 @@
     <input type="submit" value="Create Subject" class="btn btn-dark">
 </form>
 {% endblock %}
+
+
+{% block extrajs %}
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+{% endblock extrajs %}
