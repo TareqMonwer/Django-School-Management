@@ -40,8 +40,10 @@ def profile_complete(request):
                 'Your request has been sent, please be patient.'
             )
             return redirect('account:profile_complete')
+    user_permissions = user.user_permissions.all()
     ctx = {
         'form': form,
+        'user_perms': user_permissions if user_permissions else None,
     }
     return render(request, 'account/profile_complete.html', ctx)
 

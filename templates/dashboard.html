@@ -105,7 +105,10 @@
     {% include "_sidebar.html" %}
 
     <div class="page-container">
+      <!-- HEADER NABVAR START -->
       {% include "_header_navbar.html" %}
+      <!-- HEADER NABVAR END -->
+
       <main class="main-content bgc-grey-100">
         <div id="mainContent">
           {% block dashboard-body %}
@@ -195,7 +198,9 @@
                   </div>
                 </div>
               </div>
-              <div class="masonry-item col-12">
+
+              <!-- KEPT IN FOR LATER USE CASES -->
+              <!-- <div class="masonry-item col-12">
                 <div class="bd bgc-white">
                   <div class="peers fxw-nw@lg+ ai-s">
                     <div class="peer peer-greed w-70p@lg+ w-100@lg- p-20">
@@ -589,7 +594,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
 
             {% endblock dashboard-body %}
