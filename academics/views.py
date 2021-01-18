@@ -8,7 +8,7 @@ from rolepermissions.roles import assign_role
 from .models import (Semester, Department,
     AcademicSession, Subject)
 from .forms import SemesterForm, DepartmentForm, AcademicSessionForm
-from account.forms import UserRegistrationForm
+from accounts.forms import UserRegistrationForm
 
 
 def user_is_staff(user):

@@ -46,7 +46,7 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
-    'account.apps.AccountConfig',  # must be in top
+    'accounts.apps.AccountsConfig',  # must be in top
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -73,6 +73,8 @@ INSTALLED_APPS = [
     'django_filters',
     'allauth',
     'allauth.account',
+    'django_rename_app',
+    'allauth.socialaccount',
 ]
 
 SITE_ID = 1
@@ -143,7 +145,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'account.User'
+AUTH_USER_MODEL = 'accounts.User'
 
 AUTHENTICATION_BACKENDS = [
     # `allauth` specific authentication methods, such as login by e-mail

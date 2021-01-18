@@ -3,7 +3,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
-from account.views import dashboard
+from accounts.views import dashboard
 
 
 admin.site.site_header = "SMS-LIO Admin"
@@ -15,7 +15,7 @@ urlpatterns = [
     path('', include('pages.urls')),
     path('dashboard/', dashboard, name='index_view'),
     path('accounts/', include('allauth.urls')),
-    path('account/', include('account.urls')),
+    path('account/', include('accounts.urls')),
     path('academics/', include('academics.urls')),
     path('students/', include('students.urls')),
     path('teachers/', include('teachers.urls')),
