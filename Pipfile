@@ -44,6 +44,8 @@ reportlab = "*"
 django-extensions = "*"
 xhtml2pdf = "*"
 django-filter = "*"
+django-rename-app = "*"
+django-allauth = "*"
 
 [requires]
 python_version = "3.8"
