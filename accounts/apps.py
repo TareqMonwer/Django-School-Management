@@ -1,8 +1,8 @@
 from django.apps import AppConfig
 
 
-class AccountConfig(AppConfig):
+class AccountsConfig(AppConfig):
     # overriding app name and label to avoid conflict with 
-    name = 'account'
+    name = 'accounts'
     # label = 'local_account'
     # verbose_name = 'local_accounts'
