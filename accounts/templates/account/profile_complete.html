@@ -65,6 +65,21 @@
             <h6>User Profile Information : To Be Implemented</h6>
           {% endif %}
         </div>
+
+        <div class="card px-3 pb-3 mt-3">
+          <div class="card-body">
+            {% if user_perms %}
+
+            <h6>Assigned Permissions</h6>
+
+            {% for permission in user_perms %}
+              <div>{{ permission }}</div>
+              {% endfor %}
+            {% else %}
+              <p>Appearantly, you do not have any permissions.</p>
+            {% endif %}
+          </div>
+        </div>
       </div>
     </div>
   </div>

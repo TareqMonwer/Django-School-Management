@@ -97,7 +97,7 @@
           </div>
           <div class="peer">
             <span class="fsz-sm c-grey-900">
-              {{ user.username|title }}
+              {{ user.username|title }} ({{user.requested_role}})
             </span>
           </div>
         </a>
@@ -109,7 +109,7 @@
             </a>
           </li>
           <li>
-            <a href="" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
+            <a href="{% url 'account:profile_complete' %}" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
               <i class="ti-user mR-10"></i>
               <span>Profile</span>
             </a>
