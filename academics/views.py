@@ -1,8 +1,9 @@
 import csv, io
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic import ListView
 from django.urls import reverse_lazy
 from rolepermissions.roles import assign_role
 
@@ -120,7 +121,7 @@ def delete_semester(request, pk):
     return redirect('academics:departments')
 
 
-class UpdateDepartment(UpdateView, LoginRequiredMixin, PermissionRequiredMixin):
+class UpdateDepartment(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Department
     form_class = DepartmentForm
     template_name = 'academics/update_department.html'
@@ -173,9 +174,10 @@ def upload_subjects_csv(request):
         return render(request, 'admin_tools/permission_required.html')
 
 
-class CreateDepartmentView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
+class CreateDepartmentView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Department
     fields = '__all__'
+    success_url = reverse_lazy('academics:departments')
     template_name = 'academics/create_department.html'
 
     def test_func(self):
@@ -185,9 +187,10 @@ class CreateDepartmentView(CreateView, LoginRequiredMixin, PermissionRequiredMix
 create_department = CreateDepartmentView.as_view()
 
 
-class CreateSemesterView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
+class CreateSemesterView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Semester
     fields = '__all__'
+    success_url = reverse_lazy('academics:all_semester')
     template_name = 'academics/create_semester.html'
 
     def test_func(self):
@@ -197,9 +200,10 @@ class CreateSemesterView(CreateView, LoginRequiredMixin, PermissionRequiredMixin
 create_semester = CreateSemesterView.as_view()
 
 
-class CreateAcademicSession(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
+class CreateAcademicSession(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = AcademicSession
     fields = '__all__'
+    success_url = reverse_lazy('academics:academic_sessions')
     template_name = 'academics/create_academic_semester.html'
 
     def test_func(self):
@@ -209,10 +213,23 @@ class CreateAcademicSession(CreateView, LoginRequiredMixin, PermissionRequiredMi
 create_academic_semester = CreateAcademicSession.as_view()
 
 
-class CreateSubjectView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
+class SubjectListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = Subject
+    context_object_name = 'subjects'
+    template_name = 'academics/subject_list.html'
+
+    def test_func(self):
+        user = self.request.user
+        return user_is_teacher_or_administrative(user)
+
+subject_list = SubjectListView.as_view()
+
+
+class CreateSubjectView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Subject
     fields = '__all__'
     template_name = 'academics/create_subject.html'
+    success_url = reverse_lazy('academics:subject_list')
 
     def test_func(self):
         user = self.request.user

@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block dashboard-body %}
-<form action="." method="POST" class="d-block">
+<form action="{% url 'academics:create_subject' %}" method="POST" class="d-block">
     {% csrf_token %}
     {{ form|crispy }}
     <input type="submit" value="Create Subject" class="btn btn-dark">
@@ -15,5 +15,12 @@
 
 
 {% block extrajs %}
-    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
-{% endblock extrajs %}
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+<script>
+  // Select image
+  $('input[type="file"]').change(function (e) {
+    const fileName = e.target.files[0].name;
+    $(".custom-file-label").html(fileName);
+  });
+</script>
+{% endblock %}

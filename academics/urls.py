@@ -27,5 +27,6 @@ urlpatterns = [
     path('accounts/', AccountListView.as_view(), name='all_accounts'),
     path('department/update/<int:pk>/', views.UpdateDepartment.as_view(),
         name='update_department'),
+    path('subjects/', views.subject_list, name='subject_list'),
     path('upload-subjects-csv/', views.upload_subjects_csv, name='import_subject_csv'),
 ]
