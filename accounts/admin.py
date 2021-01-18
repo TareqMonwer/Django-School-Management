@@ -18,6 +18,7 @@ class UserAdmin(auth_admin.UserAdmin):
         ("User", {"fields": ("approval_status", "requested_role")}),
     ) + auth_admin.UserAdmin.fieldsets
     list_display = ["username", "is_superuser", "approval_status", "requested_role"]
+    list_editable = ["approval_status", "requested_role",]
     search_fields = ["approval_status", "requested_role"]
 
 class CustomGroupAdmin(GroupAdmin):

@@ -16,13 +16,10 @@ from .forms import (
     ApprovalProfileUpdateForm
 )
 from .models import CustomGroup, User
-
-
-def user_is_staff(user):
-    return user.is_staff
-
-def user_is_admin(user):
-    return user.requested_role == 'admin'
+from permission_handlers.administrative import (
+    user_is_admin_or_su,
+)
+from permission_handlers.basic import user_is_verified, permission_error
 
 
 @login_required(login_url='account_login')
@@ -48,7 +45,20 @@ def profile_complete(request):
     return render(request, 'account/profile_complete.html', ctx)
 
 
-@user_passes_test(user_is_admin, login_url='account:permission_error')
+@login_required(login_url='account_login')
+def dashboard(request):
+    total_students = Student.objects.count()
+    total_teachers = Teacher.objects.count()
+    total_departments = Department.objects.count()
+    context = {
+        'total_students': total_students,
+        'total_teachers': total_teachers,
+        'total_departments': total_departments,
+    }
+    return render(request, 'dashboard.html', context)
+
+
+@user_passes_test(user_is_admin_or_su, login_url='account:permission_error')
 def user_approval(request, pk):
     user = User.objects.get(pk=pk)
     requested_role = user.requested_role
@@ -65,7 +75,7 @@ def user_approval(request, pk):
     return redirect('account:user_requests')
 
 
-@user_passes_test(user_is_admin, login_url='account:permission_error')
+@user_passes_test(user_is_admin_or_su, login_url='account:permission_error')
 def user_approval_with_modification(request, pk):
     user = User.objects.get(pk=pk)
     form = ApprovalProfileUpdateForm()
@@ -88,48 +98,31 @@ def user_approval_with_modification(request, pk):
     return render(request, 'account/modify_approval.html', ctx)
 
 
-@login_required
-def permission_error(request):
-    return HttpResponse('You don\'t have right permissio to access this page.')
+# THIS IS ARCHIVED, SINCE WE'RE USING ALLAUTH
+# def register(request):
+#     if request.method == 'POST':
+#         user_form = UserRegistrationForm(request.POST)
+#         if user_form.is_valid():
+#             new_user = user_form.save(commit=False)
+#             new_user.set_password(
+#                 user_form.cleaned_data['password1'])
+#             new_user.save()
+#             auth_user = authenticate(
+#                 username=user_form.cleaned_data['username'],
+#                 password=user_form.cleaned_data['password1']
+#             )
+#             if auth_user is not None:
+#                 login(request, auth_user)
+#             if auth_user.is_staff:
+#                 return redirect('account:dashboard')
+#             else:
+#                 return redirect('account:profile_complete')
+#         else:
+#             return render(request, 'account/register.html', {'user_form': user_form})
 
-
-@login_required(login_url='account_login')
-def dashboard(request):
-    total_students = Student.objects.count()
-    total_teachers = Teacher.objects.count()
-    total_departments = Department.objects.count()
-    context = {
-        'total_students': total_students,
-        'total_teachers': total_teachers,
-        'total_departments': total_departments,
-    }
-    return render(request, 'dashboard.html', context)
-
-
-def register(request):
-    if request.method == 'POST':
-        user_form = UserRegistrationForm(request.POST)
-        if user_form.is_valid():
-            new_user = user_form.save(commit=False)
-            new_user.set_password(
-                user_form.cleaned_data['password1'])
-            new_user.save()
-            auth_user = authenticate(
-                username=user_form.cleaned_data['username'],
-                password=user_form.cleaned_data['password1']
-            )
-            if auth_user is not None:
-                login(request, auth_user)
-            if auth_user.is_staff:
-                return redirect('account:dashboard')
-            else:
-                return redirect('account:profile_complete')
-        else:
-            return render(request, 'account/register.html', {'user_form': user_form})
-
-    else:
-        user_form = UserRegistrationForm()
-        return render(request, 'account/register.html', {'user_form': user_form})
+#     else:
+#         user_form = UserRegistrationForm()
+#         return render(request, 'account/register.html', {'user_form': user_form})
 
 
 class AccountListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -138,12 +131,13 @@ class AccountListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     context_object_name = 'accounts'
 
     def test_func(self):
-        return self.request.user.is_staff
+        user =  self.request.user
+        return user_is_verified(user)
 
     def handle_no_permission(self):
         if self.request.user.is_authenticated:
             return redirect('account:profile_complete')
-        return redirect('account:login')
+        return redirect('account_login')
 
 
 
@@ -153,17 +147,22 @@ class GroupListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     context_object_name = 'groups'
 
     def test_func(self):
-        return self.request.user.is_staff
+        user =  self.request.user
+        return user_is_verified(user)
 
     def handle_no_permission(self):
         if self.request.user.is_authenticated:
             return redirect('account:profile_complete')
-        return redirect('account:login')
+        return redirect('account_login')
 
 
-class UserRequestsListView(LoginRequiredMixin, ListView):
+class UserRequestsListView(LoginRequiredMixin, UserPassesTestMixin,ListView):
     queryset = User.objects.exclude(approval_status='a')
     template_name = 'account/user_requests.html'
     context_object_name = 'users'
+
+    def test_func(self):
+        user =  self.request.user
+        return user_is_admin_or_su(user)
 
 user_requests_list = UserRequestsListView.as_view()

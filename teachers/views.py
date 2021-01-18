@@ -5,12 +5,17 @@ from django.views.generic import UpdateView
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
-from academics.views import user_is_staff
 from .models import Teacher, Designation
 from .forms import TeacherForm, TeacherDesignationForm
+from permission_handlers.administrative import (
+    user_editor_admin_or_su,
+    user_is_admin_or_su,
+    user_is_teacher_or_administrative,
+)
+from permission_handlers.basic import user_is_verified
 
 
-@user_passes_test(user_is_staff)
+@user_passes_test(user_is_teacher_or_administrative)
 def teachers_view(request):
     """
     :param request:
@@ -22,7 +27,7 @@ def teachers_view(request):
 
 
 # TODO: Reduce duplicate queries.
-@login_required
+@user_passes_test(user_is_admin_or_su)
 def add_teacher_view(request):
     """
     :param request:
@@ -42,7 +47,7 @@ def add_teacher_view(request):
         return render(request, 'admin_tools/permission_required.html')
 
 
-@user_passes_test(user_is_staff)
+@user_passes_test(user_is_verified)
 def teacher_detail_view(request, pk):
     teacher = get_object_or_404(Teacher, pk=pk)
     context = {'teacher': teacher}
@@ -55,26 +60,27 @@ class teacher_update_view(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = 'teachers/update_teacher.html'
 
     def test_func(self):
-        return self.request.user.is_staff
+        user = self.request.user
+        return user_editor_admin_or_su(user)
 
     def handle_no_permission(self):
         if self.request.user.is_authenticated:
-            return redirect('account:home')
-        return redirect('account:login')
+            return redirect('account:profile_complete')
+        return redirect('account_login')
 
     def get_success_url(self):
         teacher_id = self.kwargs['pk']
         return reverse_lazy('teachers:teacher_details', kwargs={'pk': teacher_id})
 
 
-@user_passes_test(user_is_staff)
+@user_passes_test(user_is_admin_or_su)
 def teacher_delete_view(requset, pk):
     teacher = Teacher.objects.get(pk=pk)
     teacher.delete()
     return redirect('teachers:all_teacher')
 
 
-@user_passes_test(user_is_staff)
+@user_passes_test(user_is_admin_or_su)
 def create_designation(request):
     if request.method == 'POST':
         form = TeacherDesignationForm(request.POST)
@@ -92,9 +98,10 @@ class designation_list_view(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = 'teachers/designation_list.html'
 
     def test_func(self):
-        return self.request.user.is_staff
+        user = self.request.user
+        return user_is_verified(user)
 
     def handle_no_permission(self):
         if self.request.user.is_authenticated:
-            return redirect('account:home')
-        return redirect('account:login')
+            return redirect('account:profile_complete')
+        return redirect('account_login')

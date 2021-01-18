@@ -1,6 +1,7 @@
 import csv, io
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse_lazy
 from rolepermissions.roles import assign_role
@@ -9,10 +10,13 @@ from .models import (Semester, Department,
     AcademicSession, Subject)
 from .forms import SemesterForm, DepartmentForm, AcademicSessionForm
 from accounts.forms import UserRegistrationForm
+from permission_handlers.administrative import (
+    user_is_admin_su_editor_or_ac_officer,
+    user_editor_admin_or_su,
+    user_is_teacher_or_administrative,
+)
+from permission_handlers.basic import user_is_verified
 
-
-def user_is_staff(user):
-    return user.is_staff
 
 @login_required
 def add_user_view(request):
@@ -41,7 +45,7 @@ def add_user_view(request):
         return render(request, 'academics/permission_required.html')
 
 
-@user_passes_test(user_is_staff)
+@user_passes_test(user_is_admin_su_editor_or_ac_officer)
 def semesters(request):
     '''
     Shows semester list and 
@@ -63,7 +67,7 @@ def semesters(request):
     return render(request, 'academics/all_semester.html', ctx)
 
 
-@user_passes_test(user_is_staff)
+@user_passes_test(user_is_admin_su_editor_or_ac_officer)
 def academic_session(request):
     '''
     Responsible for academic session list view
@@ -86,7 +90,7 @@ def academic_session(request):
     return render(request, 'academics/academic_sessions.html', ctx)
 
 
-@user_passes_test(user_is_staff)
+@user_passes_test(user_is_verified)
 def departments(request):
     '''
     Responsible for department list view
@@ -109,31 +113,35 @@ def departments(request):
     return render(request, 'academics/departments.html', ctx)
 
 
-@user_passes_test(user_is_staff)
+@user_passes_test(user_editor_admin_or_su)
 def delete_semester(request, pk):
     obj = get_object_or_404(Semester, pk=pk)
     obj.delete()
     return redirect('academics:departments')
 
 
-class UpdateDepartment(UpdateView):
+class UpdateDepartment(UpdateView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Department
     form_class = DepartmentForm
     template_name = 'academics/update_department.html'
     success_url = reverse_lazy('academics:departments')
 
+    def test_func(self):
+        user = self.request.user
+        return user_editor_admin_or_su(user)
+
     def form_valid(self, form):
         return super().form_valid(form)
 
 
-@user_passes_test(user_is_staff)
+@user_passes_test(user_editor_admin_or_su)
 def delete_department(request, pk):
     obj = get_object_or_404(Department, pk=pk)
     obj.delete()
     return redirect('academics:departments')
 
 
-@user_passes_test(user_is_staff)
+@user_passes_test(user_is_teacher_or_administrative)
 def upload_subjects_csv(request):
     if request.user.has_perm('create_stuff'):
         template = 'result/add_subject_csv.html'
@@ -165,33 +173,49 @@ def upload_subjects_csv(request):
         return render(request, 'admin_tools/permission_required.html')
 
 
-class CreateDepartmentView(CreateView):
+class CreateDepartmentView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Department
     fields = '__all__'
     template_name = 'academics/create_department.html'
 
+    def test_func(self):
+        user = self.request.user
+        return user_editor_admin_or_su(user)
+
 create_department = CreateDepartmentView.as_view()
 
 
-class CreateSemesterView(CreateView):
+class CreateSemesterView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Semester
     fields = '__all__'
     template_name = 'academics/create_semester.html'
 
+    def test_func(self):
+        user = self.request.user
+        return user_editor_admin_or_su(user)
+
 create_semester = CreateSemesterView.as_view()
 
 
-class CreateAcademicSession(CreateView):
+class CreateAcademicSession(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
     model = AcademicSession
     fields = '__all__'
     template_name = 'academics/create_academic_semester.html'
 
+    def test_func(self):
+        user = self.request.user
+        return user_is_admin_su_editor_or_ac_officer(user)
+
 create_academic_semester = CreateAcademicSession.as_view()
 
 
-class CreateSubjectView(CreateView):
+class CreateSubjectView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Subject
     fields = '__all__'
     template_name = 'academics/create_subject.html'
+
+    def test_func(self):
+        user = self.request.user
+        return user_is_teacher_or_administrative(user)
 
 create_subject = CreateSubjectView.as_view()
