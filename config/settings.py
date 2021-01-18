@@ -206,13 +206,16 @@ EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 
 # login/register redirects
-LOGIN_REDIRECT_URL = 'index_view'
-# LOGOUT_REDIRECT_URL = 'account:login'
+# LOGIN_REDIRECT_URL = 'index_view'
+LOGIN_REDIRECT_URL = 'account:profile_complete'
 LOGOUT_REDIRECT_URL = 'account_login'
 
 # LOGIN_URL = 'account:login'
-LOGIN_URL = 'account_login'
-LOGOUT_URL = 'account:logout'
+LOGIN_URL = 'account:profile_complete'
+LOGOUT_URL = 'account_logout'
+
+# STOP SENDING EMAIL FOR USER REGISTRATION
+ACCOUNT_EMAIL_VERIFICATION = 'none'   # use 'mandatory' or 'optional' for respective cases.
 
 INTERNAL_IPS = ['127.0.0.1', '0.0.0.0', '*']
 
