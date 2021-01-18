@@ -10,11 +10,11 @@
                     <h1 class="text-center">Registration</h1>
                     <form method="POST">
                         {% csrf_token %}
-                        {{ user_form|crispy }}
+                        {{ form|crispy }}
                         <!-- <input type="hidden" name="next" value="{{ next }}"> -->
                         <button type="submit" class="btn btn-outline-info float-right">Register</button>
                     </form>
-                    <a class="d-block" href="{% url 'account_login'  %}">
+                    <a class="d-block" href="{% url 'account:login'  %}">
                         Back to login
                     </a>
                 </div>

@@ -25,7 +25,7 @@ def user_is_admin(user):
     return user.requested_role == 'admin'
 
 
-@login_required
+@login_required(login_url='account_login')
 def profile_complete(request):
     user = User.objects.get(pk=request.user.pk)
     form = ProfileCompleteForm(instance=user)
@@ -91,7 +91,7 @@ def permission_error(request):
     return HttpResponse('You don\'t have right permissio to access this page.')
 
 
-@user_passes_test(user_is_staff)
+@login_required(login_url='account_login')
 def dashboard(request):
     total_students = Student.objects.count()
     total_teachers = Teacher.objects.count()

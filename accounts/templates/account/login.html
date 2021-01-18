@@ -10,23 +10,14 @@
                     <h1 class="text-center">Login</h1>
                     <form method="POST">
                         {% csrf_token %}
-                        <div class="form-group">
-                            <label for="id_username">Username</label>
-                            <input type="text" name="username" class="form-control" id="id_username"
-                                placeholder="username">
-                        </div>
-                        <div class="form-group">
-                            <label for="id_password">Password</label>
-                            <input type="password" name="password" class="form-control" id="id_password"
-                                placeholder="password">
-                        </div>
+                        {{ form|crispy }}
                         <!-- <input type="hidden" name="next" value="{{ next }}"> -->
                         <button type="submit" class="btn btn-outline-info float-right">Login</button>
                     </form>
                     <a class="d-block" href="{% url 'account_signup'  %}">
                         Don't have an account? <b>Register Now.</b>
                     </a>
-                    <a class="d-block" href="/password-reset/">
+                    <a class="d-block" href="account_reset_password">
                         Forgot password?
                     </a>
                 </div>
