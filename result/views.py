@@ -1,5 +1,6 @@
 from django.db import IntegrityError
 from django.contrib import messages
+from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse, HttpResponse
 
@@ -7,8 +8,11 @@ from students.models import Student
 from academics.models import Semester, Subject, Department
 from .models import Result, SubjectGroup
 from .filters import ResultFilter, SubjectGroupFilter
+from permission_handlers.basic import user_is_verified
+from permission_handlers.administrative import user_is_teacher_or_administrative
 
 
+@user_passes_test(user_is_verified)
 def result_view(request):
     if not request.GET:
         qs = Result.objects.none()
@@ -19,6 +23,7 @@ def result_view(request):
     return render(request, 'result/result_filter.html', ctx)
 
 
+@user_passes_test(user_is_verified)
 def result_detail_view(request, student_pk):
     student = get_object_or_404(Student, pk=student_pk)
     student_results = student.results.all()
@@ -54,6 +59,7 @@ def find_student(request, student_id):
     return JsonResponse({'data': ctx})
 
 
+@user_passes_test(user_is_teacher_or_administrative)
 def result_entry(request):
     if not request.GET:
         qs = SubjectGroup.objects.none()
@@ -112,6 +118,7 @@ def result_entry(request):
     return render(request, 'result/result_entry.html', ctx)
 
 
+@user_passes_test(user_is_teacher_or_administrative)
 def create_subject_group(request):
     departments = Department.objects.all()
     semesters = Semester.objects.all()
@@ -146,6 +153,7 @@ def create_subject_group(request):
     return render(request, 'result/create_subject_groups.html', ctx)
 
 
+@user_passes_test(user_is_verified)
 def subject_group_list(request):
     subject_groups = SubjectGroup.objects.all()
     ctx = {
