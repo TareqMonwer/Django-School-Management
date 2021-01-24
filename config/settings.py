@@ -118,6 +118,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # ctx processeor to attach institute data in templates
+                'context_processors.dj_sms_context_processor.attach_institute_data_ctx_processor',
             ],
         },
     },
