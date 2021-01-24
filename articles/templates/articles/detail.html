@@ -1,0 +1,106 @@
+{% extends 'articles/base.html' %}
+
+{% block content %}
+  <!-- Page Header -->
+  <header class="masthead" 
+  {% if object.featured_image %}
+  style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+          url('{{ object.featured_image.url }}')"
+  {% else %}
+    style="background-image: url('articles/img/post-bg.jpg')"
+  {% endif %}>
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="post-heading">
+            <h1>
+              {{object.title}}
+              {% if request.user == object.author %}
+                <a class="text-warning" href="{% url 'articles:update' object.slug %}"
+                  title="Edit Article">
+                  <i class="fas fa-pen-square"></i>
+                </a>
+              {% endif %}
+            </h1>
+            {#  TODO: Implement subheading #}
+            {# <h2 class="subheading">{{ object.subheading }}</h2>#}
+            <span class="meta">Posted by
+              <a href="#">
+                {% if object.user.name %}
+                  {{object.author.name}}
+                {% else %}
+                  {{ object.author.username }}
+                {% endif %}
+              </a>
+              at {{object.created}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- Post Content -->
+  <article>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-2 col-md-2 d-flex flex-column
+          justify-content-center align-items-center text-center">
+          <form id="like_form" action="{% url 'articles:like' object.slug  %}" method="POST">
+            {% csrf_token %}
+            <!-- <a class="d-inline-block" href="javascript:{}"
+            onclick="document.getElementById('like_form').submit(); return false;">
+              <i class="fa fa-heart"></i>
+            </a> -->
+            <i class="fa fa-heart" id="like-btn" style="cursor: pointer;"></i>
+          </form>
+            <h3 class="m-0" id="display-like-count">{{ likes.count }}</h3>
+            <a href="">
+              {# TODO: link to list all who appreciated #}
+              <small>
+                people liked
+              </small>
+            </a>
+        </div>
+        <div class="col-lg-10 col-md-10 mx-auto" style="word-wrap: break-word;">
+          {{ object.content|safe }}
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <hr>
+
+  <!-- Fixed Action Buttons -->
+  {% include 'articles/inc/_fixed_actions.html' %}
+
+  <!-- Footer -->
+  {% include 'articles/inc/_footer.html' %}
+
+{% endblock content %}
+
+
+{% block pagejs %}
+
+<script>
+  $("#like-btn").click(function(){
+  $.ajax({
+    type: "POST",
+    url: "{% url 'articles:like' object.slug  %}",
+    data: {'slug': $(this).attr('name'), 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+    success: function(response) {
+      updateLikes();
+    },
+    error: function(){
+      console.log(res.responseText);
+    }
+  })
+})
+
+function updateLikes(){
+  document.getElementById("display-like-count").innerHTML = 
+  parseInt(document.getElementById("display-like-count").innerText) + 1;
+}
+</script>
+{% endblock pagejs %}

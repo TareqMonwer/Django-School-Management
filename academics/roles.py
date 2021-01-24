@@ -59,18 +59,11 @@ class AcademicOficer(AbstractUserRole):
 
 class Admin(AbstractUserRole):
     available_permissions = {
-        'visit_website': True,
-        'update_profile': True,
-        'crud_profile': True,
         'create_article': True,
-        'crud_article': True,
-        'add_testimonial': True,
-        'crud_testimonial': True,
-        'crud_academics': True,
-        'crud_counsel': True,
-        'crud_users': True,
-        'crud_group_perms': True,
-        'crud_students': True,
-        'crud_teachers': True,
+        'can_change_article': True,
+        'can_delete_article': True,
+        'can_view_article': True,
+        'can_add_like': True,
+        'can_view_like': True,
     }
 

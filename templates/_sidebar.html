@@ -52,6 +52,14 @@
           <span class="title">User Guide</span>
         </a>
       </li>
+      <li class="nav-item">
+        <a class="sidebar-link" href="{% url 'articles:home' %}" target="_blank">
+          <span class="icon-holder">
+            <i class="c-purple-500 ti-map"></i>
+          </span>
+          <span class="title">Articles</span>
+        </a>
+      </li>
 
       <!-- MAIN SIDEBAR LINKS -->
       <li class="nav-item">
@@ -109,12 +117,21 @@
           <span class="arrow"><i class="ti-angle-right"></i></span>
         </a>
         <ul class="dropdown-menu">
+          {% if user.approval_status == 'a' %}
           <li>
             <a class="sidebar-link" 
-              href="{% url 'teachers:add_teacher' %}">
-              Add Teacher
+              href="{% url 'articles:create' %}">
+              Write Article
             </a>
           </li>
+          <li>
+            <a class="sidebar-link" 
+              href="{% url 'articles:create' %}">
+              My Articles
+            </a>
+          </li>
+          {% endif %}
+          
           <li>
             <a class="sidebar-link" 
               href="{% url 'teachers:all_teacher' %}">
