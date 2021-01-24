@@ -7,12 +7,16 @@
         <div class="peer peer-greed"><a class="sidebar-link td-n" href="index.html">
             <div class="peers ai-c fxw-nw">
               <div class="peer">
-                <div class="logo">
-                  <img src="{% static 'adminator_assets/static/images/logo.png' %}" alt="">
+                <div class="logo pl-2">
+                  <img src="{{ request_institute.logo.url }}" 
+                    alt="{{ request_institute.name }}"
+                    width="50">
                 </div>
               </div>
               <div class="peer peer-greed">
-                <h5 class="lh-1 mB-0 logo-text">DJ.SMS</h5>
+                <h5 class="lh-1 mB-0 logo-text">
+
+                </h5>
               </div>
             </div>
           </a></div>
@@ -30,7 +34,7 @@
             <i class="c-blue-500 ti-home"></i>
           </span>
           <span class="title">
-            Dashboard
+            {{request_institute.name}} Dashboard 
           </span>
         </a>
       </li>
