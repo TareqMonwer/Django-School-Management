@@ -29,7 +29,13 @@ def user_is_admin_su_editor_or_ac_officer(user):
     return user_is_admin_or_su(user) or user_is_editor_or_ac_officer(user)
 
 def user_is_teacher_or_administrative(user):
+    """ administrative user refers to: superuser, 
+    editor, admin, academic-officer.
+    """
     return user_is_admin_su_editor_or_ac_officer(user) or user_is_teacher(user)
 
 def user_is_student_or_administrative(user):
+    """ administrative user refers to: superuser, 
+    editor, admin, academic-officer.
+    """
     return user_is_admin_su_editor_or_ac_officer(user) or user_is_student(user)

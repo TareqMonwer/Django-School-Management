@@ -3,18 +3,24 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
+
+from institute.models import InstituteProfile
 from accounts.views import dashboard
 
 
-admin.site.site_header = "SMS-LIO Admin"
-admin.site.site_title = "SMS-LIO Admin Portal"
-admin.site.index_title = "Welcome to SMS-LIO Portal"
+institute = InstituteProfile.objects.get(active=True)
+
+admin.site.site_header = institute.site_header
+admin.site.site_title = institute.site_title
+admin.site.index_title = institute.index_title
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('pages.urls')),
     path('dashboard/', dashboard, name='index_view'),
     path('accounts/', include('allauth.urls')),
+    path('blog/', include('articles.urls')),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
     path('account/', include('accounts.urls')),
     path('academics/', include('academics.urls')),
     path('students/', include('students.urls')),

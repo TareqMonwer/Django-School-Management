@@ -1,0 +1,75 @@
+{% extends "articles/base.html" %}
+
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}
+  {% if object %}
+    {% trans "Update Article" %}
+  {% else %}
+    {% trans "Publish new article" %}
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+   <!-- Page Header -->
+   <header class="masthead" 
+   {% if object.featured_image %}
+   style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+           url('{{ object.featured_image.url }}')"
+   {% else %}
+     style="background-image: url('articles/img/post-bg.jpg')"
+   {% endif %}>
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="post-heading">
+            {% if object %}
+              <h4>{% trans "Update Article" %}</h4>
+              <h1>{{ object.title }}</h1>
+            {% else %}
+              <h1>{% trans "Publish new article" %}</h1>
+            {% endif %}
+            <h2 class="subheading">Keep your article clear, understandable and
+            informative.</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  {# Actual form container #}
+  <div class="container pt-3">
+    <div class="row justify-content-center">
+      <div class="col-md-10">
+        <div class="d-flex">
+          <a href="{% url 'articles:home' %}" class="text-dark d-block mr-2 mb-5" title="Back to home">
+            <i class="fas fa-arrow-alt-circle-left fa-2x"></i>
+          </a>
+          <a href="{% url 'articles:create' %}" class="text-dark d-block mb-5" title="Create New Article">
+            <i class="far fa-plus-square fa-2x"></i>
+          </a>
+        </div>
+        <form class="" method="POST" action="." enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ form.media }}
+          {{ form|crispy }}
+          <button class="primaryAction btn btn-primary float-right" type="submit">{% trans "Post" %}</button>
+          <a href="{% url 'articles:home' %}" class="btn btn-dark float-right">
+            <i class="far fa-arrow-alt-circle-left"></i> Back
+          </a>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Footer -->
+
+  <!-- Footer -->
+  <div class="bg-dark mt-5">
+    {% include 'articles/inc/_footer.html' %}
+  </div>
+{% endblock %}
+
