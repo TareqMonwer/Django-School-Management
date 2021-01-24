@@ -26,6 +26,7 @@ class Department(TimeStampedModel):
     batches = models.ManyToManyField(
         'Batch',
         related_name='department_batches',
+        blank=True
     )
     establish_date = models.DateField(auto_now_add=True)
     created_by = models.ForeignKey(
