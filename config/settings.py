@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'academics',
     'pages',
     'articles',
+    'institute',
 
     # third party apps
     'crispy_forms',
@@ -97,6 +98,9 @@ MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # Middleware to provide institute data in req-resp cycle
+    'institute.middleware.AttachInstituteDataMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'

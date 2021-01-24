@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>{% block title %}Blog{% endblock title %}</title>
+    <title>{% block title %}{{ request_institute.site_title }} | Blog{% endblock title %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -48,7 +48,11 @@
       {% endif %}
        id="mainNav">
         <div class="container">
-          <a class="navbar-brand" href="{% url 'articles:home' %}">Blog</a>
+          <a class="navbar-brand" href="{% url 'articles:home' %}">
+            <img src="{{ request_institute.logo.url }}" 
+              alt="{{ request_institute.site_title }}"
+              width="120">
+          </a>
           <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             Menu
             <i class="fas fa-bars"></i>
