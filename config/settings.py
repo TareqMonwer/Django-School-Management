@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'result',
     'academics',
     'pages',
+    'articles',
 
     # third party apps
     'crispy_forms',
@@ -75,12 +76,15 @@ INSTALLED_APPS = [
     'allauth.account',
     'django_rename_app',
     'allauth.socialaccount',
+    'ckeditor',
+    'ckeditor_uploader',
 ]
 
 SITE_ID = 1
 
 # for permission management
 ROLEPERMISSIONS_MODULE = 'academics.roles'
+# ROLEPERMISSIONS_REGISTER_ADMIN = True
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -192,6 +196,9 @@ MESSAGE_TAGS = {
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+CKEDITOR_UPLOAD_PATH = 'ck-uploads/'
+CKEDITOR_IMAGE_BACKEND = 'pillow'
+CKEDITOR_ALLOW_NONIMAGE_FILES = False
 # authentication stuffs
 # from .email_details import *
 

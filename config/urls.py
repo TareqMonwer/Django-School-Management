@@ -15,6 +15,8 @@ urlpatterns = [
     path('', include('pages.urls')),
     path('dashboard/', dashboard, name='index_view'),
     path('accounts/', include('allauth.urls')),
+    path('blog/', include('articles.urls')),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
     path('account/', include('accounts.urls')),
     path('academics/', include('academics.urls')),
     path('students/', include('students.urls')),

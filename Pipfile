@@ -46,6 +46,7 @@ xhtml2pdf = "*"
 django-filter = "*"
 django-rename-app = "*"
 django-allauth = "*"
+markdown = "==3.2.2"
 
 [requires]
 python_version = "3.8"
