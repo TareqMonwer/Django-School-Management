@@ -16,23 +16,16 @@
                 <a class="nav-link page-scroll" href="#services">About</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link page-scroll" href="#features">Services</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link page-scroll" href="#showcase">Showcase</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link page-scroll" href="#pricing">Pricing</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link page-scroll" href="#team">Team</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link page-scroll" href="#blog">Blog</a>
+                <a class="nav-link page-scroll" href="{% url 'articles:home' %}">Blog</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link page-scroll" href="#contact">Contact</a>
               </li>
+              {% if request.user.is_authenticated %}
+                <li class="nav-item">
+                  <a class="nav-link page-scroll" href="">My Account</a>
+                </li>
+              {% endif %}
               <li class="nav-item">
                 <a class="btn btn-singin" href="{% url 'account:dashboard' %}">Dashboard</a>
               </li>

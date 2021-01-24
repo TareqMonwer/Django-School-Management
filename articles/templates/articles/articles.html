@@ -1,0 +1,91 @@
+{% extends 'articles/base.html' %}
+
+{% block content %}
+  <!-- Page Header -->
+  {% if page_obj.number == 1 %}
+  <header class="masthead" 
+   {% if last_article.featured_image %}
+   style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+           url('{{ last_article.featured_image.url }}')"
+   {% else %}
+     style="background-image: url('img/post-bg.jpg')"
+   {% endif %}>
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            {% if last_article %}
+            <a href="{{ last_article.get_absolute_url }}" class="text-light">
+              <h1>{{ last_article.title }}</h1>
+              <span class="subheading">{{ last_article.short_description|safe }}</span>
+            </a>
+            {% else %}
+              <h2>
+                No article has been published yet.
+              </h2>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  {% endif %}
+
+  <!-- Main Content -->
+  <div class="container mt-5">
+    <div class="row">
+    <div class="mt-5 col-lg-2 col-md-2 d-flex flex-column
+      justify-content-start align-items-center text-center">
+      <a href="{% url 'articles:create' %}" title="Publish new article">
+        <i class="far fa-plus-square fa-3x"></i>
+      </a>
+    </div>
+      <div class="col-lg-8 col-md-10 mx-auto mt-5">
+        {% for article in object_list %}
+          <div class="post-preview">
+            <a href="{% url 'articles:detail' article.slug %}">
+              <h2 class="post-title">
+                {{ article.title }}
+              </h2>
+              <h3 class="post-subtitle">
+                {{ article.short_description|safe }}
+              </h3>
+            </a>
+            <p class="post-meta">Posted by
+              <a href="#">{{ article.author.name }}</a>
+              on {{ article.created }}</p>
+          </div>
+          <hr>
+        {% endfor %}
+        <!-- Pager -->
+        <div class="clearfix">
+          {% if page_obj %}
+            {% if page_obj.has_next %}
+              <a class="btn btn-primary float-right" 
+                href="?page={{ page_obj.next_page_number }}">Older Posts &rarr;
+              </a>
+            {% endif %}
+            {% if page_obj.has_previous %}
+              <a class="btn btn-dark float-right" 
+                href="?page={{ page_obj.previous_page_number }}">Newer Posts &larr;
+              </a>
+            {% endif %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- Fixed Action Buttons -->
+  {% include 'articles/inc/_fixed_actions.html' %}
+
+  <!-- Footer -->
+  {% include 'articles/inc/_footer.html' %}
+
+{% endblock content %}
+
+
+
