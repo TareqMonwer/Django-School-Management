@@ -25,4 +25,8 @@ urlpatterns = [
         views.ArticleDetail.as_view(),
         name='detail'
     ),
+    path('<slug:slug>/articles/',
+        views.CategoryArticles.as_view(),
+        name='category_articles'
+    ),
 ]

@@ -1,0 +1,17 @@
+
+{% if registered_navlinks %}
+    {% for category in registered_navlinks %}
+        <li class="nav-item">
+            <a class="nav-link" href="{{ category.get_absolute_url }}">
+                {{ category }}
+            </a>
+        </li>
+    {% endfor %}
+{% else %}
+    <li class="nav-item">
+    <a class="nav-link" href="#">Tech</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="#">Soft-Skills</a>
+    </li>
+{% endif %}
