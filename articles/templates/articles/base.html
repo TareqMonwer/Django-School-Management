@@ -26,8 +26,8 @@
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
     <!-- This file stores project-specific CSS -->
 
-    <link href="{% static 'articles/css/project.css' %}" rel="stylesheet">
     <link href="{% static 'articles/css/clean-blog.css' %}" rel="stylesheet">
+    <link href="{% static 'articles/css/project.css' %}" rel="stylesheet">
     {% endblock %}
 
   </head>
@@ -66,12 +66,10 @@
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'articles:home' %}">Articles</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Tech</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Soft-Skills</a>
-              </li>
+              
+              <!-- Dynamic Navigation -->
+              {% include 'articles/inc/_registered_navlinks.html' %}
+
               {% if request.user.is_authenticated %}
                 <li class="nav-item">
                   {# URL provided by django-allauth/account/urls.py #}

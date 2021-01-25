@@ -1,13 +1,17 @@
-from random import choice
-from django.conf import settings
-from django.db import models
-from django.urls import reverse
-
+from mptt.models import MPTTModel, TreeForeignKey, TreeManyToManyField
 from autoslug import AutoSlugField
 from bs4 import BeautifulSoup
 from markdown import markdown
 from model_utils.models import TimeStampedModel
 from ckeditor_uploader.fields import RichTextUploadingField
+
+from random import choice
+
+from django.conf import settings
+from django.db import models
+from django.urls import reverse
+
+
 
 
 class PublishedManager(models.Manager):
@@ -28,6 +32,8 @@ class Article(TimeStampedModel):
     author = models.ForeignKey(settings.AUTH_USER_MODEL,
                                on_delete=models.CASCADE)
     content = RichTextUploadingField(config_name='default')
+    is_featured = models.BooleanField(default=False)
+    categories = TreeManyToManyField('Category', blank=True)
     status = models.CharField(max_length=10,
                               choices=STATUS_CHOICES,
                               default='draft')
@@ -37,7 +43,7 @@ class Article(TimeStampedModel):
     likes = models.ManyToManyField('Like', related_name='article_liked', blank=True)
 
     class Meta:
-        ordering = ['created']
+        ordering = ['-created']
         get_latest_by = "created"
 
     def __str__(self):
@@ -60,3 +66,31 @@ class Like(TimeStampedModel):
 
     def __str__(self):
         return f'{self.user} liked this post'
+
+
+class Category(MPTTModel):
+    name = models.CharField(max_length=50, unique=True)
+    display_on_menu = models.BooleanField(default=False)
+    parent = TreeForeignKey(
+        'self', on_delete=models.CASCADE,
+        null=True, blank=True, related_name='children'
+    )
+    slug = AutoSlugField(
+        "Category Link", unique=True,
+        always_update=False, populate_from='name'
+    )
+    created = models.DateField(auto_now_add=True, blank=True, null=True)
+
+    class MPTTMeta:
+        order_insertion_by = ['name']
+    
+    class Meta:
+        verbose_name_plural = 'categories'
+    
+    def __str__(self):
+        return self.name
+    
+    def get_absolute_url(self):
+        return reverse(
+            'articles:category_articles', kwargs={'slug': self.slug}
+        )

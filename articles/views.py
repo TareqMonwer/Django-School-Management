@@ -9,8 +9,9 @@ from django.views.generic import (
     CreateView, UpdateView
 )
 
-from .models import Article, Like
+from .models import Article, Like, Category
 from .mixins import AuthorArticleEditMixin
+from .forms import ArticleForm
 from permission_handlers.administrative import user_is_teacher_or_administrative
 
 
@@ -20,21 +21,49 @@ class ArticleList(ListView):
     Returns a list of published articles.
     """
     model = Article
+    context_object_name = 'articles'
     paginate_by = 10
     template_name = 'articles/articles.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         try:
-            last_article = Article.published.latest()
+            last_article = Article.published.order_by('-created')[0]
+            last_three_articles = Article.published.order_by('created')[:3]
+            latest_featured_article = Article.published.filter(
+                is_featured=True)[0]
+            # print(latest_featured_article)
         except Article.DoesNotExist:
-            last_article = None
+            # last_article = None
+            # last_three_articles = None
+            # latest_featured_article = None
+            pass
         context['last_article'] = last_article
+        context['last_three_articles'] = last_three_articles
+        context['latest_featured_article'] = latest_featured_article
         return context
 
     def get_queryset(self):
         qs = Article.published.select_related('author').select_related().all()
         return qs
+
+
+class CategoryArticles(ListView):
+    context_object_name = 'articles'
+    template_name = 'articles/category_articles.html'
+
+    def get_queryset(self):
+        slug = self.kwargs.get('slug')
+        category = Category.objects.get(slug=slug)
+        articles = category.article_set.all()
+        return articles
+    
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        slug = self.kwargs.get('slug')
+        category = Category.objects.get(slug=slug)
+        ctx['category'] = category
+        return ctx
 
 
 class ArticleDetail(DetailView):
@@ -56,9 +85,13 @@ class ArticleDetail(DetailView):
         return context
 
 
-class ArticleCreate(AuthorArticleEditMixin, LoginRequiredMixin, UserPassesTestMixin, CreateView):
-    model = Article
-    fields = ['title', 'content', 'featured_image']
+class ArticleCreate(
+    AuthorArticleEditMixin, LoginRequiredMixin,
+    UserPassesTestMixin, CreateView):
+    # fields none need to set None to provide form_class
+    # because it has some value in AuthorArticleEditMixin.
+    fields = None
+    form_class = ArticleForm
 
     def test_func(self):
         user =  self.request.user
@@ -75,8 +108,8 @@ class ArticleCreate(AuthorArticleEditMixin, LoginRequiredMixin, UserPassesTestMi
 
 
 class ArticleUpdate(AuthorArticleEditMixin, UpdateView):
-    model = Article
-    fields = ['title', 'content', 'featured_image']
+    fields = None
+    form_class = ArticleForm
 
 
 class ArticleLike(LoginRequiredMixin, View):

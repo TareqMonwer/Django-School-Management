@@ -80,6 +80,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'ckeditor',
     'ckeditor_uploader',
+    'mptt',
 ]
 
 SITE_ID = 1
@@ -206,6 +207,12 @@ MEDIA_URL = '/media/'
 CKEDITOR_UPLOAD_PATH = 'ck-uploads/'
 CKEDITOR_IMAGE_BACKEND = 'pillow'
 CKEDITOR_ALLOW_NONIMAGE_FILES = False
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full', 'extraPlugins': ['codesnippet', 'markdown'], 'width': '100%',
+    },
+}
+
 # authentication stuffs
 # from .email_details import *
 

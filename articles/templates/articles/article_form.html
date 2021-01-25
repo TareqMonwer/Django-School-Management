@@ -12,8 +12,8 @@
 {% endblock %}
 
 {% block content %}
-   <!-- Page Header -->
-   <header class="masthead" 
+  <!-- Page Header -->
+  <header class="masthead" 
    {% if object.featured_image %}
    style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
            url('{{ object.featured_image.url }}')"
@@ -40,7 +40,7 @@
   </header>
 
   {# Actual form container #}
-  <div class="container pt-3">
+  <div class="container pt-3 article-form">
     <div class="row justify-content-center">
       <div class="col-md-10">
         <div class="d-flex">
