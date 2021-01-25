@@ -72,6 +72,7 @@
 {% endblock %}
 
 {% block extrajs %}
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
     <script>
         const forms = document.querySelectorAll('.mark-paid-form');
         forms.forEach(function(element){
@@ -103,7 +104,3 @@
 
     </script>
 {% endblock %}
-
-{% block extrajs %}
-  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
-{% endblock}

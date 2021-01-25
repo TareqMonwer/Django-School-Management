@@ -6,15 +6,18 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
         <li class="breadcrumb-item">
-            <a href="{% url 'students:students_dashboard_index' %}">Students</a>
+            <a href="{% url 'students:students_dashboard_index' %}">Applicants</a>
         </li>
-        <li class="breadcrumb-item active" aria-current="page">All Applicants</li>
+        <li class="breadcrumb-item active" aria-current="page">All</li>
     </ol>
 </nav>
 
 <div class="row">
     <div class="col-12 mb-2">
-        <h4 class="ml-0">All Applicants</h4>
+        <h4 class="ml-0 mb-1">All Applicants</h4>
+        <small class="mb-3">
+          Click on any student info to update any details.
+        </small>
     </div>
   <div class="col-12">
     <table class="table table-bordered">
@@ -32,22 +35,22 @@
         {% for applicant in registrants %}
         <tr>
           <th scope="row">
-            <a href="#">
+            <a href="{% url 'students:update_online_registrant' pk=applicant.id %}">
               {{ forloop.counter }}
             </a>
           </th>
           <td>
-            <a href="#">
+            <a href="{% url 'students:update_online_registrant' pk=applicant.id %}">
               {{ applicant.name }}
             </a>
           </td>
           <td>
-            <a href="#">
+            <a href="{% url 'students:update_online_registrant' pk=applicant.id %}">
               {{ applicant.created }}
             </a>
           </td>
           <td style="text-align: center;">
-            <a href="#">
+            <a href="{% url 'students:update_online_registrant' pk=applicant.id %}">
               {% if applicant.paid %}
                 <img src="{% static 'images/checked.png' %}" width="16" alt="">
               {% else %}
@@ -56,7 +59,7 @@
             </a>
           </td>
           <td style="text-align: center;">
-              <a href="#">
+              <a href="{% url 'students:update_online_registrant' pk=applicant.id %}">
                   {% if applicant.admitted %}
                     <img src="{% static 'images/checked.png' %}" width="16" alt="">
                   {% else %}
@@ -65,7 +68,7 @@
               </a>
           </td>
           <td>
-              <a href="">
+              <a href="{% url 'students:update_online_registrant' pk=applicant.id %}">
                   {{ applicant.mobile_number }}
               </a>
           </td>
@@ -81,4 +84,4 @@
 
 {% block extrajs %}
   <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
-{% endblock}
+{% endblock %}
