@@ -16,8 +16,7 @@ class ArticleAdmin(admin.ModelAdmin):
 
 
 class CategoryAdmin(MPTTModelAdmin):
-    list_display = ['name', ]
-
+    list_display = ['name',]
 
 
 # Registers
