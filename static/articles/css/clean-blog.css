@@ -170,22 +170,22 @@ img::-moz-selection {
 }
 
 header.masthead {
-  margin-bottom: 50px;
+  /* margin-bottom: 50px; */
   background: no-repeat center center;
   background-color: #868e96;
   background-attachment: scroll;
   position: relative;
   background-size: cover;
+  height: 100vh;
 }
 
 header.masthead .overlay {
   position: absolute;
   top: 0;
   left: 0;
-  height: 100%;
+  height: 100vh;
   width: 100%;
-  background-color: #212529;
-  opacity: 0.5;
+  background: linear-gradient(to bottom, #060606a6, white);
 }
 
 header.masthead .page-heading,

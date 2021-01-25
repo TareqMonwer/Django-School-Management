@@ -19,6 +19,7 @@ from .models import Article, Like
 
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ['title', 'author', 'status']
+    list_editable = ['status', ]
 
 
 

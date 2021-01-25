@@ -49,9 +49,10 @@
        id="mainNav">
         <div class="container">
           <a class="navbar-brand" href="{% url 'articles:home' %}">
-            <img src="{{ request_institute.logo.url }}" 
+            <!-- <img src="{{ request_institute.logo.url }}" 
               alt="{{ request_institute.site_title }}"
-              width="120">
+              width="120" height=""> -->
+              LOGO
           </a>
           <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             Menu
@@ -63,7 +64,7 @@
                 <a class="nav-link" href="{% url 'pages:landing' %}">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="">Articles</a>
+                <a class="nav-link" href="{% url 'articles:home' %}">Articles</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Tech</a>
