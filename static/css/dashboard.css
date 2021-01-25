@@ -93,6 +93,14 @@
 	text-transform: capitalize;
 }
 
+/* SIDEBAR */
+.logo {
+	display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* NAVBAR */
 
 
 /* ==================================== */

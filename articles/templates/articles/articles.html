@@ -4,12 +4,12 @@
   <!-- Page Header -->
   {% if page_obj.number == 1 %}
   <header class="masthead" 
-   {% if last_article.featured_image %}
-   style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-           url('{{ last_article.featured_image.url }}')"
-   {% else %}
-     style="background-image: url('img/post-bg.jpg')"
-   {% endif %}>
+    {% if last_article.featured_image %}
+    style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+            url('{{ last_article.featured_image.url }}')"
+    {% else %}
+      style="background-image: url('img/post-bg.jpg')"
+    {% endif %}>
     <div class="overlay"></div>
     <div class="container">
       <div class="row">
@@ -21,9 +21,9 @@
               <span class="subheading">{{ last_article.short_description|safe }}</span>
             </a>
             {% else %}
-              <h2>
+              <h1>
                 No article has been published yet.
-              </h2>
+              </h1>
             {% endif %}
           </div>
         </div>
@@ -37,9 +37,6 @@
     <div class="row">
     <div class="col-lg-2 col-md-2 d-flex flex-column
       justify-content-center align-items-center text-center">
-      <!-- <a href="{% url 'articles:create' %}" title="Publish new article">
-        <i class="far fa-plus-square fa-3x"></i>
-      </a> -->
     </div>
       <div class="col-lg-12 col-md-12 mx-auto featured-articles rounded">
         <div class="row p-4 featured-items-card">
@@ -50,23 +47,25 @@
                 <div class="large-article-container rounded">
                   <div class="overlay"></div>
                   <div class="cover-image">
-                    <img src="{{ latest_featured_article.featured_image.url }}" 
-                    alt=" {{ latest_featured_article }}" class="overlay-img">
+                    <img 
+                    src="{% if latest_featured_article %}{{ latest_featured_article.featured_image.url }}{% else %}https://picsum.photos/800{% endif %}" 
+                    alt="{% if latest_featured_article %} {{ latest_featured_article }} {% endif %}" 
+                    class="overlay-img">
                   </div>
                   <div class="main-content">
                     <small class="category-name">
                       <a href="">
-                        {{ latest_featured_article.categories.first }}
+                        {{ latest_featured_article.categories.first|default:"CATEGORY PLACEHOLDER" }}
                       </a>
                     </small>
                     <h4>
                       <a href="{{ latest_featured_article.get_absolute_url }}">
-                        {{ latest_featured_article }}
+                        {{ latest_featured_article|default:"Article Will Look Like This" }}
                       </a>
                     </h4>
                     <br>
                     <small class="pub-date">
-                      {{latest_featured_article.created}}
+                      {{ latest_featured_article.created|default:"DATE: 23 JAN 2021" }}
                     </small>
                   </div>
                 </div>
@@ -98,6 +97,10 @@
                     </a>
                   </b></p>
                 </div>
+              </div>
+              {% empty %}
+              <div class="no-article">
+                <h5 class="ml-3"><i class="fas fa-frown"></i> No Article Was Found</h5>
               </div>
               {% endfor %}
             </div>
@@ -135,6 +138,10 @@
             </div>
           </a>
         </div>
+      {% empty %}
+      <div class="no-article">
+        <h5 class="ml-3"><i class="fas fa-frown"></i> No Article Was Found</h5>
+      </div>
       {% endfor %}
     </div>
   </div>
@@ -170,6 +177,10 @@
               </div>
             </div>
           </a>
+        </div>
+        {% empty %}
+        <div class="no-article text-light">
+          <h5 class="ml-3"><i class="fas fa-frown"></i> No Article Was Found</h5>
         </div>
         {% endfor %}
       </div>

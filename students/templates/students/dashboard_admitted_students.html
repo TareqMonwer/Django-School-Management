@@ -10,9 +10,9 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
         <li class="breadcrumb-item">
-            <a href="{% url 'students:students_dashboard_index' %}">Students</a>
+            <a href="{% url 'students:students_dashboard_index' %}">Applicants</a>
         </li>
-        <li class="breadcrumb-item active" aria-current="page">Admitted Students</li>
+        <li class="breadcrumb-item active" aria-current="page">Admitted Applicants</li>
     </ol>
 </nav>
 
@@ -20,7 +20,10 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 pl-0">
-            <h4 class="ml-0">Admitted Students</h4>
+            <h4 class="ml-0 mb-1">Admittable Applicants</h4>
+            <small class="mb-3">
+                Applicants who are approved to be admitted and cleared their admission fees.
+            </small>
         </div>
         <!-- Admitted Students Table -->
         <div id="admitted-students" class="col-md-12 mt-4">
@@ -65,5 +68,5 @@
 {% endblock %}
 
 {% block extrajs %}
-  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
-{% endblock}
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+{% endblock %}

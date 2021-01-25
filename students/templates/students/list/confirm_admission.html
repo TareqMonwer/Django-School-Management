@@ -10,22 +10,24 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
         <li class="breadcrumb-item">
-            <a href="{% url 'students:students_dashboard_index' %}">Students</a>
+            <a href="{% url 'students:students_dashboard_index' %}">Applicants</a>
         </li>
-        <li class="breadcrumb-item active" aria-current="page">Confrim Admission</li>
+        <li class="breadcrumb-item active" aria-current="page">Confrim Application(s)</li>
     </ol>
 </nav>
 
-<!-- Online Applicants Table Row -->
+<!-- Online Applicants Table & Form Row -->
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 pl-0">
-            <h4 class="ml-0">Confirm Students</h4>
+            <h4 class="ml-0 mb-0">Confirm Application(s)</h4>
+            <small class="mt-1 mb-4 d-inline-block">Grant applicant(s) as admittable, so that admission authorities can admit him/her/them.</small>
         </div>
 
         <div class="col-md-12">
             <form action="" method="POST">
                 {% csrf_token %}
+                <!-- Filter Options -->
                 <div class="">
                     <div class="form-row align-items-center justify-content-end">
                         <div class="form-group col-md-3">
@@ -62,6 +64,18 @@
                         </div>
                     </div>
                 </div>
+
+                {% if messages %} 
+                    {% for message in messages %}
+                    <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+                    <strong>{{ message }}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    {% endfor %} 
+                {% endif %}
+
                 <!-- Online Applicants Table -->
                 <div id="online-applicants" class="mt-4">
                     <table class="table table-bordered table-hover">

@@ -1,9 +1,9 @@
 from datetime import date, timedelta, datetime
 from collections import OrderedDict
 
+from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
-from django.template.response import SimpleTemplateResponse
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, UpdateView
 from django.contrib.auth.decorators import user_passes_test
@@ -64,8 +64,7 @@ def students_dashboard_index(request):
         'rejected_applicants': rejected_applicants,
         'month_list': month_list,
     }
-    template = SimpleTemplateResponse('students/dashboard_index.html', context)
-    return template.render()
+    return render(request, 'students/dashboard_index.html', context)
 
 
 @user_passes_test(user_is_admin_su_or_ac_officer)
@@ -154,24 +153,54 @@ def admission_confirmation(request):
         dept_code = request.POST.get('department_code')
         batch_id = request.POST.get('batch_id')
         session_id = request.POST.get('session_id')
-        to_be_admitted = selected_registrants.filter(
-            choosen_department__code=int(dept_code)
-        )
-
-        # If confirmation processes is followed by checkmarks, 
+        # If confirmation processes is followed by checkmarks,
         # then we confirm admission for only selected candidates.
         checked_registrant_ids = request.POST.getlist('registrant_choice')
-        
-        if checked_registrant_ids:
-            to_be_admitted = AdmissionStudent.objects.filter(
-                id__in=list(map(int, checked_registrant_ids))
+
+        try:
+            to_be_admitted = selected_registrants.filter(
+                choosen_department__code=int(dept_code)
             )
-        
-        semester = Semester.objects.get(id=1)
-        batch = Batch.objects.get(id=batch_id)
+            if checked_registrant_ids:
+                to_be_admitted = AdmissionStudent.objects.filter(
+                    id__in=list(map(int, checked_registrant_ids))
+                )
+        except ValueError:
+            messages.add_message(
+                request,
+                messages.ERROR,
+                'Please select applicants to permit for admission.'
+            )
+            to_be_admitted = []
+
+        try:
+            # get first semester to admit in first semester.
+            semester_number = 1
+            semester = Semester.objects.get(number=semester_number)
+            batch = Batch.objects.get(id=batch_id)
+        except Semester.DoesNotExist:
+            messages.add_message(
+                request,
+                messages.ERROR,
+                f'Given semester number {semester_number} not found!'
+            )
+        except Batch.DoesNotExist:
+            messages.add_message(
+                request,
+                messages.ERROR,
+                'Please select/create a batch first.'
+            )
+
         students = []
         for candidate in to_be_admitted:
-            session = AcademicSession.objects.get(id=session_id)
+            try:
+                session = AcademicSession.objects.get(id=session_id)
+            except ValueError:
+                messages.add_message(
+                    request,
+                    messages.ERROR,
+                    'Please choose a valid session.'
+                )
             # If student.save() doesn't raise any exceptions, 
             # we save student, except, we skip making student object.
             try:
@@ -284,8 +313,7 @@ def add_student_view(request):
             # check student as offline registration
             student.application_type = '2'
             student.save()
-            pk = form.instance.pk
-            return redirect('students:student_details', pk=pk)
+            return redirect('students:all_applicants')
     else:
         form = StudentForm()
     context = {'form': form}
