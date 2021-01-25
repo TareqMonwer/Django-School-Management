@@ -79,6 +79,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'ckeditor',
     'ckeditor_uploader',
+    'mptt',
 ]
 
 SITE_ID = 1
