@@ -205,22 +205,6 @@
     </div>
   </div>
 
-  <!-- Pagination -->
-  <div class="clearfix">
-    {% if page_obj %}
-      {% if page_obj.has_next %}
-        <a class="btn btn-primary float-right" 
-          href="?page={{ page_obj.next_page_number }}">Older Posts &rarr;
-        </a>
-      {% endif %}
-      {% if page_obj.has_previous %}
-        <a class="btn btn-dark float-right" 
-          href="?page={{ page_obj.previous_page_number }}">Newer Posts &larr;
-        </a>
-      {% endif %}
-    {% endif %}
-  </div>
-
   <!-- Footer -->
   {% include 'articles/inc/_footer.html' %}
 
