@@ -1,5 +1,8 @@
-amqp==5.0.3
+amqp==5.0.2
 appdirs==1.4.3
+=======
+amqp==5.0.3
+>>>>>>> 63b6dd087f97aa37217aebebf546aa7e3fe96590
 arabic-reshaper==2.1.1
 autopep8==1.4.4
 beautifulsoup4==4.9.1
@@ -25,8 +28,6 @@ Django==2.2.13
 django-allauth==0.44.0
 django-autoslug==1.9.7
 django-braces==1.14.0
-django-celery-beat==2.2.0
-django-celery-results==2.0.1
 django-ckeditor==5.9.0
 django-crispy-forms==1.8.0
 django-debug-toolbar==2.1
@@ -36,11 +37,9 @@ django-extensions==3.1.0
 django-filter==2.4.0
 django-js-asset==1.2.2
 django-model-utils==4.1.1
-django-mptt==0.11.0
 django-rename-app==0.1.2
 django-role-permissions==2.2.1
 django-taggit==1.3.0
-django-timezone-field==4.1.1
 fake-factory==9999.9.9
 Faker==2.0.4
 future==0.18.2
@@ -51,8 +50,11 @@ jet-bridge-base==0.8.0
 jet-django==1.0.5
 kombu==5.0.2
 lockfile==0.12.2
-Markdown==3.2.2
+Markdown==3.3.3
 msgpack==0.6.2
+=======
+Markdown==3.2.2
+>>>>>>> 63b6dd087f97aa37217aebebf546aa7e3fe96590
 oauthlib==3.1.0
 packaging==20.3
 pep517==0.8.2
@@ -65,7 +67,6 @@ PyJWT==2.0.1
 pyparsing==2.4.6
 PyPDF2==1.26.0
 python-bidi==0.4.2
-python-crontab==2.5.1
 python-dateutil==2.8.1
 python-slugify==4.0.0
 python3-openid==3.2.0
