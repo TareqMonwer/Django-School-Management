@@ -1,13 +1,17 @@
-from random import choice
-from django.conf import settings
-from django.db import models
-from django.urls import reverse
-
+from mptt.models import MPTTModel, TreeForeignKey
 from autoslug import AutoSlugField
 from bs4 import BeautifulSoup
 from markdown import markdown
 from model_utils.models import TimeStampedModel
 from ckeditor_uploader.fields import RichTextUploadingField
+
+from random import choice
+
+from django.conf import settings
+from django.db import models
+from django.urls import reverse
+
+
 
 
 class PublishedManager(models.Manager):
@@ -28,6 +32,7 @@ class Article(TimeStampedModel):
     author = models.ForeignKey(settings.AUTH_USER_MODEL,
                                on_delete=models.CASCADE)
     content = RichTextUploadingField(config_name='default')
+    categories = models.ManyToManyField('Category', blank=True)
     status = models.CharField(max_length=10,
                               choices=STATUS_CHOICES,
                               default='draft')
@@ -60,3 +65,20 @@ class Like(TimeStampedModel):
 
     def __str__(self):
         return f'{self.user} liked this post'
+
+
+class Category(MPTTModel):
+    name = models.CharField(max_length=50, unique=True)
+    parent = TreeForeignKey(
+        'self', on_delete=models.CASCADE,
+        null=True, blank=True, related_name='children'
+    )
+
+    class MPTTMeta:
+        order_insertion_by = ['name']
+    
+    class Meta:
+        verbose_name_plural = 'categories'
+    
+    def __str__(self):
+        return self.name
