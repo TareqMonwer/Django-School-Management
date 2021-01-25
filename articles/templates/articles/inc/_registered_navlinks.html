@@ -1,0 +1,15 @@
+
+{% if registered_navlinks %}
+    {% for link in registered_navlinks %}
+        <li class="nav-item">
+            <a class="nav-link" href="#">{{ link }}</a>
+        </li>
+    {% endfor %}
+{% else %}
+    <li class="nav-item">
+    <a class="nav-link" href="#">Tech</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="#">Soft-Skills</a>
+    </li>
+{% endif %}

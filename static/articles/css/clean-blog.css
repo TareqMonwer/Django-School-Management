@@ -16,7 +16,7 @@ p {
 }
 
 p a {
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 h1,
@@ -305,7 +305,7 @@ header.masthead .post-heading .meta a {
 }
 
 .post-preview > .post-meta > a:focus, .post-preview > .post-meta > a:hover {
-  text-decoration: underline;
+  /* text-decoration: underline; */
   color: #0085A1;
 }
 
