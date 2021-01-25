@@ -1,0 +1,103 @@
+/* These styles are generated from project.scss. */
+/* GENERICS */
+.fsm {
+  font-size: 14px;
+}
+
+.category-name, .pub-date {
+  text-transform: uppercase;
+}
+
+.alert-debug {
+  color: black;
+  background-color: white;
+  border-color: #d6e9c6;
+}
+
+.alert-error {
+  color: #b94a48;
+  background-color: #f2dede;
+  border-color: #eed3d7;
+}
+
+.featured-articles {
+  position: relative;
+  background-color: rgb(255, 255, 255);
+}
+
+
+/* styles for larger than 960 */
+@media only screen and (min-width: 960px) {
+  .featured-articles {
+    margin-top: -15%;
+  }
+}
+
+/* styles for larger than 1500 */
+@media only screen and (min-width: 1500px) {
+  .featured-articles {
+    margin-top: -35%;
+  }
+}
+
+
+.large-article-container {
+  position: relative;
+  max-height: 500px;
+  overflow: hidden;
+}
+
+.large-article-container .overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-image: linear-gradient(221deg, rgba(0, 0, 0, 0), rgb(0, 0, 0) 30%);
+  z-index: 1;
+  opacity: 0.5;
+  border-radius: 5px;
+}
+
+.large-article-container .cover-image {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.large-article-container .cover-image .overlay-img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.large-article-container .main-content {
+  position: absolute;
+  bottom: 0;
+  padding: 40px;
+  color: #fff;
+  z-index: 2;
+}
+
+.large-article-container .main-content a {
+  color: #fff;
+}
+
+.article-card {
+  min-width: 33%;
+  position: relative;
+}
+
+.article-card img {
+  width: 100%;
+}
+
+.article-content {
+  margin-top: .8rem;
+}
+
+#dark-section a {
+  color: #fff;
+}
+
+#dark-section .article-content {
+  color: rgb(228, 228, 228);
+}

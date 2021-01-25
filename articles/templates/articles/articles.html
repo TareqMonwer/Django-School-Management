@@ -33,16 +33,17 @@
   {% endif %}
 
   <!-- Main Content -->
-  <div class="container mt-5">
+  <div class="container">
     <div class="row">
-    <div class="mt-5 col-lg-2 col-md-2 d-flex flex-column
-      justify-content-start align-items-center text-center">
-      <a href="{% url 'articles:create' %}" title="Publish new article">
+    <div class="col-lg-2 col-md-2 d-flex flex-column
+      justify-content-center align-items-center text-center">
+      <!-- <a href="{% url 'articles:create' %}" title="Publish new article">
         <i class="far fa-plus-square fa-3x"></i>
-      </a>
+      </a> -->
     </div>
-      <div class="col-lg-8 col-md-10 mx-auto mt-5">
-        {% for article in object_list %}
+      <div class="col-lg-12 col-md-12 mx-auto featured-articles rounded">
+        <!-- CORE BLOG DESIGN -->
+        <!-- {% for article in object_list %}
           <div class="post-preview">
             <a href="{% url 'articles:detail' article.slug %}">
               <h2 class="post-title">
@@ -57,8 +58,101 @@
               on {{ article.created }}</p>
           </div>
           <hr>
-        {% endfor %}
-        <!-- Pager -->
+        {% endfor %} -->
+
+        <div class="row p-4 featured-items-card">
+          <div class="col-sm-12 col-md-8 featured-latest rounded">
+            <div class="large-article rounded">
+              <a href="">
+                <div class="large-article-container rounded">
+                  <div class="overlay"></div>
+                  <div class="cover-image">
+                    <img src="https://picsum.photos/800" alt="" class="overlay-img">
+                  </div>
+                  <div class="main-content">
+                    <small class="category-name">
+                      <a href="">
+                        Category name
+                      </a>
+                    </small>
+                    <h4>
+                      <a href="">
+                        Tilte of the article
+                      </a>
+                    </h4>
+                    <br>
+                    <small class="pub-date">19 JAN 2020</small>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-4 featured-latest-list">
+            <div class="section-title mb-5">
+              <h4><i class="fas fa-sun ml-3"></i> Latest Articles</h4>
+            </div>
+            <div class="featured-latest-list--container">
+              <div class="featured-article d-flex mb-4">
+                <a href="">
+                  <img src="https://picsum.photos/120" max-height="70" alt="" class="rounded">
+                </a>
+                <div class="article-content p-2">
+                  <small class="category-name">
+                    <a href="">
+                      category
+                    </a>
+                  </small>
+                  <p class="mt-1"><b>
+                    <a href="">
+                      Article Title
+                    </a>
+                  </b></p>
+                </div>
+              </div>
+
+              <div class="featured-article d-flex mb-4">
+                <a href="">
+                  <img src="https://picsum.photos/120" max-height="70" alt="" class="rounded">
+                </a>
+                <div class="article-content p-2">
+                  <small class="category-name">
+                    <a href="">
+                      category
+                    </a>
+                  </small>
+                  <p class="mt-1"><b>
+                    <a href="">
+                      Article Title
+                    </a>
+                  </b></p>
+                </div>
+              </div>
+
+              <div class="featured-article d-flex mb-4">
+                <a href="">
+                  <img src="https://picsum.photos/120" max-height="70" alt="" class="rounded">
+                </a>
+                <div class="article-content p-2">
+                  <small class="category-name">
+                    <a href="">
+                      category
+                    </a>
+                  </small>
+                  <p class="mt-1"><b>
+                    <a href="">
+                      Article Title
+                    </a>
+                  </b></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+        
+        
+        <!-- Pagination -->
         <div class="clearfix">
           {% if page_obj %}
             {% if page_obj.has_next %}
@@ -75,7 +169,256 @@
         </div>
       </div>
     </div>
+
+    <div class="row p-4">
+      <div class="col-sm-12 col-md-3 mb-5">
+        <a href="">
+          <div class="article-card rounded">
+            <img src="{{last_article.featured_image.url}}" alt="" class="rounded">
+            <div class="article-content">
+              <small class="category-name">
+                <a href="">Category</a>
+              </small>
+              <p class="my-1">
+                <b>This is an article title broh</b>
+              </p>
+              <div class="metadata d-flex justify-content-between pr-4">
+                <small class="fsm muted mr-3">23 JAN 2020</small>
+                <small class="fsm muted">1500 VIEWS</small>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="col-sm-12 col-md-3 mb-5">
+        <a href="">
+          <div class="article-card rounded">
+            <img src="{{last_article.featured_image.url}}" alt="" class="rounded">
+            <div class="article-content">
+              <small class="category-name">
+                <a href="">Category</a>
+              </small>
+              <p class="my-1">
+                <b>This is an article title broh</b>
+              </p>
+              <div class="metadata d-flex justify-content-between pr-4">
+                <small class="fsm muted mr-3">23 JAN 2020</small>
+                <small class="fsm muted">1500 VIEWS</small>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="col-sm-12 col-md-3 mb-5">
+        <a href="">
+          <div class="article-card rounded">
+            <img src="{{last_article.featured_image.url}}" alt="" class="rounded">
+            <div class="article-content">
+              <small class="category-name">
+                <a href="">Category</a>
+              </small>
+              <p class="my-1">
+                <b>This is an article title broh</b>
+              </p>
+              <div class="metadata d-flex justify-content-between pr-4">
+                <small class="fsm muted mr-3">23 JAN 2020</small>
+                <small class="fsm muted">1500 VIEWS</small>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="col-sm-12 col-md-3 mb-5">
+        <a href="">
+          <div class="article-card rounded">
+            <img src="{{last_article.featured_image.url}}" alt="" class="rounded">
+            <div class="article-content">
+              <small class="category-name">
+                <a href="">Category</a>
+              </small>
+              <p class="my-1">
+                <b>This is an article title broh</b>
+              </p>
+              <div class="metadata d-flex justify-content-between pr-4">
+                <small class="fsm muted mr-3">23 JAN 2020</small>
+                <small class="fsm muted">1500 VIEWS</small>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="col-sm-12 col-md-3 mb-5">
+        <a href="">
+          <div class="article-card rounded">
+            <img src="{{last_article.featured_image.url}}" alt="" class="rounded">
+            <div class="article-content">
+              <small class="category-name">
+                <a href="">Category</a>
+              </small>
+              <p class="my-1">
+                <b>This is an article title broh</b>
+              </p>
+              <div class="metadata d-flex justify-content-between pr-4">
+                <small class="fsm muted mr-3">23 JAN 2020</small>
+                <small class="fsm muted">1500 VIEWS</small>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="col-sm-12 col-md-3 mb-5">
+        <a href="">
+          <div class="article-card rounded">
+            <img src="{{last_article.featured_image.url}}" alt="" class="rounded">
+            <div class="article-content">
+              <small class="category-name">
+                <a href="">Category</a>
+              </small>
+              <p class="my-1">
+                <b>This is an article title broh</b>
+              </p>
+              <div class="metadata d-flex justify-content-between pr-4">
+                <small class="fsm muted mr-3">23 JAN 2020</small>
+                <small class="fsm muted">1500 VIEWS</small>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="col-sm-12 col-md-3 mb-5">
+        <a href="">
+          <div class="article-card rounded">
+            <img src="{{last_article.featured_image.url}}" alt="" class="rounded">
+            <div class="article-content">
+              <small class="category-name">
+                <a href="">Category</a>
+              </small>
+              <p class="my-1">
+                <b>This is an article title broh</b>
+              </p>
+              <div class="metadata d-flex justify-content-between pr-4">
+                <small class="fsm muted mr-3">23 JAN 2020</small>
+                <small class="fsm muted">1500 VIEWS</small>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="col-sm-12 col-md-3 mb-5">
+        <a href="">
+          <div class="article-card rounded">
+            <img src="{{last_article.featured_image.url}}" alt="" class="rounded">
+            <div class="article-content">
+              <small class="category-name">
+                <a href="">Category</a>
+              </small>
+              <p class="my-1">
+                <b>This is an article title broh</b>
+              </p>
+              <div class="metadata d-flex justify-content-between pr-4">
+                <small class="fsm muted mr-3">23 JAN 2020</small>
+                <small class="fsm muted">1500 VIEWS</small>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
   </div>
+
+  <section id="dark-section" style="background-color: #000;">
+    <div class="container py-4">
+      <h3 class="text-light mb-3">Highlighted & Most Reached</h3>
+      <div class="row">
+        <div class="col-sm-12 col-md-3">
+          <a href="">
+            <div class="article-card rounded">
+              <img src="{{last_article.featured_image.url}}" alt="" class="rounded">
+              <div class="article-content">
+                <small class="category-name">
+                  <a href="">Category</a>
+                </small>
+                <p class="my-1">
+                  <b>This is an article title broh</b>
+                </p>
+                <div class="metadata d-flex justify-content-between pr-4">
+                  <small class="fsm muted mr-3">23 JAN 2020</small>
+                  <small class="fsm muted">1500 VIEWS</small>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-sm-12 col-md-3">
+          <a href="">
+            <div class="article-card rounded">
+              <img src="{{last_article.featured_image.url}}" alt="" class="rounded">
+              <div class="article-content">
+                <small class="category-name">
+                  <a href="">Category</a>
+                </small>
+                <p class="my-1">
+                  <b>This is an article title broh</b>
+                </p>
+                <div class="metadata d-flex justify-content-between pr-4">
+                  <small class="fsm muted mr-3">23 JAN 2020</small>
+                  <small class="fsm muted">1500 VIEWS</small>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-sm-12 col-md-3">
+          <a href="">
+            <div class="article-card rounded">
+              <img src="{{last_article.featured_image.url}}" alt="" class="rounded">
+              <div class="article-content">
+                <small class="category-name">
+                  <a href="">Category</a>
+                </small>
+                <p class="my-1">
+                  <b>This is an article title broh</b>
+                </p>
+                <div class="metadata d-flex justify-content-between pr-4">
+                  <small class="fsm muted mr-3">23 JAN 2020</small>
+                  <small class="fsm muted">1500 VIEWS</small>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-sm-12 col-md-3">
+          <a href="">
+            <div class="article-card rounded">
+              <img src="{{last_article.featured_image.url}}" alt="" class="rounded">
+              <div class="article-content">
+                <small class="category-name">
+                  <a href="">Category</a>
+                </small>
+                <p class="my-1">
+                  <b>This is an article title broh</b>
+                </p>
+                <div class="metadata d-flex justify-content-between pr-4">
+                  <small class="fsm muted mr-3">23 JAN 2020</small>
+                  <small class="fsm muted">1500 VIEWS</small>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <hr>
 
