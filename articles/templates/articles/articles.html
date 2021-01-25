@@ -61,13 +61,15 @@
         {% endfor %} -->
 
         <div class="row p-4 featured-items-card">
+          <!-- Large Featured Article -->
           <div class="col-sm-12 col-md-8 featured-latest rounded">
             <div class="large-article rounded">
-              <a href="">
+              <a href="{{ latest_featured_article.get_absolute_url }}">
                 <div class="large-article-container rounded">
                   <div class="overlay"></div>
                   <div class="cover-image">
-                    <img src="https://picsum.photos/800" alt="" class="overlay-img">
+                    <img src="{{ latest_featured_article.featured_image.url }}" 
+                    alt=" {{ latest_featured_article }}" class="overlay-img">
                   </div>
                   <div class="main-content">
                     <small class="category-name">
@@ -76,25 +78,31 @@
                       </a>
                     </small>
                     <h4>
-                      <a href="">
-                        Tilte of the article
+                      <a href="{{ latest_featured_article.get_absolute_url }}">
+                        {{ latest_featured_article }}
                       </a>
                     </h4>
                     <br>
-                    <small class="pub-date">19 JAN 2020</small>
+                    <small class="pub-date">
+                      {{latest_featured_article.created}}
+                    </small>
                   </div>
                 </div>
               </a>
             </div>
           </div>
-          <div class="col-sm-12 col-md-4 featured-latest-list">
+          <!-- Last three artilces -->
+          <div class="col-sm-12 col-md-4 d-flex featured-latest-list">
             <div class="section-title mb-5">
               <h4><i class="fas fa-sun ml-3"></i> Latest Articles</h4>
             </div>
-            <div class="featured-latest-list--container">
-              <div class="featured-article d-flex mb-4">
-                <a href="">
-                  <img src="https://picsum.photos/120" max-height="70" alt="" class="rounded">
+            <div class="d-flex flex-column justify-content-between
+               featured-latest-list--container">
+              {% for article in last_three_articles %}
+              <div class="featured-article d-flex">
+                <a href="{{ article.get_absolute_url }}">
+                  <img src="{{ article.featured_image.url }}" 
+                  width="120" height="110" alt="" class="rounded">
                 </a>
                 <div class="article-content p-2">
                   <small class="category-name">
@@ -103,233 +111,46 @@
                     </a>
                   </small>
                   <p class="mt-1"><b>
-                    <a href="">
-                      Article Title
+                    <a href="{{ article.get_absolute_url }}">
+                      {{ article.title }}
                     </a>
                   </b></p>
                 </div>
               </div>
-
-              <div class="featured-article d-flex mb-4">
-                <a href="">
-                  <img src="https://picsum.photos/120" max-height="70" alt="" class="rounded">
-                </a>
-                <div class="article-content p-2">
-                  <small class="category-name">
-                    <a href="">
-                      category
-                    </a>
-                  </small>
-                  <p class="mt-1"><b>
-                    <a href="">
-                      Article Title
-                    </a>
-                  </b></p>
-                </div>
-              </div>
-
-              <div class="featured-article d-flex mb-4">
-                <a href="">
-                  <img src="https://picsum.photos/120" max-height="70" alt="" class="rounded">
-                </a>
-                <div class="article-content p-2">
-                  <small class="category-name">
-                    <a href="">
-                      category
-                    </a>
-                  </small>
-                  <p class="mt-1"><b>
-                    <a href="">
-                      Article Title
-                    </a>
-                  </b></p>
-                </div>
-              </div>
+              {% endfor %}
             </div>
           </div>
         </div>
-        
-        
-        
-        
-        <!-- Pagination -->
-        <div class="clearfix">
-          {% if page_obj %}
-            {% if page_obj.has_next %}
-              <a class="btn btn-primary float-right" 
-                href="?page={{ page_obj.next_page_number }}">Older Posts &rarr;
-              </a>
-            {% endif %}
-            {% if page_obj.has_previous %}
-              <a class="btn btn-dark float-right" 
-                href="?page={{ page_obj.previous_page_number }}">Newer Posts &larr;
-              </a>
-            {% endif %}
-          {% endif %}
-        </div>
+
       </div>
     </div>
 
     <div class="row p-4">
-      <div class="col-sm-12 col-md-3 mb-5">
-        <a href="">
-          <div class="article-card rounded">
-            <img src="{{last_article.featured_image.url}}" alt="" class="rounded">
-            <div class="article-content">
-              <small class="category-name">
-                <a href="">Category</a>
-              </small>
-              <p class="my-1">
-                <b>This is an article title broh</b>
-              </p>
-              <div class="metadata d-flex justify-content-between pr-4">
-                <small class="fsm muted mr-3">23 JAN 2020</small>
-                <small class="fsm muted">1500 VIEWS</small>
+      {% for article in articles %}
+        <div class="col-sm-12 col-md-3 mb-5">
+          <a href="{{ article.get_absolute_url }}">
+            <div class="article-card rounded">
+              <img src="{{article.featured_image.url}}" alt="" class="rounded">
+              <div class="article-content">
+                <small class="category-name">
+                  <a href="">Category</a>
+                </small>
+                <p class="my-1">
+                  <b>
+                    <a href="{{ article.get_absolute_url }}">
+                      {{ article.title }}
+                    </a>
+                  </b>
+                </p>
+                <div class="metadata d-flex justify-content-between pr-4">
+                  <small class="fsm muted mr-3">{{ article.created }}</small>
+                  <!-- <small class="fsm muted">1500 VIEWS</small> -->
+                </div>
               </div>
             </div>
-          </div>
-        </a>
-      </div>
-
-      <div class="col-sm-12 col-md-3 mb-5">
-        <a href="">
-          <div class="article-card rounded">
-            <img src="{{last_article.featured_image.url}}" alt="" class="rounded">
-            <div class="article-content">
-              <small class="category-name">
-                <a href="">Category</a>
-              </small>
-              <p class="my-1">
-                <b>This is an article title broh</b>
-              </p>
-              <div class="metadata d-flex justify-content-between pr-4">
-                <small class="fsm muted mr-3">23 JAN 2020</small>
-                <small class="fsm muted">1500 VIEWS</small>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <div class="col-sm-12 col-md-3 mb-5">
-        <a href="">
-          <div class="article-card rounded">
-            <img src="{{last_article.featured_image.url}}" alt="" class="rounded">
-            <div class="article-content">
-              <small class="category-name">
-                <a href="">Category</a>
-              </small>
-              <p class="my-1">
-                <b>This is an article title broh</b>
-              </p>
-              <div class="metadata d-flex justify-content-between pr-4">
-                <small class="fsm muted mr-3">23 JAN 2020</small>
-                <small class="fsm muted">1500 VIEWS</small>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <div class="col-sm-12 col-md-3 mb-5">
-        <a href="">
-          <div class="article-card rounded">
-            <img src="{{last_article.featured_image.url}}" alt="" class="rounded">
-            <div class="article-content">
-              <small class="category-name">
-                <a href="">Category</a>
-              </small>
-              <p class="my-1">
-                <b>This is an article title broh</b>
-              </p>
-              <div class="metadata d-flex justify-content-between pr-4">
-                <small class="fsm muted mr-3">23 JAN 2020</small>
-                <small class="fsm muted">1500 VIEWS</small>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <div class="col-sm-12 col-md-3 mb-5">
-        <a href="">
-          <div class="article-card rounded">
-            <img src="{{last_article.featured_image.url}}" alt="" class="rounded">
-            <div class="article-content">
-              <small class="category-name">
-                <a href="">Category</a>
-              </small>
-              <p class="my-1">
-                <b>This is an article title broh</b>
-              </p>
-              <div class="metadata d-flex justify-content-between pr-4">
-                <small class="fsm muted mr-3">23 JAN 2020</small>
-                <small class="fsm muted">1500 VIEWS</small>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <div class="col-sm-12 col-md-3 mb-5">
-        <a href="">
-          <div class="article-card rounded">
-            <img src="{{last_article.featured_image.url}}" alt="" class="rounded">
-            <div class="article-content">
-              <small class="category-name">
-                <a href="">Category</a>
-              </small>
-              <p class="my-1">
-                <b>This is an article title broh</b>
-              </p>
-              <div class="metadata d-flex justify-content-between pr-4">
-                <small class="fsm muted mr-3">23 JAN 2020</small>
-                <small class="fsm muted">1500 VIEWS</small>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <div class="col-sm-12 col-md-3 mb-5">
-        <a href="">
-          <div class="article-card rounded">
-            <img src="{{last_article.featured_image.url}}" alt="" class="rounded">
-            <div class="article-content">
-              <small class="category-name">
-                <a href="">Category</a>
-              </small>
-              <p class="my-1">
-                <b>This is an article title broh</b>
-              </p>
-              <div class="metadata d-flex justify-content-between pr-4">
-                <small class="fsm muted mr-3">23 JAN 2020</small>
-                <small class="fsm muted">1500 VIEWS</small>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <div class="col-sm-12 col-md-3 mb-5">
-        <a href="">
-          <div class="article-card rounded">
-            <img src="{{last_article.featured_image.url}}" alt="" class="rounded">
-            <div class="article-content">
-              <small class="category-name">
-                <a href="">Category</a>
-              </small>
-              <p class="my-1">
-                <b>This is an article title broh</b>
-              </p>
-              <div class="metadata d-flex justify-content-between pr-4">
-                <small class="fsm muted mr-3">23 JAN 2020</small>
-                <small class="fsm muted">1500 VIEWS</small>
-              </div>
-            </div>
-          </div>
-        </a>
-      </div>
+          </a>
+        </div>
+      {% endfor %}
     </div>
   </div>
 
@@ -419,6 +240,22 @@
       </div>
     </div>
   </section>
+
+  <!-- Pagination -->
+  <div class="clearfix">
+    {% if page_obj %}
+      {% if page_obj.has_next %}
+        <a class="btn btn-primary float-right" 
+          href="?page={{ page_obj.next_page_number }}">Older Posts &rarr;
+        </a>
+      {% endif %}
+      {% if page_obj.has_previous %}
+        <a class="btn btn-dark float-right" 
+          href="?page={{ page_obj.previous_page_number }}">Newer Posts &larr;
+        </a>
+      {% endif %}
+    {% endif %}
+  </div>
 
   <hr>
 

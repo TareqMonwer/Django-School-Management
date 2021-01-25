@@ -32,6 +32,7 @@ class Article(TimeStampedModel):
     author = models.ForeignKey(settings.AUTH_USER_MODEL,
                                on_delete=models.CASCADE)
     content = RichTextUploadingField(config_name='default')
+    is_featured = models.BooleanField(default=False)
     categories = TreeManyToManyField('Category', blank=True)
     status = models.CharField(max_length=10,
                               choices=STATUS_CHOICES,
@@ -42,7 +43,7 @@ class Article(TimeStampedModel):
     likes = models.ManyToManyField('Like', related_name='article_liked', blank=True)
 
     class Meta:
-        ordering = ['created']
+        ordering = ['-created']
         get_latest_by = "created"
 
     def __str__(self):

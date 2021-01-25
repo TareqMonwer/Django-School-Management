@@ -21,16 +21,26 @@ class ArticleList(ListView):
     Returns a list of published articles.
     """
     model = Article
+    context_object_name = 'articles'
     paginate_by = 10
     template_name = 'articles/articles.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         try:
-            last_article = Article.published.latest()
+            last_article = Article.published.order_by('-created')[0]
+            last_three_articles = Article.published.order_by('created')[:3]
+            latest_featured_article = Article.published.filter(
+                is_featured=True)[0]
+            # print(latest_featured_article)
         except Article.DoesNotExist:
-            last_article = None
+            # last_article = None
+            # last_three_articles = None
+            # latest_featured_article = None
+            pass
         context['last_article'] = last_article
+        context['last_three_articles'] = last_three_articles
+        context['latest_featured_article'] = latest_featured_article
         return context
 
     def get_queryset(self):
