@@ -37,6 +37,7 @@ DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = [
     '0.0.0.0',
+    'http://192.53.112.163/',
     '127.0.0.1',
     'localhost',
     'mysite.com',
