@@ -1,5 +1,8 @@
 amqp==5.0.2
 appdirs==1.4.3
+=======
+amqp==5.0.3
+>>>>>>> 63b6dd087f97aa37217aebebf546aa7e3fe96590
 arabic-reshaper==2.1.1
 autopep8==1.4.4
 beautifulsoup4==4.9.1
@@ -49,7 +52,9 @@ kombu==5.0.2
 lockfile==0.12.2
 Markdown==3.3.3
 msgpack==0.6.2
+=======
 Markdown==3.2.2
+>>>>>>> 63b6dd087f97aa37217aebebf546aa7e3fe96590
 oauthlib==3.1.0
 packaging==20.3
 pep517==0.8.2

@@ -3,6 +3,7 @@ from collections import OrderedDict
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
+from django.template.response import SimpleTemplateResponse
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, UpdateView
 from django.contrib.auth.decorators import user_passes_test
@@ -63,7 +64,8 @@ def students_dashboard_index(request):
         'rejected_applicants': rejected_applicants,
         'month_list': month_list,
     }
-    return render(request, 'students/dashboard_index.html', context)
+    template = SimpleTemplateResponse('students/dashboard_index.html', context)
+    return template.render()
 
 
 @user_passes_test(user_is_admin_su_or_ac_officer)
