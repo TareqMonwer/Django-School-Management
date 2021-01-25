@@ -70,10 +70,12 @@ class Like(TimeStampedModel):
 
 class Category(MPTTModel):
     name = models.CharField(max_length=50, unique=True)
+    display_on_menu = models.BooleanField(default=False)
     parent = TreeForeignKey(
         'self', on_delete=models.CASCADE,
         null=True, blank=True, related_name='children'
     )
+    created = models.DateField(auto_now_add=True, blank=True, null=True)
 
     class MPTTMeta:
         order_insertion_by = ['name']

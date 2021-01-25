@@ -101,6 +101,11 @@
   color: #fff;
 }
 
+#dark-section .category-name {
+  display: inline-block;
+  margin-top: .8rem;
+}
+
 #dark-section .article-content {
   color: rgb(228, 228, 228);
 }
@@ -111,6 +116,19 @@
   margin-top: -10%;
 }
 
+
+/* FOOTER */
+footer {
+  font-size: 16px;
+  text-align: left;
+}
+footer .widget-title h4{
+  font-size: 20px;
+}
+footer .copyright{
+  text-align: left;
+  text-transform: uppercase;
+}
 /* MEIDA QUERIES */
 /* styles for smaller than 425 */
 @media screen and (min-device-width: 300px) and (max-device-width: 425px) {
@@ -127,6 +145,11 @@
 
 /* styles for larger than 960 */
 @media only screen and (min-width: 960px) {
+  .featured-latest {
+    margin-left: 0;
+    padding-left: 0;
+  }
+
   .featured-articles {
     margin-top: -15%;
   }
