@@ -1,26 +1,18 @@
 from mptt.admin import MPTTModelAdmin
+from mptt.models import TreeManyToManyField
+from django.forms import CheckboxSelectMultiple
 from django.contrib import admin
-# from import_export import resources
-# from import_export.admin import ImportExportModelAdmin
 
 from .models import Article, Like, Category
 
 
-
-# # Resources for import export.
-# class ArticleResource(resources.ModelResource):
-#     class Meta:
-#         model = Article
-
-
-# Admin classes.
-# class ArticleAdmin(ImportExportModelAdmin):
-#     list_display = ['title', 'author', 'status']
-#     resource_class = ArticleResource
-
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ['title', 'author', 'status']
     list_editable = ['status',]
+
+    formfield_overrides = {
+        TreeManyToManyField: {'widget': CheckboxSelectMultiple},
+    }
 
 
 class CategoryAdmin(MPTTModelAdmin):

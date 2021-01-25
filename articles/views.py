@@ -11,6 +11,7 @@ from django.views.generic import (
 
 from .models import Article, Like
 from .mixins import AuthorArticleEditMixin
+from .forms import ArticleForm
 from permission_handlers.administrative import user_is_teacher_or_administrative
 
 
@@ -56,9 +57,13 @@ class ArticleDetail(DetailView):
         return context
 
 
-class ArticleCreate(AuthorArticleEditMixin, LoginRequiredMixin, UserPassesTestMixin, CreateView):
-    model = Article
-    fields = ['title', 'content', 'featured_image']
+class ArticleCreate(
+    AuthorArticleEditMixin, LoginRequiredMixin,
+    UserPassesTestMixin, CreateView):
+    # fields none need to set None to provide form_class
+    # because it has some value in AuthorArticleEditMixin.
+    fields = None
+    form_class = ArticleForm
 
     def test_func(self):
         user =  self.request.user
@@ -75,8 +80,8 @@ class ArticleCreate(AuthorArticleEditMixin, LoginRequiredMixin, UserPassesTestMi
 
 
 class ArticleUpdate(AuthorArticleEditMixin, UpdateView):
-    model = Article
-    fields = ['title', 'content', 'featured_image']
+    fields = None
+    form_class = ArticleForm
 
 
 class ArticleLike(LoginRequiredMixin, View):
