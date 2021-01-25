@@ -9,7 +9,7 @@ from django.views.generic import (
     CreateView, UpdateView
 )
 
-from .models import Article, Like
+from .models import Article, Like, Category
 from .mixins import AuthorArticleEditMixin
 from .forms import ArticleForm
 from permission_handlers.administrative import user_is_teacher_or_administrative
@@ -46,6 +46,24 @@ class ArticleList(ListView):
     def get_queryset(self):
         qs = Article.published.select_related('author').select_related().all()
         return qs
+
+
+class CategoryArticles(ListView):
+    context_object_name = 'articles'
+    template_name = 'articles/category_articles.html'
+
+    def get_queryset(self):
+        slug = self.kwargs.get('slug')
+        category = Category.objects.get(slug=slug)
+        articles = category.article_set.all()
+        return articles
+    
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        slug = self.kwargs.get('slug')
+        category = Category.objects.get(slug=slug)
+        ctx['category'] = category
+        return ctx
 
 
 class ArticleDetail(DetailView):

@@ -1,8 +1,10 @@
 
 {% if registered_navlinks %}
-    {% for link in registered_navlinks %}
+    {% for category in registered_navlinks %}
         <li class="nav-item">
-            <a class="nav-link" href="#">{{ link }}</a>
+            <a class="nav-link" href="{{ category.get_absolute_url }}">
+                {{ category }}
+            </a>
         </li>
     {% endfor %}
 {% else %}

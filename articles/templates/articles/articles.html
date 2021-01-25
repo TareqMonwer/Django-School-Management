@@ -116,7 +116,9 @@
               <img src="{{article.featured_image.url}}" alt="" class="rounded">
               <div class="article-content">
                 <small class="category-name">
-                  <a href="">Category</a>
+                  <a href="{{ article.categories.first.get_absolute_url }}">
+                    {{ article.categories.first }}
+                  </a>
                 </small>
                 <p class="my-1">
                   <b>

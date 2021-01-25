@@ -116,6 +116,8 @@
   margin-top: -10%;
 }
 
+/* CATEGORY ARTICLES */
+
 
 /* FOOTER */
 footer {
@@ -156,6 +158,12 @@ footer .copyright{
   .article-form {
     margin-top: -10%;
   }
+
+  /* Category Articles */
+  #category-articles {
+    position: relative;
+    margin-top: -10%;
+  }
 }
 
 /* styles for larger than 1500 */
@@ -165,5 +173,11 @@ footer .copyright{
   }
   .article-form {
     margin-top: -20%;
+  }
+
+  /* Category Articles */
+  #category-articles {
+    position: relative;
+    margin-top: -25%;
   }
 }

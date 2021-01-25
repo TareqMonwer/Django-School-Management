@@ -7,11 +7,11 @@ def attach_institute_data_ctx_processor(request):
     ctx = {
         'request_institute': institute,
     }
-    if 'articles' in request.resolver_match._func_path:
+    if 'articles' in request.resolver_match._func_path.split('.'):
         # If request is coming for articles app's views,
         # only then pass registered_navlinks in the context.
         registered_navlinks = Category.objects.filter(
             display_on_menu=True,
         ).order_by('-created')
-        ctx['article_navlinks'] = registered_navlinks
+        ctx['registered_navlinks'] = registered_navlinks
     return ctx

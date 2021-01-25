@@ -75,6 +75,10 @@ class Category(MPTTModel):
         'self', on_delete=models.CASCADE,
         null=True, blank=True, related_name='children'
     )
+    slug = AutoSlugField(
+        "Category Link", unique=True,
+        always_update=False, populate_from='name'
+    )
     created = models.DateField(auto_now_add=True, blank=True, null=True)
 
     class MPTTMeta:
@@ -85,3 +89,8 @@ class Category(MPTTModel):
     
     def __str__(self):
         return self.name
+    
+    def get_absolute_url(self):
+        return reverse(
+            'articles:category_articles', kwargs={'slug': self.slug}
+        )
