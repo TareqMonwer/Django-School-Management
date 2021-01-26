@@ -28,7 +28,27 @@
   background-color: #f2dede;
   border-color: #eed3d7;
 }
+/* social share */
+.social-share {
+  width: 65%;
+}
+.share {
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+    background: linear-gradient(116deg, black, transparent);
+}
+.share a {
+    margin-left: .5rem;
+    color: #fff;
+}
+.share .pinterest-this span {
+  color: #E60023;
+}
 
+/* ********************************************** */
+/*                   ARTICLES PAGE                */
+/* ********************************************** */
 .featured-articles {
   position: relative;
   background-color: rgb(255, 255, 255);
@@ -131,9 +151,26 @@ footer .copyright{
   text-align: left;
   text-transform: uppercase;
 }
+
+
 /* MEIDA QUERIES */
+
+@media screen and (max-width: 768px) {
+  .social-share {
+    width: 77%;
+  }
+  .article-detail {
+    margin-top: -35%;
+  }
+}
+
 /* styles for smaller than 425 */
-@media screen and (min-device-width: 300px) and (max-device-width: 425px) {
+@media screen and (min-device-width: 300px) and (max-device-width: 426px) {
+  .social-share {
+    width: 30%;
+    flex-direction: column;
+  }
+
   header.masthead .page-heading h1,
   header.masthead .site-heading h1 {
     font-size: 30px;
@@ -143,7 +180,12 @@ footer .copyright{
     margin-top: 2rem;
     margin-bottom: 1rem !important;
   }
+
+  .article-detail {
+    margin-top: -95%;
+  }
 }
+
 
 /* styles for larger than 960 */
 @media only screen and (min-width: 960px) {
@@ -159,6 +201,10 @@ footer .copyright{
     margin-top: -10%;
   }
 
+  .article-detail {
+    margin-top: -35%;
+  }
+
   /* Category Articles */
   #category-articles {
     position: relative;
@@ -166,8 +212,8 @@ footer .copyright{
   }
 }
 
-/* styles for larger than 1500 */
-@media only screen and (min-width: 1500px) {
+/* styles for larger than 1440px */
+@media only screen and (min-width: 1440px) {
   .featured-articles {
     margin-top: -35%;
   }
@@ -175,6 +221,9 @@ footer .copyright{
     margin-top: -20%;
   }
 
+  .article-detail {
+    margin-top: -15%;
+  }
   /* Category Articles */
   #category-articles {
     position: relative;

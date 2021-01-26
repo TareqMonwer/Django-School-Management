@@ -1,4 +1,5 @@
 {% extends 'articles/base.html' %}
+{% load social_share %}
 
 {% block content %}
   <!-- Page Header -->
@@ -33,7 +34,35 @@
                   {{ object.author.username }}
                 {% endif %}
               </a>
-              at {{object.created}}</span>
+              at {{object.created}}
+            </span>
+            <div class="social-share d-flex justify-content-around
+              mt-5">
+              <div class="share badge border p-2">
+                <i class="fab fa-facebook-square"></i>
+                {% post_to_facebook object.get_absolute_url "share" %}
+              </div>
+              <div class="share badge border p-2">
+                <i class="fab fa-twitter-square"></i>
+                {% post_to_twitter object.get_absolute_url "share-class" "share" %}
+              </div>
+              <!-- <div class="share badge border p-2">
+                <i class="fas fa-at"></i>
+                {% send_email "Article" object.title object.get_absolute_url "-" "share-class" %}
+              </div> -->
+              <div class="share badge border p-2">
+                <i class="fab fa-whatsapp-square"></i>
+                {% post_to_whatsapp object.get_absolute_url "share" %}
+              </div>
+              <div class="share badge border p-2">
+                <i class="fab fa-reddit-square"></i>
+                {% post_to_reddit "New Article from {{ request_institute.name }}" object.get_absolute_url "share" %}
+              </div>
+              <div class="share badge border p-2">
+                <!-- <i class="fab fa-pinterest-square"></i> -->
+                {% save_to_pinterest object.get_absolute_url %}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -72,14 +101,15 @@
 
   <hr>
 
+  <!-- required for pinterest social sharing-->
+{% add_pinterest_script %}
   <!-- Fixed Action Buttons -->
   {% include 'articles/inc/_fixed_actions.html' %}
 
   <!-- Footer -->
   {% include 'articles/inc/_footer.html' %}
 
-{% endblock content %}
-
+{% endblock content %} 
 
 {% block pagejs %}
 
