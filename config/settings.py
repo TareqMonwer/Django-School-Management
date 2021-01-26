@@ -81,6 +81,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'mptt',
+    'django_social_share',
 ]
 
 SITE_ID = 1
