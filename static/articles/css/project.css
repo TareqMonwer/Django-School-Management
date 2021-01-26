@@ -187,6 +187,41 @@ footer .copyright{
   }
 }
 
+/* ******************************************************** */
+/*                  AUTHOR PROFILE PAGE                     */ 
+/* ******************************************************** */
+.profile-header {
+  background-image: linear-gradient(45deg, rgb(81 81 84 / 52%), rgb(16 16 16 / 73%)),
+    url(https://picsum.photos/1800);
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.profile-header-container {
+  position: relative;
+}
+
+.header-container {
+  height: 50vh;
+}
+
+.profile-card {
+  position: relative;
+  top: -25vh;
+}
+
+.author-descriptions {margin-top: 1.5rem;}
+.auth-desc-item {
+  font-size: 1rem;
+  display: flex;
+}
+.auth-desc-item:not(:last-child) {margin-bottom: .8rem}
+.auth-desc-item .adi-text {
+  margin-left: .8rem;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
 
 /* styles for larger than 960 */
 @media only screen and (min-width: 960px) {

@@ -132,6 +132,24 @@
 
       <!-- place project specific Javascript in this file -->
       <script src="{% static 'articles/js/project.js' %}"></script>
+      <script>
+      (function(){
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.body.offsetHeight;
+        const siteNav = document.querySelector('.hero-area .navbar');
+        console.log(`wh: ${windowHeight}, dh: ${documentHeight}`);
+
+        if (documentHeight <= windowHeight) {
+          console.log('content is not large enough');
+          siteNav.classList.add('navbar-dark');
+          siteNav.classList.add('bg-dark');
+        } else {
+          console.log('content is large enough');
+          siteNav.classList.add('navbar-inverse');
+        }
+      })();
+    </script>
+    {% block extra_js %}{% endblock %}
     {% endblock javascript %}
 
     {% block pagejs %}{% endblock %}
