@@ -39,6 +39,7 @@ django-model-utils==4.1.1
 django-mptt==0.11.0
 django-rename-app==0.1.2
 django-role-permissions==2.2.1
+django-social-share==2.2.0
 django-taggit==1.3.0
 django-timezone-field==4.1.1
 fake-factory==9999.9.9
