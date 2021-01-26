@@ -22,7 +22,9 @@ body {
   overflow-x: hidden; }
 
 html {
-  overflow-x: hidden; }
+  overflow-x: hidden; 
+  min-height: 100vh;
+}
 
 p {
   font-size: 14px;
