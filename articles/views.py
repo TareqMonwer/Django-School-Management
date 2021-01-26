@@ -122,7 +122,7 @@ class ArticleLike(LoginRequiredMixin, View):
         return redirect(article.get_absolute_url())
 
 
-class AuthorProfile(LoginRequiredMixin, DetailView):
+class AuthorProfile(DetailView):
     context_object_name = 'author'
     model = User
     template_name = 'articles/author_profile.html'
