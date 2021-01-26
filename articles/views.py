@@ -6,9 +6,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views import View
 from django.views.generic import (
     ListView, DetailView,
-    CreateView, UpdateView
+    CreateView, UpdateView,
+    TemplateView
 )
 
+from accounts.models import User
 from .models import Article, Like, Category
 from .mixins import AuthorArticleEditMixin
 from .forms import ArticleForm
@@ -118,3 +120,12 @@ class ArticleLike(LoginRequiredMixin, View):
         article = Article.objects.get(slug=slug)
         Like.objects.create(user=user, article=article)
         return redirect(article.get_absolute_url())
+
+
+class AuthorProfile(LoginRequiredMixin, DetailView):
+    context_object_name = 'author'
+    model = User
+    template_name = 'articles/author_profile.html'
+    
+    def get_slug_field(self):
+        return 'username'

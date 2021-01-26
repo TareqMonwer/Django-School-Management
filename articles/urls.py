@@ -13,6 +13,10 @@ urlpatterns = [
         views.ArticleCreate.as_view(),
         name='create'
     ),
+    path('author/<str:slug>/',
+        views.AuthorProfile.as_view(),
+        name='author_profile'
+    ),
     path('<slug:slug>/update/',
         views.ArticleUpdate.as_view(),
         name='update'
