@@ -3,15 +3,15 @@
     <div class="row">
       <div class="col-sm-12 col-md-3 footer-widget widget1">
         <div class="widget-title">
-          <h4>About Us</h4>
+	  <h4>{{ first_widget }}</h4>
         </div>
         <div class="widget-content">
           <div class="wc widget-1-content">
             <div class="widget-content-wrapper">
               <div class="wcontent">
                 <div class="text-content">
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem nihil, doloribus eveniet quis quae ducimus fugit in enim pariatur possimus et vel veniam ad unde quidem sit.
-                </div>
+                  {{ first_widget.content|safe }}
+		</div>
               </div>
             </div>
             <div class="widget-content-wrapper mt-4">
@@ -23,63 +23,29 @@
         </div>
       </div>
 
+      {% for widget in list_widgets %}
       <div class="col-sm-12 col-md-3 list-widget footer-widget widget2">
         <div class="widget-title">
-          <h4>Our Concerns</h4>
+	  <h4>{{ widget.widget_title }}</h4>
         </div>
         <div class="widget-content">
           <div class="wc widget-2-content">
             <div class="widget-content-wrapper">
               <div class="wcontent">
                 <div class="links d-flex flex-column">
-                  <a href="" class="link text-light">Concern 1</a>
-                  <a href="" class="link text-light">Concern 2</a>
-                  <a href="" class="link text-light">Concern 3</a>
-                  <a href="" class="link text-light">Concern 4</a>
+		  {% for listitem in widget.widgetlistitem_set.all %}
+		    <a href="{{ listitem.link }}" class="link text-light">
+		      {{ listitem.text }}
+		    </a>
+		  {% endfor %}
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      {% endfor %}
 
-      <div class="col-sm-12 col-md-3 list-widget footer-widget widget3">
-        <div class="widget-title">
-          <h4>Important Links</h4>
-        </div>
-        <div class="widget-content">
-          <div class="wc widget-3-content">
-            <div class="widget-content-wrapper">
-              <div class="wcontent">
-                <div class="links d-flex flex-column">
-                  <a href="" class="link text-light">Important Link 1</a>
-                  <a href="" class="link text-light">Important Link 2</a>
-                  <a href="" class="link text-light">Important Link 3</a>
-                  <a href="" class="link text-light">Important Link 4</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-sm-12 col-md-3 contact-widget footer-widget widget4">
-        <div class="widget-title">
-          <h4>Get in touch</h4>
-        </div>
-        <div class="widget-content">
-          <div class="wc widget-4-content">
-            <div class="widget-content-wrapper">
-              <div class="wcontent">
-                <div class="contact">
-                  <div><b>Cell:</b> 01478520</div>
-                  <div><b>Email:</b> institute@mail.com</div>
-                  <div><b>WhatsApp:</b> 01478520</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
       <!-- Widgets end -->
