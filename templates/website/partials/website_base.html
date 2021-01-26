@@ -9,9 +9,11 @@
     <meta name="keywords" content="Bootstrap, Landing page, Template, Business, Service">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="author" content="Grayrids">
-    <title>SMS-LIO | Perfect School Management Solution</title>
+    <title>{{ request_institute.site_name }}</title>
     <!--====== Favicon Icon ======-->
-    <link rel="shortcut icon" href="{% static 'landing/img/2.png' %}" type="image/png">
+    <link rel="shortcut icon" 
+      href="{{ request_institute.favicon.url }}" 
+      type="image/png">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{% static 'landing/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'landing/css/animate.css' %}">
@@ -46,7 +48,9 @@
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 col-mb-12">
 
               <div class="footer-logo">
-               <img src="{% static 'landing/img/footer-logo.png' %}" alt="">
+               <img 
+               src="{% if request_institute.logo %}{{ request_institute.logo.url }}{% else %}{% static 'landing/img/footer-logo.png' %}{% endif %}" 
+               alt="{{ request_institute.name }}">
               </div>
             </div>
              <!-- End Col -->
@@ -153,7 +157,23 @@
     <script src="{% static 'landing/js/nivo-lightbox.js' %}"></script>
     <script src="{% static 'landing/js/jquery.magnific-popup.min.js' %}"></script>
     <script src="{% static 'landing/js/main.js' %}"></script>
+    <script>
+      (function(){
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.body.offsetHeight;
+        const siteNav = document.querySelector('.hero-area .navbar');
+        console.log(`wh: ${windowHeight}, dh: ${documentHeight}`);
 
+        if (documentHeight <= documentHeight) {
+          // console.log('content is not large enough');
+          siteNav.classList.add('navbar-dark');
+          siteNav.classList.add('bg-dark');
+        } else {
+          // console.log('content is large enough');
+          siteNav.classList.add('navbar-inverse');
+        }
+      })();
+    </script>
     {% block extra_js %}{% endblock %}
 
   </body>
