@@ -141,6 +141,7 @@
 
 /* FOOTER */
 footer {
+  position: relative;
   font-size: 16px;
   text-align: left;
 }
