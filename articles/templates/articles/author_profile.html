@@ -1,0 +1,18 @@
+{% extends 'articles/base.html' %}
+
+{% block content %}
+ 
+ {% for article in articles %}
+ 	<div class="shadow article-card">
+		<p>{{ article.title }}</p>
+	<div>
+ {% empty %}
+ 	<div class="empty-notice">
+		<h5>No articles</h5>
+	</div>
+ {% endfor %}
+  <!-- Footer -->
+  {% include 'articles/inc/_footer.html' %}
+
+{% endblock content %}
+
