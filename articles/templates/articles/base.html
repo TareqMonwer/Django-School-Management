@@ -72,7 +72,8 @@
               {% if request.user.is_authenticated %}
                 <li class="nav-item">
                   {# URL provided by django-allauth/account/urls.py #}
-                  <a class="nav-link" href="">
+                  <a class="nav-link" 
+                    href="{% url 'articles:author_profile' slug=user.username %}">
                     {% trans "My Profile" %}
                   </a>
                 </li>

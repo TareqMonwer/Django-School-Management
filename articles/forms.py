@@ -6,7 +6,7 @@ from .models import Article, Category
 class ArticleForm(forms.ModelForm):
     category = TreeNodeMultipleChoiceField(
         widget=forms.CheckboxSelectMultiple,
-        queryset=Category.objects.all(),
+        queryset=Category.objects.filter(children=None),
     )
 
     class Meta:
