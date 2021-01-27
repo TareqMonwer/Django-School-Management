@@ -46,6 +46,9 @@
   color: #E60023;
 }
 
+/* END OF GENERICS */
+
+
 /* ********************************************** */
 /*                   ARTICLES PAGE                */
 /* ********************************************** */
@@ -192,6 +195,7 @@ footer .copyright{
 
 /* MEIDA QUERIES */
 
+/* screens upto 768px */
 @media screen and (max-width: 768px) {
   .social-share {
     width: 77%;
@@ -223,9 +227,25 @@ footer .copyright{
   }
 }
 
+/* larger than 768 */
+@media screen and (min-device-width: 768px) {
+  /* NAVBAR */
+  #navbarResponsive .navbar-nav {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+  #navbarResponsive .navbar-nav .nav-item:not(:last-child) {
+    margin-right: 1rem;
+  }
+}
 
 /* styles for larger than 960 */
 @media only screen and (min-width: 960px) {
+  #mainNav .navbar-toggler {
+    border: 2px solid #fff;
+    color: #fff;
+  }
+
   .featured-latest {
     margin-left: 0;
     padding-left: 0;

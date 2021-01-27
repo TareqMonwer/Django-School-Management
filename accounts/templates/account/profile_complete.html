@@ -1,6 +1,6 @@
 {% extends 'website/partials/website_base.html' %} 
 {% load static %} 
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags %} 
 
 {% block main_content %}
 <!-- Header Section Start -->
@@ -15,18 +15,15 @@
       <!-- profile card -->
       <div class="col-md-4">
         <div class="card text-center">
-          <div class="card-header">
-            {{ user.get_approval_status_display }}
-          </div>
+          <div class="card-header">{{ user.get_approval_status_display }}</div>
           <div class="card-body d-flex">
-            <img
-              src="https://via.placeholder.com/150" 
-              width="150">
+            <img src="https://via.placeholder.com/150" width="150" />
             <div class="card-text align-self-end ml-3">
               <div class="text-left">
                 <h6>{{ request.user.username }}</h6>
                 <small>
-                  {{ request.user.email | default:"Please, add your email address" }}
+                  {{ request.user.email | default:"Please, add your email
+                  address" }}
                 </small>
               </div>
             </div>
@@ -37,32 +34,36 @@
       <!-- Profile Complete Form -->
       <div class="col-md-8">
         <div class="card p-3">
-          
           {% if user.approval_status != 'a' %}
-            <div class="alert alert-warning" role="alert">
-              Complete Your Profile to Get Started
-            </div>
-          {% endif %}
-            
-          {% if messages %}
-            {% for message in messages %}
-            <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
-              <strong>{{ message }}</strong>
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            {% endfor %}
-          {% endif %}
-          
-          {% if user.approval_status != 'a' %}
-            <form method="post">
-              {% csrf_token %}
-              {{ form|crispy }}
-              <input type="submit" value="Request for approval" class="btn btn-success">
-            </form>
+          <div class="alert alert-warning" role="alert">
+            Complete Your Profile to Get Started
+          </div>
+          {% endif %} {% if messages %} {% for message in messages %}
+          <div
+            class="alert {{ message.tags }} alert-dismissible fade show"
+            role="alert"
+          >
+            <strong>{{ message }}</strong>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="alert"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          {% endfor %} {% endif %} {% if user.approval_status != 'a' %}
+          <form method="post">
+            {% csrf_token %} {{ form|crispy }}
+            <input
+              type="submit"
+              value="Request for approval"
+              class="btn btn-success"
+            />
+          </form>
           {% else %}
-            <h6>User Profile Information : To Be Implemented</h6>
+          <h6>User Profile Information : To Be Implemented</h6>
           {% endif %}
         </div>
 
@@ -73,10 +74,9 @@
             <h6>Assigned Permissions</h6>
 
             {% for permission in user_perms %}
-              <div>{{ permission }}</div>
-              {% endfor %}
-            {% else %}
-              <p>Appearantly, you do not have any permissions.</p>
+            <div>{{ permission }}</div>
+            {% endfor %} {% else %}
+            <p>Appearantly, you do not have any permissions.</p>
             {% endif %}
           </div>
         </div>
@@ -84,5 +84,13 @@
     </div>
   </div>
 </section>
-
 {% endblock %}
+
+{% block extrajs %}
+<script>
+
+  const siteNav = document.querySelector(".hero-area .navbar");
+  siteNav.style.backgroundColor = 'linear-gradient(95deg, #5533ff 40%, #25ddf5 100%) !important'
+
+</script>
+{% endblock %} 
