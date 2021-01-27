@@ -62,7 +62,7 @@ class Article(TimeStampedModel):
     
     def get_related_articles(self):
         articles = self.categories.last().article_set.all()
-        return articles
+        return articles if articles else []
 
 
 class Like(TimeStampedModel):
