@@ -54,6 +54,7 @@ django-braces = "==1.14.0"
 django-mptt = "*"
 django-social-share = "*"
 django-widget-tweaks = "*"
+sentry-sdk = "*"
 
 [requires]
 python_version = "3.8"

@@ -16,8 +16,12 @@ try:
 except:
     pass
 
+# def trigger_error(request):
+#     """ Dummy error testing function for sentry """
+#     zero_div = 1 / 0
 
 urlpatterns = [
+    # path('sentry-debug/', trigger_error),     # dummy test url for sentry error
     path('admin/', admin.site.urls),
     path('', include('pages.urls')),
     path('dashboard/', dashboard, name='index_view'),
