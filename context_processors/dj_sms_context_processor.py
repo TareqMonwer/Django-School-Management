@@ -4,18 +4,27 @@ from institute.models import (InstituteProfile,
 from articles.models import Category
 
 def attach_institute_data_ctx_processor(request):
-    institute = InstituteProfile.objects.get(active=True)
-    
+    try:
+        institute = InstituteProfile.objects.get(active=True)
+    except:
+        institute = None
+        
     ctx = {
         'request_institute': institute,
     }
     if 'articles' in request.resolver_match._func_path.split('.'):
         # If request is coming for articles app's views,
         # only then pass registered_navlinks in the context.
-        registered_navlinks = Category.objects.filter(
-            display_on_menu=True,
-        ).order_by('-created')
+        # Registered navlinks are Category objects from the articles app.
         try:
+            registered_navlinks = Category.objects.filter(
+                display_on_menu=True,
+            ).order_by('-created')
+        except:
+            registered_navlinks = []
+        try:
+            # Setting up widgets for footer and other places of the 
+            # website. (TODO: Add location hints to the widget models).
             # first text-widget for the footer (footer-col-number-1)
             first_widget =  TextWidget.objects.get(widget_number=0)
             # get rest three widgets

@@ -104,7 +104,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     # Middleware to provide institute data in req-resp cycle
-    'institute.middleware.AttachInstituteDataMiddleware',
+    # 'institute.middleware.AttachInstituteDataMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
