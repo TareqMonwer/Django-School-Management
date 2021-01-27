@@ -59,6 +59,10 @@ class Article(TimeStampedModel):
         text = ''.join(BeautifulSoup(html).findAll(text=True))
         text = text.replace('\xa0', ' ').replace('\n', ' ').split(' ')
         return ' '.join(text[:choice(choices)])
+    
+    def get_related_articles(self):
+        articles = self.categories.last().article_set.all()
+        return articles
 
 
 class Like(TimeStampedModel):

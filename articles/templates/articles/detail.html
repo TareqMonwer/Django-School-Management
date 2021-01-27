@@ -92,6 +92,46 @@
           {{ object.content|safe }}
         </div>
       </div>
+
+      <div class="row mt-5">
+        <div class="col-12">
+          <h5 class="my-4">You may also read</h5>
+        </div>
+
+        {% for article in object.get_related_articles %}
+          <div class="col-sm-12 col-md-3 mb-5">
+            <a href="{{ article.get_absolute_url }}">
+              <div class="article-card rounded">
+                <img src="{{article.featured_image.url}}" 
+                  alt="{{ request_institute.name }}-{{ article.title }}" 
+                  class="shadow shadow-sm rounded">
+                <div class="article-content p-2">
+                  <div class="category-name badge badge-info">
+                    <a class="text-light" href="{{ article.categories.first.get_absolute_url }}">
+                      {{ article.categories.first }}
+                    </a>
+                  </div>
+                  <p class="my-1">
+                    <b>
+                      <a href="{{ article.get_absolute_url }}">
+                        {{ article.title }}
+                      </a>
+                    </b>
+                  </p>
+                  <div class="metadata d-flex justify-content-between pr-4">
+                    <small class="fsm muted mr-3">{{ article.created }}</small>
+                    <!-- <small class="fsm muted">1500 VIEWS</small> -->
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        {% empty %}
+          <div class="no-article">
+            <h5 class="ml-3"><i class="fas fa-frown"></i> No Realated Article Found</h5>
+          </div>
+        {% endfor %}
+      </div>
     </div>
   </article>
 
