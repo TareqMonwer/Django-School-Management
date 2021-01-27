@@ -36,8 +36,21 @@
               </a>
               at {{object.created}}
             </span>
-            <div class="social-share d-flex justify-content-around
-              mt-5">
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- Post Content -->
+  <article class="article-detail">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-2 col-md-2 d-flex flex-column
+          justify-content-center align-items-center text-center">
+          <div class="social-share d-flex flex-column justify-content-start mb-3">
               <div class="share badge border p-2">
                 <i class="fab fa-facebook-square"></i>
                 {% post_to_facebook object.get_absolute_url "share" %}
@@ -63,25 +76,8 @@
                 {% save_to_pinterest object.get_absolute_url %}
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-
-  <!-- Post Content -->
-  <article class="article-detail">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-2 col-md-2 d-flex flex-column
-          justify-content-center align-items-center text-center">
           <form id="like_form" action="{% url 'articles:like' object.slug  %}" method="POST">
             {% csrf_token %}
-            <!-- <a class="d-inline-block" href="javascript:{}"
-            onclick="document.getElementById('like_form').submit(); return false;">
-              <i class="fa fa-heart"></i>
-            </a> -->
             <i class="fa fa-heart" id="like-btn" style="cursor: pointer;"></i>
           </form>
             <h3 class="m-0" id="display-like-count">{{ likes.count }}</h3>

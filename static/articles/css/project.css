@@ -1,5 +1,9 @@
 /* These styles are generated from project.scss. */
 /* GENERICS */
+.mt-for-nav {
+  margin-top: 59px;
+}
+
 .fsm {
   font-size: 14px;
 }
@@ -29,31 +33,34 @@
   border-color: #eed3d7;
 }
 /* social share */
-.social-share {
-  width: 65%;
-}
 .share {
-    display: flex;
-    align-items: center;
-    text-transform: uppercase;
-    background: linear-gradient(116deg, black, transparent);
+  display: flex;
+  align-items: center;
+  text-transform: capitalize;
+  background: linear-gradient(116deg, black, rgba(53, 53, 53, 0.767));
+  margin-bottom: .4rem;
 }
 .share a {
-    margin-left: .5rem;
-    color: #fff;
+  margin-left: 0.5rem;
 }
-.share .pinterest-this span {
-  color: #E60023;
+.share * {
+  color: #fff;
 }
+
 
 /* END OF GENERICS */
 
+/* Navbar */
+#mainNav .navbar-toggler {
+  border: 2px solid #fff;
+  color: #fff;
+}
 
 /* ********************************************** */
 /*                   ARTICLES PAGE                */
 /* ********************************************** */
 .featured-articles {
-  position: relative;
+  /* margin-top: -90%; */
   background-color: rgb(255, 255, 255);
 }
 
@@ -126,7 +133,7 @@
 
 #dark-section .category-name {
   display: inline-block;
-  margin-top: .8rem;
+  margin-top: 0.8rem;
 }
 
 #dark-section .article-content {
@@ -134,13 +141,18 @@
 }
 
 /* DETAIL PAGE */
-.article-detail {
-  position: relative;
-  margin-top: -10%;
+.social-share {
+  position: fixed;
+  display: block;
+  width: 80px;
+  height: 100%;
+  top: 50%;
+  left: 14px;
+  font-size: 14px;
+  justify-content: flex-start !important;
 }
 
 /* CATEGORY ARTICLES */
-
 
 /* FOOTER */
 footer {
@@ -148,20 +160,23 @@ footer {
   font-size: 16px;
   text-align: left;
 }
-footer .widget-title h4{
+footer .widget-title h4 {
   font-size: 20px;
 }
-footer .copyright{
+footer .copyright {
   text-align: left;
   text-transform: uppercase;
 }
 
-
 /* ******************************************************** */
-/*                  AUTHOR PROFILE PAGE                     */ 
+/*                  AUTHOR PROFILE PAGE                     */
 /* ******************************************************** */
 .profile-header {
-  background-image: linear-gradient(45deg, rgb(81 81 84 / 52%), rgb(16 16 16 / 73%)),
+  background-image: linear-gradient(
+      45deg,
+      rgb(81 81 84 / 52%),
+      rgb(16 16 16 / 73%)
+    ),
     url(https://picsum.photos/1800);
   background-size: cover;
   background-attachment: fixed;
@@ -180,18 +195,21 @@ footer .copyright{
   top: -25vh;
 }
 
-.author-descriptions {margin-top: 1.5rem;}
+.author-descriptions {
+  margin-top: 1.5rem;
+}
 .auth-desc-item {
   font-size: 1rem;
   display: flex;
 }
-.auth-desc-item:not(:last-child) {margin-bottom: .8rem}
+.auth-desc-item:not(:last-child) {
+  margin-bottom: 0.8rem;
+}
 .auth-desc-item .adi-text {
-  margin-left: .8rem;
+  margin-left: 0.8rem;
   text-transform: uppercase;
   cursor: pointer;
 }
-
 
 /* MEIDA QUERIES */
 
@@ -241,25 +259,13 @@ footer .copyright{
 
 /* styles for larger than 960 */
 @media only screen and (min-width: 960px) {
-  #mainNav .navbar-toggler {
-    border: 2px solid #fff;
-    color: #fff;
-  }
-
   .featured-latest {
     margin-left: 0;
     padding-left: 0;
   }
 
-  .featured-articles {
-    margin-top: -15%;
-  }
   .article-form {
     margin-top: -10%;
-  }
-
-  .article-detail {
-    margin-top: -15%;
   }
 
   /* Category Articles */
@@ -272,7 +278,7 @@ footer .copyright{
 /* styles for larger than 1440px */
 @media only screen and (min-width: 1440px) {
   .featured-articles {
-    margin-top: -35%;
+    /* margin-top: -35%; */
   }
   .article-form {
     margin-top: -20%;

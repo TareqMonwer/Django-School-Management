@@ -30,7 +30,7 @@ class ArticleList(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        last_article = Article.published.order_by('-created').last()
+        last_article = Article.published.order_by('-created').first()
         latest_featured_article = Article.published.filter(
             is_featured=True
         ).last()
