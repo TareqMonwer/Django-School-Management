@@ -54,7 +54,7 @@
               <h5>{{ author.username | title }}</h5>
               <b class="text-muted">Author Profession / Bio</b>
             </div>
-            {% if user is author %}
+            {% if user == author %}
             <div class="author-formlink">
               <a href="" class="btn btn-primary"> Edit Profile </a>
             </div>
@@ -90,7 +90,7 @@
         <div class="col-6">
           <h5>Author Articles</h5>
         </div>
-        {% if user is author %}
+        {% if user == author %}
         <div class="col-6 d-flex justify-content-end">
           <a href="" class="btn btn-primary"> Manage </a>
         </div>
