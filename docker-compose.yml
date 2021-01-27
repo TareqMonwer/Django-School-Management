@@ -1,0 +1,34 @@
+version: "3"
+services:
+  redis:
+    image: redis:latest
+    container_name: dj_sms_redis
+    command: redis-server
+    ports:
+    - '6379:6379'
+  django:
+    build: .
+    container_name: dj_sms_server
+    image: dj_sms_docker
+    volumes:
+      - .:/code
+      - static:/code/static
+      - media:/code/media
+    ports:
+      - "8000:8000"
+    links:
+      - redis
+    depends_on:
+      - celery
+
+  celery:
+    build: .
+    command: celery -A config worker -l INFO
+    volumes:
+      - .:/code
+    links:
+      - redis
+
+volumes:
+  media:
+  static:

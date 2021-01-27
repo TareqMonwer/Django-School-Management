@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block content %}
+<section id="teacher-detail-section">
+  <div id="teacher-detail-section--inner">
+    <div class="container">
+      <div class="row py-5">
+        <div class="col-4">
+          <img class="teacher-profile-img"
+             {% if teacher.photo %}
+                src="{{ teacher.photo.url }}"
+             {% else %}
+                {% static 'images/money.jpg' %}
+             {% endif %}
+            alt="" width="300" height="200">
+        </div>
+        <div class="col-8">
+          <h2>{{ teacher.name }}</h2>
+          <p></p>
+          <a href="{% url 'teachers:delete_teacher' pk=teacher.pk %}" class="btn btn-danger">Delete Profile</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

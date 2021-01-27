@@ -1,0 +1,48 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+
+{% block dashboard-body %}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'teachers:designations' %}">Designations</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">List</li>
+    </ol>
+</nav>
+
+
+<div class="row">
+    <div class="col-12 mb-2">
+        <a href="{% url 'teachers:create_designation' %}" class="btn btn-success">
+            Add New Designation
+        </a>
+    </div>
+    <div class="col-12">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Designation</th>
+                        <th scope="col">Resources</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for object in object_list %}
+                    <tr>
+                        <td>{{ object.title }}</td>
+                        <td>{{ object.resources.all.count }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+</div>
+{% endblock %}
+
+
+{% block extrajs %}
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+{% endblock extrajs %}
+    

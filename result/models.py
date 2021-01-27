@@ -1,42 +1,97 @@
+from model_utils.models import TimeStampedModel
+
 from django.db import models
+from django.conf import settings
+from django.urls import reverse
 
-from teachers.models import Teacher
-from students.models import Student, Semester
+from students.models import Student
+from academics.models import Subject, Semester, Department
 
 
-class Subject(models.Model):
-    name = models.CharField(max_length=50)
-    subject_code = models.PositiveIntegerField()
-    instructor = models.ForeignKey(Teacher, on_delete=models.CASCADE,
-                                   blank=True, null=True)
-    theory_marks = models.PositiveIntegerField(blank=True, null=True)
-    practical_marks = models.PositiveIntegerField(blank=True, null=True)
+class Exam(TimeStampedModel):
+    EXAM_CHOICES = (
+        ('m', 'Mid Term'),
+        ('f', 'Final')
+    )
+    exam_name = models.CharField(
+        max_length=1,
+        choices=EXAM_CHOICES
+    )
+    exam_date = models.DateTimeField()
 
     def __str__(self):
-        return "{} ({})".format(self.name, self.subject_code)
+        return f'{self.get_exam_name_display()} - \
+            {self.exam_date.year}'
 
 
-class Result(models.Model):
-    marks = models.PositiveIntegerField()
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE,
-                                blank=True, null=True)
-    student = models.ForeignKey(Student, on_delete=models.CASCADE,
-                                blank=True, null=True)
-    semester = models.ForeignKey(Semester, on_delete=models.CASCADE,
-                                 blank=True, null=True)
+class Result(TimeStampedModel):
+    student = models.ForeignKey(
+        Student,
+        on_delete=models.CASCADE,
+        related_name='results'
+    )
+    semester = models.ForeignKey(
+        Semester,
+        on_delete=models.CASCADE
+    )
+    subject = models.ForeignKey(
+        Subject,
+        on_delete=models.CASCADE
+    )
+    exam = models.ForeignKey(
+        Exam, on_delete=models.CASCADE,
+        blank=True, null=True
+    )
+    practical_marks = models.SmallIntegerField(
+        blank=True,
+        null=True
+    )
+    theory_marks = models.SmallIntegerField(
+        blank=True,
+        null=True
+    )
+    total_marks = models.SmallIntegerField(
+        blank=True,
+        null=True
+    )
 
-    def grade(self):
-        if 80 <= self.marks <= 100:
-            return 'A+'
-        elif 60 <= self.marks < 80:
-            return 'A'
-        elif 50 <= self.marks < 60:
-            return ' A-'
-        elif 40 <= self.marks < 50:
-            return 'B'
+    class Meta:
+        unique_together =  ('student', 'semester', 'subject')
+
+    def __str__(self):
+        return f'{self.student} | {self.subject} | {self.total_marks}'
+    
+    def save(self, *args, **kwargs):
+        if self.theory_marks and self.practical_marks:
+            self.total_marks = self.practical_marks + self.theory_marks
+        elif self.practical_marks and not self.theory_marks:
+            self.total_marks = self.practical_marks
         else:
-            return 'F'
+            self.total_marks = self.theory_marks
+        super().save(*args, **kwargs)
+
+
+class SubjectGroup(TimeStampedModel):
+    """ Keep track of group of subjects that belongs to a
+    department, semester
+    """
+    department = models.ForeignKey(
+        Department,
+        related_name='subjects',
+        on_delete=models.DO_NOTHING
+    )
+    semester = models.ForeignKey(
+        Semester,
+        related_name='subjects',
+        on_delete=models.CASCADE
+    )
+    subjects = models.ManyToManyField(Subject, blank=True)
 
     def __str__(self):
-        return "{} {} in {}".format(self.student.name, self.grade(),
-                                    self.subject.name)
+        return f'{self.department} - {self.semester}'
+    
+    def get_subjects(self):
+        return " | ".join([str(sg) for sg in self.subjects.all()])
+
+    def create_resource(self):
+        return reverse('result:create_subject_group')

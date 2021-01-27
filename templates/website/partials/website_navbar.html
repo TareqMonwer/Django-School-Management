@@ -1,0 +1,37 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-md fixed-top scrolling-navbar">
+    <div class="container">
+          <a href="index.html" class="navbar-brand">
+            <img src="{% if request_institute.logo %}{{ request_institute.logo.url }}{% else %}{% static 'landing/img/footer-logo.png' %}{% endif %}"
+              alt="{{ request_institute.name }}">
+            </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="lni-menu"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto w-100 justify-content-end">
+              <li class="nav-item">
+                <a class="nav-link page-scroll" href="#home">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link page-scroll" href="#services">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link page-scroll" href="{% url 'articles:home' %}">Blog</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link page-scroll" href="#contact">Contact</a>
+              </li>
+              {% if request.user.is_authenticated %}
+                <li class="nav-item">
+                  <a class="nav-link page-scroll" href="">My Account</a>
+                </li>
+              {% endif %}
+              <li class="nav-item">
+                <a class="btn btn-singin" href="{% url 'account:dashboard' %}">Dashboard</a>
+              </li>
+            </ul>
+          </div>
+    </div>
+</nav>

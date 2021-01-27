@@ -1,0 +1,54 @@
+<footer class="bg-dark text-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 col-md-3 footer-widget widget1">
+        <div class="widget-title">
+	  <h4>{{ first_widget }}</h4>
+        </div>
+        <div class="widget-content">
+          <div class="wc widget-1-content">
+            <div class="widget-content-wrapper">
+              <div class="wcontent">
+                <div class="text-content">
+                  {{ first_widget.content|safe }}
+		</div>
+              </div>
+            </div>
+            <div class="widget-content-wrapper mt-4">
+              <div class="wcontent copyright">
+                Copyright &copy; 2021 {{ request_institute.name }}. All rights reserved.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% for widget in list_widgets %}
+      <div class="col-sm-12 col-md-3 list-widget footer-widget widget2">
+        <div class="widget-title">
+	  <h4>{{ widget.widget_title }}</h4>
+        </div>
+        <div class="widget-content">
+          <div class="wc widget-2-content">
+            <div class="widget-content-wrapper">
+              <div class="wcontent">
+                <div class="links d-flex flex-column">
+		  {% for listitem in widget.widgetlistitem_set.all %}
+		    <a href="{{ listitem.link }}" class="link text-light">
+		      {{ listitem.text }}
+		    </a>
+		  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+      </div>
+
+      <!-- Widgets end -->
+    </div>
+  </div>
+</footer>

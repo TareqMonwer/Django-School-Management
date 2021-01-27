@@ -1,0 +1,555 @@
+[
+    {
+        "model": "academics.semester",
+        "pk": 1,
+        "fields": {
+            "created": "2020-12-08T02:37:33.599Z",
+            "modified": "2020-12-08T02:37:33.599Z",
+            "number": 1,
+            "guide": 2,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.semester",
+        "pk": 2,
+        "fields": {
+            "created": "2020-12-08T02:37:33.599Z",
+            "modified": "2020-12-08T02:37:33.599Z",
+            "number": 2,
+            "guide": 2,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.semester",
+        "pk": 3,
+        "fields": {
+            "created": "2020-12-08T02:37:33.599Z",
+            "modified": "2020-12-08T02:37:33.599Z",
+            "number": 3,
+            "guide": 3,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.semester",
+        "pk": 4,
+        "fields": {
+            "created": "2020-12-08T02:37:33.599Z",
+            "modified": "2020-12-08T02:37:33.599Z",
+            "number": 4,
+            "guide": 4,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.semester",
+        "pk": 5,
+        "fields": {
+            "created": "2020-12-08T02:37:33.599Z",
+            "modified": "2020-12-08T02:37:33.599Z",
+            "number": 5,
+            "guide": 5,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.semester",
+        "pk": 6,
+        "fields": {
+            "created": "2020-12-08T02:37:33.599Z",
+            "modified": "2020-12-08T02:37:33.599Z",
+            "number": 6,
+            "guide": 6,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.semester",
+        "pk": 7,
+        "fields": {
+            "created": "2020-12-08T02:37:33.599Z",
+            "modified": "2020-12-08T02:37:33.599Z",
+            "number": 7,
+            "guide": 7,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.semester",
+        "pk": 8,
+        "fields": {
+            "created": "2020-12-08T02:37:33.599Z",
+            "modified": "2020-12-08T02:37:33.599Z",
+            "number": 8,
+            "guide": 8,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.academicsession",
+        "pk": 5,
+        "fields": {
+            "created": "2020-01-08T04:00:03.245Z",
+            "modified": "2020-01-08T04:00:03.245Z",
+            "year": 2020,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.academicsession",
+        "pk": 4,
+        "fields": {
+            "created": "2019-01-08T04:00:03.245Z",
+            "modified": "2019-01-08T04:00:03.245Z",
+            "year": 2019,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.academicsession",
+        "pk": 3,
+        "fields": {
+            "created": "2018-01-08T04:00:03.245Z",
+            "modified": "2018-01-08T04:00:03.245Z",
+            "year": 2018,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.academicsession",
+        "pk": 2,
+        "fields": {
+            "created": "2017-01-08T04:00:03.245Z",
+            "modified": "2017-01-08T04:00:03.245Z",
+            "year": 2017,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.academicsession",
+        "pk": 1,
+        "fields": {
+            "created": "2016-01-08T04:00:03.245Z",
+            "modified": "2016-01-08T04:00:03.245Z",
+            "year": 2016,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.department",
+        "pk": 1,
+        "fields": {
+            "created": "2020-12-04T14:13:46.371Z",
+            "modified": "2020-12-04T14:13:46.371Z",
+            "name": "Computer",
+            "short_name": "cmt",
+            "code": 666,
+            "head": null,
+            "current_batch": null,
+            "establish_date": "2020-12-04",
+            "created_by": 1,
+            "batches": []
+        }
+    },
+    {
+        "model": "academics.department",
+        "pk": 2,
+        "fields": {
+            "created": "2020-12-04T14:13:46.371Z",
+            "modified": "2020-12-04T14:13:46.371Z",
+            "name": "Telecom",
+            "short_name": "tel",
+            "code": 667,
+            "head": null,
+            "current_batch": null,
+            "establish_date": "2020-12-04",
+            "created_by": 1,
+            "batches": []
+        }
+    },
+    {
+        "model": "academics.department",
+        "pk": 3,
+        "fields": {
+            "created": "2020-12-04T14:13:46.371Z",
+            "modified": "2020-12-04T14:13:46.371Z",
+            "name": "Electrical",
+            "short_name": "elc",
+            "code": 668,
+            "head": null,
+            "current_batch": null,
+            "establish_date": "2020-12-04",
+            "created_by": 1,
+            "batches": []
+        }
+    },
+    {
+        "model": "academics.department",
+        "pk": 4,
+        "fields": {
+            "created": "2020-12-04T14:13:46.371Z",
+            "modified": "2020-12-04T14:13:46.371Z",
+            "name": "Tourism & Hospitality",
+            "short_name": "t&h",
+            "code": 661,
+            "head": null,
+            "current_batch": null,
+            "establish_date": "2020-12-04",
+            "created_by": 1,
+            "batches": []
+        }
+    },
+    {
+        "model": "academics.department",
+        "pk": 5,
+        "fields": {
+            "created": "2020-12-04T14:13:46.371Z",
+            "modified": "2020-12-04T14:13:46.371Z",
+            "name": "Civil",
+            "short_name": "civ",
+            "code": 662,
+            "head": null,
+            "current_batch": null,
+            "establish_date": "2020-12-04",
+            "created_by": 1,
+            "batches": []
+        }
+    },
+    {
+        "model": "academics.department",
+        "pk": 6,
+        "fields": {
+            "created": "2020-12-04T14:13:46.371Z",
+            "modified": "2020-12-04T14:13:46.371Z",
+            "name": "Architecture & Interior Design",
+            "short_name": "aidt",
+            "code": 651,
+            "head": null,
+            "current_batch": null,
+            "establish_date": "2020-12-04",
+            "created_by": 1,
+            "batches": []
+        }
+    },
+    {
+        "model": "academics.batch",
+        "pk": 1,
+        "fields": {
+            "created": "2020-12-08T02:38:03.978Z",
+            "modified": "2020-12-08T02:38:03.978Z",
+            "year": 1,
+            "number": 1,
+            "department": 1
+        }
+    },
+    {
+        "model": "academics.batch",
+        "pk": 2,
+        "fields": {
+            "created": "2020-12-08T02:38:03.978Z",
+            "modified": "2020-12-08T02:38:03.978Z",
+            "year": 2,
+            "number": 2,
+            "department": 1
+        }
+    },
+    {
+        "model": "academics.batch",
+        "pk": 3,
+        "fields": {
+            "created": "2020-12-08T02:38:03.978Z",
+            "modified": "2020-12-08T02:38:03.978Z",
+            "year": 3,
+            "number": 3,
+            "department": 1
+        }
+    },
+    {
+        "model": "academics.batch",
+        "pk": 4,
+        "fields": {
+            "created": "2020-12-08T02:38:03.978Z",
+            "modified": "2020-12-08T02:38:03.978Z",
+            "year": 4,
+            "number": 4,
+            "department": 1
+        }
+    },
+    {
+        "model": "academics.batch",
+        "pk": 5,
+        "fields": {
+            "created": "2020-12-08T02:38:03.978Z",
+            "modified": "2020-12-08T02:38:03.978Z",
+            "year": 5,
+            "number": 5,
+            "department": 1
+        }
+    },
+    {
+        "model": "academics.batch",
+        "pk": 6,
+        "fields": {
+            "created": "2020-12-08T02:38:03.978Z",
+            "modified": "2020-12-08T02:38:03.978Z",
+            "year": 3,
+            "number": 11,
+            "department": 2
+        }
+    },
+    {
+        "model": "academics.batch",
+        "pk": 7,
+        "fields": {
+            "created": "2020-12-08T02:38:03.978Z",
+            "modified": "2020-12-08T02:38:03.978Z",
+            "year": 4,
+            "number": 12,
+            "department": 2
+        }
+    },
+    {
+        "model": "academics.batch",
+        "pk": 8,
+        "fields": {
+            "created": "2020-12-08T02:38:03.978Z",
+            "modified": "2020-12-08T02:38:03.978Z",
+            "year": 5,
+            "number": 13,
+            "department": 2
+        }
+    },
+    {
+        "model": "academics.batch",
+        "pk": 9,
+        "fields": {
+            "created": "2020-12-08T02:38:03.978Z",
+            "modified": "2020-12-08T02:38:03.978Z",
+            "year": 3,
+            "number": 11,
+            "department": 3
+        }
+    },
+    {
+        "model": "academics.batch",
+        "pk": 10,
+        "fields": {
+            "created": "2020-12-08T02:38:03.978Z",
+            "modified": "2020-12-08T02:38:03.978Z",
+            "year": 4,
+            "number": 12,
+            "department": 3
+        }
+    },
+    {
+        "model": "academics.batch",
+        "pk": 11,
+        "fields": {
+            "created": "2020-12-08T02:38:03.978Z",
+            "modified": "2020-12-08T02:38:03.978Z",
+            "year": 5,
+            "number": 13,
+            "department": 3
+        }
+    },
+    {
+        "model": "academics.batch",
+        "pk": 12,
+        "fields": {
+            "created": "2020-12-08T02:38:03.978Z",
+            "modified": "2020-12-08T02:38:03.978Z",
+            "year": 3,
+            "number": 5,
+            "department": 4
+        }
+    },
+    {
+        "model": "academics.batch",
+        "pk": 13,
+        "fields": {
+            "created": "2020-12-08T02:38:03.978Z",
+            "modified": "2020-12-08T02:38:03.978Z",
+            "year": 4,
+            "number": 6,
+            "department": 4
+        }
+    },
+    {
+        "model": "academics.batch",
+        "pk": 14,
+        "fields": {
+            "created": "2020-12-08T02:38:03.978Z",
+            "modified": "2020-12-08T02:38:03.978Z",
+            "year": 5,
+            "number": 7,
+            "department": 4
+        }
+    },
+    {
+        "model": "academics.subject",
+        "pk": 1,
+        "fields": {
+            "name": "Bangla",
+            "subject_code": 101,
+            "theory_marks": 50,
+            "practical_marks": 50,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.subject",
+        "pk": 2,
+        "fields": {
+            "name": "English",
+            "subject_code": 102,
+            "theory_marks": 50,
+            "practical_marks": 50,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.subject",
+        "pk": 3,
+        "fields": {
+            "name": "Math 1",
+            "subject_code": 103,
+            "theory_marks": 50,
+            "practical_marks": 50,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.subject",
+        "pk": 4,
+        "fields": {
+            "name": "Math 2",
+            "subject_code": 104,
+            "theory_marks": 50,
+            "practical_marks": 50,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.subject",
+        "pk": 5,
+        "fields": {
+            "name": "Intro to Programming 1",
+            "subject_code": 105,
+            "theory_marks": 50,
+            "practical_marks": 50,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.subject",
+        "pk": 6,
+        "fields": {
+            "name": "Intro to Programming 2",
+            "subject_code": 106,
+            "theory_marks": 50,
+            "practical_marks": 50,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.subject",
+        "pk": 7,
+        "fields": {
+            "name": "Electronics 1",
+            "subject_code": 107,
+            "theory_marks": 50,
+            "practical_marks": 50,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.subject",
+        "pk": 8,
+        "fields": {
+            "name": "Electronics 2",
+            "subject_code": 108,
+            "theory_marks": 50,
+            "practical_marks": 50,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.subject",
+        "pk": 9,
+        "fields": {
+            "name": "Software Development Lifecycle",
+            "subject_code": 109,
+            "theory_marks": 50,
+            "practical_marks": 50,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.subject",
+        "pk": 10,
+        "fields": {
+            "name": "Media and Graphics",
+            "subject_code": 110,
+            "theory_marks": 50,
+            "practical_marks": 50,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.subject",
+        "pk": 11,
+        "fields": {
+            "name": "Networking 1",
+            "subject_code": 111,
+            "theory_marks": 50,
+            "practical_marks": 50,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.subject",
+        "pk": 12,
+        "fields": {
+            "name": "Networking 2",
+            "subject_code": 112,
+            "theory_marks": 50,
+            "practical_marks": 50,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.subject",
+        "pk": 13,
+        "fields": {
+            "name": "Networking 3",
+            "subject_code": 113,
+            "theory_marks": 50,
+            "practical_marks": 50,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.subject",
+        "pk": 14,
+        "fields": {
+            "name": "Telecommunication System",
+            "subject_code": 114,
+            "theory_marks": 50,
+            "practical_marks": 50,
+            "created_by": 1
+        }
+    },
+    {
+        "model": "academics.subject",
+        "pk": 15,
+        "fields": {
+            "name": "Python",
+            "subject_code": 115,
+            "theory_marks": 50,
+            "practical_marks": 50,
+            "created_by": 1
+        }
+    }
+]

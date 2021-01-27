@@ -1,0 +1,294 @@
+[
+    {
+        "model": "teachers.designation",
+        "pk": 1,
+        "fields": {
+            "modified": "2020-10-09T01:01:32.344Z",
+            "title": "Instructor",
+            "created": "2020-10-09"
+        }
+    },
+    {
+        "model": "teachers.designation",
+        "pk": 2,
+        "fields": {
+            "modified": "2020-10-09T01:01:32.344Z",
+            "title": "Junior Instructor",
+            "created": "2020-10-09"
+        }
+    },
+    {
+        "model": "teachers.designation",
+        "pk": 3,
+        "fields": {
+            "modified": "2020-10-09T01:01:32.344Z",
+            "title": "Senior Instructor",
+            "created": "2019-12-19"
+        }
+    },
+    {
+        "model": "teachers.designation",
+        "pk": 4,
+        "fields": {
+            "modified": "2020-10-09T01:01:32.344Z",
+            "title": "Asst. Instructor",
+            "created": "2018-11-13"
+        }
+    },
+    {
+        "model": "teachers.teacher",
+        "pk": 1,
+        "fields": {
+            "created": "2020-10-09T01:02:20.376Z",
+            "modified": "2020-10-09T01:02:20.376Z",
+            "name": "Tareq Monwer",
+            "photo": "teachers/tareqmonwer.jpg",
+            "date_of_birth": "1998-05-15",
+            "designation": 1,
+            "mobile": null,
+            "email": null,
+            "joining_date": "2020-10-09",
+            "created_by": null
+        }
+    },
+    {
+        "model": "teachers.teacher",
+        "pk": 2,
+        "fields": {
+            "created": "2020-10-09T01:02:20.376Z",
+            "modified": "2020-10-09T01:02:20.376Z",
+            "name": "Touhid Shariar",
+            "photo": "teachers/tareqmonwer.jpg",
+            "date_of_birth": "1998-05-15",
+            "designation": 1,
+            "mobile": null,
+            "email": null,
+            "joining_date": "2020-10-09",
+            "created_by": null
+        }
+    },
+    {
+        "model": "teachers.teacher",
+        "pk": 3,
+        "fields": {
+            "created": "2020-10-09T01:02:20.376Z",
+            "modified": "2020-10-09T01:02:20.376Z",
+            "name": "Mamun SJ",
+            "photo": "teachers/tareqmonwer.jpg",
+            "date_of_birth": "1998-05-22",
+            "designation": 1,
+            "mobile": null,
+            "email": null,
+            "joining_date": "2019-01-01",
+            "created_by": null
+        }
+    },
+    {
+        "model": "teachers.teacher",
+        "pk": 4,
+        "fields": {
+            "created": "2020-10-09T01:02:20.376Z",
+            "modified": "2020-10-09T01:02:20.376Z",
+            "name": "Zulficar Joy",
+            "photo": "teachers/tareqmonwer.jpg",
+            "date_of_birth": "1999-03-05",
+            "designation": 1,
+            "mobile": null,
+            "email": null,
+            "joining_date": "2020-05-09",
+            "created_by": null
+        }
+    },
+    {
+        "model": "teachers.teacher",
+        "pk": 5,
+        "fields": {
+            "created": "2020-10-09T01:02:20.376Z",
+            "modified": "2020-10-09T01:02:20.376Z",
+            "name": "Md. Muzakkir Kamal",
+            "photo": "teachers/tareqmonwer.jpg",
+            "date_of_birth": "1993-08-23",
+            "designation": 3,
+            "mobile": null,
+            "email": null,
+            "joining_date": "2020-10-09",
+            "created_by": null
+        }
+    },
+    {
+        "model": "teachers.teacher",
+        "pk": 6,
+        "fields": {
+            "created": "2020-10-09T01:02:20.376Z",
+            "modified": "2020-10-09T01:02:20.376Z",
+            "name": "Mujibur Rahman Mamun",
+            "photo": "teachers/tareqmonwer.jpg",
+            "date_of_birth": "2000-07-05",
+            "designation": 4,
+            "mobile": null,
+            "email": null,
+            "joining_date": "2020-10-09",
+            "created_by": null
+        }
+    },
+    {
+        "model": "teachers.teacher",
+        "pk": 7,
+        "fields": {
+            "created": "2020-10-09T01:02:20.376Z",
+            "modified": "2020-10-09T01:02:20.376Z",
+            "name": "Abdullah",
+            "photo": "teachers/tareqmonwer.jpg",
+            "date_of_birth": "1999-04-11",
+            "designation": 1,
+            "mobile": null,
+            "email": null,
+            "joining_date": "2020-10-09",
+            "created_by": null
+        }
+    },
+    {
+        "model": "teachers.teacher",
+        "pk": 8,
+        "fields": {
+            "created": "2020-10-09T01:02:20.376Z",
+            "modified": "2020-10-09T01:02:20.376Z",
+            "name": "John Doe",
+            "photo": "teachers/tareqmonwer.jpg",
+            "date_of_birth": "1999-03-31",
+            "designation": 1,
+            "mobile": null,
+            "email": null,
+            "joining_date": "2020-10-09",
+            "created_by": null
+        }
+    },
+    {
+        "model": "teachers.teacher",
+        "pk": 9,
+        "fields": {
+            "created": "2020-10-09T01:02:20.376Z",
+            "modified": "2020-10-09T01:02:20.376Z",
+            "name": "SM Ahmad",
+            "photo": "teachers/tareqmonwer.jpg",
+            "date_of_birth": "1999-03-31",
+            "designation": 1,
+            "mobile": null,
+            "email": null,
+            "joining_date": "2020-10-09",
+            "created_by": null
+        }
+    },
+    {
+        "model": "teachers.teacher",
+        "pk": 10,
+        "fields": {
+            "created": "2020-10-09T01:02:20.376Z",
+            "modified": "2020-10-09T01:02:20.376Z",
+            "name": "Soumik",
+            "photo": "teachers/tareqmonwer.jpg",
+            "date_of_birth": "1999-03-31",
+            "designation": 1,
+            "mobile": null,
+            "email": null,
+            "joining_date": "2020-10-09",
+            "created_by": null
+        }
+    },
+    {
+        "model": "teachers.teacher",
+        "pk": 11,
+        "fields": {
+            "created": "2020-10-09T01:02:20.376Z",
+            "modified": "2020-10-09T01:02:20.376Z",
+            "name": "Mitchael J",
+            "photo": "teachers/tareqmonwer.jpg",
+            "date_of_birth": "1999-03-31",
+            "designation": 1,
+            "mobile": null,
+            "email": null,
+            "joining_date": "2020-10-09",
+            "created_by": null
+        }
+    },
+    {
+        "model": "teachers.teacher",
+        "pk": 12,
+        "fields": {
+            "created": "2020-10-09T01:02:20.376Z",
+            "modified": "2020-10-09T01:02:20.376Z",
+            "name": "Robinhood",
+            "photo": "teachers/tareqmonwer.jpg",
+            "date_of_birth": "1999-03-31",
+            "designation": 1,
+            "mobile": null,
+            "email": null,
+            "joining_date": "2020-10-09",
+            "created_by": null
+        }
+    },
+    {
+        "model": "teachers.teacher",
+        "pk": 13,
+        "fields": {
+            "created": "2020-10-09T01:02:20.376Z",
+            "modified": "2020-10-09T01:02:20.376Z",
+            "name": "Dr. Strange",
+            "photo": "teachers/tareqmonwer.jpg",
+            "date_of_birth": "1999-03-31",
+            "designation": 1,
+            "mobile": null,
+            "email": null,
+            "joining_date": "2020-10-09",
+            "created_by": null
+        }
+    },
+    {
+        "model": "teachers.teacher",
+        "pk": 14,
+        "fields": {
+            "created": "2020-10-09T01:02:20.376Z",
+            "modified": "2020-10-09T01:02:20.376Z",
+            "name": "Ned Stark",
+            "photo": "teachers/tareqmonwer.jpg",
+            "date_of_birth": "1999-03-31",
+            "designation": 1,
+            "mobile": null,
+            "email": null,
+            "joining_date": "2020-10-09",
+            "created_by": null
+        }
+    },
+    {
+        "model": "teachers.teacher",
+        "pk": 15,
+        "fields": {
+            "created": "2020-10-09T01:02:20.376Z",
+            "modified": "2020-10-09T01:02:20.376Z",
+            "name": "The Tommy Shelby",
+            "photo": "teachers/tareqmonwer.jpg",
+            "date_of_birth": "1999-03-31",
+            "designation": 1,
+            "mobile": null,
+            "email": null,
+            "joining_date": "2020-10-09",
+            "created_by": null
+        }
+    },
+    {
+        "model": "teachers.teacher",
+        "pk": 16,
+        "fields": {
+            "created": "2020-10-09T01:02:20.376Z",
+            "modified": "2020-10-09T01:02:20.376Z",
+            "name": "Mr. Robot",
+            "photo": "teachers/tareqmonwer.jpg",
+            "date_of_birth": "1999-03-31",
+            "designation": 1,
+            "mobile": null,
+            "email": null,
+            "joining_date": "2020-10-09",
+            "created_by": null
+        }
+    }
+]

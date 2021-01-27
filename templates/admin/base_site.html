@@ -1,0 +1,18 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+
+{% block extrahead %}
+    <link rel="icon" href="{% static 'images/django-admin-favicon.png' %}">
+{% endblock %}
+
+{% block branding %}
+<h1 id="admin-logo">
+    {{ request_institute.site_header }}
+</h1>
+{% endblock %}
+
+
+{% block extrastyle %}
+    <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+{% endblock %}

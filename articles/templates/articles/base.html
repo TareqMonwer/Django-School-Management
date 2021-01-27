@@ -1,0 +1,146 @@
+{% load static i18n %}<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{% block title %}{{ request_institute.site_title }} | Blog{% endblock title %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <link rel="icon" href="{% static 'articles/images/favicons/favicon.ico' %}">
+
+    {% block css %}
+    <!-- Latest compiled and minified Bootstrap CSS -->
+    <link href="{% static 'articles/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Your stuff: Third-party CSS libraries go here -->
+    <!-- Custom fonts for this template -->
+  <link href="{% static 'articles/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <!-- This file stores project-specific CSS -->
+
+    <link href="{% static 'articles/css/clean-blog.css' %}" rel="stylesheet">
+    <link href="{% static 'articles/css/project.css' %}" rel="stylesheet">
+    {% endblock %}
+
+  </head>
+
+  <body>
+
+    <div class="">
+      <!-- Navigation -->
+      <nav class="navbar bg-dark navbar-dark fixed-top"
+       id="mainNav">
+        <div class="container">
+          <a class="navbar-brand p-0" href="{% url 'articles:home' %}">
+            <img src="{{ request_institute.logo.url }}" 
+              alt="{{ request_institute.site_title }}"
+              width="" height="50">
+          </a>
+          <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            menubar
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav align-items-end">
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'pages:landing' %}">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'articles:home' %}">Articles</a>
+              </li>
+              
+              <!-- Dynamic Navigation -->
+              {% include 'articles/inc/_registered_navlinks.html' %}
+
+              {% if request.user.is_authenticated %}
+                <li class="nav-item">
+                  {# URL provided by django-allauth/account/urls.py #}
+                  <a class="nav-link" 
+                    href="{% url 'articles:author_profile' slug=user.username %}">
+                    {% trans "My Profile" %}
+                  </a>
+                </li>
+                <li class="nav-item">
+                  {# URL provided by django-allauth/account/urls.py #}
+                  <a class="nav-link" href="{% url 'account_logout' %}">
+                    {% trans "Sign Out" %}
+                  </a>
+                </li>
+              {% else %}
+                <li class="nav-item">
+                  {# URL provided by django-allauth/account/urls.py #}
+                  <a class="nav-link" href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a>
+                </li>
+                <li class="nav-item">
+                  {# URL provided by django-allauth/account/urls.py #}
+                  <a class="nav-link" href="{% url 'account_login' %}">{% trans "Sign In" %}</a>
+                </li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+    </div>
+
+    <div class="mt-for-nav">
+
+      <!-- {% if messages %}
+          {% for message in messages %}
+              <div style="position: relative; top: 30px;" class="alert {% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
+          {% endfor %}
+      {% endif %} -->
+
+      {% block content %}
+
+      {% endblock content %}
+
+    </div> <!-- /container -->
+
+    {% block modal %}{% endblock modal %}
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    {% block javascript %}
+      <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script> -->
+      <!-- Bootstrap core JavaScript -->
+      <script src="{% static 'articles/vendor/jquery/jquery.min.js' %}"></script>
+      <script src="{% static 'articles/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+      <!-- Your stuff: Third-party javascript libraries go here -->
+
+
+      <!-- place project specific Javascript in this file -->
+      <script src="{% static 'articles/js/blog.js' %}"></script>
+      <script src="{% static 'articles/js/project.js' %}"></script>
+      <script>
+      (function(){
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.body.offsetHeight;
+        const siteNav = document.querySelector('.navbar');
+        // console.log(`wh: ${windowHeight}, dh: ${documentHeight}`);
+
+        if (documentHeight <= windowHeight) {
+          // console.log('content is not large enough');
+          siteNav.classList.add('navbar-dark');
+          siteNav.classList.add('bg-dark');
+        } else {
+          // console.log('content is large enough');
+          siteNav.classList.add('navbar-inverse');
+        }
+      })();
+    </script>
+    {% block extra_js %}{% endblock %}
+    {% endblock javascript %}
+  </body>
+</html>
+

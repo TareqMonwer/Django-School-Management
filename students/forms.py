@@ -1,55 +1,84 @@
-from .models import Student
-from django.forms import ModelForm
+from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.bootstrap import Tab, TabHolder
-from crispy_forms.layout import (Layout, Fieldset, Field,
-                                 ButtonHolder, Submit, Div)
+from crispy_forms.layout import (
+    Layout, Field, ButtonHolder, Submit
+)
+from .models import AdmissionStudent, CounselingComment, Student
 
 
-class StudentForm(ModelForm):
+class StudentForm(forms.ModelForm):
     class Meta:
-        model = Student
+        model = AdmissionStudent
         fields = [
             'name',
             'photo',
+            'fathers_name',
+            'mothers_name',
             'date_of_birth',
-            'roll',
-            'registration_number',
-            'department',
-            'semester',
-            'ac_session',
-            'mobile',
-            'guardian_mobile',
+            'last_exam_roll',
+            'city',
+            'current_address',
+            'permanent_address',
+            'last_exam_registration',
+            'department_choice',
+            'mobile_number',
             'email',
-            'last_gpa'
+            'last_exam_name',
+            'last_exam_result'
+        ]
+        widgets = {
+            'date_of_birth': forms.TextInput({'type': 'date'}),
+        }
+
+
+class AdmissionForm(forms.ModelForm):
+    class Meta:
+        model = AdmissionStudent
+        fields = [
+            'choosen_department',
         ]
 
-    def __init__(self, *args, **kwargs):
-        super(StudentForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper(self)
-        self.helper.layout = Layout(
-            TabHolder(
-                Tab('Personal Info',
-                    'name',
-                    'photo',
-                    'date_of_birth',
-                    'email',
-                    'mobile',
-                    'guardian_mobile',
-                    ),
-                Tab('Departmental Info',
-                    Field('department', css_class="extra"),
-                    Field('semester',),
-                    Field('ac_session',)
-                    ),
-                Tab('Board Info',
-                    Field('roll', css_class="extra"),
-                    Field('registration_number',),
-                    Field('last_gpa',)
-                    )
-            ),
-            ButtonHolder(
-                Submit('submit', 'Admit Student',
-                       css_class='float-right btn-dark mr-3')
-            )
+
+class StudentRegistrantUpdateForm(forms.ModelForm):
+    class Meta:
+        model = AdmissionStudent
+        fields = [
+            'name',
+            'photo',
+            'fathers_name',
+            'mothers_name',
+            'date_of_birth',
+            'last_exam_roll',
+            'current_address',
+            'permanent_address',
+            'last_exam_registration',
+            'mobile_number',
+            'email',
+            'last_exam_name',
+            'last_exam_result',
+            'choosen_department',
+            'admitted',
+            'rejected',
+        ]
+        widgets = {
+            'date_of_birth': forms.TextInput({'type': 'date'}),
+        }
+
+
+class CounselingDataForm(forms.ModelForm):
+    class Meta:
+        model = CounselingComment
+        fields = ['comment', 'counselor']
+
+
+class StudentUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Student
+        fields = (
+            'roll',
+            'registration_number',
+            'semester',
+            'guardian_mobile',
+            'is_alumni', 'is_dropped'
         )

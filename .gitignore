@@ -118,3 +118,14 @@ GitHub.sublime-settings
 
 
 # Custom Files #
+.fuse_hidden0000f8a300000018
+
+
+# Dumpdata main file
+dumpeddata.json
+<<<<<<< HEAD
+dj_sms_env/
+=======
+
+modules.txt
+>>>>>>> caba5b3cfe156eb4cecdc2a1998e25e9b44f658b

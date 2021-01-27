@@ -1,0 +1,89 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+
+{% block extra_header %}
+<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap4.min.css' %}">
+{% endblock %}
+
+{% block dashboard-body %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="{% url 'account:dashboard' %}">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'students:all_student' %}">Applicants</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">List</li>
+    </ol>
+</nav>
+
+
+<div class="row">
+  <div class="col-12">
+    <table class="table table-bordered" id="studentsDataTable">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Department</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if students %}
+          {% for student in students %}
+          <tr>
+            <th scope="row">
+              <a href="{% url 'students:student_details' pk=student.id %}">
+                {{ student.temporary_id }}
+            </th>
+            <td>
+              <a href="{% url 'students:student_details' pk=student.id %}">
+              <img src="{{ student.photo.url }}" class="mr-2 rounded-circle" height=24 width=24>
+              {{ student.admission_student.name }}
+            </td>
+            <td>
+              <a href="{% url 'students:student_details' pk=student.id %}">
+                {{ student.admission_student.choosen_department.name }}
+            </td>
+            <td>
+              <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-success">
+                  <i class="fas fa-cogs"></i>
+                </button>
+                <a href="{% url 'students:update_student' pk=student.id %}" class="btn btn-secondary">
+                  <i class="fas fa-edit"></i>
+                </a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="6">
+              No Student Data Found
+            </td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}
+
+
+
+{% block extrajs %}
+  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+  <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>>
+  <script src="{% static 'js/dataTables.bootstrap4.min.js' %}"></script>
+
+  <script>
+    $(document).ready(function() {
+      $('#studentsDataTable').dataTable();
+    });
+  </script>
+{% endblock extrajs %}
+  

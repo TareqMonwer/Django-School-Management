@@ -1,0 +1,133 @@
+{% extends 'articles/base.html' %} 
+{% block content %}
+
+<!-- Page Header -->
+<header class="profile-header-container">
+  <div class="profile-header">
+    <div class="header-container"></div>
+  </div>
+
+  <div class="container">
+    <div class="row profile-card bg-light px-3 py-4 border shadow-sm">
+      <!-- profile card image-side(left) -->
+      <div class="col-sm-12 col-md-4">
+        <div class="author-metadata">
+          <div class="author-image">
+            <img src="https://picsum.photos/180" alt="" />
+          </div>
+          <div class="author-descriptions">
+            <!-- desctiption items -->
+            <div class="auth-desc-item">
+              <div class="adi-icon">
+                <i class="fas fa-feather-alt"></i>
+              </div>
+              <div class="adi-text">20 Articles</div>
+            </div>
+            <div class="auth-desc-item">
+              <div class="adi-icon">
+                <i class="fas fa-sitemap"></i>
+              </div>
+              <div class="adi-text">5 Categories</div>
+            </div>
+            <div class="auth-desc-item">
+              <div class="adi-icon">
+                <i class="far fa-bookmark"></i>
+              </div>
+              <div class="adi-text">100 Read</div>
+            </div>
+            <div class="auth-desc-item">
+              <div class="adi-icon">
+                <i class="far fa-heart"></i>
+              </div>
+              <div class="adi-text">200 Loves</div>
+            </div>
+            <!-- description items end -->
+          </div>
+        </div>
+      </div>
+
+      <!-- profile card detail (right side) -->
+      <div class="col-sm-12 col-md-8">
+        <div class="author-info">
+          <div class="auth-info-top auth-item d-flex justify-content-between">
+            <div class="author-intro">
+              <h5>{{ author.username | title }}</h5>
+              <b class="text-muted">Author Profession / Bio</b>
+            </div>
+            {% if user == author %}
+            <div class="author-formlink">
+              <a href="" class="btn btn-primary"> Edit Profile </a>
+            </div>
+            {% endif %}
+          </div>
+          <div class="auth-info-bottom mt-4">
+            <div class="auth-info text">
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus
+              voluptate asperiores inventore non cumque ea pariatur ab, maiores
+              alias! Fuga architecto autem, nam accusamus, aut nostrum suscipit
+              obcaecati provident similique dolorum nemo quaerat nulla earum
+              veniam vero vitae dicta commodi! Libero dolor quae rerum sunt
+              tempore nemo. Iusto error esse earum facere repudiandae iure ipsam
+              praesentium minima, cum quia repellat cumque omnis nesciunt non
+              soluta voluptate ducimus fuga adipisci! Hic, in? Non consequatur
+              nostrum vero officiis laboriosam facilis, expedita ex, debitis
+              illum nesciunt temporibus itaque eligendi cupiditate iste culpa
+              reiciendis assumenda. Libero, nulla a similique adipisci cumque
+              distinctio ad natus!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Author articles -->
+<section id="author-articles" class="mb-5" style="position: relative;">
+  <div class="author-articles-container">
+    <div class="container border py-2 px-3 bg-light">
+      <div class="row justify-content-between align-items-center">
+        <div class="col-6">
+          <h5>Author Articles</h5>
+        </div>
+        {% if user == author %}
+        <div class="col-6 d-flex justify-content-end">
+          <a href="" class="btn btn-primary"> Manage </a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    <div class="container border-left border-bottom border-right">
+      <div class="row p-4">
+        {% for article in author.article_set.all %}
+        <div class="col-sm-12 col-md-3 mb-5">
+          <a href="{{ article.get_absolute_url }}">
+            <div class="shadow article-card rounded">
+              <img
+                src="{{article.featured_image.url}}"
+                alt=""
+                class="rounded article-preview-image"
+              />
+              <div class="p-3 article-content">
+                <p class="my-1">
+                  <b>
+                    <a href="{{ article.get_absolute_url }}">
+                      {{ article.title }}
+                    </a>
+                  </b>
+                </p>
+                <div class="metadata d-flex justify-content-between pr-4">
+                  <small class="fsm muted mr-3">{{ article.created }}</small>
+                  <!-- <small class="fsm muted">1500 VIEWS</small> -->
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Footer -->
+{% include 'articles/inc/_footer.html' %} {% endblock content %}
