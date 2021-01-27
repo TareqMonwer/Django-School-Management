@@ -1,0 +1,58 @@
+{% extends 'articles/base.html' %}
+
+{% block content %}
+<!-- Page Header -->
+  <header class="masthead category-articles-masthead" 
+		{% if category.featured_image %}
+		style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+						url('{{ object.featured_image.url }}')"
+		{% else %}
+			style="background-image: url('articles/img/post-bg.jpg')"
+		{% endif %}>
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="post-heading text-center">
+            <h1 class="large">Articles on {{ category }}</h1>
+            <h2 class="subheading">
+							{{ category.description }}
+						</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+	</header>
+
+	<section id="category-articles">
+		<div class="container">
+			<div class="row p-4">
+				{% for article in articles %}
+					<div class="col-sm-12 col-md-3 mb-5">
+						<a href="{{ article.get_absolute_url }}">
+							<div class="shadow article-card rounded">
+								<img src="{{article.featured_image.url}}"
+								 alt="" class="rounded article-preview-image">
+								<div class="p-3 article-content">
+									<p class="my-1">
+										<b>
+											<a href="{{ article.get_absolute_url }}">
+												{{ article.title }}
+											</a>
+										</b>
+									</p>
+									<div class="metadata d-flex justify-content-between pr-4">
+										<small class="fsm muted mr-3">{{ article.created }}</small>
+										<!-- <small class="fsm muted">1500 VIEWS</small> -->
+									</div>
+								</div>
+							</div>
+						</a>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</section>
+  <!-- Footer -->
+	{% include 'articles/inc/_footer.html' %}
+{% endblock content %}

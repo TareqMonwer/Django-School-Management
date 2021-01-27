@@ -1,0 +1,197 @@
+{% extends 'dashboard.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block extra_header %}
+<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap4.min.css' %}">
+{% endblock %}
+
+{% block dashboard-body %}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'result:result_home' %}">Results</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Entry</li>
+    </ol>
+</nav>
+
+<!-- Filter Form -->
+<div class="container-fluid">
+    <div class="row">
+    <div class="col-md-12 border py-3">
+        <h3>Add Result : Find Subjects <span id="title-dept"></span></h3>
+        <form action="" method="get">
+            <div class="form-row align-items-end">
+                <div class="col">
+                    {{ subject_group_filter.form.department|as_crispy_field }}
+                </div>
+                <div class="col">
+                    {{ subject_group_filter.form.semester|as_crispy_field }}
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <div class="">
+                            <input type="submit" value="Filter" class="btn btn-primary">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+
+{% if messages %}
+<div class="row my-4">
+    <div class="col-md-12">
+        {% for message in messages %}
+            <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<!-- Filtered out students -->
+<form action="." method="POST">
+    {% csrf_token %}
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <table id="studentsDataList" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Practical Marks</th>
+                        <th>Theory Marks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for subject_group in subject_group_filter.qs %} 
+
+                        <input type="hidden" name="semester" value="{{ subject_group.semester.pk }}">
+                        
+                        {% for subject in subject_group.subjects.all %}
+                            <tr>
+                                <td>
+                                    <a href="#"
+                                        class="text-dark">
+                                        {{ subject }}
+                                        <input type="hidden" name="subject.{{ subject.pk }}">
+                                    </a>
+                                </td>
+                                <td>
+                                    <input type="number" 
+                                        name="practical_marks.{{ subject.pk }}">
+                                </td>
+                                <td>
+                                    <input type="number" 
+                                        name="theory_marks.{{ subject.pk }}">
+                                </td>
+                            </tr>
+                        {% endfor %}
+                            
+                    {% empty %}
+                        <tr>
+                            <td colspan="5">
+                                NO RESULT FOUND
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-12">
+            <div class="row justify-content-end">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <input class="form-control"
+                            type="text" name="student_id" placeholder="Student ID"
+                            id="student_id">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <input class="btn btn-block btn-primary" type="submit" value="Add Result">
+                    </div>
+                </div>
+            </div>
+            <!-- Student preveiw card -->
+            <div class="row justify-content-end">
+                <div class="col-md-4">
+                    <div id="student-preview-card" class="d-none">
+                        <div class="card" style="width: 100%;">
+                            <img id="studentImg" class="card-img-top" src="" alt="Student Preview">
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <b>Name: </b> <span id="studentName"></span> <br>
+                                    <b>Batch: </b> <span id="studentBatch"></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="student-preview-card-placeholder">
+                        <p class="text-center">
+                            SUDENT PREVIEW
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+{% endblock %}
+
+
+{% block extrajs %}
+
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+<script>
+    $(document).ready(function(){
+        //  student preview card
+        $('#student_id').keyup(function(){
+            const prevCard = document.getElementById('student-preview-card');
+            const prevPlaceHolder = document.getElementById('student-preview-card-placeholder');
+            const studentCardImage = document.getElementById('studentImg');
+            const studentCardName = document.getElementById('studentName');
+            const studentCardBatch = document.getElementById('studentBatch');
+
+            const studentId = document.getElementById('student_id').value;
+
+            let url = "{% url 'result:find_student' student_id=0 %}"
+            url = url.replace('0', studentId)
+
+            $.ajax({
+                type: 'GET',
+                url: url,
+                success: function(data){
+                    prevCard.classList.remove('d-none');
+
+                    prevPlaceHolder.style.display = 'none';
+
+                    const student = data.data;
+                    // console.log(student);
+                    studentCardImage.src = student.image_url;
+                    studentCardName.innerHTML = student.student_name;
+                    studentCardBatch.innerHTML = student.student_batch;
+                },
+                error: function(error) {
+                    prevCard.classList.add('d-none');
+                    prevPlaceHolder.style.display = 'block';
+                    prevPlaceHolder.innerHTML = '<p class="text-center">NO STUDENT MATCHES</p>';
+                }
+            })
+        });
+    })
+</script>
+{% endblock %}

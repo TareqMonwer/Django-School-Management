@@ -6,252 +6,65 @@
 	--yellow-color: #F6C23E;
 }
 
+/* FONTS */
+@font-face {
+	font-family: 'fontello';
+	src: url('./font/fontello.eot?6968418');
+	src: url('./font/fontello.eot?6968418#iefix') format('embedded-opentype'),
+		url('./font/fontello.woff?6968418') format('woff'),
+		url('./font/fontello.ttf?6968418') format('truetype'),
+		url('./font/fontello.svg?6968418#fontello') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
 /* GENERIC CLASSES*/
 .lio-primary-bg {
 	background: var(--primary-color);
 	color: #fff;
 }
 
-/* RESETS */
-p, h3, h4, h5 {
-	margin: 0;
+.selected-item {
+	border: 4px solid rgb(1, 160, 73);
 }
 
-
-/* OVERRIDEN BS CLASS*/
-a:hover {
-	text-decoration: none;
-}
-
-.btn-link.focus, 
-.btn-link:focus,
-.btn-link:hover {
-	text-decoration: none;
-}
-
-.navbar-expand-lg .navbar-nav .dropdown-menu {
-	position: absolute;
-	left: -7rem !important;
-}
-
-.dropdown-toggle::after {
-	border: none !important;
-}
-
-#searchForm .form-control {
-	border-radius: 0;
-}
-
-#searchForm .form-control:focus {
-	border: 0;
-	outline: 0;
-	box-shadow: none;
-}
-
-#searchBtn {
-	border-radius: 0;
-}
-#searchBtn:focus {
-	border: 0;
-	outline: 0;
-	box-shadow: none;
-}
-
-.filterbox,
-.filterbox .list-group-item {
-	background: #F8F9FA;
-}
-
-.filterbox .list-group-item {
-	padding: .75rem 0rem;	
-}
-
-.list-group-item a {
-	padding-left: 1.5rem;
-}
-
-.list-group-item.active {
-	background: var(--primary-color);
-	border: none;
-	padding-left: 1rem;
-}
-
-#accordion .list-group-flush {
-	padding: 0;
-}
-
-/* DASH */
-body {
-    font-size: 16px;
-    font-family: 'Nunito', sans-serif;
-}
-
-.sidenav {
-	background-color: rgb(78, 115, 223);
-	background-image: linear-gradient(rgb(78, 115, 223) 10%, rgb(34, 74, 190) 100%);
-	color: #fff;
-	min-height: 100vh;
-	padding: 2rem 1.5rem;
-}
-
-.logo {
-	text-align: center;
-	margin-bottom: 2rem;
-	margin-top: -0.7rem;
-}
-
-.logo h4 {
-	font-weight: bold;
-	/*margin-top: 1rem;*/
-}
-
-.logo img {
-	max-width: 4rem;
-	max-height: 4rem;
-	border-radius: 50%;
-}
-
-
-.sn-group h5 {
-	text-transform: uppercase;
-	font-size: .80rem;
-	margin-top: 1.5rem;
-	color: rgba(255, 255, 255, 0.51);
-	border-top: 1px solid #fff3;
-	padding-top: 1.4rem;
-	margin-bottom: .6rem;
-	letter-spacing: .1rem;
-}
-
-.sn-link.dash-home,
-.sn-link.dash-home i {
-	color: #fff !important;
-}
-
-.sn-link {
+.selected-item::after {
+	content: '\f14a';
+	font-family: "fontello";
 	display: block;
-	color: rgba(255, 255, 255, .7);
-	text-transform: capitalize;
-	font-size: .9rem !important;
-	padding: .9rem 1rem .5rem 0;
-	text-decoration: none;
-}
-.sn-link i {
-	margin-right: .7rem;
-	color: rgba(255, 255, 255, .4);
-}
-.sn-link:hover, 
-.sn-link.active {
+	width: 50px;
+	height: 50px;
+	position: absolute;
+	background: rgb(1, 160, 73);
+	right: 0;
+	bottom: 0;
 	color: #fff;
-	text-decoration: none;
+	font-size: 33px;
+	text-align: center;
 }
 
-.sn-link:hover i,
-.sn-link.active i {
-	color: #fff; 
+.hide {
+	display: none;
 }
 
-
-/* BODY */
-#searchBtn:hover {
-	color: #fff;
-	opacity: .8;
+.dashboard-section-title {position: relative;}
+.dashboard-section-title .title-v-line {
+	content: "";
+	width: 5px;
+	height: 100%;
+	background: var(--green-color);
+	position: absolute;
+}
+.dashboard-section-title h4 {
+	margin-left: 7px;
+	font-weight: 600;
+	text-transform: uppercase;
+}
+.dashboard-section-title .color-2 {
+	border-bottom: 2px solid var(--cyan-color);
+	font-style: italic;
 }
 
-#dash-body-inner {
-	min-height: 100vh;
-}
-
-
-
-/* ==================================== */
-/* --------- DASHBOARD HOME ----------- */
-/* ==================================== */
-
-/* topstat */
-.statbox {
-	background: #f3f4f4;
-	display: flex;
-	padding: 1rem 2rem;
-	min-width: 23%;
-	border-radius: 0.2rem;
-	flex-direction: row-reverse;
-	justify-content: space-between;
-	align-items: center;
-	box-shadow: 0.15rem 0.75rem 2rem rgba(58,59,69,.2);
-}
-
-
-.statbox i {
-  color: rgba(0, 0, 0, .3);
-}
-
-.statbox:nth-child(1) {
-  border-bottom: 4px solid var(--primary-color)
-}
-
-.statbox:nth-child(2) {
-  border-bottom: 4px solid var(--green-color)
-}
-
-.statbox:nth-child(3) {
-  border-bottom: 4px solid var(--cyan-color)
-}
-
-.statbox:nth-child(4) {
-  border-bottom: 4px solid var(--yellow-color)
-}
-
-.statbox:nth-child(1) p {
-  text-transform: uppercase;
-  font-weight: bold;
-  margin-bottom: 0;
-  color: var(--primary-color)
-}
-
-.statbox:nth-child(2) p {
-  text-transform: uppercase;
-  font-weight: bold;
-  margin-bottom: 0;
-  color: var(--green-color)
-}
-
-.statbox:nth-child(3) p {
-  text-transform: uppercase;
-  font-weight: bold;
-  margin-bottom: 0;
-  color: var(--cyan-color)
-}
-
-.statbox:nth-child(4) p {
-  text-transform: uppercase;
-  font-weight: bold;
-  margin-bottom: 0;
-  color: var(--yellow-color)
-}
-
-.statbox:nth-child(1) i {
-	color: var(--primary-color);
-}
-
-.statbox:nth-child(2) i {
-	color: var(--green-color);
-}
-
-.statbox:nth-child(3) i {
-	color: var(--cyan-color);
-}
-
-.statbox:nth-child(4) i {
-	color: var(--yellow-color);
-}
-
-
-/* 2nd row */
-#second-row .card {
-	min-width: 49%;
-	color: #3e3d3d;
-}
 
 .card {
 	box-shadow: 0.15rem 0.75rem 2rem rgba(58,59,69,.1);
@@ -280,13 +93,14 @@ body {
 	text-transform: capitalize;
 }
 
-#footer {
-	background: #e9eaec;
-	width: 100%;
-	/* position: fixed; */
-	bottom: 0;
+/* SIDEBAR */
+.logo {
+	display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
+/* NAVBAR */
 
 
 /* ==================================== */
@@ -310,4 +124,90 @@ body {
 
 /* ==================================== */
 /* ---------- ALL STUDENTS ------------ */
+/* ==================================== */
+
+
+
+/* ====================================------------ */
+/* ---------- STUDENTS INDEX / COUNSEL ------------ */
+/* -------------------------------------------------*/
+.card-top-meta-info {
+	/*height: 100%;*/
+	max-height: 35px;
+}
+.card-record-date {
+	max-height: 35px;
+}
+.card-actions-action {
+	cursor: pointer;
+}
+.card-print-pdf-actions .card-actions-action {
+	margin: 5px;
+}
+#monthly-report-table {
+	transition: all 2s linear;
+}
+#monthly-report-table .table.table-striped {
+	margin-bottom: 0;
+}
+#monthly_report_date {
+	max-height: 34px;
+	border: 0;
+	outline: none;
+	border-radius: 0;
+}
+
+
+/* ==================================== */
+/* --------- ADMINISTRATIVE ----------- */
+/* ------------------------------------ */
+
+.group-table-perms {
+	height: 100px;
+	overflow: hidden;
+	position: relative;
+}
+.table-td-show-more {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	cursor: pointer;
+}
+
+
+/* ============================================== */
+/* --------- result/result_entry.html ----------- */
+/* ---------------------------------------------- */
+#student-preview-card-placeholder {
+    padding: 1rem;
+	border: 3px dotted rgb(95, 95, 95);
+	color:  rgb(95, 95, 95);
+}
+
+
+#subjectCounter {
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	width: 50px;
+	height: 50px;
+	background: rgb(218, 216, 216);
+	border: 2px solid #fff;
+	border-radius: 50%;
+	color: #303030;
+	font-weight: bolder;
+	font-size: 20px;
+	cursor: pointer;
+	box-shadow: 3px 2px 5px rgba(179, 179, 179, 0.8);
+}
+
+#subjectCounter #subjectCounterN {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+/* ==================================== */
+/*              ADMINATOR               */
 /* ==================================== */

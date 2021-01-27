@@ -1,0 +1,72 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block extra_header %}
+{% endblock %}
+
+{% block dashboard-body %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'students:students_dashboard_index' %}">Applicants</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Admitted Applicants</li>
+    </ol>
+</nav>
+
+<!-- Online students Table Row -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 pl-0">
+            <h4 class="ml-0 mb-1">Admittable Applicants</h4>
+            <small class="mb-3">
+                Applicants who are approved to be admitted and cleared their admission fees.
+            </small>
+        </div>
+        <!-- Admitted Students Table -->
+        <div id="admitted-students" class="col-md-12 mt-4">
+            <table class="table table-bordered table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Department</th>
+                        <th scope="col">Admission Date</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-light">
+                
+                    {% for student in admitted_students %}
+                    <tr>
+                        <th scope="row">{{ student.id }}</th>
+                        <td>
+                            <img src="{{ student.photo.url }}" width="50" height="50">
+                        </td>
+                        <td>{{ student.name }}</td>
+                        <td>{{ student.permanent_address }}</td>
+                        <td>{{ student.choosen_department }}</td>
+                        <td>{{ student.admission_date }}</td>
+                        <td>
+                            <a href="" class="btn btn-sm btn-primary">More</a>
+                            <a href="" class="btn btn-sm btn-success">
+                                Update
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extrajs %}
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+{% endblock %}

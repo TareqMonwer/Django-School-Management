@@ -1,0 +1,172 @@
+{% extends 'articles/base.html' %}
+{% load social_share %}
+
+{% block content %}
+  <!-- Page Header -->
+  <header class="masthead" 
+  {% if object.featured_image %}
+  style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+          url('{{ object.featured_image.url }}')"
+  {% else %}
+    style="background-image: url('articles/img/post-bg.jpg')"
+  {% endif %}>
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="post-heading">
+            <h1>
+              {{object.title}}
+              {% if request.user == object.author %}
+                <a class="text-warning" href="{% url 'articles:update' object.slug %}"
+                  title="Edit Article">
+                  <i class="fas fa-pen-square"></i>
+                </a>
+              {% endif %}
+            </h1>
+            {#  TODO: Implement subheading #}
+            {# <h2 class="subheading">{{ object.subheading }}</h2>#}
+            <span class="meta">Posted by
+              <a href="#">
+                {% if object.user.name %}
+                  {{object.author.name}}
+                {% else %}
+                  {{ object.author.username }}
+                {% endif %}
+              </a>
+              at {{object.created}}
+            </span>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- Post Content -->
+  <article class="article-detail">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-2 col-md-2 d-flex flex-column
+          justify-content-center align-items-center text-center">
+          <div class="social-share d-flex flex-column justify-content-start mb-3">
+              <div class="share badge border p-2">
+                <i class="fab fa-facebook-square"></i>
+                {% post_to_facebook object.get_absolute_url "share" %}
+              </div>
+              <div class="share badge border p-2">
+                <i class="fab fa-twitter-square"></i>
+                {% post_to_twitter object.get_absolute_url "share-class" "share" %}
+              </div>
+              <!-- <div class="share badge border p-2">
+                <i class="fas fa-at"></i>
+                {% send_email "Article" object.title object.get_absolute_url "-" "share-class" %}
+              </div> -->
+              <div class="share badge border p-2">
+                <i class="fab fa-whatsapp-square"></i>
+                {% post_to_whatsapp object.get_absolute_url "share" %}
+              </div>
+              <div class="share badge border p-2">
+                <i class="fab fa-reddit-square"></i>
+                {% post_to_reddit "New Article from {{ request_institute.name }}" object.get_absolute_url "share" %}
+              </div>
+              <div class="share badge border p-2">
+                <!-- <i class="fab fa-pinterest-square"></i> -->
+                {% save_to_pinterest object.get_absolute_url %}
+              </div>
+            </div>
+          <form id="like_form" action="{% url 'articles:like' object.slug  %}" method="POST">
+            {% csrf_token %}
+            <i class="fa fa-heart" id="like-btn" style="cursor: pointer;"></i>
+          </form>
+            <h3 class="m-0" id="display-like-count">{{ likes.count }}</h3>
+            <a href="">
+              {# TODO: link to list all who appreciated #}
+              <small>
+                people liked
+              </small>
+            </a>
+        </div>
+        <div class="col-lg-10 col-md-10 mx-auto" style="word-wrap: break-word;">
+          {{ object.content|safe }}
+        </div>
+      </div>
+
+      <div class="row mt-5">
+        <div class="col-12">
+          <h5 class="my-4">You may also read</h5>
+        </div>
+
+        {% for article in object.get_related_articles %}
+          <div class="col-sm-12 col-md-3 mb-5">
+            <a href="{{ article.get_absolute_url }}">
+              <div class="article-card rounded">
+                <img src="{{article.featured_image.url}}" 
+                  alt="{{ request_institute.name }}-{{ article.title }}" 
+                  class="shadow shadow-sm rounded article-preview-image ">
+                <div class="article-content p-2">
+                  <!-- <div class="category-name badge badge-info">
+                    <a class="text-light" href="{{ article.categories.first.get_absolute_url }}">
+                      {{ article.categories.first }}
+                    </a>
+                  </div> -->
+                  <p class="my-1">
+                    <b>
+                      <a href="{{ article.get_absolute_url }}">
+                        {{ article.title }}
+                      </a>
+                    </b>
+                  </p>
+                  <div class="metadata d-flex justify-content-between pr-4">
+                    <small class="fsm muted mr-3">{{ article.created }}</small>
+                    <!-- <small class="fsm muted">1500 VIEWS</small> -->
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        {% empty %}
+          <div class="no-article">
+            <h5 class="ml-3"><i class="fas fa-frown"></i> No Realated Article Found</h5>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </article>
+
+  <hr>
+
+  <!-- required for pinterest social sharing-->
+{% add_pinterest_script %}
+  <!-- Fixed Action Buttons -->
+  {% include 'articles/inc/_fixed_actions.html' %}
+
+  <!-- Footer -->
+  {% include 'articles/inc/_footer.html' %}
+
+{% endblock content %} 
+
+{% block pagejs %}
+
+<script>
+  $("#like-btn").click(function(){
+  $.ajax({
+    type: "POST",
+    url: "{% url 'articles:like' object.slug  %}",
+    data: {'slug': $(this).attr('name'), 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+    success: function(response) {
+      updateLikes();
+    },
+    error: function(){
+      console.log(res.responseText);
+    }
+  })
+})
+
+function updateLikes(){
+  document.getElementById("display-like-count").innerHTML = 
+  parseInt(document.getElementById("display-like-count").innerText) + 1;
+}
+</script>
+{% endblock pagejs %}

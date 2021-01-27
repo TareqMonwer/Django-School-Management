@@ -1,0 +1,71 @@
+{% extends 'layout.html' %}
+
+
+{% block headrefs %}
+    <script src="https://js.braintreegateway.com/web/dropin/1.18.0/js/dropin.min.js"></script>
+{% endblock headrefs %}
+
+
+
+{% block content %}
+<div class="bg-primary text-light py-5 text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2 id="header-text">Pay $100 as Admission Fee</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="col-6">
+        <form autocomplete="off">
+            {% if braintree_error %}
+                <div class="alert alert-danger fade in">
+                    <button class="close" data-dismiss="alert">&times;</button>
+                    {{ braintree_error|safe }}
+                </div>
+            {% endif %}
+            <div class="braintree-notifications"></div>
+            <div id="braintree-dropin"></div>
+            <input style="background-color: #0783ca" id="submit-button" class="btn btn-success btn-lg btn-block" type="button" value="Pay now!" />
+            <a href="/" style="background-color: #07caa0" class="btn btn-success btn-lg btn-block">Back to website</a>
+        </form>
+    </div>
+</div>
+{% endblock content %}
+
+
+{% block extrajs %}
+<script>
+    var braintree_client_token = "{{ braintree_client_token }}";
+    var button = document.querySelector('#submit-button');
+    const headerText = document.querySelector('#header-text');
+
+    braintree.dropin.create({
+        authorization: braintree_client_token,
+        container: '#braintree-dropin',
+        card: {
+            cardholderName: {
+                required: false
+            }
+        }
+    }, function (createErr, instance) {
+        button.addEventListener('click', function () {
+            instance.requestPaymentMethod(function (err, payload) {
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url "pages:payment" pk=registrant.id %}',
+                    data: {'paymentMethodNonce': payload.nonce,
+                            'csrfmiddlewaretoken':  '{{ csrf_token }}'}
+                }).done(function (result) {
+                    //do accordingly
+                    button.style.display = 'none';
+                    headerText.textContent = 'We got your payment, we\'ll contact you soon'
+                });
+            });
+        });
+    });
+</script>
+{% endblock extrajs %}
+    

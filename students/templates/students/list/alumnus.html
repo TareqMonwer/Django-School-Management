@@ -1,0 +1,105 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block extra_header %}
+<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap4.min.css' %}">
+{% endblock %}
+
+{% block dashboard-body %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="{% url 'account:dashboard' %}">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a href="{% url 'students:alumnus' %}">Alumnus</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">List</li>
+  </ol>
+</nav>
+
+<div class="row border">
+    <div class="col-md-12 py-2">
+        <form action="" method="get">
+            <div class="form-row align-items-end">
+                <div class="col">
+                    {{ filter.form.admission_student__name|as_crispy_field }}
+                </div>
+                <div class="col">
+                    {{ filter.form.roll|as_crispy_field }}
+                </div>
+                <div class="col">
+                    {{ filter.form.admission_student__choosen_department|as_crispy_field }}
+                </div>
+                <div class="col">
+                    {{ filter.form.ac_session|as_crispy_field }}
+                </div>
+                <div class="col">
+                    {{ filter.form.batch|as_crispy_field }}
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <div class="">
+                            <input type="submit" value="Submit" class="btn btn-primary">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <table class="table table-bordered" id="alumnussDataTable">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Department</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for alumni in filter.qs %} 
+          <tr>
+            <td>
+              <a href="#">
+                <img src="{{ student.photo.url }}" class="mr-2 rounded-circle" height=24 width=24>
+                {{ alumni.admission_student.name }}
+            </td>
+            <td>
+              <a href="#">
+                {{ alumni.admission_student.choosen_department.name }}
+            </td>
+            <td>
+              <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-success">
+                  <i class="fas fa-cogs"></i>
+                </button>
+                <a href="#" class="btn btn-secondary">
+                  <i class="fas fa-edit"></i>
+                </a>
+              </div>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}
+
+
+
+{% block extrajs %}
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+<script src="{% static 'js/jquery.dataTables.min.js' %}"></script>>
+<script src="{% static 'js/dataTables.bootstrap4.min.js' %}"></script>
+
+<script>
+  $(document).ready(function () {
+    $('#alumnussDataTable').dataTable();
+  });
+</script>
+{% endblock extrajs %}

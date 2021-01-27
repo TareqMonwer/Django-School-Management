@@ -13,3 +13,8 @@ def num_suffix(number):
         return '3rd'
     if 3 < number <= 12:
         return '%sth' % number
+
+
+@register.filter(name='get_item')
+def get_item(dictionary, key):
+    return dictionary.get(key)

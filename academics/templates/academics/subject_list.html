@@ -1,0 +1,63 @@
+{% extends 'dashboard.html' %} 
+{% load static %} 
+
+{% block dashboard-body %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+    <li class="breadcrumb-item">
+      <a href="{% url 'academics:subject_list' %}">Subjects</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">All Subjects</li>
+  </ol>
+</nav>
+
+<div class="row">
+  <div class="col-12 mb-2">
+    <h4 class="ml-0">All Subjects</h4>
+  </div>
+  <div class="col-12">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">SYL</th>
+          <th scope="col">Name</th>
+          <th scope="col">Subject Code</th>
+          <th scope="col">Instructor</th>
+          <th scope="col">T. Marks</th>
+          <th scope="col">P. Marks</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for subject in subjects %}
+        <tr>
+          <th scope="row">
+            <a href="#"> {{ forloop.counter }} </a>
+          </th>
+          <td>
+            <a href="#"> {{ subject.name }} </a>
+          </td>
+          <td>
+            <a href="#"> {{ subject.subject_code }} </a>
+          </td>
+          <td style="text-align: center">
+            <a href="#">
+              {{ subject.instructor|default:"-" }}
+            </a>
+          </td>
+          <td style="text-align: center">
+            <a href="#">
+              {{ subject.theory_marks|default:"-" }}
+            </a>
+          </td>
+          <td>
+            <a href=""> {{ subject.practical_marks|default:"-" }} </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

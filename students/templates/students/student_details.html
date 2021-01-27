@@ -1,0 +1,89 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load student_tags %}
+
+{% block content %}
+<section id="student-detail-section header">
+  <div id="student-detail-section--inner">
+    <div class="container">
+      <a href="{% url 'index_view' %}" class="btn btn-danger">
+        Dashboard
+      </a>
+      <a href="{% url 'students:delete_student' pk=student.pk %}" class="btn btn-danger">
+        <i class="fas fa-trash-alt"></i>
+      </a>
+      <a href="{% url 'students:update_student' pk=student.id %}" class="btn btn-secondary">
+        <i class="fas fa-edit"></i>
+      </a>
+      <div class="row py-5">
+        <div class="col-3">
+          <img class="student-profile-img" src="{{ student.admission_student.photo.url }}" alt="" width="200"
+            height="200">
+        </div>
+        <div class="col-8">
+          <h2>{{ student.admission_student.name }}</h2>
+          <h4>
+            {{ student.admission_student.choosen_department }} {{ student.semester }}
+          </h4>
+          <h4>
+            Temporary ID: {{ student.temporary_id }}
+          </h4>
+          {% if student.roll %}
+            <h4>Roll: {{ student.roll }}</h4>
+          {% endif %}
+          {% if student.registration_number %}
+          <h4>Registration: {{ student.registration_number }}</h4>
+          {% endif %}
+          <h4>Session: {{ student.ac_session }}</h4>
+          {% if student.mobile %}
+          <h4>Mobile: {{ student.mobile }}</h4>
+          {% endif %}
+          {% if student.email %}
+          <h4>Mail: {{ student.email }}</h4>
+          {% endif %}
+          {% if student.guardian_mobile %}
+          <h4>Guardian: {{ student.guardian_mobile }}</h4>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="student-results">
+  <div class="container-fluid">
+    <div class="row mt-5">
+      <div class="col-md-6">
+        <h3>Result Board</h3>
+        <table class='{% cycle "table table-striped table-bordered table-dark" "table table-striped table-bordered" %}'>
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Subject</th>
+              <th scope="col">Total</th>
+              <th scope="col">Theory</th>
+              <th scope="col">Practical</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for result in results %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ result.subject }}</td>
+              <td>{{ result.total_marks }}</td>
+              <td>{{ result.theory_marks }}</td>
+              <td>{{ result.practical_marks }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extrajs %}
+  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+{% endblock}

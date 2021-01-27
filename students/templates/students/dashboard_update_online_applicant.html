@@ -1,0 +1,53 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block dashboard-body %}
+<!-- UPDATE APPLICANT INFORMATION -->
+<div class="row justify-content-between">
+    <div class="col-md-7">
+        <form action="" method="POST" enctype="multipart/form-data">
+            {{ form|crispy }}
+            <div>
+                <input type="submit" value="UPDATE" class="btn btn-success">
+            </div>
+            {% csrf_token %}
+        </form>
+    </div>
+    <div class="col-md-4">
+        <!-- Update Counseling Data -->
+        <div class="card p-3 mb-5">
+            <form action="{% url 'students:add_counseling_data' student_id=applicant.id %}" method="post">
+                {{ counseling_form|crispy }}
+                {% csrf_token %}
+                <input type="submit" class="btn btn-primary" value="Save Changes">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </form>
+        </div>
+        <!-- Display Counseling Data -->
+        <ul class="list-group card">
+            <li class="list-group-item active">Counseling Information</li>           
+            {% for record in counseling_records.all %}
+                <li class="list-group-item">
+                    {{ record }} <br>
+                    <span class="badge badge-dark">
+                        <strong>Comment by:</strong>
+                        {{ record.counselor }}
+                    </span>
+                </li>
+            {% endfor %}              
+        </ul>
+    </div>
+</div>
+{% endblock %}
+
+{% block extrajs %}
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+    <script>
+        // Select image
+        $('input[type="file"]').change(function(e){
+            const fileName = e.target.files[0].name;
+        $('.custom-file-label').html(fileName);
+        });
+    </script>
+{% endblock %}

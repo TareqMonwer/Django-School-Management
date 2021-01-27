@@ -1,0 +1,918 @@
+{% extends 'dashboard.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block extra_header %}
+{% endblock %}
+
+{% block dashboard-body %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="#">Applicants</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Index</li>
+  </ol>
+</nav>
+
+<!-- Stats - Links -->
+<div class="row gap-20 masonry pos-r">
+  <div class="masonry-sizer col-md-6"></div>
+  <div class="masonry-item w-100">
+    <div class="row gap-20">
+      <div class="col-md-3">
+        <div class="layers bd bgc-white p-20">
+          <div class="layer w-100 mB-10">
+            <h6 class="lh-1">
+              <a href="{% url 'students:all_applicants' %}" class="text-dark">
+                Applications
+              </a>
+            </h6>
+          </div>
+          <div class="layer w-100">
+            <div class="peers ai-sb fxw-nw">
+              <div class="peer peer-greed">
+                <a href="{% url 'students:all_applicants' %}" class="text-dark">
+                  <i class="fas fa-users fa-3x"></i>
+                </a>
+              </div>
+              <div class="peer">
+                <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-green-50 c-green-500">
+                  <a href="{% url 'students:all_applicants' %}" class="text-dark">
+                    {{ all_applicants.count }}
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="layers bd bgc-white p-20">
+          <div class="layer w-100 mB-10">
+            <h6 class="lh-1">
+              <a href="{% url 'students:admitted_student_list' %}" class="text-dark">
+                Admittable
+              </a>
+            </h6>
+          </div>
+          <div class="layer w-100">
+            <div class="peers ai-sb fxw-nw">
+              <div class="peer peer-greed">
+                <a href="{% url 'students:admitted_student_list' %}" class="text-dark">
+                  <i class="fas fa-users fa-3x"></i>
+                </a>
+              </div>
+              <div class="peer">
+                <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-red-50 c-red-500">
+                  <a href="{% url 'students:admitted_student_list' %}" class="text-dark">
+                    {{ admitted_students.count }}
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="layers bd bgc-white p-20">
+          <div class="layer w-100 mB-10">
+            <h6 class="lh-1">
+              <a href="{% url 'students:unpaid_registrants' %}" class="text-dark">
+                Unpaid
+              </a>
+            </h6>
+          </div>
+          <div class="layer w-100">
+            <div class="peers ai-sb fxw-nw">
+              <div class="peer peer-greed">
+                <a href="{% url 'students:unpaid_registrants' %}" class="text-dark">
+                  <i class="fas fa-users fa-3x"></i>
+                </a>
+              </div>
+              <div class="peer">
+                <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-purple-50 c-purple-500">
+                  <a href="{% url 'students:unpaid_registrants' %}" class="text-dark">
+                    {{ unpaid_registrants.count }}
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="layers bd bgc-white p-20">
+          <div class="layer w-100 mB-10">
+            <h6 class="lh-1">
+              <a href="{% url 'students:rejected_registrants' %}" class="text-dark">
+                Rejected
+              </a>
+            </h6>
+          </div>
+          <div class="layer w-100">
+            <div class="peers ai-sb fxw-nw">
+              <div class="peer peer-greed">
+                <a href="{% url 'students:rejected_registrants' %}" class="text-dark">
+                  <i class="fas fa-users fa-3x"></i>
+                </a>
+              </div>
+              <div class="peer">
+                <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-blue-50 c-blue-500">
+                  <a href="{% url 'students:rejected_registrants' %}" class="text-dark">
+                    {{ rejected_applicants.count }}
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="masonry-item w-100">
+    <div class="row gap-20">
+      <div class="col-md-3">
+        <div class="layers bd bgc-white p-20">
+          <div class="layer w-100 mB-10">
+            <h6 class="lh-1">
+              <a href="{% url 'students:admission_confirmation' %}" class="text-dark">
+                Confirmation
+              </a>
+            </h6>
+          </div>
+          <div class="layer w-100">
+            <div class="peers ai-sb fxw-nw">
+              <div class="peer peer-greed">
+                <a href="{% url 'students:admission_confirmation' %}" class="text-dark">
+                  <i class="fas fa-users fa-3x"></i>
+                </a>
+              </div>
+              <div class="peer">
+                <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-purple-50 c-purple-500">
+                  <a href="{% url 'students:admission_confirmation' %}" class="text-dark">
+                    {{ admitted_students.count }}
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="layers bd bgc-white p-20">
+          <div class="layer w-100 mB-10">
+            <h6 class="lh-1">
+              <a href="#" class="text-dark">
+                Visits
+              </a>
+            </h6>
+          </div>
+          <div class="layer w-100">
+            <div class="peers ai-sb fxw-nw">
+              <div class="peer peer-greed">
+                <a href="#" class="text-dark">
+                  <i class="fas fa-users fa-3x"></i>
+                </a>
+              </div>
+              <div class="peer">
+                <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-green-50 c-green-500">
+                  <a href="#" class="text-dark">
+                    00
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<hr />
+
+<!-- Charts -->
+<div class="row my-5">
+  <!-- Monthly Report PieChart -->
+  <div class="col-md-6">
+    <div class="card p-4">
+      <h5 class="card-title text-center">
+        <form action="" method="get">
+          <div class="form-row align-items-center">
+            <!-- <div class="form-group col-md-5">Mon th:</div> -->
+            <div class="form-group">
+              <select name="monthly_report_piechart_date" id="monthly_report_piechart_date" class="form-control"
+                onchange="clickSelectedOption(this)">
+                <option selected id="reporting_chart_month_selected" disabled></option>
+                {% for month in month_list %}
+                <option value="{{ month }}" id="report-piechart-{{ month }}" onclick="monthlyReportPieChartByMonth(
+                    document.getElementById('report-piechart-{{ month }}').value)">
+                  {{ month }}
+                </option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+        </form>
+      </h5>
+      <div id="monthly-report-canvas-holder" style="width: 100%">
+        <canvas id="monthly-report--chart-area"></canvas>
+      </div>
+    </div>
+  </div>
+  <!-- Monthly Report Departmentwise bar Chart -->
+  <div class="col-md-6">
+    <div class="card p-4">
+      <h5 class="card-title text-center">
+        <form action="" method="get">
+          <div class="form-row align-items-center justify-content-end">
+            <!-- <div class="form-group col-md-5">Month:</div> -->
+            <div class="form-group">
+              <select name="monthly_report_department_date" id="monthly_report_department_date" class="form-control"
+                onchange="clickSelectedOption(this)">
+                <option selected id="monthly_report_department_month_selected" disabled></option>
+                {% for month in month_list %}
+                <option value="{{ month }}" id="report-dept-barchart-{{ month }}" onclick="monthlyReportByDepartmentsBarChartByMonth(
+                    document.getElementById('report-dept-barchart-{{ month }}').value)">
+                  {{ month }}
+                </option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+        </form>
+      </h5>
+      <div id="monthly-report-by-dept-canvas-holder" style="width: 100%">
+        <canvas id="monthly-report--dept-barchart-area"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+<hr />
+
+<!-- Charts -->
+<div class="row my-5">
+  <!-- Monthly Report PieChart -->
+  <div class="col-md-12">
+    <div class="card p-4">
+      <div id="year-graph-canvas-holder" style="width: 100%">
+        <canvas id="year-graph--chart-area"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+<hr />
+
+<!-- Monthly Report Table -->
+<div class="row my-5">
+  <div class="col-md-12">
+    <div class="dashboard-section-title mb-3">
+      <div class="title-v-line"></div>
+      <h4>Monthly Report <span class="color-2">Analysis</span></h4>
+    </div>
+  </div>
+
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-top-meta-info d-flex justify-content-between 
+        lio-primary-bg border-bottom align-items-center p-3 text-light">
+        <div class="card-top-meta-info--left d-flex align-items-center">
+          <div class="card-collapse pr-3 border-right">
+            <div class="card-actions-action">
+              <i class="fas fa-chevron-up"></i> <span class="">Collapse</span>
+            </div>
+          </div>
+          <div class="card-print-pdf-actions d-flex justify-content-between">
+            <div class="card-actions-action">
+              <a href="{% url 'students:counsel_monthly_report' %}" target="_blank" class="text-light">
+                <i class="fas fa-external-link-alt"></i>
+              </a>
+            </div>
+            <div class="card-actions-action">
+              <form action="{% url 'students:counsel_monthly_report_typed' response_type='pdf' %}" method="get">
+                <input type="hidden" name="download" value="yes" />
+                <button type="submit" class="btn p-0">
+                  <i class="fas fa-cloud-download-alt text-light"></i>
+                </button>
+              </form>
+            </div>
+            <div class="card-actions-action">
+              <a class="text-light" href="{% url 'students:counsel_monthly_report_typed' response_type='pdf' %}"
+                target="_blank">
+                <i class="fas fa-file-pdf"></i>
+              </a>
+            </div>
+            <div class="card-actions-action">
+              <i class="fas fa-print"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-record-date">
+          <form action="" method="get">
+            <div class="form-row align-items-center">
+              <!-- <div class="form-group col-md-5">Month:</div> -->
+              <div class="form-group">
+                <select name="monthly_report_date" id="monthly_report_date" class="form-control"
+                  onchange="clickSelectedOption(this)">
+                  <option selected id="reporting_month_selected" disabled></option>
+                  {% for month in month_list %}
+                  <option value="{{ month }}" id="report-table-{{ month }}" onclick="monthlyReportTableByMonth(
+                    document.getElementById('report-table-{{ month }}').value)">
+                    {{ month }}
+                  </option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-12 m-0 p-0" id="monthly-report-table">
+        <!-- Applications -->
+        <div class="">
+          <p class="bg-info text-light pl-4 py-1 mb-0">Total Application</p>
+          <table class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">TOTAL</th>
+                <th scope="col">Online</th>
+                <th scope="col">On-visit/Call</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td id="total_applications_number"></td>
+                <td id="total_online_applications"></td>
+                <td id="total_offline_applications"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Admissions -->
+        <div class="">
+          <p class="bg-info text-light pl-4 py-1 mb-0">Total Admission</p>
+          <table class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">TOTAL</th>
+                <th scope="col">Online</th>
+                <th scope="col">On-visit/Call</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td id="total_admission_number"></td>
+                <td id="total_online_admission"></td>
+                <td id="total_offline_admission"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- By Department -->
+        <div class="">
+          <p class="bg-info text-light pl-4 py-1 mb-0">
+            Admission/Migration/NA By Department
+          </p>
+          <table class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">Department</th>
+                <th scope="col">Applications</th>
+                <th scope="col">Admission</th>
+                <th scope="col">Migrated From</th>
+                <th scope="col">Migrated To</th>
+                <th scope="col">Missed</th>
+              </tr>
+            </thead>
+            <tbody id="departmental_report_tbody">
+              <!-- Updated from ajax -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- By City -->
+        <div class="">
+          <p class="bg-info text-light pl-4 py-1 mb-0">
+            Total Admission/Application by Cities
+          </p>
+          <table class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">City Name</th>
+                <th scope="col">Applications</th>
+                <th scope="col">Admission</th>
+              </tr>
+            </thead>
+            <tbody id="cities_report_tbody">
+              <!-- Updating from ajax -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extrajs %}
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+<script>
+  // Google Chrome change event support code.
+  const is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+
+  // Get the selected item on click from select options
+  function clickSelectedOption(select) {
+    // 'select' should be passed as 'this' from the function call.
+    if (!is_chrome) return;
+    select.options[select.selectedIndex].click();
+  }
+
+  // Select Image
+  $('input[type="file"]').change(function (e) {
+    const fileName = e.target.files[0].name;
+    $(".custom-file-label").html(fileName);
+  });
+
+  // Collapse the monthly report table card
+  $(".card-collapse").click(function () {
+    $("#monthly-report-table").fadeToggle("fast", "linear");
+  });
+
+  // Update Monthly Report UI
+  function update_monthly_report_ui(record) {
+    // report metadata elements
+    const total_applications_number_elem = document.getElementById(
+      "total_applications_number"
+    );
+    const reporting_month_elem = document.getElementById(
+      "reporting_month_selected"
+    );
+    const total_online_applications_elem = document.getElementById(
+      "total_online_applications"
+    );
+    const total_offline_applications_elem = document.getElementById(
+      "total_offline_applications"
+    );
+
+    const total_admission_elem = document.getElementById(
+      "total_admission_number"
+    );
+    const total_online_admission_elem = document.getElementById(
+      "total_online_admission"
+    );
+    const total_offline_admission_elem = document.getElementById(
+      "total_offline_admission"
+    );
+
+    const dept_report_tbody_elem = document.getElementById(
+      "departmental_report_tbody"
+    );
+    const cities_report_tbody_elem = document.getElementById(
+      "cities_report_tbody"
+    );
+
+    // Update UI From Data Records
+    reporting_month_elem.innerHTML = record.report_month;
+    total_applications_number_elem.textContent = record.total_applications;
+    total_online_applications_elem.textContent = record.online_applications;
+    total_offline_applications_elem.textContent = record.offline_applications;
+
+    // Update Total Admission Section
+    total_admission_elem.innerHTML = record.total_admissions;
+    total_online_admission_elem.innerHTML = record.total_admission_online;
+    total_offline_admission_elem.innerHTML = record.total_admission_offline;
+
+    // Update Admission/Migration/NA By Department Part
+    const departments = record.departmental_records;
+    let template = "";
+    for (let department in departments) {
+      const applications = departments[department].applications_count;
+      const admission = departments[department].admission_count;
+      const migrated_from = departments[department].migrated_from_count;
+      const migrated_to = departments[department].migrated_to_count;
+      const missed = departments[department].missed;
+
+      const new_tr = `
+            <tr>
+                <th scope="row">${department}</th>
+                <td>${applications}</td>
+                <td>${admission}</td>
+                <td>${migrated_from}</td>
+                <td>${migrated_to}</td>
+                <td>${missed}</td>
+            </tr>`;
+      template += new_tr;
+    }
+    dept_report_tbody_elem.innerHTML = template;
+
+    // Update Total Admission/Application by Cities Part
+    let cities = record.zila_records;
+    let cities_template = "";
+    for (let city in cities) {
+      const applications = cities[city].application_count;
+      const admissions = cities[city].admission_count;
+
+      const city_tr = `
+            <tr>
+                <td>${city}</td>
+                <td>${applications}</>
+                <td>${admissions}</>
+            </tr>`;
+      cities_template += city_tr;
+    }
+
+    cities_report_tbody_elem.innerHTML = cities_template;
+  }
+
+  // Monthly Report API Call and UI function call
+  function monthly_report_api_call(url) {
+    $.ajax({
+      type: "GET",
+      url: url,
+      success: function (data) {
+        const record = data.data;
+        update_monthly_report_ui(record);
+      },
+      error: function (err) {
+        console.log(err);
+      },
+    });
+  }
+
+  // Fetch Monthly Reporting Data Table to Dashboard
+  $(function () {
+    const url =
+      "{% url 'students:counsel_monthly_report_typed' response_type='json' %}";
+    monthly_report_api_call(url);
+  });
+
+  // Monthly report table month filter onclick event function
+  function monthlyReportTableByMonth(yearMonth) {
+    const dateOptionValue = yearMonth.split("-");
+    const optionMonth = dateOptionValue[0];
+    const optionYear = dateOptionValue[1];
+    // Create date object from extracted year and month from option tag
+    const monthNumberRaw =
+      new Date(`1 ${optionMonth} ${optionYear}`).getMonth() + 1;
+
+    // Convert month number 1 to 01, 2 to 02 ... 9 to 09 because, 
+    // route requires numbers less than ten prefixed with 0.
+    const monthNumber = monthNumberRaw < 10 ? `0${monthNumberRaw}` : monthNumberRaw;
+
+    // get a date like: 2020-12-01
+    const dateQuery = `${optionYear}-${monthNumber}-01`;
+    let url = `{% url 'students:counsel_monthly_report_typed' response_type='json' %}`;
+    url = url + dateQuery;
+    monthly_report_api_call(url);
+  }
+
+  // Charting on the top section
+  function monthly_report_piechart_api_call(url) {
+    $.ajax({
+      type: "GET",
+      url: url,
+      success: function (data) {
+        const record = data.data;
+        updateMonthlyReportPieChartUI(record);
+        displayMonthlyReportPieChart(record)
+      },
+      error: function (err) {
+        console.log(err);
+      },
+    });
+  }
+
+  // Update Monthly Reporting PieChart UI
+  function updateMonthlyReportPieChartUI(record) {
+    const reporting_chart_month_elem = document.getElementById(
+      'reporting_chart_month_selected');
+    reporting_chart_month_selected.innerHTML = record.report_month;
+  }
+
+  // Show monthly report pie chart on UI
+  function displayMonthlyReportPieChart(record) {
+    // if the chart is not undefined (e.g. it has been created)
+    // then destory the old one so we can create a new one later 
+    // also fix of showing old data on hover/mouseover
+    if (window.admissionDataPie != undefined) {
+      window.admissionDataPie.destroy();
+    }
+    var config = {
+      type: "pie",
+      data: {
+        datasets: [
+          {
+            data: [
+              record.online_applications,
+              record.offline_applications,
+              record.total_admissions,
+              record.unpaid_registrants,
+              record.rejected_registrants
+            ],
+            backgroundColor: [
+              "#22CECE",
+              "#069BFF",
+              "#8142FF",
+              "#FF9124",
+              "#FF3D67",
+            ],
+            label: "Dataset 1",
+          },
+        ],
+        labels: [
+          "Online Application",
+          "Offline Application",
+          "Admitted",
+          "Pending",
+          "Rejected",
+        ],
+      },
+      options: {
+        responsive: true,
+        legend: {
+          position: "left",
+        },
+      },
+    };
+    var ctx = document.getElementById("monthly-report--chart-area").getContext("2d");
+    window.admissionDataPie = new Chart(ctx, config);
+  }
+
+  // Immediate call to display monthly report pie chart
+  $(function () {
+    let url =
+      "{% url 'students:counsel_monthly_report_typed' response_type='json' %}";
+    monthly_report_piechart_api_call(url);
+  });
+
+  // Select monthly report month from monthly report pie chart
+  function monthlyReportPieChartByMonth(yearMonth) {
+    const dateOptionValue = yearMonth.split("-");
+    const optionMonth = dateOptionValue[0];
+    const optionYear = dateOptionValue[1];
+    // Create date object from extracted year and month from option tag
+    const monthNumberRaw =
+      new Date(`1 ${optionMonth} ${optionYear}`).getMonth() + 1;
+
+    // Convert month number 1 to 01, 2 to 02 ... 9 to 09 because, 
+    // route requires numbers less than ten prefixed with 0.
+    const monthNumber =
+      monthNumberRaw < 10 ? `0${monthNumberRaw}` : monthNumberRaw;
+
+    // get a date like: 2020-12-01
+    const dateQuery = `${optionYear}-${monthNumber}-01`;
+
+    let url = `{% url 'students:counsel_monthly_report_typed' response_type='json' %}`;
+    url = url + dateQuery;
+    monthly_report_piechart_api_call(url);
+  }
+
+  // Update selected month for Dept-wise bar chart
+  function updateMonthlyReportByDepartmentsBarChartUI(record) {
+    const reporting_chart_month_elem = document.getElementById(
+      'monthly_report_department_month_selected');
+    reporting_chart_month_elem.innerHTML = record.report_month;
+  }
+
+  // Display and bar chart for department-wise data information
+  function displayMonthlyReportByDepartmentsBarChar(record) {
+    const dept_names_array = Object.keys(record.departmental_records)
+    const color = Chart.helpers.color;
+
+    // Get array of applications and admissions for chart data
+    const applications_arr = [];
+    for (const item in record.departmental_records) {
+      applications_arr.push(
+        record.departmental_records[item].applications_count
+      );
+    }
+    const admissions_arr = [];
+    for (const item in record.departmental_records) {
+      admissions_arr.push(
+        record.departmental_records[item].admission_count
+      );
+    }
+
+    // if the chart is not undefined (e.g. it has been created)
+    // then destory the old one so we can create a new one later 
+    // also fix of showing old data on hover/mouseover
+    if (window.deptDataBar != undefined) {
+      window.deptDataBar.destroy();
+    }
+
+    // fetch and diplay Bar data
+    const departmentsBarChartData = {
+      labels: dept_names_array,
+      datasets: [{
+        label: 'Applications',
+        backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+        borderColor: window.chartColors.red,
+        borderWidth: 1,
+        data: applications_arr
+      }, {
+        label: 'Admitted',
+        backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+        borderColor: window.chartColors.blue,
+        borderWidth: 1,
+        data: admissions_arr
+      }]
+    };
+    const ctx = document.getElementById('monthly-report--dept-barchart-area').getContext('2d');
+
+    window.deptDataBar = new Chart(ctx, {
+      type: 'bar',
+      data: departmentsBarChartData,
+      options: {
+        responsive: true,
+        legend: {
+          position: 'top',
+          align: 'start'
+        },
+        title: {
+          display: true,
+          text: 'Report By Departments',
+          position: 'right',
+        }
+      }
+    });
+  }
+
+  // API call to grab barChartData and update the barchart UI
+  function monthlyReportByDepartmentsBarChartAPICall(url) {
+    $.ajax({
+      type: "GET",
+      url: url,
+      success: function (data) {
+        const record = data.data;
+        updateMonthlyReportByDepartmentsBarChartUI(record);
+        displayMonthlyReportByDepartmentsBarChar(record)
+      },
+      error: function (err) {
+        console.log(err);
+      },
+    });
+  }
+
+  // Immediate call to display monthly report by departments bar chart
+  $(function () {
+    let url =
+      "{% url 'students:counsel_monthly_report_typed' response_type='json' %}";
+    monthlyReportByDepartmentsBarChartAPICall(url);
+  });
+
+  // Event on Select monthly report month from monthly report bar chart by deartments
+  function monthlyReportByDepartmentsBarChartByMonth(yearMonth) {
+    const dateOptionValue = yearMonth.split("-");
+    const optionMonth = dateOptionValue[0];
+    const optionYear = dateOptionValue[1];
+    // Create date object from extracted year and month from option tag
+    const monthNumberRaw =
+      new Date(`1 ${optionMonth} ${optionYear}`).getMonth() + 1;
+
+    // Convert month number 1 to 01, 2 to 02 ... 9 to 09 because, 
+    // route requires numbers less than ten prefixed with 0.
+    const monthNumber =
+      monthNumberRaw < 10 ? `0${monthNumberRaw}` : monthNumberRaw;
+
+    // get a date like: 2020-12-01
+    const dateQuery = `${optionYear}-${monthNumber}-01`;
+
+    let url = `{% url 'students:counsel_monthly_report_typed' response_type='json' %}`;
+    url = url + dateQuery;
+    monthlyReportByDepartmentsBarChartAPICall(url);
+  }
+
+
+  // Yearly data array generate for unlisted months
+  function getDataForUnlistedMonths(dataArr, originalDataObj) {
+    for (let i = 1; i <= 12; i++) {
+      // by default month number is not found in originalDataObj
+      let found = false;
+      originalDataObj.forEach(item => {
+        if (i == item.month) {
+          // If month number found in originalDataObj, store count data in dataArr.
+          dataArr.push(item.count);
+          // make found true for this month
+          found = true;
+        }
+      })
+
+      // If month number not found in originalDataObj, add 0 into dataArr.
+      if (!found) {
+        dataArr.push(0);
+      }
+    }
+    return dataArr;
+  }
+
+  // Yearly report graph
+  function display_yearly_graph(record) {
+    const applications = record.applications;
+    const admissions = record.admissions;
+    const pendings = record.pendings;
+    const rejections = record.rejections;
+
+    const application_data_arr = getDataForUnlistedMonths([], applications);
+    const admission_data_arr = getDataForUnlistedMonths([], admissions);
+    const pending_data_arr = getDataForUnlistedMonths([], pendings);
+    const rejection_data_arr = getDataForUnlistedMonths([], rejections);
+
+    const config = {
+      type: 'line',
+      data: {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+          'August', 'September', 'October', 'November', 'December'],
+        datasets: [{
+          label: 'Applications',
+          data: application_data_arr,
+          backgroundColor: window.chartColors.blue,
+          borderColor: window.chartColors.blue,
+          fill: false,
+          borderDash: [5, 5],
+          pointRadius: 15,
+          pointHoverRadius: 10,
+        }, {
+          label: 'Admissions',
+          data: admission_data_arr,
+          backgroundColor: window.chartColors.purple,
+          borderColor: window.chartColors.purple,
+          fill: false,
+          borderDash: [5, 5],
+          pointRadius: [2, 4, 6, 18, 0, 12, 20],
+        }, {
+          label: 'Pendings',
+          data: pending_data_arr,
+          backgroundColor: window.chartColors.orange,
+          borderColor: window.chartColors.orange,
+          fill: false,
+          pointHoverRadius: 30,
+        }, {
+          label: 'Rejections',
+          data: rejection_data_arr,
+          backgroundColor: window.chartColors.red,
+          borderColor: window.chartColors.red,
+          fill: false,
+          pointHitRadius: 20,
+        }]
+      },
+      options: {
+        responsive: true,
+        legend: {
+          position: 'bottom',
+        },
+        hover: {
+          mode: 'index'
+        },
+        elements: {
+          point: {
+            // Choices: 'rect', 'star', 'circle (default)', 'triangle', 'rectRounded', 
+            // 'cross', 'dash', 'line', 'crossRot'
+            pointStyle: 'rectRot'
+          }
+        },
+        scales: {
+          xAxes: [{
+            display: true,
+            scaleLabel: {
+              display: true,
+              labelString: 'Month'
+            }
+          }],
+          yAxes: [{
+            display: true,
+            scaleLabel: {
+              display: true,
+              labelString: 'Value'
+            }
+          }]
+        },
+        title: {
+          display: true,
+          text: 'Last 12 Months Counsel Chart'
+        }
+      }
+    };
+
+    const ctx = document.getElementById('year-graph--chart-area').getContext('2d');
+    window.yearlyReportLine = new Chart(ctx, config);
+  }
+
+  // Display yearly report graph immediately
+  $(function () {
+    $.ajax({
+      type: "GET",
+      url: '{% url "students:yearly_graph_api"  %}',
+      success: function (data) {
+        const record = data.data;
+        display_yearly_graph(record);
+      },
+      error: function (err) {
+        console.log(err);
+      },
+    });
+
+  })
+</script>
+{% endblock %}

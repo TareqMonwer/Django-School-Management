@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Logout</title>
+    <link
+      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="bg-gray-50">
+      <div
+        class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between"
+      >
+        <h2
+          class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl"
+        >
+          <span class="block text-indigo-600">Are you sure to log out?</span>
+        </h2>
+        
+        <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
+          <form method="post" action="{% url 'account_logout' %}">
+            {% csrf_token %}
+            <div class="inline-flex rounded-md shadow" style="cursor: pointer;" >
+              <input style="cursor: pointer;"  type="submit" value="I'm sure!"
+                class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-red-600 hover:bg-red-700"
+              />
+            </div>
+            {% if redirect_field_value %}
+              <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+            {% endif %}
+          </form>
+          
+          <div class="ml-3 inline-flex rounded-md shadow">
+            <a
+              href="javascript:history.go(-1)"
+              class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
+            >
+              Take me back
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
