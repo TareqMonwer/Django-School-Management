@@ -81,6 +81,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'mptt',
+    'widget_tweaks',
     'django_social_share',
 ]
 

@@ -53,6 +53,7 @@ beautifulsoup4 = "==4.9.1"
 django-braces = "==1.14.0"
 django-mptt = "*"
 django-social-share = "*"
+django-widget-tweaks = "*"
 
 [requires]
 python_version = "3.8"
