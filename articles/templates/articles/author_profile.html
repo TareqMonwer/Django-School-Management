@@ -54,9 +54,11 @@
               <h5>{{ author.username | title }}</h5>
               <b class="text-muted">Author Profession / Bio</b>
             </div>
+            {% if user is author %}
             <div class="author-formlink">
               <a href="" class="btn btn-primary"> Edit Profile </a>
             </div>
+            {% endif %}
           </div>
           <div class="auth-info-bottom mt-4">
             <div class="auth-info text">
@@ -88,9 +90,11 @@
         <div class="col-6">
           <h5>Author Articles</h5>
         </div>
+        {% if user is author %}
         <div class="col-6 d-flex justify-content-end">
           <a href="" class="btn btn-primary"> Manage </a>
         </div>
+        {% endif %}
       </div>
     </div>
     <div class="container border-left border-bottom border-right">
