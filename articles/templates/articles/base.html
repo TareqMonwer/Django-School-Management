@@ -44,7 +44,7 @@
           class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top"
         {% endif %}
       {% else %}
-        class="navbar navbar-expand-lg navbar-light fixed-top"
+        class="navbar  navbar-light fixed-top"
       {% endif %}
        id="mainNav">
         <div class="container">
@@ -54,11 +54,11 @@
               width="" height="50">
           </a>
           <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            Menu
+            menubar
             <i class="fas fa-bars"></i>
           </button>
           <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav align-items-end">
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'pages:landing' %}">Home</a>
               </li>
@@ -137,15 +137,15 @@
       (function(){
         const windowHeight = window.innerHeight;
         const documentHeight = document.body.offsetHeight;
-        const siteNav = document.querySelector('.hero-area .navbar');
-        console.log(`wh: ${windowHeight}, dh: ${documentHeight}`);
+        const siteNav = document.querySelector('.navbar');
+        // console.log(`wh: ${windowHeight}, dh: ${documentHeight}`);
 
         if (documentHeight <= windowHeight) {
-          console.log('content is not large enough');
+          // console.log('content is not large enough');
           siteNav.classList.add('navbar-dark');
           siteNav.classList.add('bg-dark');
         } else {
-          console.log('content is large enough');
+          // console.log('content is large enough');
           siteNav.classList.add('navbar-inverse');
         }
       })();
