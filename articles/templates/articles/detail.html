@@ -104,13 +104,13 @@
               <div class="article-card rounded">
                 <img src="{{article.featured_image.url}}" 
                   alt="{{ request_institute.name }}-{{ article.title }}" 
-                  class="shadow shadow-sm rounded">
+                  class="shadow shadow-sm rounded article-preview-image ">
                 <div class="article-content p-2">
-                  <div class="category-name badge badge-info">
+                  <!-- <div class="category-name badge badge-info">
                     <a class="text-light" href="{{ article.categories.first.get_absolute_url }}">
                       {{ article.categories.first }}
                     </a>
-                  </div>
+                  </div> -->
                   <p class="my-1">
                     <b>
                       <a href="{{ article.get_absolute_url }}">

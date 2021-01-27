@@ -88,7 +88,7 @@
             <div class="article-card rounded">
               <img src="{{article.featured_image.url}}" 
                 alt="{{ request_institute.name }}-{{ article.title }}" 
-                class="shadow shadow-sm rounded">
+                class="shadow shadow-sm rounded article-preview-image">
               <div class="article-content p-2">
                 <div class="category-name badge badge-info">
                   <a class="text-light" href="{{ article.categories.first.get_absolute_url }}">
@@ -127,7 +127,7 @@
         <div class="col-sm-12 col-md-3">
           <a href="">
             <div class="article-card rounded">
-              <img src="{{ article.featured_image.url }}" alt="" class="rounded">
+              <img src="{{ article.featured_image.url }}" alt="" class="rounded article-preview-image">
               <div class="article-content">
                 <small class="category-name">
                   <a href="">
@@ -167,7 +167,7 @@
         <div class="col-sm-12 col-md-3 mb-5">
           <a href="{{ article.get_absolute_url }}">
             <div class="article-card rounded">
-              <img src="{{article.featured_image.url}}" alt="" class="rounded">
+              <img src="{{article.featured_image.url}}" alt="" class="rounded article-preview-image">
               <div class="article-content">
                 <small class="category-name">
                   <a href="">{{ article.categories.first }}</a>
