@@ -1,3 +1,5 @@
+from crispy_forms.helper import FormHelper
+
 from django import forms as djform
 from django.contrib.auth import get_user_model, forms
 from django.core.exceptions import ValidationError
@@ -13,6 +15,10 @@ class UserChangeForm(forms.UserChangeForm):
 
 
 class UserRegistrationForm(forms.UserCreationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.template_pack = 'tailwind'
     error_message = forms.UserCreationForm.error_messages.update(
         {
             "duplicate_username": _(

@@ -1,28 +1,108 @@
-{% extends 'layout.html' %}
-{% load crispy_forms_tags %}
+{% load widget_tweaks %}
 
-{% block content %}
-<section id="login-form-section">
-    <div id="login-form-section--inner">
-        <div class="container">
-            <div class="row justify-content-center py-5">
-                <div class="col-6">
-                    <h1 class="text-center">Login</h1>
-                    <form method="POST">
-                        {% csrf_token %}
-                        {{ form|crispy }}
-                        <!-- <input type="hidden" name="next" value="{{ next }}"> -->
-                        <button type="submit" class="btn btn-outline-info float-right">Login</button>
-                    </form>
-                    <a class="d-block" href="{% url 'account_signup'  %}">
-                        Don't have an account? <b>Register Now.</b>
-                    </a>
-                    <a class="d-block" href="account_reset_password">
-                        Forgot password?
-                    </a>
-                </div>
-            </div>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link
+      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div
+      class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8"
+    >
+      <div class="max-w-md w-full space-y-8">
+        <!-- Topbar messages -->
+        <div>
+          <img
+            class="mx-auto h-12 w-auto"
+            src="{{ request_institute.logo.url }}"
+            alt="{{ request_institute.name }}"
+          />
+          <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            Sign in to your account
+          </h2>
+          <p class="mt-2 text-center text-sm text-gray-600">
+            Or
+            <a
+              href="{% url 'account_signup' %}"
+              class="font-medium text-indigo-600 hover:text-indigo-500"
+            >
+              create a new account
+            </a>
+          </p>
         </div>
+        <form class="mt-8 space-y-6" action="" method="POST">
+          {% csrf_token %} 
+          {% for hidden_field in form.hidden_fields %}
+            {{ hidden_field.errors }}
+            {{ hidden_field }}
+          {% endfor %}
+
+          
+          <!-- <input type="hidden" name="remember" value="true" /> -->
+          <div class="rounded-md shadow-sm -space-y-px">
+            {% for field in form.visible_fields %}
+              {% if not field.name == 'remember' %}
+              <div class="mb-4">
+                {{ field.label_tag }}
+                <small class="text-muted">{{ field.errors }}</small>
+                {% render_field field class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder=field.name %}
+              </div>
+              {% elif field.name == 'remember' %}
+              <!-- Recovery and login link -->
+              <div class="flex items-center justify-between mt-4">
+                <div class="flex items-center mt-5">
+                  {% render_field field class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" %}
+                  <label for="remember_me" class="ml-2 block text-sm text-gray-900">
+                    Remember me
+                  </label>
+                </div>
+
+                <div class="text-sm">
+                  <a
+                    href="{% url 'account_reset_password' %}"
+                    class="font-medium text-indigo-600 hover:text-indigo-500"
+                  >
+                    Forgot your password?
+                  </a>
+                </div>
+              </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+
+          <!-- Submit Button -->
+          <div>
+            <button
+              type="submit"
+              class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                <!-- Heroicon name: lock-closed -->
+                <svg
+                  class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </span>
+              Sign in
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
-</section>
-{% endblock %}
+  </body>
+</html>
