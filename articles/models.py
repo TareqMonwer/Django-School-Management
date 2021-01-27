@@ -61,8 +61,11 @@ class Article(TimeStampedModel):
         return ' '.join(text[:choice(choices)])
     
     def get_related_articles(self):
-        articles = self.categories.last().article_set.all()
-        return articles if articles else []
+        try:
+            articles = self.categories.last().article_set.all()
+        except:
+            articles = []
+        return articles
 
 
 class Like(TimeStampedModel):
