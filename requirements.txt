@@ -90,3 +90,4 @@ wcwidth==0.1.7
 webencodings==0.5.1
 xhtml2pdf==0.2.5
 django_widget_tweaks==1.4.8
+sentry-sdk==0.19.5
