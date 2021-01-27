@@ -4,7 +4,7 @@
 
   <!-- Main Content -->
   <div class="container">
-    <div class="row">
+    <div class="row" style="padding-top: 35px;">
     <div class="col-lg-2 col-md-2 d-flex flex-column
       justify-content-center align-items-center text-center">
     </div>
@@ -80,19 +80,21 @@
       </div>
     </div>
 
-    <!-- Articles Top-section -->
-    <div class="row p-4">
-      {% for article in articles %}
+    <!-- Articles Top-section (one article for each category) -->
+    <div class="row mt-5">
+      {% for article in category_articles %}
         <div class="col-sm-12 col-md-3 mb-5">
           <a href="{{ article.get_absolute_url }}">
             <div class="article-card rounded">
-              <img src="{{article.featured_image.url}}" alt="" class="rounded">
-              <div class="article-content">
-                <small class="category-name">
-                  <a href="{{ article.categories.first.get_absolute_url }}">
+              <img src="{{article.featured_image.url}}" 
+                alt="{{ request_institute.name }}-{{ article.title }}" 
+                class="shadow shadow-sm rounded">
+              <div class="article-content p-2">
+                <div class="category-name badge badge-info">
+                  <a class="text-light" href="{{ article.categories.first.get_absolute_url }}">
                     {{ article.categories.first }}
                   </a>
-                </small>
+                </div>
                 <p class="my-1">
                   <b>
                     <a href="{{ article.get_absolute_url }}">
@@ -110,17 +112,18 @@
         </div>
       {% empty %}
       <div class="no-article">
-        <h5 class="ml-3"><i class="fas fa-frown"></i> No Article Was Found</h5>
+        <h5 class="ml-3"><i class="fas fa-frown"></i> No Article Found from Any Category</h5>
       </div>
       {% endfor %}
     </div>
   </div>
 
+  <!-- Hihglighted and Most Reached Articles -->
   <section id="dark-section" style="background-color: rgb(36, 36, 36);">
     <div class="container py-4">
       <h3 class="text-light mb-3">Highlighted & Most Reached</h3>
       <div class="row">
-        {% for article in articles %}
+        {% for article in highlights %}
         <div class="col-sm-12 col-md-3">
           <a href="">
             <div class="article-card rounded">
@@ -142,7 +145,7 @@
                   <small class="fsm muted mr-3">
                     {{ article.created }}
                   </small>
-                  <small class="fsm muted">1500 VIEWS</small>
+                  <!-- <small class="fsm muted">1500 VIEWS</small> -->
                 </div>
               </div>
             </div>

@@ -26,13 +26,14 @@ class Article(TimeStampedModel):
         ('published', 'Published')
     )
     title = models.CharField("Article Title", max_length=255)
-    featured_image = models.ImageField(upload_to="featured_images", blank=True)
+    featured_image = models.ImageField(upload_to="featured_images")
     slug = AutoSlugField("Article Address", unique=True,
                          always_update=False, populate_from='title')
     author = models.ForeignKey(settings.AUTH_USER_MODEL,
                                on_delete=models.CASCADE)
     content = RichTextUploadingField(config_name='default')
     is_featured = models.BooleanField(default=False)
+    force_highlighted = models.BooleanField(default=False)
     categories = TreeManyToManyField('Category', blank=True)
     status = models.CharField(max_length=10,
                               choices=STATUS_CHOICES,
@@ -94,3 +95,13 @@ class Category(MPTTModel):
         return reverse(
             'articles:category_articles', kwargs={'slug': self.slug}
         )
+
+    @classmethod
+    def get_article_for_category(self):
+        """ Returns one article for each category. """
+        categories = Category.objects.all()
+        articles = [
+            category.article_set.order_by('-created').first()
+            for category in categories if category.article_set.exists()
+        ]
+        return articles

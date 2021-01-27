@@ -1,5 +1,7 @@
 from braces.views import LoginRequiredMixin
 
+from itertools import chain
+
 from django.http import Http404
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -17,7 +19,6 @@ from .forms import ArticleForm
 from permission_handlers.administrative import user_is_teacher_or_administrative
 
 
-
 class ArticleList(ListView):
     """
     Returns a list of published articles.
@@ -33,16 +34,29 @@ class ArticleList(ListView):
         last_article = Article.published.order_by('-created').first()
         latest_featured_article = Article.published.filter(
             is_featured=True
-        ).last()
+        ).first()
+        try:
+            # fetch four highlisted/most-reached articles.
+            highlighted_n_most_reached_articles = Article.published.filter(
+                force_highlighted=True
+            ).order_by(
+                '-created')[:4]
+        except IndexError:
+            highlighted_n_most_reached_articles = Article.published.order_by(
+                '-created')
 
         try:
             last_three_articles = Article.published.order_by('-created')[:3]
         except IndexError:
             last_three_articles = Article.published.order_by('-created')
+        
+        category_articles = Category.get_article_for_category()
 
         context['last_article'] = last_article
         context['last_three_articles'] = last_three_articles
         context['latest_featured_article'] = latest_featured_article
+        context['category_articles'] = category_articles
+        context['highlights'] = highlighted_n_most_reached_articles
         return context
 
     def get_queryset(self):
