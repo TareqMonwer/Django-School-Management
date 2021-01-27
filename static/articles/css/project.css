@@ -32,6 +32,11 @@
   background-color: #f2dede;
   border-color: #eed3d7;
 }
+
+.article-preview-image {
+  max-height: 150px;
+}
+
 /* social share */
 .share {
   display: flex;
