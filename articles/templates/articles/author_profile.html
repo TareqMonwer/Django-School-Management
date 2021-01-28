@@ -1,4 +1,6 @@
 {% extends 'articles/base.html' %} 
+{% load crispy_forms_tags %}
+
 {% block content %}
 
 <!-- Page Header -->
@@ -13,7 +15,14 @@
       <div class="col-sm-12 col-md-4">
         <div class="author-metadata">
           <div class="author-image">
-            <img src="https://picsum.photos/180" alt="" />
+            
+            {% if user.profile.profile_picture %}
+              <img src="{{ user.profile.profile_picture.url }}" 
+              width="200" />
+            {% else %}
+              <img src="https://picsum.photos/180">
+            {% endif %}
+              
           </div>
           <div class="author-descriptions">
             <!-- desctiption items -->
@@ -21,25 +30,27 @@
               <div class="adi-icon">
                 <i class="fas fa-feather-alt"></i>
               </div>
-              <div class="adi-text">20 Articles</div>
+              <div class="adi-text">
+                {{ user.article_set.count|default:"No"}} Article(s)
+              </div>
             </div>
             <div class="auth-desc-item">
               <div class="adi-icon">
                 <i class="fas fa-sitemap"></i>
               </div>
-              <div class="adi-text">5 Categories</div>
+              <!-- <div class="adi-text">5 Categories</div> -->
             </div>
             <div class="auth-desc-item">
               <div class="adi-icon">
                 <i class="far fa-bookmark"></i>
               </div>
-              <div class="adi-text">100 Read</div>
+              <!-- <div class="adi-text">100 Read</div> -->
             </div>
             <div class="auth-desc-item">
               <div class="adi-icon">
                 <i class="far fa-heart"></i>
               </div>
-              <div class="adi-text">200 Loves</div>
+              <!-- <div class="adi-text">200 Loves</div> -->
             </div>
             <!-- description items end -->
           </div>
@@ -56,7 +67,41 @@
             </div>
             {% if user == author %}
             <div class="author-formlink">
-              <a href="" class="btn btn-primary"> Edit Profile </a>
+              <button type="button" class="btn btn-primary" 
+                data-toggle="modal" 
+                data-target="#bd-edit-profile-modal-lg">
+                Edit Profile
+              </button>
+              <!-- MODAL -->
+              <div class="modal fade" id="bd-edit-profile-modal-lg" 
+                tabindex="-1" role="dialog"
+                aria-hidden="true">
+                <form action="" method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">
+                          EDIT YOUR PROFILE
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        {{ profile_edit_form|crispy }}
+                        <hr>
+                        <h5>SOCIAL LINKS</h5>
+                        {{ social_links_form|crispy }}
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
             </div>
             {% endif %}
           </div>
@@ -131,3 +176,14 @@
 </section>
 <!-- Footer -->
 {% include 'articles/inc/_footer.html' %} {% endblock content %}
+
+<!-- {% block extra_js %}
+  <script>
+    // Select image
+    $('input[type="file"]').change(function (e) {
+      const fileName = e.target.files[0].name;
+      $(".custom-file-label").html(fileName);
+    });
+  </script>
+{% endblock extra_js %} -->
+  
