@@ -250,6 +250,12 @@ footer .copyright {
   }
 }
 
+@media screen and (max-device-width: 768px){
+  .share {
+    width: 78px;
+  }
+}
+
 /* larger than 768 */
 @media screen and (min-device-width: 768px) {
   /* NAVBAR */
