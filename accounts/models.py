@@ -6,6 +6,7 @@ from django.db.models.signals import pre_save
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import Group
 from django.conf import settings
+from django.urls import reverse
 
 
 class User(AbstractUser):
@@ -40,6 +41,11 @@ class User(AbstractUser):
     approval_extra_note = models.TextField(
         blank=True, null=True
     )
+
+    def get_author_url(self):
+        return reverse(
+            'articles:author_profile',
+            args=[self.username,])
 
 
 class CustomGroup(Group):
