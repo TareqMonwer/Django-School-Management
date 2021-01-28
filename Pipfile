@@ -55,6 +55,7 @@ django-mptt = "*"
 django-social-share = "*"
 django-widget-tweaks = "*"
 sentry-sdk = "*"
+django-countries = "==7.0"
 
 [requires]
 python_version = "3.8"
