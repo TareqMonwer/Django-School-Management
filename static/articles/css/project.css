@@ -61,6 +61,14 @@
   color: #fff;
 }
 
+#mainNav .navbar-collapse {
+  overflow: hidden;
+}
+
+#navbarResponsive .navbar-nav {
+  flex-wrap: wrap;
+}
+
 /* ********************************************** */
 /*                   ARTICLES PAGE                */
 /* ********************************************** */
@@ -258,7 +266,7 @@ footer .copyright {
 
 /* larger than 768 */
 @media screen and (min-device-width: 768px) {
-  /* NAVBAR */
+  /* NAVBAR */  
   #navbarResponsive .navbar-nav {
     flex-direction: row;
     justify-content: flex-end;
