@@ -2,7 +2,8 @@ from braces.views import LoginRequiredMixin
 
 from itertools import chain
 
-from django.http import Http404, HttpResponse
+from django.contrib import messages
+from django.http import Http404
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views import View
@@ -169,9 +170,24 @@ class AuthorProfile(DetailView):
 
             if social_formset.is_valid():
                 social_formset.save()
-                return HttpResponse('social and profile updated')
+                messages.add_message(
+                    request, messages.SUCCESS,
+                    'Your profile has been saved successfully.'
+                )
+                return redirect(
+                    self.request.user.get_author_url()
+                )
             else:
-                return HttpResponse('only profile updated')
+                messages.add_message(
+                    request, messages.INFO,
+                    'Your profile has been saved without updating social links.'
+                )
+                return redirect(
+                    self.request.user.get_author_url()
+                )
         else:
-            context = super().get_context_data(**kwargs)
-            return self.render_to_response(context=context)
+            messages.add_message(
+                request, messages.SUCCESS,
+                'Please provide valid values according to the form.'
+            )
+            return redirect(self.request.user.get_author_url())
