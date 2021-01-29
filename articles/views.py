@@ -2,6 +2,7 @@ from braces.views import LoginRequiredMixin
 
 from itertools import chain
 
+from django.contrib import messages
 from django.http import Http404
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -13,6 +14,9 @@ from django.views.generic import (
 )
 
 from accounts.models import User
+from accounts.forms import (
+    CommonUserProfileForm, UserProfileSocialLinksFormSet
+)
 from .models import Article, Like, Category
 from .mixins import AuthorArticleEditMixin
 from .forms import ArticleForm
@@ -143,3 +147,47 @@ class AuthorProfile(DetailView):
     
     def get_slug_field(self):
         return 'username'
+    
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        profile_edit_form = CommonUserProfileForm()
+        ctx['profile_edit_form'] = profile_edit_form
+        formset = UserProfileSocialLinksFormSet(instance=self.request.user.profile)
+        ctx['social_links_form'] = formset
+        return ctx
+    
+    def post(self, request, *args, **kwargs):
+        profile_form = CommonUserProfileForm(
+            request.POST,
+            request.FILES,
+            instance=self.request.user.profile
+        )
+        social_formset = UserProfileSocialLinksFormSet(
+            request.POST, instance=self.request.user.profile
+        )
+        if profile_form.is_valid():
+            profile_form.save()
+
+            if social_formset.is_valid():
+                social_formset.save()
+                messages.add_message(
+                    request, messages.SUCCESS,
+                    'Your profile has been saved successfully.'
+                )
+                return redirect(
+                    self.request.user.get_author_url()
+                )
+            else:
+                messages.add_message(
+                    request, messages.INFO,
+                    'Your profile has been saved without updating social links.'
+                )
+                return redirect(
+                    self.request.user.get_author_url()
+                )
+        else:
+            messages.add_message(
+                request, messages.SUCCESS,
+                'Please provide valid values according to the form.'
+            )
+            return redirect(self.request.user.get_author_url())
