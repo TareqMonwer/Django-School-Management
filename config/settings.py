@@ -61,7 +61,7 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
-    'accounts.apps.AccountsConfig',  # must be in top
+    'accounts.apps.AccountsConfig',  # must be on top
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -97,6 +97,7 @@ INSTALLED_APPS = [
     'mptt',
     'widget_tweaks',
     'django_social_share',
+    'django_countries',
 ]
 
 SITE_ID = 1

@@ -1,4 +1,6 @@
 {% extends 'articles/base.html' %} 
+{% load crispy_forms_tags %}
+
 {% block content %}
 
 <!-- Page Header -->
@@ -13,7 +15,14 @@
       <div class="col-sm-12 col-md-4">
         <div class="author-metadata">
           <div class="author-image">
-            <img src="https://picsum.photos/180" alt="" />
+            
+            {% if user.profile.profile_picture %}
+              <img src="{{ user.profile.profile_picture.url }}" 
+              width="200" />
+            {% else %}
+              <img src="https://picsum.photos/180">
+            {% endif %}
+              
           </div>
           <div class="author-descriptions">
             <!-- desctiption items -->
@@ -21,9 +30,11 @@
               <div class="adi-icon">
                 <i class="fas fa-feather-alt"></i>
               </div>
-              <div class="adi-text">20 Articles</div>
+              <div class="adi-text">
+                {{ user.article_set.count|default:"No"}} Article(s)
+              </div>
             </div>
-            <div class="auth-desc-item">
+            <!-- <div class="auth-desc-item">
               <div class="adi-icon">
                 <i class="fas fa-sitemap"></i>
               </div>
@@ -40,7 +51,7 @@
                 <i class="far fa-heart"></i>
               </div>
               <div class="adi-text">200 Loves</div>
-            </div>
+            </div> -->
             <!-- description items end -->
           </div>
         </div>
@@ -52,28 +63,63 @@
           <div class="auth-info-top auth-item d-flex justify-content-between">
             <div class="author-intro">
               <h5>{{ author.username | title }}</h5>
-              <b class="text-muted">Author Profession / Bio</b>
+              <b class="text-muted">{{ author.profile.headline }}</b>
             </div>
             {% if user == author %}
             <div class="author-formlink">
-              <a href="" class="btn btn-primary"> Edit Profile </a>
+              <button type="button" class="btn btn-primary" 
+                data-toggle="modal" 
+                data-target="#bd-edit-profile-modal-lg">
+                Edit Profile
+              </button>
+              <!-- MODAL -->
+              <div class="modal fade" id="bd-edit-profile-modal-lg" 
+                tabindex="-1" role="dialog"
+                aria-hidden="true">
+                <form action="" method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">
+                          EDIT YOUR PROFILE
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        {{ profile_edit_form|crispy }}
+                        <hr>
+                        <h5>SOCIAL LINKS</h5>
+                        {{ social_links_form|crispy }}
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
             </div>
             {% endif %}
           </div>
           <div class="auth-info-bottom mt-4">
+
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+                  <strong>{{ message }}</strong>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              {% endfor %}
+            {% endif %}
+
             <div class="auth-info text">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus
-              voluptate asperiores inventore non cumque ea pariatur ab, maiores
-              alias! Fuga architecto autem, nam accusamus, aut nostrum suscipit
-              obcaecati provident similique dolorum nemo quaerat nulla earum
-              veniam vero vitae dicta commodi! Libero dolor quae rerum sunt
-              tempore nemo. Iusto error esse earum facere repudiandae iure ipsam
-              praesentium minima, cum quia repellat cumque omnis nesciunt non
-              soluta voluptate ducimus fuga adipisci! Hic, in? Non consequatur
-              nostrum vero officiis laboriosam facilis, expedita ex, debitis
-              illum nesciunt temporibus itaque eligendi cupiditate iste culpa
-              reiciendis assumenda. Libero, nulla a similique adipisci cumque
-              distinctio ad natus!
+              {{ author.profile.summary }}
             </div>
           </div>
         </div>
@@ -131,3 +177,14 @@
 </section>
 <!-- Footer -->
 {% include 'articles/inc/_footer.html' %} {% endblock content %}
+
+<!-- {% block extra_js %}
+  <script>
+    // Select image
+    $('input[type="file"]').change(function (e) {
+      const fileName = e.target.files[0].name;
+      $(".custom-file-label").html(fileName);
+    });
+  </script>
+{% endblock extra_js %} -->
+  

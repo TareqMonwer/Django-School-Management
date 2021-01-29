@@ -13,7 +13,8 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <![endif]-->
 
-    <link rel="icon" href="{% static 'articles/images/favicons/favicon.ico' %}">
+    <link rel="icon" 
+      href="{% if request_institute.site_favicon %}{{request_institute.site_favicon.url}}{% else %}{% static 'articles/images/favicons/favicon.ico' %}{% endif %}">
 
     {% block css %}
     <!-- Latest compiled and minified Bootstrap CSS -->
@@ -45,16 +46,13 @@
               width="" height="50">
           </a>
           <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            menubar
+            topics
             <i class="fas fa-bars"></i>
           </button>
           <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav align-items-end">
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'pages:landing' %}">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'articles:home' %}">Articles</a>
               </li>
               
               <!-- Dynamic Navigation -->
@@ -68,21 +66,15 @@
                     {% trans "My Profile" %}
                   </a>
                 </li>
-                <li class="nav-item">
-                  {# URL provided by django-allauth/account/urls.py #}
-                  <a class="nav-link" href="{% url 'account_logout' %}">
-                    {% trans "Sign Out" %}
-                  </a>
-                </li>
               {% else %}
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   {# URL provided by django-allauth/account/urls.py #}
                   <a class="nav-link" href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a>
                 </li>
                 <li class="nav-item">
                   {# URL provided by django-allauth/account/urls.py #}
                   <a class="nav-link" href="{% url 'account_login' %}">{% trans "Sign In" %}</a>
-                </li>
+                </li> -->
               {% endif %}
             </ul>
           </div>

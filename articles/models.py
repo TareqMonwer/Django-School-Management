@@ -12,8 +12,6 @@ from django.db import models
 from django.urls import reverse
 
 
-
-
 class PublishedManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset()\
@@ -30,7 +28,7 @@ class Article(TimeStampedModel):
     slug = AutoSlugField("Article Address", unique=True,
                          always_update=False, populate_from='title')
     author = models.ForeignKey(settings.AUTH_USER_MODEL,
-                               on_delete=models.CASCADE)
+                               on_delete=models.DO_NOTHING)
     content = RichTextUploadingField(config_name='default')
     is_featured = models.BooleanField(default=False)
     force_highlighted = models.BooleanField(default=False)
@@ -41,7 +39,8 @@ class Article(TimeStampedModel):
 
     objects = models.Manager()   # Default manager.
     published = PublishedManager()   # Custom published manager.
-    likes = models.ManyToManyField('Like', related_name='article_liked', blank=True)
+    likes = models.ManyToManyField(
+        'Like', related_name='article_liked', blank=True)
 
     class Meta:
         ordering = ['-created']
@@ -59,14 +58,18 @@ class Article(TimeStampedModel):
         text = ''.join(BeautifulSoup(html).findAll(text=True))
         text = text.replace('\xa0', ' ').replace('\n', ' ').split(' ')
         return ' '.join(text[:choice(choices)])
-    
+
     def get_related_articles(self):
-        articles = self.categories.last().article_set.all()
+        try:
+            articles = self.categories.last().article_set.all()
+        except:
+            articles = []
         return articles
 
 
 class Like(TimeStampedModel):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -88,13 +91,13 @@ class Category(MPTTModel):
 
     class MPTTMeta:
         order_insertion_by = ['name']
-    
+
     class Meta:
         verbose_name_plural = 'categories'
-    
+
     def __str__(self):
         return self.name
-    
+
     def get_absolute_url(self):
         return reverse(
             'articles:category_articles', kwargs={'slug': self.slug}
