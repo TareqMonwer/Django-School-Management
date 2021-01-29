@@ -24,14 +24,14 @@ class UserAdmin(RolePermissionsUserAdminMixin, auth_admin.UserAdmin):
     list_editable = ["approval_status",]
     search_fields = ["approval_status", "requested_role"]
 
-    def save_model(self, request, obj, form, change): 
-        instance = form.save(commit=False)
-        requested_role = request.POST.get('requested_role')
-        print(requested_role)
-        print(obj, instance)
-        print(assign_role(obj, requested_role))
-        instance.save()
-        return instance
+    # def save_model(self, request, obj, form, change): 
+    #     instance = form.save(commit=False)
+    #     requested_role = request.POST.get('requested_role')
+    #     print(requested_role)
+    #     print(obj, instance)
+    #     print(assign_role(obj, requested_role))
+    #     instance.save()
+    #     return instance
 
 
 class CustomGroupAdmin(GroupAdmin):
