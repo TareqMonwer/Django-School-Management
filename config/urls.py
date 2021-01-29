@@ -7,12 +7,15 @@ from django.contrib.auth import views as auth_views
 from institute.models import InstituteProfile
 from accounts.views import dashboard
 
-
-institute = InstituteProfile.objects.get(active=True)
-
-admin.site.site_header = institute.site_header
-admin.site.site_title = institute.site_title
-admin.site.index_title = institute.index_title
+try:
+    institute = InstituteProfile.objects.get(active=True)
+    admin.site.site_header = institute.site_header
+    admin.site.site_title = institute.site_title
+    admin.site.index_title = institute.index_title
+except:
+    admin.site.site_header = 'Django Administration'
+    admin.site.site_title = 'Django Site Admin'
+    admin.site.index_title = 'Django Administration'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
