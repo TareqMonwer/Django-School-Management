@@ -9,16 +9,13 @@ from accounts.views import dashboard
 
 try:
     institute = InstituteProfile.objects.get(active=True)
-
     admin.site.site_header = institute.site_header
     admin.site.site_title = institute.site_title
     admin.site.index_title = institute.index_title
 except:
-    pass
-
-# def trigger_error(request):
-#     """ Dummy error testing function for sentry """
-#     zero_div = 1 / 0
+    admin.site.site_header = 'Django Administration'
+    admin.site.site_title = 'Django Site Admin'
+    admin.site.index_title = 'Django Administration'
 
 urlpatterns = [
     # path('sentry-debug/', trigger_error),     # dummy test url for sentry error
