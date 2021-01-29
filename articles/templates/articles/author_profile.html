@@ -1,11 +1,43 @@
 {% extends 'articles/base.html' %} 
 {% load crispy_forms_tags %}
 
+{% block css %}
+  <style type="text/css">
+    #bd-edit-profile-modal-lg .multiField:not(:last-child) {
+      border-bottom: 1px solid #e1e1e1;
+    }
+    @media screen 
+      and (min-device-width: 1200px) 
+      and (max-device-width: 1600px) { 
+        #bd-edit-profile-modal-lg .multiField {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+  </style>
+{% endblock css %}
+  
+
 {% block content %}
 
 <!-- Page Header -->
 <header class="profile-header-container">
-  <div class="profile-header">
+  <div class="profile-header" 
+  {% if user.profile.cover_picture %}
+  style="background-image: linear-gradient(
+      45deg,
+      rgb(81 81 84 / 52%),
+      rgb(16 16 16 / 73%)
+    ),
+    url('{{ user.profile.cover_picture.url }}');"
+    {% else %}
+    style="background-image: linear-gradient(
+      45deg,
+      rgb(81 81 84 / 52%),
+      rgb(16 16 16 / 73%)
+    );"
+    {% endif %}>
     <div class="header-container"></div>
   </div>
 
@@ -178,13 +210,4 @@
 <!-- Footer -->
 {% include 'articles/inc/_footer.html' %} {% endblock content %}
 
-<!-- {% block extra_js %}
-  <script>
-    // Select image
-    $('input[type="file"]').change(function (e) {
-      const fileName = e.target.files[0].name;
-      $(".custom-file-label").html(fileName);
-    });
-  </script>
-{% endblock extra_js %} -->
   

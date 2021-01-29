@@ -150,9 +150,13 @@ class AuthorProfile(DetailView):
     
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        profile_edit_form = CommonUserProfileForm()
+        profile_edit_form = CommonUserProfileForm(
+            instance=self.request.user.profile
+        )
         ctx['profile_edit_form'] = profile_edit_form
-        formset = UserProfileSocialLinksFormSet(instance=self.request.user.profile)
+        formset = UserProfileSocialLinksFormSet(
+            instance=self.request.user.profile
+        )
         ctx['social_links_form'] = formset
         return ctx
     

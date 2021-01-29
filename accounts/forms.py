@@ -71,7 +71,9 @@ class ApprovalProfileUpdateForm(djform.ModelForm):
 
 UserProfileSocialLinksFormSet = inlineformset_factory(
     CommonUserProfile, SocialLink,
-    fields=('media_name', 'url')
+    fields=('media_name', 'url'),
+    extra=4,
+    max_num=4
 )
 
 class CommonUserProfileForm(djform.ModelForm):
