@@ -9,12 +9,16 @@ class AttachInstituteDataMiddleware:
             institute = InstituteProfile.objects.get(active=True)
             self.institute = institute
         except:
-            self.institute = None
+            pass
 
     def __call__(self, request):
         response = self.get_response(request)
         return response
     
     def process_template_response(self, request, response):
-        response.context_data["request_institute"] = self.institute if self.institute else None
-        return response
+        try:
+            response.context_data["request_institute"] = self.institute
+            return response
+        except django.db.utils.OperationalError:
+            return response
+        
