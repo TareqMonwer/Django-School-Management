@@ -121,10 +121,18 @@
                         </button>
                       </div>
                       <div class="modal-body">
-                        {{ profile_edit_form|crispy }}
-                        <hr>
-                        <h5>SOCIAL LINKS</h5>
-                        {{ social_links_form|crispy }}
+                        
+                        {% if not profile_not_found %}
+                          {{ profile_edit_form|crispy }}
+                          <hr>
+                          <h5>SOCIAL LINKS</h5>
+                          {{ social_links_form|crispy }}
+                        {% else %}
+                          <div class="alert alert-warning" role="alert">
+                            {{ profile_not_found }}
+                          </div>
+                        {% endif %}
+                          
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
