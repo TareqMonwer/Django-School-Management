@@ -1,0 +1,59 @@
+{% extends "dashboard.html" %}
+
+{% block dashboard-body %}
+<section class="bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 mb-5">
+                <h5>Select Where You Want to Publish Your Article</h5>
+                <p class="m-0">
+                    This widget let's you choose to publish articles in other mediums
+                    (currently, wordpress sites only). Please make your choices from the options below.
+                    If you do not have any other medium, just click to skip. <br>
+                    <i>If you wnat to add your existing Publishing medium, click to add Publishing medium button.</i>
+                </p>
+            </div>
+            <div class="col-6">
+                <a href="" class="btn btn-dark">
+                    SKIP & Publish Here
+                </a>
+                <a href="" class="btn btn-outline-success">
+                    Add Publishing Medium
+                </a>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <form action="" method="get">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="site-1">
+                        <label class="form-check-label" for="site-1">
+                            sitename1.com
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="site-1">
+                        <label class="form-check-label" for="site-1">
+                            sitename1.com
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="site-1">
+                        <label class="form-check-label" for="site-1">
+                            sitename1.com
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="site-1">
+                        <label class="form-check-label" for="site-1">
+                            sitename1.com
+                        </label>
+                    </div>
+
+                    <a href="" class="btn btn-outline-success">
+                        Publish in Selected Medium(s)
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
