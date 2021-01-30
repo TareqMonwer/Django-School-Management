@@ -1,5 +1,11 @@
 {% extends 'articles/base.html' %}
 
+{% block meta_tags %}
+  <meta property="og:title" content="{{ category.name }}" />
+  <meta property="og:description" content="{{ category.description }}" />
+  <meta property="og:image" content="{{ category.image.url }}" />
+{% endblock meta_tags %}
+
 {% block content %}
 <!-- Page Header -->
   <header class="masthead category-articles-masthead" 
