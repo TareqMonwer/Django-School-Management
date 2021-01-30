@@ -3,6 +3,7 @@ from braces.views import LoginRequiredMixin
 from itertools import chain
 
 from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -150,14 +151,19 @@ class AuthorProfile(DetailView):
     
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        profile_edit_form = CommonUserProfileForm(
-            instance=self.request.user.profile
-        )
-        ctx['profile_edit_form'] = profile_edit_form
-        formset = UserProfileSocialLinksFormSet(
-            instance=self.request.user.profile
-        )
-        ctx['social_links_form'] = formset
+        try:
+            profile = self.request.user.profile
+            profile_edit_form = CommonUserProfileForm(
+                instance=profile
+            )
+            ctx['profile_edit_form'] = profile_edit_form
+            formset = UserProfileSocialLinksFormSet(
+                instance=profile
+            )
+            ctx['social_links_form'] = formset
+        except User.profile.RelatedObjectDoesNotExist:
+            ctx['profile_not_found'] = 'We did not find any profile for you, \
+                please contact with authorities.'
         return ctx
     
     def post(self, request, *args, **kwargs):
