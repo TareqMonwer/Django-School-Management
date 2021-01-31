@@ -105,6 +105,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'django_social_share',
     'django_countries',
+    'import_export',
 ]
 
 SITE_ID = 1
