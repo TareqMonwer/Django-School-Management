@@ -1,3 +1,4 @@
+from import_export import resources
 from mptt.admin import MPTTModelAdmin
 from mptt.models import TreeManyToManyField
 from django.forms import CheckboxSelectMultiple
@@ -15,7 +16,7 @@ class ArticleAdmin(admin.ModelAdmin):
     }
 
 
-class CategoryAdmin(MPTTModelAdmin):
+class CategoryAdmin(admin.ModelAdmin):
     list_display = ['name',]
 
 
