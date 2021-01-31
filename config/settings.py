@@ -22,7 +22,8 @@ from sentry_sdk.integrations.django import DjangoIntegration
 
 env = environ.Env(
     # set casting, default value
-    DEBUG=(bool, True)
+    DEBUG=(bool, True),
+    USE_CELERY_REDIS=(bool, False)
 )
 # reading .env file
 environ.Env.read_env()
