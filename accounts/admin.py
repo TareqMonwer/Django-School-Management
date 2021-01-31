@@ -33,6 +33,7 @@ class UserAdmin(RolePermissionsUserAdminMixin, auth_admin.UserAdmin):
 
 
 class UserProfileAdmin(admin.ModelAdmin):
+    pass
     # def save_model(self, request, obj, form, change): 
     #     instance = form.save(commit=False)
     #     requested_role = request.POST.get('requested_role')
