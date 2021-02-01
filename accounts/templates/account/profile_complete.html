@@ -56,6 +56,9 @@
                     </span>
                   </span>
                 </h6>
+                {% if user.approval_status == 'a'%}
+                  <small>({{ request.user.requested_role }})</small>
+                {% endif %}
                 <small>
                   {{ request.user.email|default:"Please, add your email address" }}
                 </small>
