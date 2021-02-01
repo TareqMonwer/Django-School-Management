@@ -25,7 +25,7 @@
               </li>
               {% if request.user.is_authenticated %}
                 <li class="nav-item">
-                  <a class="nav-link page-scroll" href="">My Account</a>
+                  <a class="nav-link page-scroll" href="{% url 'account:profile_complete' %}">My Account</a>
                 </li>
               {% endif %}
               <li class="nav-item">

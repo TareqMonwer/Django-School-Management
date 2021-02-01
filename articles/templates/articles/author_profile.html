@@ -24,13 +24,13 @@
 <!-- Page Header -->
 <header class="profile-header-container">
   <div class="profile-header" 
-  {% if user.profile.cover_picture %}
+  {% if author.profile.cover_picture %}
   style="background-image: linear-gradient(
       45deg,
       rgb(81 81 84 / 52%),
       rgb(16 16 16 / 73%)
     ),
-    url('{{ user.profile.cover_picture.url }}');"
+    url('{{ author.profile.cover_picture.url }}');"
     {% else %}
     style="background-image: linear-gradient(
       45deg,
@@ -48,8 +48,8 @@
         <div class="author-metadata">
           <div class="author-image">
             
-            {% if user.profile.profile_picture %}
-              <img src="{{ user.profile.profile_picture.url }}" 
+            {% if author.profile.profile_picture %}
+              <img src="{{ author.profile.profile_picture.url }}" 
               width="200" />
             {% else %}
               <img src="https://picsum.photos/180">
@@ -63,7 +63,7 @@
                 <i class="fas fa-feather-alt"></i>
               </div>
               <div class="adi-text">
-                {{ user.article_set.count|default:"No"}} Article(s)
+                {{ author.article_set.count|default:"No"}} Article(s)
               </div>
             </div>
             <!-- <div class="auth-desc-item">
@@ -95,7 +95,7 @@
           <div class="auth-info-top auth-item d-flex justify-content-between">
             <div class="author-intro">
               <h5>{{ author.username | title }}</h5>
-              <b class="text-muted">{{ author.profile.headline }}</b>
+              <b class="text-muted">{{ author.profile.headline|default:"" }}</b>
             </div>
             {% if user == author %}
             <div class="author-formlink">
@@ -121,10 +121,18 @@
                         </button>
                       </div>
                       <div class="modal-body">
-                        {{ profile_edit_form|crispy }}
-                        <hr>
-                        <h5>SOCIAL LINKS</h5>
-                        {{ social_links_form|crispy }}
+                        
+                        {% if not profile_not_found %}
+                          {{ profile_edit_form|crispy }}
+                          <hr>
+                          <h5>SOCIAL LINKS</h5>
+                          {{ social_links_form|crispy }}
+                        {% else %}
+                          <div class="alert alert-warning" role="alert">
+                            {{ profile_not_found }}
+                          </div>
+                        {% endif %}
+                          
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

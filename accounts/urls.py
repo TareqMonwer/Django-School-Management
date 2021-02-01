@@ -13,7 +13,8 @@ urlpatterns = [
     path('groups/', views.GroupListView.as_view(), name='groups'),
     path('user-requests/', views.user_requests_list, name='user_requests'),
     path('permission-error/', views.permission_error, name='permission_error'),
-    path('approval/<int:pk>/', views.user_approval, name='user_approval'),
+    path('approval/<int:pk>/<int:approved>',
+         views.user_approval, name='user_approval'),
     path('modify-and-approve/<int:pk>/',
         views.user_approval_with_modification,
         name='approval_with_modification'

@@ -59,19 +59,30 @@ def dashboard(request):
 
 
 @user_passes_test(user_is_admin_or_su, login_url='account:permission_error')
-def user_approval(request, pk):
+def user_approval(request, pk, approved):
+    """ Approve or decline approval request based on parameter `approved`.
+    approved=0 means decline, 1 means approve.
+    """
     user = User.objects.get(pk=pk)
     requested_role = user.requested_role
-    assign_role(user, requested_role)
-    if requested_role == 'admin':
-        user.is_staff = True
-    user.approval_status = 'a'
-    user.save()
-    messages.add_message(
-        request,
-        messages.SUCCESS,
-        f'{user}\'s account has been approved.'
-    )
+
+    if approved:
+        assign_role(user, requested_role)
+        if requested_role == 'admin':
+            user.is_staff = True
+        user.approval_status = 'a'
+        user.save()
+        messages.add_message(
+            request,
+            messages.SUCCESS,
+            f'{user}\'s account has been approved.'
+        )
+    else:
+        messages.add_message(
+            request,
+            messages.SUCCESS,
+            f'{user}\'s request for {requested_role} has been declined.'
+        )
     return redirect('account:user_requests')
 
 
