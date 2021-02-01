@@ -8,8 +8,14 @@ from .models import Article, Like, Category
 
 
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ['title', 'author', 'status']
-    list_editable = ['status',]
+    list_display = ['title', 'author', 'created',
+        'force_highlighted', 'status'
+    ]
+    list_editable = ['status', 'force_highlighted']
+    list_filter = ['status', 'force_highlighted',
+        'author', 'created'
+    ]
+    list_per_page = 25
 
     formfield_overrides = {
         TreeManyToManyField: {'widget': CheckboxSelectMultiple},
