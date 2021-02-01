@@ -17,9 +17,12 @@ except:
     admin.site.site_title = 'Django Site Admin'
     admin.site.index_title = 'Django Administration'
 
+DJANGO_ADMIN_URL = settings.DJANGO_ADMIN_URL + '/'
+print(DJANGO_ADMIN_URL)
+
 urlpatterns = [
-    # path('sentry-debug/', trigger_error),     # dummy test url for sentry error
-    path('admin/', admin.site.urls),
+    path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
+    path(DJANGO_ADMIN_URL, admin.site.urls),
     path('', include('pages.urls')),
     path('dashboard/', dashboard, name='index_view'),
     path('accounts/', include('allauth.urls')),

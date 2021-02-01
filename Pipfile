@@ -57,6 +57,7 @@ django-widget-tweaks = "*"
 sentry-sdk = "*"
 django-countries = "==7.0"
 django-import-export = "*"
+django-admin-honeypot = "*"
 
 [requires]
 python_version = "3.8"

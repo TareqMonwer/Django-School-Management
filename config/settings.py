@@ -57,12 +57,11 @@ except ImproperlyConfigured as e:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
+DJANGO_ADMIN_URL=env('DJANGO_ADMIN_URL')
+
 ALLOWED_HOSTS = [
     '0.0.0.0',
     '127.0.0.1',
-    'localhost',
-    'mysite.com',
-    '*'
 ]
 
 # Application definition
@@ -106,6 +105,7 @@ INSTALLED_APPS = [
     'django_social_share',
     'django_countries',
     'import_export',
+    'admin_honeypot',
 ]
 
 SITE_ID = 1
