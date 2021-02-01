@@ -178,6 +178,7 @@
         </div>
         {% if user == author %}
         <div class="col-6 d-flex justify-content-end">
+          <a href="{% url 'articles:create' %}" class="btn btn-primary"> Write Article </a>
           <a href="" class="btn btn-primary"> Manage </a>
         </div>
         {% endif %}
