@@ -57,12 +57,9 @@ except ImproperlyConfigured as e:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-DJANGO_ADMIN_URL=env('DJANGO_ADMIN_URL')
+DJANGO_ADMIN_URL = env('DJANGO_ADMIN_URL')
 
-ALLOWED_HOSTS = [
-    '0.0.0.0',
-    '127.0.0.1',
-]
+ALLOWED_HOSTS = env('ALLOWED_HOSTS').split(',')
 
 # Application definition
 
