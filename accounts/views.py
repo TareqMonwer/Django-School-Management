@@ -16,9 +16,11 @@ from .forms import (
     ApprovalProfileUpdateForm
 )
 from .models import CustomGroup, User
-from .forms import CommonUserProfileForm, UserProfileSocialLinksFormSet
+from .forms import (CommonUserProfileForm,
+    UserProfileSocialLinksFormSet
+)
 from permission_handlers.administrative import (
-    user_is_admin_or_su,
+    user_is_admin_or_su, user_editor_admin_or_su
 )
 from permission_handlers.basic import user_is_verified, permission_error
 
@@ -85,7 +87,9 @@ def profile_complete(request):
     return render(request, 'account/profile_complete.html', ctx)
 
 
-@login_required(login_url='account_login')
+@user_passes_test(
+    user_editor_admin_or_su,
+    login_url='account:profile_complete')
 def dashboard(request):
     total_students = Student.objects.count()
     total_teachers = Teacher.objects.count()
