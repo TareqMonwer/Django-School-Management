@@ -99,6 +99,10 @@
             </div>
             {% if user == author %}
             <div class="author-formlink">
+              <a href="{% url 'account:profile_complete' %}" target="_blank"
+                class="btn btn-outline-dark">
+                Academic Profile
+              </a>
               <button type="button" class="btn btn-primary" 
                 data-toggle="modal" 
                 data-target="#bd-edit-profile-modal-lg">
@@ -178,6 +182,7 @@
         </div>
         {% if user == author %}
         <div class="col-6 d-flex justify-content-end">
+          <a href="{% url 'articles:create' %}" class="btn btn-primary"> Write Article </a>
           <a href="" class="btn btn-primary"> Manage </a>
         </div>
         {% endif %}

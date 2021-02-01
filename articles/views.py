@@ -120,6 +120,13 @@ class ArticleCreate(
 
     def handle_no_permission(self):
         if self.request.user.is_authenticated:
+            messages.add_message(self.request, 
+                messages.INFO,
+                "You're redirected to this page because you "
+                "do not have right permission to publish articles. "
+                "If you want to write articles in this portal, "
+                "please communicate with authorities."
+            )
             return redirect('account:profile_complete')
         return redirect('account_login')
 
