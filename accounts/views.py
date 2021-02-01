@@ -16,6 +16,7 @@ from .forms import (
     ApprovalProfileUpdateForm
 )
 from .models import CustomGroup, User
+from .forms import CommonUserProfileForm, UserProfileSocialLinksFormSet
 from permission_handlers.administrative import (
     user_is_admin_or_su,
 )
@@ -24,10 +25,40 @@ from permission_handlers.basic import user_is_verified, permission_error
 
 @login_required(login_url='account_login')
 def profile_complete(request):
+    ctx = {}
     user = User.objects.get(pk=request.user.pk)
+
+    profile_edit_form = CommonUserProfileForm(
+        instance=user.profile
+    )
+    social_links_form = UserProfileSocialLinksFormSet(
+        instance=user.profile
+    )
+    ctx.update({
+        'profile_edit_form': profile_edit_form,
+        'social_links_form': social_links_form
+    })
+
     form = ProfileCompleteForm(instance=user)
     if request.method == 'POST':
         form = ProfileCompleteForm(request.POST, instance=user)
+        if 'profile_picture' in request.POST:
+            print('Profile form')
+            profile_edit_form = CommonUserProfileForm(
+                request.POST,
+                request.FILES,
+                instance=user.profile
+            )
+            if profile_edit_form.is_valid():
+                profile_edit_form.save()
+        if 'sociallink_set-TOTAL_FORMS':
+            print('Social form')
+            social_links_form = UserProfileSocialLinksFormSet(
+                request.POST,
+                instance=user.profile
+            )
+            if social_links_form.is_valid():
+                social_links_form.save()
         if form.is_valid():
             form.instance.approval_status = 'p'  # pending
             form.save()
@@ -38,10 +69,10 @@ def profile_complete(request):
             )
             return redirect('account:profile_complete')
     user_permissions = user.user_permissions.all()
-    ctx = {
+    ctx.update({
         'form': form,
         'user_perms': user_permissions if user_permissions else None,
-    }
+    })
     return render(request, 'account/profile_complete.html', ctx)
 
 
