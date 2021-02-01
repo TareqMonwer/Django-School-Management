@@ -39,28 +39,37 @@ def profile_complete(request):
         'social_links_form': social_links_form
     })
 
-    form = ProfileCompleteForm(instance=user)
+    verification_form = ProfileCompleteForm(instance=user)
     if request.method == 'POST':
-        form = ProfileCompleteForm(request.POST, instance=user)
-        if 'profile_picture' in request.POST:
-            print('Profile form')
+        verification_form = ProfileCompleteForm(
+            request.POST,
+            instance=user
+        )
+        if 'user-profile-update-form' in request.POST:
             profile_edit_form = CommonUserProfileForm(
                 request.POST,
                 request.FILES,
                 instance=user.profile
             )
-            if profile_edit_form.is_valid():
-                profile_edit_form.save()
-        if 'sociallink_set-TOTAL_FORMS':
-            print('Social form')
             social_links_form = UserProfileSocialLinksFormSet(
                 request.POST,
                 instance=user.profile
             )
+            if profile_edit_form.is_valid():
+                profile_edit_form.save()
+
             if social_links_form.is_valid():
                 social_links_form.save()
-        if form.is_valid():
-            form.instance.approval_status = 'p'  # pending
+            
+            messages.add_message(
+                request,
+                messages.SUCCESS,
+                'Your profile has been saved.'
+            )
+            return redirect('account:profile_complete')
+        if verification_form.is_valid():
+            form.instance.approval_status = 'p'
+            # approval status get's pending
             form.save()
             messages.add_message(
                 request,
@@ -70,7 +79,7 @@ def profile_complete(request):
             return redirect('account:profile_complete')
     user_permissions = user.user_permissions.all()
     ctx.update({
-        'form': form,
+        'verification_form': verification_form,
         'user_perms': user_permissions if user_permissions else None,
     })
     return render(request, 'account/profile_complete.html', ctx)
