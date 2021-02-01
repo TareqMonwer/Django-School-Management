@@ -241,12 +241,32 @@
         </ul>
       </li>
 
+      <!-- PUBLISHING OPTIONS -->
+      <li class="nav-item dropdown">
+        <a class="dropdown-toggle" href="javascript:void(0);">
+          <span class="icon-holder">
+            <i class="c-light-blue-500 ti-pencil"></i>
+          </span>
+          <span class="title">Publishing</span>
+          <span class="arrow"><i class="ti-angle-right"></i></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <a class="sidebar-link" 
+              href="{% url 'articles:dashboard_article_publish' %}">
+              Publish Article Anywhere
+            </a>
+            <a class="sidebar-link" 
+              href="#">
+              Manage Articles
+            </a>
+          </li>
+        </ul>
+      </li>
+
       <!-- Taken for Icons Classes -->
       <li class="nav-item">
         <a class="sidebar-link" href="">
-          <span class="icon-holder">
-            <i class="c-deep-purple-500 ti-comment-alt"></i>
-          </span>
           <span class="icon-holder">
             <i class="c-light-blue-500 ti-pencil"></i>
           </span>

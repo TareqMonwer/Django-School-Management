@@ -24,7 +24,7 @@
                   </div>
                   <div class="main-content">
                     <small class="category-name">
-                      <a href="">
+		      <a href="{{ latest_featured_article.categories.first.get_absolute_url }}">
                         {{ latest_featured_article.categories.first|default:"CATEGORY PLACEHOLDER" }}
                       </a>
                     </small>
@@ -55,9 +55,9 @@
                   <img src="{{ article.featured_image.url }}" 
                   width="120" height="110" alt="" class="rounded">
                 </a>
-                <div class="article-content p-2">
+                <div class="article-content p-2 ml-2">
                   <small class="category-name">
-                    <a href="">
+                    <a href="{{ article.categories.first.get_absolute_url }}">
                       {{ article.categories.first }}
                     </a>
                   </small>
@@ -130,7 +130,7 @@
               <img src="{{ article.featured_image.url }}" alt="" class="rounded article-preview-image">
               <div class="article-content">
                 <small class="category-name">
-                  <a href="">
+                  <a href="{{ article.categories.first.get_absolute_url }}">
                     {{ article.categories.first }}
                   </a>
                 </small>
@@ -170,7 +170,9 @@
               <img src="{{article.featured_image.url}}" alt="" class="rounded article-preview-image">
               <div class="article-content">
                 <small class="category-name">
-                  <a href="">{{ article.categories.first }}</a>
+                  <a href="{{ article.categories.first.get_absolute_url }}">
+			  {{ article.categories.first }}
+		  </a>
                 </small>
                 <p class="my-1">
                   <b>

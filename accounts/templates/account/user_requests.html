@@ -2,43 +2,63 @@
 {% load static %} 
 
 {% block dashboard-body %}
-<h1>USER REQUESTS</h1>
+<div class="container-fluid">
+  <h1>USER REQUESTS</h1>
 
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Email</th>
-      <th scope="col">Approval Status</th>
-      <th scope="col">Requested Role</th>
-      <th scope="col">Approval Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for user in users %}
-    <tr>
-      <th scope="row">{{ forloop.counter }}</th>
-      <td>{{ user }}</td>
-      <td>{{ user.get_approval_status_display }}</td>
-      <td>{{ user.get_requested_role_display }}</td>
-      <td>
-        <a href="{% url 'account:user_approval' pk=user.pk %}"
-          class="btn btn-sm btn-success approve"
-          data-user-pk="{{ user.pk }}">
-          Aprove
-        </a>
-        <a 
-          href="{% url 'account:approval_with_modification' pk=user.pk %}" 
-          class="btn btn-sm btn-primary approve"
-          data-user-pk="{{ user.pk }}">
-          Modify & Approve
-        </a>
-        <a href="#" class="btn btn-sm btn-danger">Decline</a>
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+  {% if messages %} 
+      {% for message in messages %}
+      <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+      <strong>{{ message }}</strong>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+      </button>
+      </div>
+      {% endfor %} 
+  {% endif %}
+
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Email</th>
+        <th scope="col">Approval Status</th>
+        <th scope="col">Requested Role</th>
+        <th scope="col">Approval Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>{{ user }}</td>
+        {% with req_role=user.approval_status %}
+          <td class="{% if req_role == 'd' %}bg-warning{% endif %}">
+            {{ user.get_approval_status_display }}
+          </td>
+        {% endwith %}
+        <td>{{ user.get_requested_role_display }}</td>
+        <td>
+          <a href="{% url 'account:user_approval' pk=user.pk approved=1 %}"
+            class="btn btn-sm btn-success approve"
+            data-user-pk="{{ user.pk }}">
+            Aprove
+          </a>
+          <a 
+            href="{% url 'account:approval_with_modification' pk=user.pk %}" 
+            class="btn btn-sm btn-primary approve"
+            data-user-pk="{{ user.pk }}">
+            Modify & Approve
+          </a>
+          <a href="{% url 'account:user_approval' pk=user.pk approved=0 %}" 
+            class="btn btn-sm btn-danger">
+            Decline
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock dashboard-body %}
 
 {% block extrajs %}

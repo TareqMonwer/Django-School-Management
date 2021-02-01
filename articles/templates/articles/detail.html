@@ -1,6 +1,13 @@
 {% extends 'articles/base.html' %}
 {% load social_share %}
 
+{% block meta_tags %}
+  <meta property="og:title" content="{{ obj.title }}" />
+  <meta property="og:description" content="{{ object.get_short_description }}" />
+  <meta property="og:image" content="{{ object.featured_image.url }}" />
+{% endblock meta_tags %}
+  
+
 {% block content %}
   <!-- Page Header -->
   <header class="masthead" 
@@ -53,11 +60,15 @@
           <div class="social-share d-flex flex-column justify-content-start mb-3">
               <div class="share badge border p-2">
                 <i class="fab fa-facebook-square"></i>
-                {% post_to_facebook object.get_absolute_url "share" %}
+                {% post_to_facebook object "share" "share" %}
+              </div>
+              <div class="share badge border p-2">
+                <!-- <i class="fab fa-linkedin"></i> -->
+                {% post_to_linkedin object %}
               </div>
               <div class="share badge border p-2">
                 <i class="fab fa-twitter-square"></i>
-                {% post_to_twitter object.get_absolute_url "share" "share" %}
+                {% post_to_twitter "{{ object.title }}" object "share" "share" %}
               </div>
               <div class="share badge border p-2">
                 <i class="fab fa-whatsapp-square"></i>
