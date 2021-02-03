@@ -1,0 +1,37 @@
+{% extends 'articles/base.html' %}
+
+
+{% block content %}
+<!-- Articles Bottom-section -->
+<div class="container">
+    <div class="row p-4">
+      {% for article in articles %}
+        <div class="col-sm-12 col-md-3 mb-5">
+          <a href="{{ article.get_absolute_url }}">
+            <div class="article-card rounded">
+              <img src="{{article.featured_image.url}}" alt="" class="rounded article-preview-image">
+              <div class="article-content">
+                <small class="category-name">
+                    <a href="{{ article.categories.first.get_absolute_url }}">
+			            {{ article.categories.first }}
+		            </a>
+                </small>
+                <p class="my-1">
+                  <b>
+                    <a href="{{ article.get_absolute_url }}">
+                      {{ article.title }}
+                    </a>
+                  </b>
+                </p>
+                <div class="metadata d-flex justify-content-between pr-4">
+                  <small class="fsm muted mr-3">{{ article.created }}</small>
+                  <!-- <small class="fsm muted">1500 VIEWS</small> -->
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+</div>
+{% endblock %}
