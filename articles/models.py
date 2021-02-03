@@ -112,3 +112,10 @@ class Category(MPTTModel):
             for category in categories if category.article_set.exists()
         ]
         return articles
+
+
+class Newsletter(TimeStampedModel):
+    email = models.EmailField()
+
+    def __str__(self):
+        return self.email

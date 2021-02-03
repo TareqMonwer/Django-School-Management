@@ -18,6 +18,10 @@ urlpatterns = [
         views.ArticleCreate.as_view(),
         name='create'
     ),
+    path('newsletter/',
+        views.newsletter,
+        name='newsletter'
+    ),
     path('author/<str:slug>/',
         views.AuthorProfile.as_view(),
         name='author_profile'
