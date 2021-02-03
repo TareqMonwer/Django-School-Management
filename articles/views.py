@@ -24,6 +24,13 @@ from .forms import ArticleForm
 from permission_handlers.administrative import user_is_teacher_or_administrative
 
 
+class AllArticles(ListView):
+    model = Article
+    context_object_name = 'articles'
+    template_name = 'articles/all_articles.html'
+    paginate_by = 10
+
+
 class ArticleList(ListView):
     """
     Returns a list of published articles.

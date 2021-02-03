@@ -50,6 +50,12 @@
                 <a class="nav-link" href="{% url 'articles:home' %}">Home</a>
               </li>
               
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'articles:all_articles' %}">
+                  Articles
+                </a>
+              </li>
+
               <!-- Dynamic Navigation -->
               {% include 'articles/inc/_registered_navlinks.html' %}
 
