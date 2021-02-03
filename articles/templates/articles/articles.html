@@ -192,6 +192,34 @@
       {% endfor %}
     </div>
   </div>
+  <section id="newsletter">
+    <div class="container">
+      <div>
+        <h2>Subscribe our <span>Newsletter</span></h2>
+
+        <form id="newsletter-form"
+        action="{% url 'articles:newsletter'%}"
+        method="POST">
+        {% csrf_token %}
+          <div class="input-group">
+            <input type="email" id="email" name="email" placeholder="Enter your email to subscribe newsletter">
+            <input type="submit" value="submit" class="btn btn-rounded btn-bluish">
+          </div>
+        </form>
+
+        <!-- <div class="social-links">
+          <a href=""><i class="fab fa-facebook-f"></i>
+          </a>
+          <a href=""><i class="fab fa-dribbble"></i>
+          </a>
+          <a href=""><i class="fab fa-twitter"></i>
+          </a>
+          <a href=""><i class="fab fa-github"></i>
+          </a>
+        </div> -->
+      </div>
+    </div>
+  </section>
 
   <!-- Footer -->
   {% include 'articles/inc/_footer.html' %}
