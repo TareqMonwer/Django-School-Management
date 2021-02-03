@@ -4,7 +4,7 @@ from itertools import chain
 
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views import View
@@ -18,7 +18,7 @@ from accounts.models import User
 from accounts.forms import (
     CommonUserProfileForm, UserProfileSocialLinksFormSet
 )
-from .models import Article, Like, Category
+from .models import Article, Like, Category, Newsletter
 from .mixins import AuthorArticleEditMixin
 from .forms import ArticleForm
 from permission_handlers.administrative import user_is_teacher_or_administrative
@@ -208,3 +208,12 @@ class AuthorProfile(DetailView):
                 'Please provide valid values according to the form.'
             )
             return redirect(self.request.user.get_author_url())
+
+
+def newsletter(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        Newsletter.objects.create(email=email)
+        return redirect('articles:home')
+    else:
+        return HttpResponse('Invalid Request Type')

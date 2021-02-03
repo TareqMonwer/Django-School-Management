@@ -4,7 +4,7 @@ from mptt.models import TreeManyToManyField
 from django.forms import CheckboxSelectMultiple
 from django.contrib import admin
 
-from .models import Article, Like, Category
+from .models import Article, Like, Category, Newsletter
 
 
 class ArticleAdmin(admin.ModelAdmin):
@@ -29,6 +29,7 @@ class CategoryAdmin(admin.ModelAdmin):
 # Registers
 admin.site.register(Article, ArticleAdmin)
 admin.site.register(Category, CategoryAdmin)
+admin.site.register(Newsletter)
 
 @admin.register(Like)
 class LikeAdmin(admin.ModelAdmin):
