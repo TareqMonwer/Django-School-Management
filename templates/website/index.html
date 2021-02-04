@@ -15,15 +15,13 @@
     <div class="row space-100">
       <div class="col-lg-6 col-md-12 col-xs-12">
         <div class="contents">
-          <h2>{{ detail }}</h2>
-          <h2 class="head-title">
-            Admission is Open,<br />
-            Apply Now
-          </h2>
+          <h2>{{ request_institute.name }}</h2>
           <p>
-            This is from the school management system. We have a complete online
-            solution for managing everything more effectively and stay focused
-            on students career and development only.
+            {% if request_institute.motto %}
+              {{ request_institute.motto|safe }}
+            {% else %}
+              {{ request_institute.description|safe }}
+            {% endif %}
           </p>
           <div class="header-button">
             <a
@@ -59,20 +57,20 @@
 </header>
 <!-- Header Section End -->
 
-<!-- Services Section Start -->
+<!-- Department Section Start -->
 <section id="services" class="section">
   <div class="container">
-    <div class="row">
+    <div class="row justify-content-center">
       <!-- Start Col -->
       <div class="col-lg-4 col-md-6 col-xs-12">
         <div class="services-item text-center">
           <div class="icon">
             <i class="lni-cog"></i>
           </div>
-          <h4>Customizable</h4>
+          <h4>Computer Department</h4>
           <p>
-            Share processes and data secure lona need to know basis Our team
-            assured your web site is always safe.
+            Computer Department at This is Institute is on of the
+            highest reputed department for it's operations, teachers and students.
           </p>
         </div>
       </div>
@@ -83,24 +81,10 @@
           <div class="icon">
             <i class="lni-brush"></i>
           </div>
-          <h4>Multiple Items</h4>
+          <h4>Department of Arts</h4>
           <p>
-            Share processes and data secure lona need to know basis Our team
-            assured your web site is always safe.
-          </p>
-        </div>
-      </div>
-      <!-- End Col -->
-      <!-- Start Col -->
-      <div class="col-lg-4 col-md-6 col-xs-12">
-        <div class="services-item text-center">
-          <div class="icon">
-            <i class="lni-heart"></i>
-          </div>
-          <h4>Better Experience</h4>
-          <p>
-            Share processes and data secure lona need to know basis Our team
-            assured your web site is always safe.
+            Outnumbered students / alumnus community all over the globe has made
+            this department full of opportunity.
           </p>
         </div>
       </div>
@@ -110,46 +94,6 @@
 </section>
 <!-- Services Section End -->
 
-<!-- Business Plan Section Start -->
-<section id="business-plan">
-  <div class="container">
-    <div class="row">
-      <!-- Start Col -->
-      <div class="col-lg-6 col-md-12 pl-0 pt-70 pr-5">
-        <div class="business-item-img">
-          <img
-            src="{% static 'landing/img/business/business-img.png' %}"
-            class="img-fluid"
-            alt=""
-          />
-        </div>
-      </div>
-      <!-- End Col -->
-      <!-- Start Col -->
-      <div class="col-lg-6 col-md-12 pl-4">
-        <div class="business-item-info">
-          <h3>Create Here, Access from Everywhere</h3>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            <br />
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-            <br />
-            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-            ea <br />
-            commodo consequat. Duis aute irure dolor in reprehenderit in
-            voluptate <br />
-            velit esse cillum dolore eu fugiat nulla pariatur.
-          </p>
-
-          <a class="btn btn-common" href="#">Try Pro</a>
-        </div>
-      </div>
-      <!-- End Col -->
-    </div>
-  </div>
-</section>
-<!-- Business Plan Section End -->
-
 <!-- Cool Fetatures Section Start -->
 <section id="features" class="section">
   <div class="container">
@@ -158,7 +102,7 @@
       <div class="col-lg-12">
         <div class="features-text section-header text-center">
           <div>
-            <h2 class="section-title">Services We Provide</h2>
+            <h2 class="section-title">Services & Portals</h2>
             <div class="desc-text">
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
@@ -181,7 +125,7 @@
             <i class="lni-coffee-cup"></i>
           </div>
           <div class="feature-info float-left">
-            <h4>Easy to Customize</h4>
+            <h4>Student Dashboard</h4>
             <p>
               Producing long lasting organic SEO results for <br />
               brand of different kinds for more than a decade,<br />
@@ -201,7 +145,7 @@
             <i class="lni-briefcase"></i>
           </div>
           <div class="feature-info float-left">
-            <h4>Business Template</h4>
+            <h4>Teacher Dashboard</h4>
             <p>
               Producing long lasting organic SEO results for <br />
               brand of different kinds for more than a decade,<br />
@@ -221,7 +165,7 @@
             <i class="lni-invention"></i>
           </div>
           <div class="feature-info float-left">
-            <h4>Clean & Trendy Design</h4>
+            <h4>Parents Dashboard</h4>
             <p>
               Producing long lasting organic SEO results for <br />
               brand of different kinds for more than a decade,<br />
@@ -241,7 +185,7 @@
             <i class="lni-layers"></i>
           </div>
           <div class="feature-info float-left">
-            <h4>Tons of Sections</h4>
+            <h4>Own DashboardCommunity / Forum</h4>
             <p>
               Producing long lasting organic SEO results for <br />
               brand of different kinds for more than a decade,<br />
@@ -261,7 +205,7 @@
             <i class="lni-reload"></i>
           </div>
           <div class="feature-info float-left">
-            <h4>Free Future Updates</h4>
+            <h4>Digital Management System</h4>
             <p>
               Producing long lasting organic SEO results for <br />
               brand of different kinds for more than a decade,<br />
@@ -281,7 +225,7 @@
             <i class="lni-support"></i>
           </div>
           <div class="feature-info float-left">
-            <h4>Premier Support</h4>
+            <h4>Online Based Schooling</h4>
             <p>
               Producing long lasting organic SEO results for <br />
               brand of different kinds for more than a decade,<br />
@@ -297,97 +241,6 @@
   </div>
 </section>
 <!-- Cool Fetatures Section End -->
-
-<!-- Our Pricing Plan Section Start -->
-<section id="pricing" class="section">
-  <div class="container">
-    <!-- Start Row -->
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="pricing-text section-header text-center">
-          <div>
-            <h2 class="section-title">Pricing Plans</h2>
-            <div class="desc-text">
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              </p>
-              <p>eiusmod tempor incididunt ut labore et dolore.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- End Row -->
-    <!-- Start Row -->
-    <div class="row pricing-tables">
-      <!--  Start Col -->
-      <div class="col-lg-4 col-md-4 col-xs-12">
-        <div class="pricing-table text-center">
-          <div class="pricing-details">
-            <h3>Free</h3>
-            <h1><span>$</span>00</h1>
-            <ul>
-              <li>Free Instalation</li>
-              <li>500MB Storage</li>
-              <li>Single User</li>
-              <li>5 GB Bandwith</li>
-              <li>Minimal Features</li>
-              <li>No Dashboard</li>
-            </ul>
-          </div>
-          <div class="plan-button">
-            <a href="#" class="btn btn-border">Purchase</a>
-          </div>
-        </div>
-      </div>
-      <!--  End Col -->
-      <!--  Start Col -->
-      <div class="col-lg-4 col-md-4 col-xs-12">
-        <div class="pricing-table text-center">
-          <div class="pricing-details">
-            <h3>standard</h3>
-            <h1><span>$</span>19.99</h1>
-            <ul>
-              <li>Free Instalation</li>
-              <li>2 GB Storage</li>
-              <li>Upto 2 users</li>
-              <li>50 GB Bandwith</li>
-              <li>All Features</li>
-              <li>Sales Dashboard</li>
-            </ul>
-          </div>
-          <div class="plan-button">
-            <a href="#" class="btn btn-common">Purchase</a>
-          </div>
-        </div>
-      </div>
-      <!--  End Col -->
-      <!--  Start Col -->
-      <div class="col-lg-4 col-md-4 col-xs-12">
-        <div class="pricing-table text-center">
-          <div class="pricing-details">
-            <h3>Business</h3>
-            <h1><span>$</span>29.99</h1>
-            <ul>
-              <li>Free Instalation</li>
-              <li>5 GB Storage</li>
-              <li>Upto 4 users</li>
-              <li>100 GB Bandwith</li>
-              <li>All Features</li>
-              <li>Sales Dashboard</li>
-            </ul>
-          </div>
-          <div class="plan-button">
-            <a href="#" class="btn btn-border">Purchase</a>
-          </div>
-        </div>
-      </div>
-      <!--  End Col -->
-    </div>
-    <!-- End Row -->
-  </div>
-</section>
-<!-- Our Pricing Plan Section End -->
 
 <!-- Blog Section -->
 <section id="blog" class="section">
@@ -411,106 +264,46 @@
     </div>
     <!-- End Row -->
     <!-- Start Row -->
-    <div class="row">
-      <!-- Start Col -->
-      <div class="col-lg-4 col-md-6 col-xs-12 blog-item">
-        <!-- Blog Item Starts -->
-        <div class="blog-item-wrapper">
-          <div class="blog-item-img">
-            <a href="single-post.html">
-              <img src="img/blog/01.jpg" class="img-fluid" alt="" />
-            </a>
-          </div>
-          <div class="blog-item-text">
-            <h3>
-              <a href="single-post.html"
-                >How Slick Will Transform <br />Your Business</a
+    <div class="row">   
+      {% for article in recents_blogs %}
+        <!-- Start Col -->
+        <div class="col-lg-4 col-md-6 col-xs-12 blog-item">
+          <!-- Blog Item Starts -->
+          <div class="blog-item-wrapper">
+            <div class="blog-item-img">
+              <a href="single-post.html">
+                <img src="img/blog/01.jpg" class="img-fluid" alt="" />
+              </a>
+            </div>
+            <div class="blog-item-text">
+              <h3>
+                <a href="single-post.html">
+                  {{ article.title }}  
+                </a>
+              </h3>
+              <p>
+                {{ article.short_description}}
+              </p>
+              <a href="" class="read-more">5 Min read</a>
+            </div>
+            <div class="author">
+              <span class="name">
+                <i class="lni-user"></i>
+                <a href="#">
+                  Posted by {{ article.author }}
+                </a>
+              </span>
+              <span class="date float-right"
+                ><i class="lni-calendar"></i>
+                <a href="#">{{ article.created }}</a>
+                </span
               >
-            </h3>
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry.
-            </p>
-            <a href="" class="read-more">5 Min read</a>
+            </div>
           </div>
-          <div class="author">
-            <span class="name"
-              ><i class="lni-user"></i><a href="#">Posted by Admin</a></span
-            >
-            <span class="date float-right"
-              ><i class="lni-calendar"></i><a href="#">10 April, 2020</a></span
-            >
-          </div>
+          <!-- Blog Item Wrapper Ends-->
         </div>
-        <!-- Blog Item Wrapper Ends-->
-      </div>
-      <!-- End Col -->
-      <!-- Start Col -->
-      <div class="col-lg-4 col-md-6 col-xs-12 blog-item">
-        <!-- Blog Item Starts -->
-        <div class="blog-item-wrapper">
-          <div class="blog-item-img">
-            <a href="single-post.html">
-              <img src="img/blog/02.jpg" class="img-fluid" alt="" />
-            </a>
-          </div>
-          <div class="blog-item-text">
-            <h3>
-              <a href="single-post.html"
-                >Growth Techniques for <br />New Startups</a
-              >
-            </h3>
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry.
-            </p>
-            <a href="" class="read-more">5 Min read</a>
-          </div>
-          <div class="author">
-            <span class="name"
-              ><i class="lni-user"></i><a href="#">Posted by Admin</a></span
-            >
-            <span class="date float-right"
-              ><i class="lni-calendar"></i><a href="#">10 April, 2020</a></span
-            >
-          </div>
-        </div>
-        <!-- Blog Item Wrapper Ends-->
-      </div>
-      <!-- End Col -->
-      <!-- Start Col -->
-      <div class="col-lg-4 col-md-6 col-xs-12 blog-item">
-        <!-- Blog Item Starts -->
-        <div class="blog-item-wrapper">
-          <div class="blog-item-img">
-            <a href="single-post.html">
-              <img src="img/blog/03.jpg" class="img-fluid" alt="" />
-            </a>
-          </div>
-          <div class="blog-item-text">
-            <h3>
-              <a href="single-post.html"
-                >Writing Professional <br />Emails to Customers</a
-              >
-            </h3>
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry.
-            </p>
-            <a href="" class="read-more">5 Min read</a>
-          </div>
-          <div class="author">
-            <span class="name"
-              ><i class="lni-user"></i><a href="#">Posted by Admin</a></span
-            >
-            <span class="date float-right"
-              ><i class="lni-calendar"></i><a href="#">10 April, 2020</a></span
-            >
-          </div>
-        </div>
-        <!-- Blog Item Wrapper Ends-->
-      </div>
-      <!-- End Col -->
+        <!-- End Col -->
+      {% endfor %}
     </div>
     <!-- End Row -->
   </div>
@@ -572,7 +365,7 @@
                 <div class="help-block with-errors"></div>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-12">
               <div class="form-group">
                 <input
                   type="text"
@@ -582,20 +375,6 @@
                   placeholder="Email"
                   required
                   data-error="Please enter your Email"
-                />
-                <div class="help-block with-errors"></div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <input
-                  type="text"
-                  placeholder="Budget"
-                  id="budget"
-                  class="form-control"
-                  name="budget"
-                  required
-                  data-error="Please enter your Budget"
                 />
                 <div class="help-block with-errors"></div>
               </div>
