@@ -99,13 +99,20 @@
           <!-- Form for UnVerified User (SENDS A VERIFICATION REQUEST) -->
           {% if user.approval_status != 'a' %}
             <form method="post">
-              {% csrf_token %} {{ form|crispy }}
-              <input
-                type="submit"
-                value="Request for approval"
-                class="btn btn-success"
-              />
-            </form>
+              <div
+                class="alert alert-warning alert-dismissible fade show"
+                role="alert"
+              >
+                <strong>Your account is not verified.</strong>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="alert"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
           {% else %}
             <!-- Form for verfied users (UPDATES USER PROFILE DETAILS) -->
             <form action="" method="POST" 
@@ -160,25 +167,28 @@
   id="request-update-modal" tabindex="-1" 
   role="dialog" 
   aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h6 class="" id="">
-          Change Profile Verification
-        </h6>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        {{ verification_form|crispy }}
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+  <form action="{% url 'account:profile_complete' %}" method="post">
+    {% csrf_token %}
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="" id="">
+            Change Profile Verification
+          </h6>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {{ verification_form|crispy }}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
       </div>
     </div>
-  </div>
+  </form>
 </div>
 {% endblock %}
 
