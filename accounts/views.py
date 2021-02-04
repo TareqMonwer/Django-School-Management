@@ -30,16 +30,23 @@ def profile_complete(request):
     ctx = {}
     user = User.objects.get(pk=request.user.pk)
 
-    profile_edit_form = CommonUserProfileForm(
-        instance=user.profile
-    )
-    social_links_form = UserProfileSocialLinksFormSet(
-        instance=user.profile
-    )
-    ctx.update({
-        'profile_edit_form': profile_edit_form,
-        'social_links_form': social_links_form
-    })
+    try:
+        profile_edit_form = CommonUserProfileForm(
+            instance=user.profile
+        )
+        social_links_form = UserProfileSocialLinksFormSet(
+            instance=user.profile
+        )
+        ctx.update({
+            'profile_edit_form': profile_edit_form,
+            'social_links_form': social_links_form
+        })
+    except:
+        messages.add_message(
+            request,
+            messages.INFO,
+            "Maybe your account is not verified yet, please check your badge."
+        )
 
     verification_form = ProfileCompleteForm(instance=user)
     if request.method == 'POST':
@@ -69,23 +76,23 @@ def profile_complete(request):
                 'Your profile has been saved.'
             )
             return redirect('account:profile_complete')
-        if verification_form.is_valid():
-            form.instance.approval_status = 'p'
-            # approval status get's pending
-            form.save()
-            messages.add_message(
-                request,
-                messages.SUCCESS,
-                'Your request has been sent, please be patient.'
-            )
-            return redirect('account:profile_complete')
+        else:
+            if verification_form.is_valid():
+                verification_form.instance.approval_status = 'p'
+                # approval status get's pending
+                verification_form.save()
+                messages.add_message(
+                    request,
+                    messages.SUCCESS,
+                    'Your request has been sent, please be patient.'
+                )
+                return redirect('account:profile_complete')
     user_permissions = user.user_permissions.all()
     ctx.update({
         'verification_form': verification_form,
         'user_perms': user_permissions if user_permissions else None,
     })
     return render(request, 'account/profile_complete.html', ctx)
-
 
 
 @user_passes_test(
