@@ -13,6 +13,7 @@ from .forms import UserRegistrationForm, UserChangeForm
 
 User = get_user_model()
 
+
 class UserResource(resources.ModelResource):
     class Meta:
         model = User
@@ -39,16 +40,13 @@ class UserAdmin(RolePermissionsUserAdminMixin, ImportExportModelAdmin, auth_admi
     #     return instance
 
 
-class UserProfileAdmin(admin.ModelAdmin):
-    pass
-    # def save_model(self, request, obj, form, change): 
-    #     instance = form.save(commit=False)
-    #     requested_role = request.POST.get('requested_role')
-    #     print(requested_role)
-    #     print(obj, instance)
-    #     print(assign_role(obj, requested_role))
-    #     instance.save()
-    #     return instance
+class UserProfileResource(resources.ModelResource):
+    class Meta:
+        model = CommonUserProfile
+
+
+class UserProfileAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    resource_class = UserProfileResource
 
 
 class CustomGroupAdmin(GroupAdmin):

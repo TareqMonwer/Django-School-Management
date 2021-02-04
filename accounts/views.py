@@ -87,6 +87,7 @@ def profile_complete(request):
     return render(request, 'account/profile_complete.html', ctx)
 
 
+
 @user_passes_test(
     user_editor_admin_or_su,
     login_url='account:profile_complete')
