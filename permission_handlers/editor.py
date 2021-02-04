@@ -6,12 +6,15 @@ UserTypes: Editor, AcademicOfficer
 from .basic import user_is_verified
 
 def user_is_editor(user):
-    return user_is_verified(user) and user.requested_role == 'editor'
+    return user_is_verified(user) and user.requested_role == 'editor' \
+        if user.is_authenticated else False
 
 
 def user_is_academic_officer(user):
-    return user_is_verified(user) and user.requested_role == 'academic_oficer'
+    return user_is_verified(user) and user.requested_role == 'academic_oficer' \
+        if user.is_authenticated else False
 
 
 def user_is_editor_or_ac_officer(user):
-    return user_is_editor(user) or user_is_academic_officer(user)
+    return user_is_editor(user) or user_is_academic_officer(user) \
+        if user.is_authenticated else False
