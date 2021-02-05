@@ -27,7 +27,7 @@ class User(AbstractUser):
     approval_status = models.CharField(
         max_length=2,
         choices=APPROVAL_CHOICES,
-        default=APPROVAL_CHOICES[0][0],
+        default='n',
     )
     employee_or_student_id = models.CharField(
         max_length=10,
