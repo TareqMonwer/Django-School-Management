@@ -571,24 +571,6 @@ button:focus {
     color: #5e629c; }
 
 /* ==========================================================================
-   business-plan Section 
-   ========================================================================== */
-#business-plan {
-  padding-bottom: 130px; }
-  #business-plan .container-fluid {
-    padding-right: 30px;
-    padding-left: 30px; }
-  #business-plan .business-item-info {
-    margin-top: 60px; }
-    #business-plan .business-item-info h3 {
-      font-size: 35px;
-      font-weight: 600;
-      margin-bottom: 25px; }
-    #business-plan .business-item-info p {
-      font-size: 16px;
-      margin-bottom: 20px; }
-
-/* ==========================================================================
    Features 
    ========================================================================== */
 #features {
@@ -989,47 +971,6 @@ button:focus {
   100% {
     transform: translateX(-50%) translateY(-50%) translateZ(0) scale(1.5);
     opacity: 0; } }
-
-/* ==========================================================================
-   Our Pricing 
-   ========================================================================== */
-#pricing .pricing-table {
-  padding: 55px;
-  border: 1px solid #ccc;
-  -moz-transition: all .8s ease;
-  -webkit-transition: all .8s ease;
-  transition: all .8s ease; }
-  #pricing .pricing-table h3 {
-    font-size: 20px;
-    color: #151948;
-    font-weight: 500;
-    text-transform: uppercase;
-    margin-bottom: 11px; }
-  #pricing .pricing-table h1 {
-    color: #3ecf8e;
-    font-size: 50px;
-    font-weight: 500;
-    position: relative;
-    padding-left: 10px; }
-  #pricing .pricing-table h1 span {
-    font-size: 16px;
-    position: absolute;
-    left: 20%;
-    top: 10px; }
-  #pricing .pricing-table ul {
-    padding-bottom: 28px; }
-  #pricing .pricing-table ul li {
-    font-size: 16px;
-    font-weight: 400;
-    color: #5e629c;
-    display: block;
-    line-height: 33px; }
-  #pricing .pricing-table:hover {
-    border: 1px solid #3ecf8e;
-    box-shadow: 0px 0px 25px 0px rgba(95, 95, 95, 0.24);
-    -moz-transition: all .4s ease;
-    -webkit-transition: all .4s ease;
-    transition: all .4s ease; }
 
 /* ==========================================================================
    team section
