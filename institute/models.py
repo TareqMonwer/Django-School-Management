@@ -28,6 +28,8 @@ class InstituteProfile(models.Model):
 		max_length=100,
 		default='Django-School-Management Admin'
 	)
+	motto = models.TextField(blank=True, null=True)
+	description = models.TextField(blank=True, null=True)
 	active = models.BooleanField(default=False, unique=True)
 	created_by = models.ForeignKey(
 		settings.AUTH_USER_MODEL,
