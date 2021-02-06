@@ -1063,7 +1063,9 @@ button:focus {
     #blog .blog-item-wrapper:hover h3 a {
       color: #3ecf8e; }
     #blog .blog-item-wrapper .blog-item-text {
-      padding: 26px 30px 30px 30px; }
+      padding: 26px 30px 30px 30px;
+      overflow: hidden;
+    }
     #blog .blog-item-wrapper h3 {
       font-size: 20px;
       font-weight: 600;

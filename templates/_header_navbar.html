@@ -11,7 +11,9 @@
       <li class="search-input"><input class="form-control" type="text" placeholder="Search..."></li>
     </ul>
     <ul class="nav-right">
-      <li class="notifications dropdown"><span class="counter bgc-red">3</span> <a href=""
+      <li class="notifications dropdown"><span class="counter bgc-red">
+        0
+      </span> <a href=""
           class="dropdown-toggle no-after" data-toggle="dropdown"><i class="ti-bell"></i></a>
         <ul class="dropdown-menu">
           <li class="pX-20 pY-15 bdB"><i class="ti-bell pR-10"></i> <span
@@ -48,52 +50,17 @@
           </li>
         </ul>
       </li>
-      <li class="notifications dropdown"><span class="counter bgc-blue">3</span> <a href=""
-          class="dropdown-toggle no-after" data-toggle="dropdown"><i class="ti-email"></i></a>
-        <ul class="dropdown-menu">
-          <li class="pX-20 pY-15 bdB"><i class="ti-email pR-10"></i> <span
-              class="fsz-sm fw-600 c-grey-900">Emails</span></li>
-          <li>
-            <ul class="ovY-a pos-r scrollable lis-n p-0 m-0 fsz-sm">
-              <li>
-                <a href="" class="peers fxw-nw td-n p-20 bdB c-grey-800 cH-blue bgcH-grey-100">
-                  <div class="peer mR-15">
-                    <img class="w-3r bdrs-50p" src="https://randomuser.me/api/portraits/men/1.jpg"
-                      alt="">
-                  </div>
-                  <div class="peer peer-greed">
-                    <div>
-                      <div class="peers jc-sb fxw-nw mB-5">
-                        <div class="peer">
-                          <p class="fw-500 mB-0">John Doe</p>
-                        </div>
-                        <div class="peer"><small class="fsz-xs">5 mins ago</small></div>
-                      </div>
-                      <span class="c-grey-600 fsz-sm">
-                        Want to create your own customized data generator for
-                        your app...
-                      </span>
-                    </div>
-                  </div>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="pX-20 pY-15 ta-c bdT">
-            <span>
-              <a href="email.html" class="c-grey-600 cH-blue fsz-sm td-n">
-                View All Email <i class="fs-xs ti-angle-right mL-10"></i>
-              </a>
-            </span>
-          </li>
-        </ul>
-      </li>
       <li class="dropdown">
         <a href="return:void(0);" class="dropdown-toggle no-after peers fxw-nw ai-c lh-1" 
           data-toggle="dropdown"
           aria-expanded="false">
           <div class="peer mR-10">
-            <img class="w-2r bdrs-50p" src="https://randomuser.me/api/portraits/men/10.jpg" alt="">
+            <img class="w-2r bdrs-50p" 
+            {% if user.profile.profile_picture %}
+              src="{{ user.profile.profile_picture.url }}"
+            {% endif %}
+              src="https://randomuser.me/api/portraits/men/10.jpg"
+             alt="">
           </div>
           <div class="peer">
             <span class="fsz-sm c-grey-900">
