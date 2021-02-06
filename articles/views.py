@@ -4,7 +4,7 @@ from itertools import chain
 
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views import View
@@ -21,6 +21,7 @@ from accounts.forms import (
 from .models import Article, Like, Category, Newsletter
 from .mixins import AuthorArticleEditMixin
 from .forms import ArticleForm
+from .utils import subscribe
 from permission_handlers.administrative import user_is_teacher_or_administrative
 
 
@@ -220,7 +221,14 @@ class AuthorProfile(DetailView):
 def newsletter(request):
     if request.method == 'POST':
         email = request.POST.get('email')
-        Newsletter.objects.create(email=email)
-        return redirect('articles:home')
+        # subscribe_ = subscribe(email=email)
+        nl = Newsletter.objects.create(email=email)
+        subscribe_ = subscribe(email=nl.email)
+        if subscribe_[0] == 200:
+            return HttpResponseRedirect(
+                request.META.get('HTTP_REFERER')
+            )
+        else:
+            return HttpResponse('Could not subscribe!')
     else:
         return HttpResponse('Invalid Request Type')
