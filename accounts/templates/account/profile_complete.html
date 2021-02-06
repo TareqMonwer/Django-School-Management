@@ -143,20 +143,18 @@
           {% endif %}
         </div>
 
-        <div class="card p-3 mt-5">
-          <div class="card-header">
-            My Permissions
+        {% if user_perms %}
+          <div class="card p-3 mt-5">
+            <div class="card-header">
+              My Permissions
+            </div>
+            <div class="card-body">
+              {% for permission in user_perms %}
+              <div>{{ permission }}</div>
+              {% endfor %}
+            </div>
           </div>
-          <div class="card-body">
-            {% if user_perms %}
-
-            {% for permission in user_perms %}
-            <div>{{ permission }}</div>
-            {% endfor %} {% else %}
-            <p>Appearantly, you do not have any permissions.</p>
-            {% endif %}
-          </div>
-        </div>
+         {% endif %}
       </div>
     </div>
   </div>

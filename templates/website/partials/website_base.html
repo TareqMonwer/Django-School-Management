@@ -39,6 +39,7 @@
 
 
     <!-- Footer Section Start -->
+    {% comment %}
     <footer>
       <!-- Footer Area Start -->
       <section id="footer-Content">
@@ -101,10 +102,18 @@
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 col-mb-12">
               <div class="widget">
                 <h3 class="block-title">Subscribe Now</h3>
-                <p>Appropriately implement calysts for change visa wireless catalysts for change. </p>
+                <p>
+                  Get updates from us by subscribing to our mailing list.
+                </p>
                 <div class="subscribe-area">
-                  <input type="email" class="form-control" placeholder="Enter Email">
-                  <span><i class="lni-chevron-right"></i></span>
+                  <form action="{% url 'articles:newsletter'%}" method="post">
+                    <input type="email" name="email" class="form-control" placeholder="Enter Email">
+                    <span id="subscribe-form-submit">
+                      <button type="submit">
+                        <i class="lni-chevron-right"></i>
+                      </button>
+                    </span>
+                  </form>
                 </div>
               </div>
             </div>
@@ -114,9 +123,8 @@
         </div>
         <!-- Copyright Start  -->
 
-        <div class="copyright">
+        <!-- <div class="copyright">
           <div class="container">
-            <!-- Star Row -->
             <div class="row">
               <div class="col-md-12">
                 <div class="site-info text-center">
@@ -124,16 +132,15 @@
                 </div>
 
               </div>
-              <!-- End Col -->
             </div>
-            <!-- End Row -->
           </div>
-        </div>
+        </div> -->
       <!-- Copyright End -->
       </section>
       <!-- Footer area End -->
 
     </footer>
+    {% endcomment %}
     <!-- Footer Section End -->
 
 
@@ -175,6 +182,12 @@
           siteNav.classList.add('navbar-inverse');
         }
       })();
+
+      document.getElementById('subscribe-form-submit').addEventListener(
+        'click', function(e){
+          document.getElementById('subscribe-form-submit').submit();
+          console.log('object');
+        })
     </script>
     {% block extra_js %}{% endblock %}
 
