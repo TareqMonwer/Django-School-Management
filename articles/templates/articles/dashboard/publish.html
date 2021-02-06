@@ -1,0 +1,28 @@
+{% extends 'dashboard.html' %}
+{% load crispy_forms_tags %}
+
+{% block extra_header %}
+   <style>
+       .django-ckeditor-widget {
+           width:100%;
+       }
+   </style> 
+{% endblock %}
+    
+
+{% block dashboard-body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form method="POST" action="" 
+            enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.media }}
+                {{ form|crispy }}
+                <input class="btn btn-dark float-right" type="submit" 
+                value="Publish">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

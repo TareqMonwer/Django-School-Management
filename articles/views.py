@@ -140,6 +140,13 @@ class ArticleCreate(
 
     def form_valid(self, form):
         form.instance.author = self.request.user
+        form.instance.save()
+        # save categories for the article
+        categories_ids = list(map(
+            int, self.request.POST.getlist('category')
+        ))
+        categories = Category.objects.filter(id__in=categories_ids)
+        form.instance.categories.add(*categories)
         return super().form_valid(form)
 
 
@@ -216,6 +223,43 @@ class AuthorProfile(DetailView):
                 'Please provide valid values according to the form.'
             )
             return redirect(self.request.user.get_author_url())
+
+
+class ArticleCreateFromDashboard(LoginRequiredMixin,
+    UserPassesTestMixin, CreateView):
+    # fields none need to set None to provide form_class
+    # because it has some value in AuthorArticleEditMixin.
+    fields = None
+    form_class = ArticleForm
+    template_name = 'articles/dashboard/publish.html'
+
+    def test_func(self):
+        user =  self.request.user
+        return user_is_teacher_or_administrative(user)
+
+    def handle_no_permission(self):
+        if self.request.user.is_authenticated:
+            messages.add_message(self.request, 
+                messages.INFO,
+                "You're redirected to this page because you "
+                "do not have right permission to publish articles. "
+                "If you want to write articles in this portal, "
+                "please communicate with authorities."
+            )
+            return redirect('account:profile_complete')
+        return redirect('account_login')
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        form.instance.status = 'published'
+        form.instance.save()
+        # save categories for the article
+        categories_ids = list(map(
+            int, self.request.POST.getlist('category')
+        ))
+        categories = Category.objects.filter(id__in=categories_ids)
+        form.instance.categories.add(*categories)
+        return super().form_valid(form)
 
 
 def newsletter(request):
