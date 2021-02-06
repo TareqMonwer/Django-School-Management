@@ -309,3 +309,9 @@ if USE_CELERY_REDIS:
             'Otherwise, configure these as described '
             'here: https://github.com/TareqMonwer/Django-School-Management#celery-redis-setup'
         )
+
+
+# MAILCHIMP INTEGRATION
+MAILCHIMP_API_KEY=env('MAILCHIMP_API_KEY')
+MAILCHIMP_DATA_CENTER=env('MAILCHIMP_DATA_CENTER')
+MAILCHIMP_LIST_ID=env('MAILCHIMP_LIST_ID')
