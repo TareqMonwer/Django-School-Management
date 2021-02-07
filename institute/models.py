@@ -4,6 +4,7 @@ from model_utils.models import TimeStampedModel
 from django.db import models
 from django.conf import settings
 from django.utils.safestring import mark_safe
+from django.urls import reverse
 
 
 
@@ -38,6 +39,9 @@ class InstituteProfile(models.Model):
 
 	def __str__(self):
 		return self.name
+	
+	def get_absolute_url(self):
+		return reverse('institute:institute_detail', args=[self.pk])
 
 
 class BaseWidget(TimeStampedModel):
