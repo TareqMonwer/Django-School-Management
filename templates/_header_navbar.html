@@ -70,7 +70,12 @@
         </a>
         <ul class="dropdown-menu fsz-sm">
           <li>
-            <a href="{% url 'institute:institute_detail' institute_pk=request_institute.pk %}" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
+            <a {% if request_institute %}
+                href="{% url 'institute:institute_detail' institute_pk=request_institute.pk %}" 
+              {% else %}
+                href="#"
+              {% endif %}
+              class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
               <i class="ti-settings mR-10"></i>
               <span>Setting</span>
             </a>
@@ -81,12 +86,6 @@
               <span>
                 {{ request.user }}
               </span>
-            </a>
-          </li>
-          <li>
-            <a href="email.html" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
-              <i class="ti-email mR-10"></i>
-              <span>Messages</span>
             </a>
           </li>
           <li role="separator" class="divider"></li>
