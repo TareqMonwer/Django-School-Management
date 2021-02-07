@@ -229,3 +229,17 @@ class UserRequestsListView(LoginRequiredMixin, UserPassesTestMixin,ListView):
         return user_is_admin_or_su(user)
 
 user_requests_list = UserRequestsListView.as_view()
+
+
+def profile_picture_upload(request):
+    if request.method == 'POST':
+        image = request.FILES.get('profile-picture')
+        try:
+            request.user.profile.profile_picture = image
+            request.user.profile.save()
+            return JsonResponse({
+                'status': 'ok',
+                'imgUrl': request.user.profile.profile_picture.url,
+            })
+        except:
+            return JsonResponse({'data': 'error'})

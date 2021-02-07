@@ -19,4 +19,7 @@ urlpatterns = [
         views.user_approval_with_modification,
         name='approval_with_modification'
     ),
+    path('api/upload-profile-picture', views.profile_picture_upload,
+        name='profile_picture_upload'
+    ),
 ]

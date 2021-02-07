@@ -166,29 +166,6 @@
     <script src="{% static 'landing/js/nivo-lightbox.js' %}"></script>
     <script src="{% static 'landing/js/jquery.magnific-popup.min.js' %}"></script>
     <script src="{% static 'landing/js/main.js' %}"></script>
-    <script>
-      (function(){
-        const windowHeight = window.innerHeight;
-        const documentHeight = document.body.offsetHeight;
-        const siteNav = document.querySelector('.hero-area .navbar');
-        console.log(`wh: ${windowHeight}, dh: ${documentHeight}`);
-
-        if (documentHeight <= windowHeight) {
-          // console.log('content is not large enough');
-          siteNav.classList.add('navbar-dark');
-          siteNav.classList.add('bg-dark');
-        } else {
-          // console.log('content is large enough');
-          siteNav.classList.add('navbar-inverse');
-        }
-      })();
-
-      document.getElementById('subscribe-form-submit').addEventListener(
-        'click', function(e){
-          document.getElementById('subscribe-form-submit').submit();
-          console.log('object');
-        })
-    </script>
     {% block extra_js %}{% endblock %}
 
   </body>
