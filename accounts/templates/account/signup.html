@@ -54,6 +54,14 @@
               </div>
             {% endfor %}
           </div>
+          <!-- Show password -->
+          <input class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" 
+          type="checkbox" onclick="showPassword()"
+          style="margin-top: 0; display: inline;">
+          <label class="block text-sm text-gray-900"
+          style="margin-top: 0; display: inline;">
+            Show Password
+          </label>
           <!-- Submit Button -->
           <div>
             <button
@@ -82,5 +90,19 @@
         </form>
       </div>
     </div>
+
+    <script>
+      function showPassword() {
+        var password1 = document.getElementById("id_password1");
+        var password2 = document.getElementById("id_password2");
+        if (password1.type === "password") {
+          password1.type = "text";
+          password2.type = "text";
+        } else {
+          password1.type = "password";
+          password2.type = "password";
+        }
+      } 
+    </script>
   </body>
 </html>
