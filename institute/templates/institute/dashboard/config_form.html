@@ -10,7 +10,7 @@
             <h4>Institute Settings</h4>
 
             <div class="institute-settings-form">
-                <form action="" method="post">
+                <form action="" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form|crispy }}
                     <input type="submit" value="Save Changes"

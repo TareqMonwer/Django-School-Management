@@ -4,7 +4,7 @@
 {% block dashboard-body %}
 <div class="row">
     <div class="col-md-12">
-        <form action="." method="post">
+        <form action="." method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form|crispy }}
             <input type="submit" value="Update" class="btn btn-success">

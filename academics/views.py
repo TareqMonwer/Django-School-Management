@@ -98,7 +98,7 @@ def departments(request):
     and department create view.
     '''
     if request.method == 'POST':
-        form = DepartmentForm(request.POST)
+        form = DepartmentForm(request.POST, request.FILES)
         if form.is_valid():
             dept = form.save(commit=False)
             dept.created_by = request.user

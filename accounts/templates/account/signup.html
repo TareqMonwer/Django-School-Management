@@ -49,7 +49,7 @@
             {% for field in form.visible_fields %}
               <div class="mb-4" style="margin-bottom: 1.5rem !important;">
                 {{ field.label_tag }}
-                <small class="text-muted">{{ field.errors }}</small>
+                <small class="text-muted text-red">{{ field.errors }}</small>
                 {% render_field field class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder=field.name %}
               </div>
             {% endfor %}
