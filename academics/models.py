@@ -14,6 +14,17 @@ class Department(TimeStampedModel):
         max_length=5
     )
     code = models.PositiveIntegerField()
+    short_description = models.TextField(
+        help_text='Write short description about the department.',
+        blank=True,
+        null=True
+    )
+    department_icon = models.ImageField(
+        help_text='Upload an image/icon for the department',
+        upload_to='department_icon/',
+        blank=True,
+        null=True
+    )
     head = models.ForeignKey(
         Teacher, on_delete=models.CASCADE,
         blank=True, null=True

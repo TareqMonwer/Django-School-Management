@@ -14,11 +14,15 @@ from students.tasks import send_admission_confirmation_email
 
 def index(request):
     blog_count = Article.objects.count()
+    departments = Department.objects.all()
     if blog_count >= 3:
-        recents_blogs = Article.objects.order_by('-created')[:3]
+        recent_blogs = Article.objects.order_by('-created')[:3]
     else:
-        recents_blogs = Article.objects.order_by('-created')[:blog_count]
-    ctx = {'recents_blogs': recents_blogs}
+        recent_blogs = Article.objects.order_by('-created')[:blog_count]
+    ctx = {
+        'recent_blogs': recent_blogs,
+        'departments': departments,
+    }
     return render(request, 'website/index.html', ctx)
 
 

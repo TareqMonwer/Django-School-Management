@@ -552,7 +552,11 @@ button:focus {
     display: block;
     border-radius: 50%;
     position: relative;
-    margin-bottom: 25px; }
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   #services .services-item .icon i {
     font-size: 40px;
     color: #3ecf8e;

@@ -61,34 +61,25 @@
 <section id="services" class="section">
   <div class="container">
     <div class="row justify-content-center">
-      <!-- Start Col -->
-      <div class="col-lg-4 col-md-6 col-xs-12">
-        <div class="services-item text-center">
-          <div class="icon">
-            <i class="lni-cog"></i>
+      {% for dept in departments %}
+        <!-- Start Col -->
+        <div class="col-lg-4 col-md-6 col-xs-12 mb-4">
+          <div class="services-item text-center">
+            <div class="icon">
+              {% if dept.department_icon %}
+                <img src="{{ dept.department_icon.url }}" alt="{{ dept.name }}">
+              {% else %}
+                <i class="lni-cog"></i>
+              {% endif %}
+            </div>
+            <h4>{{ dept.name }}</h4>
+            <p>
+              {{ dept.short_description }}
+            </p>
           </div>
-          <h4>Computer Department</h4>
-          <p>
-            Computer Department at This is Institute is on of the
-            highest reputed department for it's operations, teachers and students.
-          </p>
         </div>
-      </div>
-      <!-- End Col -->
-      <!-- Start Col -->
-      <div class="col-lg-4 col-md-6 col-xs-12">
-        <div class="services-item text-center">
-          <div class="icon">
-            <i class="lni-brush"></i>
-          </div>
-          <h4>Department of Arts</h4>
-          <p>
-            Outnumbered students / alumnus community all over the globe has made
-            this department full of opportunity.
-          </p>
-        </div>
-      </div>
-      <!-- End Col -->
+        <!-- End Col -->
+      {% endfor %}
     </div>
   </div>
 </section>
@@ -265,7 +256,7 @@
     <!-- End Row -->
     <!-- Start Row -->
     <div class="row">   
-      {% for article in recents_blogs %}
+      {% for article in recent_blogs %}
         <!-- Start Col -->
         <div class="col-lg-4 col-md-6 col-xs-12 blog-item">
           <!-- Blog Item Starts -->

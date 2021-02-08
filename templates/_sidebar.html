@@ -196,11 +196,35 @@
         </ul>
       </li>
 
+      <!-- PUBLISHING OPTIONS -->
+      <li class="nav-item dropdown">
+        <a class="dropdown-toggle" href="javascript:void(0);">
+          <span class="icon-holder">
+            <i class="c-light-blue-500 ti-pencil"></i>
+          </span>
+          <span class="title">Publishing</span>
+          <span class="arrow"><i class="ti-angle-right"></i></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <a class="sidebar-link" 
+              href="{% url 'articles:dashboard_article_publish' %}">
+              Publish Article
+            </a>
+            <a class="sidebar-link" 
+              href="#">
+              Manage Articles
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      {% if user.approval_status == 'a' %}
       <!-- USER OPTIONS -->
       <li class="nav-item dropdown">
         <a class="dropdown-toggle" href="javascript:void(0);">
           <span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i> </span>
-          <span class="title">Superadmin Options</span>
+          <span class="title">Administrative</span>
           <span class="arrow"><i class="ti-angle-right"></i></span>
         </a>
         <ul class="dropdown-menu">
@@ -232,29 +256,7 @@
           </li>
         </ul>
       </li>
-
-      <!-- PUBLISHING OPTIONS -->
-      <li class="nav-item dropdown">
-        <a class="dropdown-toggle" href="javascript:void(0);">
-          <span class="icon-holder">
-            <i class="c-light-blue-500 ti-pencil"></i>
-          </span>
-          <span class="title">Publishing</span>
-          <span class="arrow"><i class="ti-angle-right"></i></span>
-        </a>
-        <ul class="dropdown-menu">
-          <li>
-            <a class="sidebar-link" 
-              href="{% url 'articles:dashboard_article_publish' %}">
-              Publish Article
-            </a>
-            <a class="sidebar-link" 
-              href="#">
-              Manage Articles
-            </a>
-          </li>
-        </ul>
-      </li>
+      {% endif %}
 
       <!-- Taken for Icons Classes -->
       <!-- <li class="nav-item">
