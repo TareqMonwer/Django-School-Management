@@ -25,15 +25,10 @@ def add_user_view(request):
         if request.method == 'POST':
             user_form = UserCreateFormDashboard(request.POST)
             if user_form.is_valid():
-                role = request.POST.get('user_role')
-                if role == 'admin':
-                    user = user_form.save()
-                    assign_role(user, 'admin')
-                    return redirect('academics:all_accounts')
-                elif role == 'stuff':
-                    user = user_form.save()
-                    assign_role(user, 'stuff')
-                    return redirect('academics:all_accounts')
+                user = user_form.save()
+                return redirect(
+                    user.get_author_url()
+                )
             else:
                 return render(request, 'academics/add_user.html')
         else:

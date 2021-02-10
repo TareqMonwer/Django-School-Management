@@ -2,6 +2,15 @@
 {% load crispy_forms_tags %} 
 
 {% block dashboard-body %}
+{% if form.errors %}
+<ul>
+    {% for err in form.errors %}
+        <li class="text-red">
+            {{ err }}
+        </li>
+    {% endfor %}
+</ul>
+{% endif %}
 <form action="." method="post" class="admission-form d-block">
     {% csrf_token %}
     <div class="row align-items-end">
