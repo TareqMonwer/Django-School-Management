@@ -6,6 +6,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView
+from django.views.generic.edit import UpdateView
+from django.urls import reverse
 
 from academics.models import Department
 from students.models import Student
@@ -13,7 +15,8 @@ from teachers.models import Teacher
 from .forms import (
     UserRegistrationForm,
     ProfileCompleteForm,
-    ApprovalProfileUpdateForm
+    ApprovalProfileUpdateForm,
+    UserChangeFormDashboard
 )
 from .models import CustomGroup, User
 from .forms import (CommonUserProfileForm,
@@ -190,7 +193,7 @@ def user_approval_with_modification(request, pk):
 
 class AccountListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = User
-    template_name = 'academics/accounts_list.html'
+    template_name = 'account/dashboard/accounts_list.html'
     context_object_name = 'accounts'
 
     def test_func(self):
@@ -232,6 +235,9 @@ user_requests_list = UserRequestsListView.as_view()
 
 
 def profile_picture_upload(request):
+    """
+    Handles profile pic uploads coming through ajax.
+    """
     if request.method == 'POST':
         image = request.FILES.get('profile-picture')
         try:
@@ -242,4 +248,15 @@ def profile_picture_upload(request):
                 'imgUrl': request.user.profile.profile_picture.url,
             })
         except:
-            return JsonResponse({'data': 'error'})
+            return JsonResponse({'status': 'error'})
+
+
+class UserUpdateView(UpdateView):
+    form_class = UserChangeFormDashboard
+    queryset = User.objects.all()
+    template_name = 'account/dashboard/update_user.html'
+
+    def get_success_url(self):
+        return reverse(
+            'articles:author_profile',
+            args=[self.object.username,])
