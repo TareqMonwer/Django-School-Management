@@ -29,8 +29,6 @@ def add_user_view(request):
                 return redirect(
                     user.get_author_url()
                 )
-            else:
-                return render(request, 'academics/add_user.html')
         else:
             user_form = UserCreateFormDashboard()
         context = {
