@@ -33,5 +33,54 @@
         </div>
       {% endfor %}
     </div>
+    <div class="row">
+      <div class="col-md-12 d-flex justify-content-center">
+        <!-- start pagination -->
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            {% if page_obj.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="?page=1">&laquo; first</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+                  prev
+                </a>
+              </li>
+            {% endif %}
+
+            {% for page in page_obj.paginator.page_range %}
+              {% if page_obj.number == page %}
+                <li class="page-item active">
+                  <a class="page-link" href="?page={{ page }}">
+                    {{ page }}
+                  </a>
+                </li>
+              {% else %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ page }}">
+                    {{ page }}
+                  </a>
+                </li>
+              {% endif %}
+            {% endfor %}
+            
+            {% if page_obj.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+                  next
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">
+                  last &raquo;
+                </a>
+              </li>
+            {% endif %}
+          </ul>
+        </nav>
+        <!-- end of pagination -->
+      </div>
+    </div>
 </div>
 {% endblock %}
