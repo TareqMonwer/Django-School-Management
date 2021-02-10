@@ -59,6 +59,7 @@ django-countries = "==7.0"
 django-import-export = "*"
 django-admin-honeypot = "*"
 django-mysql = "*"
+mysqlclient = "*"
 
 [requires]
 python_version = "3.8"
