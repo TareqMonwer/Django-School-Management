@@ -17,9 +17,17 @@ class UserChangeForm(forms.UserChangeForm):
         fields = ('requested_role', )
 
 
+class UserCreateFormDashboard(forms.UserCreationForm):
+    class Meta:
+        model = User
+        fields = fields = (
+            'username', 'email', 'password1', 'password2',
+            'requested_role', 'approval_status', 'is_staff')
+
+
 class UserChangeFormDashboard(forms.UserChangeForm):
     password = None
-    
+
     class Meta(forms.UserChangeForm.Meta):
         model = User
         fields = (
