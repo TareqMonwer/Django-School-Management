@@ -29,7 +29,7 @@ class AllArticles(ListView):
     model = Article
     context_object_name = 'articles'
     template_name = 'articles/all_articles.html'
-    paginate_by = 1
+    paginate_by = 10
 
 
 class ArticleList(ListView):
