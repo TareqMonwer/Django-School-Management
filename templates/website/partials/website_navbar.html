@@ -4,7 +4,8 @@
     <div class="container">
           <a href="/" class="navbar-brand">
             <img src="{% if request_institute.logo %}{{ request_institute.logo.url }}{% else %}{% static 'landing/img/footer-logo.png' %}{% endif %}"
-              alt="{{ request_institute.name }}">
+              alt="{{ request_institute.name }}"
+              height="60">
             </a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <i class="lni-menu"></i>

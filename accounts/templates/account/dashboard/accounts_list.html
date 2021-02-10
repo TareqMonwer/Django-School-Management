@@ -16,20 +16,25 @@
             </thead>
             <tbody>
                 {% for account in accounts %}
-                <tr>
-                    <td>{{ account.username }}</td>
-                    <td>{{ account.first_name }}</td>
-                    <td>{{ account.email }}</td>
-                    <td>
-                        {% for group in account.groups.all %}
-                            <span class="badge badge-dark">
-                                {{ group }}
-                            </span>
-                        {% empty %}
-                            general user
-                        {% endfor %}
-                    </td>
-                </tr>
+                    <tr>
+                        <td>{{ account.username }}</td>
+                        <td>{{ account.first_name }}</td>
+                        <td>{{ account.email }}</td>
+                        <td>
+                            {% for group in account.groups.all %}
+                                <span class="badge badge-dark">
+                                    {{ group }}
+                                </span>
+                            {% empty %}
+                                general user
+                            {% endfor %}
+                            <sup>
+                                <a href="{% url 'account:user_change' pk=account.pk %}">
+                                    change
+                                </a>
+                            </sup>
+                        </td>
+                    </tr>
                 {% endfor %}
             </tbody>
         </table>
