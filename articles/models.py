@@ -67,6 +67,25 @@ class Article(TimeStampedModel):
         return articles
 
 
+class Comment(TimeStampedModel):
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, 
+        on_delete=models.CASCADE,
+        related_name='comments'
+    )
+    article = models.ForeignKey(Article, on_delete=models.CASCADE,
+        related_name='comments'
+    )
+    content = models.TextField()
+    approved = models.BooleanField(default=False)
+    approved_by = models.ForeignKey(settings.AUTH_USER_MODEL, 
+        on_delete=models.CASCADE, 
+        related_name='comments_approved'
+    )
+
+    def __str__(self):
+        return self.content
+
+
 class Like(TimeStampedModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
