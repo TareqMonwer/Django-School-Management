@@ -23,23 +23,31 @@ from sentry_sdk.integrations.django import DjangoIntegration
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, True),
-    USE_CELERY_REDIS=(bool, False)
+    USE_CELERY_REDIS=(bool, False),
+    DISALLOW_PAYMENT=(bool, True),
+    USE_SENTRY=(bool, False),
+    USE_MAILCHIMP=(bool, False)
 )
 # reading .env file
-environ.Env.read_env()
+try:
+    environ.Env.read_env()
+except:
+    environ.Env.read_env(env_file='.env.example')
 
 # SENTRY
-# sentry_sdk.init(
-#     dsn=env('SENTRY_DSN'),
-#     integrations=[DjangoIntegration()],
-#     traces_sample_rate=1.0,
+USE_SENTRY = env('USE_SENTRY')
+if USE_SENTRY:
+    sentry_sdk.init(
+        dsn=env('SENTRY_DSN'),
+        integrations=[DjangoIntegration()],
+        traces_sample_rate=1.0,
 
-#     # If you wish to associate users to errors (assuming you are using
-#     # django.contrib.auth) you may enable sending PII data.
-#     send_default_pii=True,
-#     # debug=True will work even if the DEBUG=False in Django.
-#     debug=True
-# )
+        # If you wish to associate users to errors (assuming you are using
+        # django.contrib.auth) you may enable sending PII data.
+        send_default_pii=True,
+        # debug=True will work even if the DEBUG=False in Django.
+        debug=True
+    )
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -59,7 +67,10 @@ except ImproperlyConfigured as e:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-DJANGO_ADMIN_URL = env('DJANGO_ADMIN_URL')
+try:
+    DJANGO_ADMIN_URL = env('DJANGO_ADMIN_URL')
+except:
+    DJANGO_ADMIN_URL = 'admin'
 
 ALLOWED_HOSTS = env('ALLOWED_HOSTS').split(',')
 
@@ -278,15 +289,21 @@ INTERNAL_IPS = ['127.0.0.1', '0.0.0.0', '*']
 TAGGIT_CASE_INSENSITIVE = True
 
 # BRAINTREE FOR HANDLING PAYMENTS
-try:
-    BRAINTREE_MERCHANT_ID = env('BRAINTREE_MERCHANT_ID')
-    BRAINTREE_PUBLIC_KEY = env('BRAINTREE_PUBLIC_KEY')
-    BRAINTREE_PRIVATE_KEY = env('BRAINTREE_PRIVATE_KEY')
-except ImproperlyConfigured as e:
-    raise ImproperlyConfigured(
-        "Please enter you Braintree sandbox credentials in settings.py or config/.env file."
-        "Visit this url if you don't have a sandbox account: https://sandbox.braintreegateway.com/login"
-    )
+DISALLOW_PAYMENT = env('DISALLOW_PAYMENT')
+
+if not DISALLOW_PAYMENT:
+    try:
+        BRAINTREE_MERCHANT_ID = env('BRAINTREE_MERCHANT_ID')
+        BRAINTREE_PUBLIC_KEY = env('BRAINTREE_PUBLIC_KEY')
+        BRAINTREE_PRIVATE_KEY = env('BRAINTREE_PRIVATE_KEY')
+    except ImproperlyConfigured as e:
+        raise ImproperlyConfigured(
+            "Please enter you Braintree sandbox credentials in settings.py or config/.env file."
+            "Visit this url if you don't have a sandbox account: https://sandbox.braintreegateway.com/login"
+        )
+else:
+    PAYMENT_CONFIG_WARNING = 'You have not configured payment, check config/.env file \
+        and make sure DISALLOW_PAYMENT=False, other payment gateway configs are valid.'
 
 # CELERY BROKER CONFIG
 # If you're wishing to update this variable, better update it
@@ -312,6 +329,8 @@ if USE_CELERY_REDIS:
 
 
 # MAILCHIMP INTEGRATION
-MAILCHIMP_API_KEY=env('MAILCHIMP_API_KEY')
-MAILCHIMP_DATA_CENTER=env('MAILCHIMP_DATA_CENTER')
-MAILCHIMP_LIST_ID=env('MAILCHIMP_LIST_ID')
+USE_MAILCHIMP = env('USE_MAILCHIMP')
+if USE_MAILCHIMP:
+    MAILCHIMP_API_KEY=env('MAILCHIMP_API_KEY')
+    MAILCHIMP_DATA_CENTER=env('MAILCHIMP_DATA_CENTER')
+    MAILCHIMP_LIST_ID=env('MAILCHIMP_LIST_ID')
