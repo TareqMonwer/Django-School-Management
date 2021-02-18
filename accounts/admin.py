@@ -1,5 +1,7 @@
 from rolepermissions.roles import assign_role
 from rolepermissions.admin import RolePermissionsUserAdminMixin
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
 
 from django.contrib import admin
 from django.contrib.auth import admin as auth_admin
@@ -12,7 +14,12 @@ from .forms import UserRegistrationForm, UserChangeForm
 User = get_user_model()
 
 
-class UserAdmin(RolePermissionsUserAdminMixin, auth_admin.UserAdmin):
+class UserResource(resources.ModelResource):
+    class Meta:
+        model = User
+
+
+class UserAdmin(RolePermissionsUserAdminMixin, ImportExportModelAdmin, auth_admin.UserAdmin):
 
     form = UserChangeForm
     add_form = UserRegistrationForm
@@ -22,6 +29,7 @@ class UserAdmin(RolePermissionsUserAdminMixin, auth_admin.UserAdmin):
     list_display = ["username", "is_superuser", "approval_status", "requested_role"]
     list_editable = ["approval_status",]
     search_fields = ["approval_status", "requested_role"]
+    resource_class = UserResource
 
     # TODO: Assign users to requested group
     # def save_model(self, request, obj, form, change): 
@@ -32,16 +40,13 @@ class UserAdmin(RolePermissionsUserAdminMixin, auth_admin.UserAdmin):
     #     return instance
 
 
-class UserProfileAdmin(admin.ModelAdmin):
-    pass
-    # def save_model(self, request, obj, form, change): 
-    #     instance = form.save(commit=False)
-    #     requested_role = request.POST.get('requested_role')
-    #     print(requested_role)
-    #     print(obj, instance)
-    #     print(assign_role(obj, requested_role))
-    #     instance.save()
-    #     return instance
+class UserProfileResource(resources.ModelResource):
+    class Meta:
+        model = CommonUserProfile
+
+
+class UserProfileAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    resource_class = UserProfileResource
 
 
 class CustomGroupAdmin(GroupAdmin):

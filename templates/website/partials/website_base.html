@@ -9,7 +9,7 @@
     <meta name="keywords" content="Bootstrap, Landing page, Template, Business, Service">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="author" content="Grayrids">
-    <title>{{ request_institute.site_name }}</title>
+    <title>{{ request_institute.site_title }}</title>
     <!--====== Favicon Icon ======-->
     <link rel="shortcut icon" 
       href="{{ request_institute.favicon.url }}" 
@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="{% static 'landing/css/nivo-lightbox.css' %}">
     <link rel="stylesheet" href="{% static 'landing/css/main.css' %}">
     <link rel="stylesheet" href="{% static 'landing/css/responsive.css' %}">
+    <!-- FONTAWESOME CDN -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
 
     {% block extra_css %}{% endblock %}
 
@@ -37,6 +39,7 @@
 
 
     <!-- Footer Section Start -->
+    {% comment %}
     <footer>
       <!-- Footer Area Start -->
       <section id="footer-Content">
@@ -99,10 +102,18 @@
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 col-mb-12">
               <div class="widget">
                 <h3 class="block-title">Subscribe Now</h3>
-                <p>Appropriately implement calysts for change visa wireless catalysts for change. </p>
+                <p>
+                  Get updates from us by subscribing to our mailing list.
+                </p>
                 <div class="subscribe-area">
-                  <input type="email" class="form-control" placeholder="Enter Email">
-                  <span><i class="lni-chevron-right"></i></span>
+                  <form action="{% url 'articles:newsletter'%}" method="post">
+                    <input type="email" name="email" class="form-control" placeholder="Enter Email">
+                    <span id="subscribe-form-submit">
+                      <button type="submit">
+                        <i class="lni-chevron-right"></i>
+                      </button>
+                    </span>
+                  </form>
                 </div>
               </div>
             </div>
@@ -112,9 +123,8 @@
         </div>
         <!-- Copyright Start  -->
 
-        <div class="copyright">
+        <!-- <div class="copyright">
           <div class="container">
-            <!-- Star Row -->
             <div class="row">
               <div class="col-md-12">
                 <div class="site-info text-center">
@@ -122,16 +132,15 @@
                 </div>
 
               </div>
-              <!-- End Col -->
             </div>
-            <!-- End Row -->
           </div>
-        </div>
+        </div> -->
       <!-- Copyright End -->
       </section>
       <!-- Footer area End -->
 
     </footer>
+    {% endcomment %}
     <!-- Footer Section End -->
 
 
@@ -157,23 +166,6 @@
     <script src="{% static 'landing/js/nivo-lightbox.js' %}"></script>
     <script src="{% static 'landing/js/jquery.magnific-popup.min.js' %}"></script>
     <script src="{% static 'landing/js/main.js' %}"></script>
-    <script>
-      (function(){
-        const windowHeight = window.innerHeight;
-        const documentHeight = document.body.offsetHeight;
-        const siteNav = document.querySelector('.hero-area .navbar');
-        console.log(`wh: ${windowHeight}, dh: ${documentHeight}`);
-
-        if (documentHeight <= windowHeight) {
-          // console.log('content is not large enough');
-          siteNav.classList.add('navbar-dark');
-          siteNav.classList.add('bg-dark');
-        } else {
-          // console.log('content is large enough');
-          siteNav.classList.add('navbar-inverse');
-        }
-      })();
-    </script>
     {% block extra_js %}{% endblock %}
 
   </body>

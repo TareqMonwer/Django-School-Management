@@ -10,13 +10,25 @@ urlpatterns = [
         views.ArticleList.as_view(),
         name='home'
     ),
+    path('all/', 
+        views.AllArticles.as_view(), 
+        name='all_articles'
+    ),
     path('dashboard/new/',
          dashboard_views.dashboard_article_publish,
         name='dashboard_article_publish'
     ),
+    path('dashboard/publish/article/',
+         views.ArticleCreateFromDashboard.as_view(),
+        name='publish_article_from_dashboard'
+    ),
     path('new/',
         views.ArticleCreate.as_view(),
         name='create'
+    ),
+    path('newsletter/',
+        views.newsletter,
+        name='newsletter'
     ),
     path('author/<str:slug>/',
         views.AuthorProfile.as_view(),

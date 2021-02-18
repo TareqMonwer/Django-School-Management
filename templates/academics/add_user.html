@@ -2,6 +2,22 @@
 {% load crispy_forms_tags %} 
 
 {% block dashboard-body %}
+
+{% if user_form.errors %}
+    {% for field in user_form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in user_form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+
 <form action="." method="post" class="admission-form d-block">
     {% csrf_token %}
     <div class="row align-items-end">

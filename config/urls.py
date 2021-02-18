@@ -17,9 +17,11 @@ except:
     admin.site.site_title = 'Django Site Admin'
     admin.site.index_title = 'Django Administration'
 
+DJANGO_ADMIN_URL = settings.DJANGO_ADMIN_URL + '/'
+
 urlpatterns = [
-    # path('sentry-debug/', trigger_error),     # dummy test url for sentry error
-    path('admin/', admin.site.urls),
+    path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
+    path(DJANGO_ADMIN_URL, admin.site.urls),
     path('', include('pages.urls')),
     path('dashboard/', dashboard, name='index_view'),
     path('accounts/', include('allauth.urls')),
@@ -30,6 +32,7 @@ urlpatterns = [
     path('students/', include('students.urls')),
     path('teachers/', include('teachers.urls')),
     path('result/', include('result.urls')),
+    path('institute/', include('institute.urls')),
     path('password-reset/',
         auth_views.PasswordResetView.as_view(
             template_name='account/password/password_reset.html'
@@ -52,7 +55,7 @@ urlpatterns = [
         auth_views.PasswordResetCompleteView.as_view(
             template_name='account/password/password-reset-complete.html'
         ),
-    name='password_reset_complete'
+        name='password_reset_complete'
     ),
 ]
 

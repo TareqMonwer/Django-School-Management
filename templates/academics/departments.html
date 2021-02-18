@@ -53,7 +53,7 @@
                             </button>
                         </div> <!-- /modal header -->
                         <div class="modal-body">
-                            <form action="" method="post">
+                            <form action="" method="post" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 {{ form|crispy }}
                                 <button type="submit" class="btn btn-outline-info float-right">

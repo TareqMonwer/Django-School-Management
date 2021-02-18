@@ -1,0 +1,24 @@
+{% extends 'dashboard.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block dashboard-body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Institute Settings</h4>
+
+            <div class="institute-settings-form">
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <input type="submit" value="Save Changes"
+                        class="btn btn-success float-right"
+                    >
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

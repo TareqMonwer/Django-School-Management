@@ -61,6 +61,12 @@
                   <label for="remember_me" class="ml-2 block text-sm text-gray-900">
                     Remember me
                   </label>
+
+                  <!-- Show password -->
+                  <input class="ml-3 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" type="checkbox" onclick="showPassword()">
+                  <label class="ml-1 block text-sm text-gray-900">
+                    Show Password
+                  </label>
                 </div>
 
                 <div class="text-sm">
@@ -104,5 +110,17 @@
         </form>
       </div>
     </div>
+
+
+    <script>
+      function showPassword() {
+        var passwordInput = document.getElementById("id_password");
+        if (passwordInput.type === "password") {
+          passwordInput.type = "text";
+        } else {
+          passwordInput.type = "password";
+        }
+      } 
+    </script>
   </body>
 </html>

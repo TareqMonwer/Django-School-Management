@@ -8,12 +8,22 @@ from academics.models import Department, Semester, AcademicSession, Subject
 from result.models import SubjectGroup
 from students.forms import StudentForm
 from students.models import AdmissionStudent
-
+from articles.models import Article
 from students.tasks import send_admission_confirmation_email
 
 
 def index(request):
-    return render(request, 'website/index.html')
+    blog_count = Article.objects.count()
+    departments = Department.objects.all()
+    if blog_count >= 3:
+        recent_blogs = Article.objects.order_by('-created')[:3]
+    else:
+        recent_blogs = Article.objects.order_by('-created')[:blog_count]
+    ctx = {
+        'recent_blogs': recent_blogs,
+        'departments': departments,
+    }
+    return render(request, 'website/index.html', ctx)
 
 
 def online_admission(request):

@@ -29,15 +29,17 @@ env = environ.Env(
 environ.Env.read_env()
 
 # SENTRY
-sentry_sdk.init(
-    dsn=env('SENTRY_DSN'),
-    integrations=[DjangoIntegration()],
-    traces_sample_rate=1.0,
+# sentry_sdk.init(
+#     dsn=env('SENTRY_DSN'),
+#     integrations=[DjangoIntegration()],
+#     traces_sample_rate=1.0,
 
-    # If you wish to associate users to errors (assuming you are using
-    # django.contrib.auth) you may enable sending PII data.
-    send_default_pii=True
-)
+#     # If you wish to associate users to errors (assuming you are using
+#     # django.contrib.auth) you may enable sending PII data.
+#     send_default_pii=True,
+#     # debug=True will work even if the DEBUG=False in Django.
+#     debug=True
+# )
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -57,13 +59,9 @@ except ImproperlyConfigured as e:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = [
-    '0.0.0.0',
-    '127.0.0.1',
-    'localhost',
-    'mysite.com',
-    '*'
-]
+DJANGO_ADMIN_URL = env('DJANGO_ADMIN_URL')
+
+ALLOWED_HOSTS = env('ALLOWED_HOSTS').split(',')
 
 # Application definition
 
@@ -106,6 +104,7 @@ INSTALLED_APPS = [
     'django_social_share',
     'django_countries',
     'import_export',
+    'admin_honeypot',
 ]
 
 SITE_ID = 1
@@ -160,7 +159,8 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'default': env.db(),
+    'extras': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
@@ -309,3 +309,9 @@ if USE_CELERY_REDIS:
             'Otherwise, configure these as described '
             'here: https://github.com/TareqMonwer/Django-School-Management#celery-redis-setup'
         )
+
+
+# MAILCHIMP INTEGRATION
+MAILCHIMP_API_KEY=env('MAILCHIMP_API_KEY')
+MAILCHIMP_DATA_CENTER=env('MAILCHIMP_DATA_CENTER')
+MAILCHIMP_LIST_ID=env('MAILCHIMP_LIST_ID')
