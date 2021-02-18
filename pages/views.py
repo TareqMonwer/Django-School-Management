@@ -43,13 +43,17 @@ def online_admission_payment(request, pk):
     """
     registrant = AdmissionStudent.objects.get(pk=pk)
     braintree_env = braintree.Environment.Sandbox
-    # Configure braintree
-    braintree.Configuration.configure(
-        braintree_env,
-        merchant_id=settings.BRAINTREE_MERCHANT_ID,
-        public_key=settings.BRAINTREE_PUBLIC_KEY,
-        private_key=settings.BRAINTREE_PRIVATE_KEY
-    )
+
+    # Configure braintree payment
+    try:
+        braintree.Configuration.configure(
+            braintree_env,
+            merchant_id=settings.BRAINTREE_MERCHANT_ID,
+            public_key=settings.BRAINTREE_PUBLIC_KEY,
+            private_key=settings.BRAINTREE_PRIVATE_KEY
+        )
+    except:
+        raise Exception("Payment Gateway is Not Configured Properly.")
     try:
         braintree_client_token = braintree.ClientToken.generate(
             {"registrant": registrant.id})
