@@ -10,7 +10,7 @@ from rolepermissions.roles import assign_role
 from .models import (Semester, Department,
     AcademicSession, Subject)
 from .forms import SemesterForm, DepartmentForm, AcademicSessionForm
-from accounts.forms import UserRegistrationForm
+from accounts.forms import UserCreateFormDashboard
 from permission_handlers.administrative import (
     user_is_admin_su_editor_or_ac_officer,
     user_editor_admin_or_su,
@@ -23,21 +23,14 @@ from permission_handlers.basic import user_is_verified
 def add_user_view(request):
     if request.user.has_perm('create_stuff'):
         if request.method == 'POST':
-            user_form = UserRegistrationForm(request.POST)
+            user_form = UserCreateFormDashboard(request.POST)
             if user_form.is_valid():
-                role = request.POST.get('user_role')
-                if role == 'admin':
-                    user = user_form.save()
-                    assign_role(user, 'admin')
-                    return redirect('academics:all_accounts')
-                elif role == 'stuff':
-                    user = user_form.save()
-                    assign_role(user, 'stuff')
-                    return redirect('academics:all_accounts')
-            else:
-                return render(request, 'academics/add_user.html')
+                user = user_form.save()
+                return redirect(
+                    user.get_author_url()
+                )
         else:
-            user_form = UserRegistrationForm()
+            user_form = UserCreateFormDashboard()
         context = {
             'user_form': user_form,
         }
@@ -98,7 +91,7 @@ def departments(request):
     and department create view.
     '''
     if request.method == 'POST':
-        form = DepartmentForm(request.POST)
+        form = DepartmentForm(request.POST, request.FILES)
         if form.is_valid():
             dept = form.save(commit=False)
             dept.created_by = request.user

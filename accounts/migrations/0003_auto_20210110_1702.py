@@ -10,13 +10,9 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='user',
-            name='account_approved',
-        ),
         migrations.AddField(
             model_name='user',
             name='approval_status',
-            field=models.CharField(choices=[('n', 'Not Requested For Approval'), ('p', 'Approval Application on Pending'), ('d', 'Approval Request Declined'), ('a', 'Verified')], default=('n', 'Not Requested For Approval'), max_length=2),
+            field=models.CharField(choices=[('n', 'Not Requested For Approval'), ('p', 'Approval Application on Pending'), ('d', 'Approval Request Declined'), ('a', 'Verified')], max_length=2),
         ),
     ]

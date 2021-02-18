@@ -4,7 +4,7 @@ from itertools import chain
 
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import Http404
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views import View
@@ -18,10 +18,18 @@ from accounts.models import User
 from accounts.forms import (
     CommonUserProfileForm, UserProfileSocialLinksFormSet
 )
-from .models import Article, Like, Category
+from .models import Article, Like, Category, Newsletter
 from .mixins import AuthorArticleEditMixin
 from .forms import ArticleForm
+from .utils import subscribe
 from permission_handlers.administrative import user_is_teacher_or_administrative
+
+
+class AllArticles(ListView):
+    model = Article
+    context_object_name = 'articles'
+    template_name = 'articles/all_articles.html'
+    paginate_by = 10
 
 
 class ArticleList(ListView):
@@ -120,11 +128,25 @@ class ArticleCreate(
 
     def handle_no_permission(self):
         if self.request.user.is_authenticated:
+            messages.add_message(self.request, 
+                messages.INFO,
+                "You're redirected to this page because you "
+                "do not have right permission to publish articles. "
+                "If you want to write articles in this portal, "
+                "please communicate with authorities."
+            )
             return redirect('account:profile_complete')
         return redirect('account_login')
 
     def form_valid(self, form):
         form.instance.author = self.request.user
+        form.instance.save()
+        # save categories for the article
+        categories_ids = list(map(
+            int, self.request.POST.getlist('category')
+        ))
+        categories = Category.objects.filter(id__in=categories_ids)
+        form.instance.categories.add(*categories)
         return super().form_valid(form)
 
 
@@ -201,3 +223,56 @@ class AuthorProfile(DetailView):
                 'Please provide valid values according to the form.'
             )
             return redirect(self.request.user.get_author_url())
+
+
+class ArticleCreateFromDashboard(LoginRequiredMixin,
+    UserPassesTestMixin, CreateView):
+    # fields none need to set None to provide form_class
+    # because it has some value in AuthorArticleEditMixin.
+    fields = None
+    form_class = ArticleForm
+    template_name = 'articles/dashboard/publish.html'
+
+    def test_func(self):
+        user =  self.request.user
+        return user_is_teacher_or_administrative(user)
+
+    def handle_no_permission(self):
+        if self.request.user.is_authenticated:
+            messages.add_message(self.request, 
+                messages.INFO,
+                "You're redirected to this page because you "
+                "do not have right permission to publish articles. "
+                "If you want to write articles in this portal, "
+                "please communicate with authorities."
+            )
+            return redirect('account:profile_complete')
+        return redirect('account_login')
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        form.instance.status = 'published'
+        form.instance.save()
+        # save categories for the article
+        categories_ids = list(map(
+            int, self.request.POST.getlist('category')
+        ))
+        categories = Category.objects.filter(id__in=categories_ids)
+        form.instance.categories.add(*categories)
+        return super().form_valid(form)
+
+
+def newsletter(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        # subscribe_ = subscribe(email=email)
+        nl = Newsletter.objects.create(email=email)
+        subscribe_ = subscribe(email=nl.email)
+        if subscribe_[0] == 200:
+            return HttpResponseRedirect(
+                request.META.get('HTTP_REFERER')
+            )
+        else:
+            return HttpResponse('Could not subscribe!')
+    else:
+        return HttpResponse('Invalid Request Type')

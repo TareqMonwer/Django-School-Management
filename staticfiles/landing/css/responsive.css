@@ -37,15 +37,8 @@
     margin-left: 15px; }
   .hero-area .contents {
     padding: 210px 0 280px; }
-  #business-plan .business-item-info h3 {
-    font-size: 28px; }
-  #business-plan .business-item-info p {
-    font-size: 13px;
-    margin-bottom: 20px; }
   .section {
     padding: 80px 0px; }
-  #business-plan {
-    padding-bottom: 80px; }
   .feature-info {
     width: 60%; }
   #features .feature-item {
@@ -54,8 +47,6 @@
     margin-bottom: 10px; }
   #showcase .gradient-bg {
     padding: 80px 0px 60px 0px; }
-  #pricing {
-    padding-bottom: 80px; }
   #testimonial #client-testimonial .content-inner p {
     font-size: 18px;
     color: #5e629c;
@@ -106,10 +97,6 @@
     font-size: 14px;
     display: block;
     line-height: 25px; }
-  #pricing .pricing-table {
-    padding: 30px 15px; }
-  #pricing .pricing-table h1 span {
-    left: 10%; }
   #team .single-team, .blog-item-wrapper, .services-item {
     margin-bottom: 20px; }
   .contact-img img {
@@ -212,15 +199,10 @@
   #services .services-item {
     padding: 30px 15px;
     margin-bottom: 15px; }
-  #business-plane .business-item-info h3 {
-    font-size: 25px; }
   .section-header .section-title {
     font-size: 25px; }
   #services .services-item p {
     font-size: 14px; }
-  #business-plane .business-item-info p {
-    font-size: 14px;
-    margin-bottom: 20px; }
   .section-header .desc-text p {
     font-size: 14px;
     color: #5e629c;
@@ -237,10 +219,6 @@
     padding-right: 15px !important; }
   #showcase {
     padding-bottom: 250px; }
-  #pricing .pricing-table h1 span {
-    left: 4%; }
-  #pricing .pricing-table {
-    margin-bottom: 15px; }
   #testimonial #client-testimonial {
     padding: 30px 10px; }
   #testimonial #client-testimonial .content-inner p {
@@ -302,8 +280,6 @@
     padding: 18px 10px 15px 10px; }
   .owl-theme .owl-controls {
     display: none !important; }
-  #business-plane {
-    padding-bottom: 40px; }
   #showcase .showcase-area {
     width: 90%; }
   #light-featured .light-feature-item .light-feature-icon {
@@ -367,8 +343,7 @@
     width: 83%; }
   #showcase .showcase-slider .screenshot-thumb .fancy-table {
     padding-top: 68px; }
-  #pricing .pricing-table h1 span {
-    left: 16%; } }
+}
 
 @media (min-width: 414px) and (max-width: 736px) {
   #showcase .showcase-slider .screenshot-thumb .fancy-table {
@@ -376,8 +351,7 @@
   #showcase .showcase-slider .screenshot-thumb > .hover-content {
     height: 85%;
     width: 85%; }
-  #pricing .pricing-table h1 span {
-    left: 20%; } }
+  }
 
 @media only screen and (min-width: 992px) and (max-width: 1280px) {
   .navbar-expand-md .navbar-nav .nav-link {
@@ -423,16 +397,10 @@
     color: #fff;
     font-size: 16px;
     line-height: 26px; }
-  #business-plane .business-item-info h3 {
-    font-size: 29px; }
   .showcase-area .pr-0, .px-0 {
     padding-right: 15px !important; }
   #showcase {
     padding-bottom: 280px; }
-  #pricing .pricing-table h1 span {
-    left: 10%; }
-  #pricing2 .pricing-table h1 span {
-    left: 10%; }
   #testimonial #client-testimonial .content-inner p {
     font-size: 20px;
     color: #5e629c;

@@ -1,0 +1,86 @@
+{% extends 'articles/base.html' %}
+
+
+{% block content %}
+<!-- Articles Bottom-section -->
+<div class="container">
+    <div class="row p-4">
+      {% for article in articles %}
+        <div class="col-sm-12 col-md-3 mb-5">
+          <a href="{{ article.get_absolute_url }}">
+            <div class="article-card rounded">
+              <img src="{{article.featured_image.url}}" alt="" class="rounded article-preview-image">
+              <div class="article-content">
+                <small class="category-name">
+                    <a href="{{ article.categories.first.get_absolute_url }}">
+			            {{ article.categories.first }}
+		            </a>
+                </small>
+                <p class="my-1">
+                  <b>
+                    <a href="{{ article.get_absolute_url }}">
+                      {{ article.title }}
+                    </a>
+                  </b>
+                </p>
+                <div class="metadata d-flex justify-content-between pr-4">
+                  <small class="fsm muted mr-3">{{ article.created }}</small>
+                  <!-- <small class="fsm muted">1500 VIEWS</small> -->
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="row">
+      <div class="col-md-12 d-flex justify-content-center">
+        <!-- start pagination -->
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            {% if page_obj.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="?page=1">&laquo; first</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+                  prev
+                </a>
+              </li>
+            {% endif %}
+
+            {% for page in page_obj.paginator.page_range %}
+              {% if page_obj.number == page %}
+                <li class="page-item active">
+                  <a class="page-link" href="?page={{ page }}">
+                    {{ page }}
+                  </a>
+                </li>
+              {% else %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ page }}">
+                    {{ page }}
+                  </a>
+                </li>
+              {% endif %}
+            {% endfor %}
+            
+            {% if page_obj.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+                  next
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">
+                  last &raquo;
+                </a>
+              </li>
+            {% endif %}
+          </ul>
+        </nav>
+        <!-- end of pagination -->
+      </div>
+    </div>
+</div>
+{% endblock %}

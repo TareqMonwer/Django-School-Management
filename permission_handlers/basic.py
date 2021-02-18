@@ -11,10 +11,12 @@ def permission_error(request):
     return HttpResponse('You don\'t have right permissio to access this page.')
 
 def user_is_verified(user):
-    return user.approval_status == 'a'
+    return user.approval_status == 'a' if user.is_authenticated else False
 
 def user_is_student(user):
-    return user_is_verified(user) and user.requested_role == 'student'
+    return user_is_verified(user) and user.requested_role == 'student' \
+        if user.is_authenticated else False
 
 def user_is_teacher(user):
-    return user_is_verified(user) and user.requested_role == 'teacher'
+    return user_is_verified(user) and user.requested_role == 'teacher' \
+        if user.is_authenticated else False

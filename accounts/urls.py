@@ -19,4 +19,8 @@ urlpatterns = [
         views.user_approval_with_modification,
         name='approval_with_modification'
     ),
+    path('user/<int:pk>/change', views.UserUpdateView.as_view(), name='user_change'),
+    path('api/upload-profile-picture', views.profile_picture_upload,
+        name='profile_picture_upload'
+    ),
 ]

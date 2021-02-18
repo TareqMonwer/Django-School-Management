@@ -2,6 +2,24 @@
 {% load static %} 
 {% load crispy_forms_tags %} 
 
+{% block extra_css %}
+  <style type="text/css">
+    #profile-edit-form .multiField:not(:last-child) {
+      border-bottom: 1px solid #e1e1e1;
+    }
+    @media screen 
+      and (min-device-width: 1200px) 
+      and (max-device-width: 1600px) { 
+        #profile-edit-form .multiField {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+  </style>
+{% endblock extra_css %}
+  
+
 {% block main_content %}
 <!-- Header Section Start -->
 <header id="home" class="mt-5">
@@ -17,13 +35,39 @@
         <div class="card text-center">
           <div class="card-header">{{ user.get_approval_status_display }}</div>
           <div class="card-body d-flex">
-            <img src="https://via.placeholder.com/150" width="150" />
+            <form action="{% url 'account:profile_picture_upload' %}" 
+            method="post" id="profile-image-form"
+            enctype="multipart/form-data">
+              {% csrf_token %}
+              <input id="profile-image-upload" class="hidden w-25 d-none" type="file"
+              name="profile-picture">
+              <img id="profile-image"
+              {% if user.profile.profile_picture %}
+                src="{{ user.profile.profile_picture.url }}" 
+              {% else %}
+                src=""
+              {% endif %}
+              width="150" />
+            </form>
             <div class="card-text align-self-end ml-3">
               <div class="text-left">
-                <h6>{{ request.user.username }}</h6>
+                <h6 class="mb-0">
+                  <span>{{ request.user.username }}</span>
+                  <span class="small text-dark"
+                    style="cursor: pointer;"
+                    data-toggle="modal" 
+                    data-target="#request-update-modal">
+                    <span id="update-verification-icon"
+                      title="Update Verification Request">
+                      <i class="fas fa-cog"></i>
+                    </span>
+                  </span>
+                </h6>
+                {% if user.approval_status == 'a'%}
+                  <small>({{ request.user.requested_role }})</small>
+                {% endif %}
                 <small>
-                  {{ request.user.email | default:"Please, add your email
-                  address" }}
+                  {{ request.user.email|default:"Please, add your email address" }}
                 </small>
               </div>
             </div>
@@ -36,61 +80,175 @@
         <div class="card p-3">
           {% if user.approval_status != 'a' %}
           <div class="alert alert-warning" role="alert">
-            Complete Your Profile to Get Started
+            Your profile is not verified yet, please verify your account.
           </div>
-          {% endif %} {% if messages %} {% for message in messages %}
-          <div
-            class="alert {{ message.tags }} alert-dismissible fade show"
-            role="alert"
-          >
-            <strong>{{ message }}</strong>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="alert"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          {% endfor %} {% endif %} {% if user.approval_status != 'a' %}
-          <form method="post">
-            {% csrf_token %} {{ form|crispy }}
-            <input
-              type="submit"
-              value="Request for approval"
-              class="btn btn-success"
-            />
-          </form>
+          {% endif %} 
+          
+          {% if messages %} 
+            {% for message in messages %}
+              <div
+                class="alert {{ message.tags }} alert-dismissible fade show"
+                role="alert"
+              >
+                <strong>{{ message }}</strong>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="alert"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            {% endfor %} 
+          {% endif %} 
+          
+          <!-- Form for UnVerified User (SENDS A VERIFICATION REQUEST) -->
+          {% if user.approval_status != 'a' %}
+            <form method="post">
+              <div
+                class="alert alert-warning alert-dismissible fade show"
+                role="alert"
+              >
+                <strong>Your account is not verified.</strong>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="alert"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
           {% else %}
-          <h6>User Profile Information : To Be Implemented</h6>
+            <!-- Form for verfied users (UPDATES USER PROFILE DETAILS) -->
+            <form action="" method="POST" 
+              enctype="multipart/form-data"
+              id="profile-edit-form"
+            >
+              {% csrf_token %}
+              <div class="card-header">
+                General Information
+              </div>
+              <div class="">
+                {% if not profile_not_found %}
+                  {{ profile_edit_form|crispy }}
+                  <hr>
+                  <div class="card-header">Social Links</div>
+                  {{ social_links_form|crispy }}
+                {% else %}
+                  <div class="alert alert-warning" role="alert">
+                    {{ profile_not_found }}
+                  </div>
+                {% endif %}
+                <input type="submit" value="Save Changes"
+                  class="btn btn-secondary float-right mt-3
+                  shadow"
+                  name="user-profile-update-form">
+              </div>
+          </form>
           {% endif %}
         </div>
 
-        <div class="card px-3 pb-3 mt-3">
-          <div class="card-body">
-            {% if user_perms %}
-
-            <h6>Assigned Permissions</h6>
-
-            {% for permission in user_perms %}
-            <div>{{ permission }}</div>
-            {% endfor %} {% else %}
-            <p>Appearantly, you do not have any permissions.</p>
-            {% endif %}
+        {% if user_perms %}
+          <div class="card p-3 mt-5">
+            <div class="card-header">
+              My Permissions
+            </div>
+            <div class="card-body">
+              {% for permission in user_perms %}
+              <div>{{ permission }}</div>
+              {% endfor %}
+            </div>
           </div>
-        </div>
+         {% endif %}
       </div>
     </div>
   </div>
 </section>
+
+
+<div class="modal fade" 
+  id="request-update-modal" tabindex="-1" 
+  role="dialog" 
+  aria-hidden="true">
+  <form action="{% url 'account:profile_complete' %}" method="post">
+    {% csrf_token %}
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="" id="">
+            Change Profile Verification
+          </h6>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {{ verification_form|crispy }}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
 {% endblock %}
 
-{% block extrajs %}
+{% block extra_js %}
 <script>
 
-  const siteNav = document.querySelector(".hero-area .navbar");
-  siteNav.style.backgroundColor = 'linear-gradient(95deg, #5533ff 40%, #25ddf5 100%) !important'
+  // get csrf token (provided by django)
+  function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+              const cookie = cookies[i].trim();
+              // Does this cookie string begin with the name we want?
+              if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+  }
+  const csrftoken = getCookie('csrftoken');
+
+  // profile picture upload
+  $('#profile-image').on('click', function() {
+    $('#profile-image-upload').click();
+  });
+
+  $('#profile-image-form').on('submit', function(e) {
+    e.preventDefault();
+    const formData = new FormData($('#profile-image-form').get(0));
+    console.log(formData);
+    $.ajax({
+      type: 'POST',
+      url: $(this).attr('action'),
+      data: formData,
+      cache: false,
+      processData: false,
+      contentType: false,
+      csrfmiddlewaretoken: csrftoken,
+      success: function (data) {
+        const imageUrl = data.imgUrl;
+        $('#profile-image').attr('src', imageUrl);
+      },
+      error: function (data) {
+        console.log("error");
+        console.log(data);
+      }
+    })
+  })
+
+  $('#profile-image-upload').on('change', function() {
+    $('#profile-image-form').submit();
+  })
 
 </script>
 {% endblock %} 

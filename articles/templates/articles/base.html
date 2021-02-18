@@ -50,6 +50,12 @@
                 <a class="nav-link" href="{% url 'articles:home' %}">Home</a>
               </li>
               
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'articles:all_articles' %}">
+                  Articles
+                </a>
+              </li>
+
               <!-- Dynamic Navigation -->
               {% include 'articles/inc/_registered_navlinks.html' %}
 
@@ -61,15 +67,22 @@
                     {% trans "My Profile" %}
                   </a>
                 </li>
+                <li class="nav-item">
+                  {# URL provided by django-allauth/account/urls.py #}
+                  <a class="nav-link" 
+                    href="{% url 'account_logout' %}">
+                    {% trans "Logout" %}
+                  </a>
+                </li>
               {% else %}
-                <!-- <li class="nav-item">
+                <li class="nav-item">
                   {# URL provided by django-allauth/account/urls.py #}
                   <a class="nav-link" href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a>
                 </li>
                 <li class="nav-item">
                   {# URL provided by django-allauth/account/urls.py #}
                   <a class="nav-link" href="{% url 'account_login' %}">{% trans "Sign In" %}</a>
-                </li> -->
+                </li>
               {% endif %}
             </ul>
           </div>

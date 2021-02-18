@@ -374,7 +374,7 @@ button:focus {
   background: #5533ff;
   background: linear-gradient(95deg, #5533ff 40%, #25ddf5 100%) !important;
   box-shadow: 0 0 7px 1px rgba(0, 0, 0, 0.1);
-  z-index: 9999;
+  z-index: 100;
   padding: 5px;
   -webkit-transition: all 0.5s ease-in-out;
   transition: all 0.5s ease-in-out; }
@@ -552,7 +552,11 @@ button:focus {
     display: block;
     border-radius: 50%;
     position: relative;
-    margin-bottom: 25px; }
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   #services .services-item .icon i {
     font-size: 40px;
     color: #3ecf8e;
@@ -569,24 +573,6 @@ button:focus {
     font-size: 16px;
     margin-bottom: 10px;
     color: #5e629c; }
-
-/* ==========================================================================
-   business-plan Section 
-   ========================================================================== */
-#business-plan {
-  padding-bottom: 130px; }
-  #business-plan .container-fluid {
-    padding-right: 30px;
-    padding-left: 30px; }
-  #business-plan .business-item-info {
-    margin-top: 60px; }
-    #business-plan .business-item-info h3 {
-      font-size: 35px;
-      font-weight: 600;
-      margin-bottom: 25px; }
-    #business-plan .business-item-info p {
-      font-size: 16px;
-      margin-bottom: 20px; }
 
 /* ==========================================================================
    Features 
@@ -991,47 +977,6 @@ button:focus {
     opacity: 0; } }
 
 /* ==========================================================================
-   Our Pricing 
-   ========================================================================== */
-#pricing .pricing-table {
-  padding: 55px;
-  border: 1px solid #ccc;
-  -moz-transition: all .8s ease;
-  -webkit-transition: all .8s ease;
-  transition: all .8s ease; }
-  #pricing .pricing-table h3 {
-    font-size: 20px;
-    color: #151948;
-    font-weight: 500;
-    text-transform: uppercase;
-    margin-bottom: 11px; }
-  #pricing .pricing-table h1 {
-    color: #3ecf8e;
-    font-size: 50px;
-    font-weight: 500;
-    position: relative;
-    padding-left: 10px; }
-  #pricing .pricing-table h1 span {
-    font-size: 16px;
-    position: absolute;
-    left: 20%;
-    top: 10px; }
-  #pricing .pricing-table ul {
-    padding-bottom: 28px; }
-  #pricing .pricing-table ul li {
-    font-size: 16px;
-    font-weight: 400;
-    color: #5e629c;
-    display: block;
-    line-height: 33px; }
-  #pricing .pricing-table:hover {
-    border: 1px solid #3ecf8e;
-    box-shadow: 0px 0px 25px 0px rgba(95, 95, 95, 0.24);
-    -moz-transition: all .4s ease;
-    -webkit-transition: all .4s ease;
-    transition: all .4s ease; }
-
-/* ==========================================================================
    team section
    ========================================================================== */
 #team .single-team {
@@ -1122,7 +1067,9 @@ button:focus {
     #blog .blog-item-wrapper:hover h3 a {
       color: #3ecf8e; }
     #blog .blog-item-wrapper .blog-item-text {
-      padding: 26px 30px 30px 30px; }
+      padding: 26px 30px 30px 30px;
+      overflow: hidden;
+    }
     #blog .blog-item-wrapper h3 {
       font-size: 20px;
       font-weight: 600;

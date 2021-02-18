@@ -6,6 +6,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView
+from django.views.generic.edit import UpdateView
+from django.urls import reverse
 
 from academics.models import Department
 from students.models import Student
@@ -13,39 +15,92 @@ from teachers.models import Teacher
 from .forms import (
     UserRegistrationForm,
     ProfileCompleteForm,
-    ApprovalProfileUpdateForm
+    ApprovalProfileUpdateForm,
+    UserChangeFormDashboard
 )
 from .models import CustomGroup, User
+from .forms import (CommonUserProfileForm,
+    UserProfileSocialLinksFormSet
+)
 from permission_handlers.administrative import (
-    user_is_admin_or_su,
+    user_is_admin_or_su, user_editor_admin_or_su
 )
 from permission_handlers.basic import user_is_verified, permission_error
 
 
 @login_required(login_url='account_login')
 def profile_complete(request):
+    ctx = {}
     user = User.objects.get(pk=request.user.pk)
-    form = ProfileCompleteForm(instance=user)
+
+    try:
+        profile_edit_form = CommonUserProfileForm(
+            instance=user.profile
+        )
+        social_links_form = UserProfileSocialLinksFormSet(
+            instance=user.profile
+        )
+        ctx.update({
+            'profile_edit_form': profile_edit_form,
+            'social_links_form': social_links_form
+        })
+    except:
+        messages.add_message(
+            request,
+            messages.INFO,
+            "Maybe your account is not verified yet, please check your badge."
+        )
+
+    verification_form = ProfileCompleteForm(instance=user)
     if request.method == 'POST':
-        form = ProfileCompleteForm(request.POST, instance=user)
-        if form.is_valid():
-            form.instance.approval_status = 'p'  # pending
-            form.save()
+        verification_form = ProfileCompleteForm(
+            request.POST,
+            instance=user
+        )
+        if 'user-profile-update-form' in request.POST:
+            profile_edit_form = CommonUserProfileForm(
+                request.POST,
+                request.FILES,
+                instance=user.profile
+            )
+            social_links_form = UserProfileSocialLinksFormSet(
+                request.POST,
+                instance=user.profile
+            )
+            if profile_edit_form.is_valid():
+                profile_edit_form.save()
+
+            if social_links_form.is_valid():
+                social_links_form.save()
+            
             messages.add_message(
                 request,
                 messages.SUCCESS,
-                'Your request has been sent, please be patient.'
+                'Your profile has been saved.'
             )
             return redirect('account:profile_complete')
+        else:
+            if verification_form.is_valid():
+                verification_form.instance.approval_status = 'p'
+                # approval status get's pending
+                verification_form.save()
+                messages.add_message(
+                    request,
+                    messages.SUCCESS,
+                    'Your request has been sent, please be patient.'
+                )
+                return redirect('account:profile_complete')
     user_permissions = user.user_permissions.all()
-    ctx = {
-        'form': form,
+    ctx.update({
+        'verification_form': verification_form,
         'user_perms': user_permissions if user_permissions else None,
-    }
+    })
     return render(request, 'account/profile_complete.html', ctx)
 
 
-@login_required(login_url='account_login')
+@user_passes_test(
+    user_editor_admin_or_su,
+    login_url='account:profile_complete')
 def dashboard(request):
     total_students = Student.objects.count()
     total_teachers = Teacher.objects.count()
@@ -138,7 +193,7 @@ def user_approval_with_modification(request, pk):
 
 class AccountListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = User
-    template_name = 'academics/accounts_list.html'
+    template_name = 'account/dashboard/accounts_list.html'
     context_object_name = 'accounts'
 
     def test_func(self):
@@ -177,3 +232,31 @@ class UserRequestsListView(LoginRequiredMixin, UserPassesTestMixin,ListView):
         return user_is_admin_or_su(user)
 
 user_requests_list = UserRequestsListView.as_view()
+
+
+def profile_picture_upload(request):
+    """
+    Handles profile pic uploads coming through ajax.
+    """
+    if request.method == 'POST':
+        image = request.FILES.get('profile-picture')
+        try:
+            request.user.profile.profile_picture = image
+            request.user.profile.save()
+            return JsonResponse({
+                'status': 'ok',
+                'imgUrl': request.user.profile.profile_picture.url,
+            })
+        except:
+            return JsonResponse({'status': 'error'})
+
+
+class UserUpdateView(UpdateView):
+    form_class = UserChangeFormDashboard
+    queryset = User.objects.all()
+    template_name = 'account/dashboard/update_user.html'
+
+    def get_success_url(self):
+        return reverse(
+            'articles:author_profile',
+            args=[self.object.username,])
