@@ -76,7 +76,7 @@ ALLOWED_HOSTS = env('ALLOWED_HOSTS').split(',')
 
 # Application definition
 
-INSTALLED_APPS = [
+INSTALLED_APPS_DEFAULT = [
     'accounts.apps.AccountsConfig',  # must be on top
     'django.contrib.admin',
     'django.contrib.auth',
@@ -87,17 +87,21 @@ INSTALLED_APPS = [
 
     # allauth required
     'django.contrib.sites',
-    
-    # custom apps
+]
+
+INSTALLED_APPS_LOCAL = [
     'students',
     'teachers',
     'result',
     'academics',
     'pages',
     'articles',
-    'institute',
+    'institute'
+]
 
-    # third party apps
+# third party apps
+INSTALLED_APPS_THIRD_PARTY = [
+    'rest_framework',
     'crispy_forms',
     'debug_toolbar',
     'rolepermissions',
@@ -115,8 +119,10 @@ INSTALLED_APPS = [
     'django_social_share',
     'django_countries',
     'import_export',
-    'admin_honeypot',
+    'admin_honeypot'
 ]
+
+INSTALLED_APPS = INSTALLED_APPS_DEFAULT + INSTALLED_APPS_LOCAL + INSTALLED_APPS_THIRD_PARTY
 
 SITE_ID = 1
 
@@ -334,3 +340,13 @@ if USE_MAILCHIMP:
     MAILCHIMP_API_KEY=env('MAILCHIMP_API_KEY')
     MAILCHIMP_DATA_CENTER=env('MAILCHIMP_DATA_CENTER')
     MAILCHIMP_LIST_ID=env('MAILCHIMP_LIST_ID')
+
+
+# DRF CONFIGS
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
