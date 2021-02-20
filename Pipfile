@@ -61,6 +61,7 @@ django-admin-honeypot = "*"
 django-mysql = "*"
 mysqlclient = "*"
 djangorestframework = "*"
+django-cors-headers = "*"
 
 [requires]
 python_version = "3.8"
