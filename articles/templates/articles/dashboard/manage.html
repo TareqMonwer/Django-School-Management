@@ -1,0 +1,66 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+    
+
+{% block dashboard-body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 p-2 border">
+            <table id="articlesDataTable" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Category(s)</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="manage_articles_tbody">
+                    {% for article in article_list %}
+                        <tr>
+                            <td>
+                                {{ article.title }}
+                            </td>
+                            <td>
+                                {{ article.author }}
+                            </td>
+                            <td>
+                                {{ article.category }}
+                            </td>
+                            <td style="width: 1px; white-space: nowrap;">
+                                <form class="d-inline"
+                                     action="{% url 'articles:dashboard_article_delete' pk=article.pk %}" 
+                                    method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-danger">
+                                        Delete
+                                    </button>
+                                </form>
+                                
+                                <form class="d-inline"
+                                     action="{% url 'articles:dashboard_article_draft' pk=article.pk %}" 
+                                    method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-info">
+                                        Draft
+                                    </button>
+                                </form>
+
+                                <a href="" class="btn btn-sm btn-success">
+                                    Edit
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block extrajs %}
+
+{% endblock %}
+    
