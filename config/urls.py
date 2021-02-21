@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
     path(DJANGO_ADMIN_URL, admin.site.urls),
     path('', include('pages.urls')),
+    path('api-auth/', include('rest_framework.urls')),
     path('dashboard/', dashboard, name='index_view'),
     path('accounts/', include('allauth.urls')),
     path('blog/', include('articles.urls')),
@@ -57,8 +58,9 @@ urlpatterns = [
         ),
         name='password_reset_complete'
     ),
+    # API URLS
+    path('api/', include('articles.api.routes')),
 ]
-
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
