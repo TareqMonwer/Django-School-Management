@@ -127,7 +127,8 @@ class Category(MPTTModel):
         """ Returns one article for each category. """
         categories = Category.objects.all()
         articles = [
-            category.article_set.order_by('-created').first()
+            category.article_set.filter(
+                status='published').order_by('-created').first()
             for category in categories if category.article_set.exists()
         ]
         return articles

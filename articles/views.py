@@ -27,6 +27,7 @@ from permission_handlers.administrative import user_is_teacher_or_administrative
 
 class AllArticles(ListView):
     model = Article
+    queryset = Article.published.all()
     context_object_name = 'articles'
     template_name = 'articles/all_articles.html'
     paginate_by = 10
@@ -37,6 +38,7 @@ class ArticleList(ListView):
     Returns a list of published articles.
     """
     model = Article
+    queryset = Article.published.all()
     context_object_name = 'articles'
     paginate_by = 10
     template_name = 'articles/articles.html'
@@ -44,7 +46,8 @@ class ArticleList(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        last_article = Article.published.order_by('-created').first()
+        last_article = Article.published.filter(status='published'
+            ).order_by('-created').first()
         latest_featured_article = Article.published.filter(
             is_featured=True
         ).first()
@@ -84,7 +87,7 @@ class CategoryArticles(ListView):
     def get_queryset(self):
         slug = self.kwargs.get('slug')
         category = Category.objects.get(slug=slug)
-        articles = category.article_set.all()
+        articles = category.article_set.filter(status='published')
         return articles
     
     def get_context_data(self, **kwargs):
