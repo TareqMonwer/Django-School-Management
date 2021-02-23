@@ -296,6 +296,7 @@ INTERNAL_IPS = ['127.0.0.1', '0.0.0.0', '*']
 # Django taggit.
 TAGGIT_CASE_INSENSITIVE = True
 
+# =========================== PAYMENTS ===========================
 # BRAINTREE FOR HANDLING PAYMENTS
 DISALLOW_PAYMENT = env('DISALLOW_PAYMENT')
 
