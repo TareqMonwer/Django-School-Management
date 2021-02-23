@@ -31,7 +31,9 @@ def online_admission(request):
         form = StudentForm(request.POST, request.FILES)
         if form.is_valid():
             data = form.save()
-            return redirect('pages:online_admission_payment', pk=data.pk)
+            # TODO: return to payment pages based on global/local payment method
+            # return redirect('pages:online_admission_payment', pk=data.pk)
+            return redirect('pages:online_admission_sslpayment', pk=data.pk)
     else:
         form = StudentForm()
     return render(request, 'pages/students/admission.html', {'form': form})
@@ -41,7 +43,7 @@ def online_admission_payment(request, pk):
     """ 
     Generates nonce and renders payment form
     """
-    registrant = AdmissionStudent.objects.get(pk=pk)
+     
     braintree_env = braintree.Environment.Sandbox
 
     # Configure braintree payment

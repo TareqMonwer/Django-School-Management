@@ -32,11 +32,13 @@ class AlumniManager(models.Manager):
 
 
 class StudentBase(TimeStampedModel):
-    LAST_EXAMS = (
-        ('HSC', 'Higher Secondary Certificate'),
-        ('SSC', 'Secondary School Certificate'),
-        ('DAKHIL', 'Dakhil Exam'),
-        ('JDC', 'Junior Dakhil Certificate'),
+    TRIBAL_STATUS = (
+        (1, 'Yes'),
+        (0, 'No'),
+    )
+    CHILDREN_OF_FREEDOM_FIGHTER = (
+        (1, 'Yes'),
+        (0, 'No'),
     )
     name = models.CharField("Full Name", max_length=100)
     photo = models.ImageField(upload_to='students/applicant/')
@@ -48,19 +50,17 @@ class StudentBase(TimeStampedModel):
     current_address = models.TextField()
     permanent_address = models.TextField()
     mobile_number = models.CharField('Mobile Number', max_length=11)
+    guardian_mobile_number = models.CharField('Guardian Mobile Number', max_length=11)
+    tribal_status = models.PositiveSmallIntegerField(
+        choices=TRIBAL_STATUS, default=0
+    )
+    children_of_freedom_fighter = models.PositiveSmallIntegerField(
+        choices=TRIBAL_STATUS, default=0
+    )
     department_choice = models.ForeignKey(
         Department,
         on_delete=models.CASCADE
     )
-    last_exam_name = models.CharField(
-        'Last Exam',
-        choices=LAST_EXAMS,
-        max_length=10
-    )
-    last_exam_roll = models.CharField(max_length=10)
-    last_exam_registration = models.CharField(max_length=10)
-    last_exam_result = models.CharField(max_length=5)
-
     class Meta:
         abstract = True
 
@@ -89,6 +89,12 @@ class AdmissionStudent(StudentBase):
         ('1', 'Online'),
         ('2', 'Offline')
     )
+    EXAM_NAMES = (
+        ('HSC', 'Higher Secondary Certificate'),
+        ('SSC', 'Secondary School Certificate'),
+        ('DAKHIL', 'Dakhil Exam'),
+        ('VOCATIONAL', 'Vocational'),
+    )
     counseling_by = models.ForeignKey(
         Teacher, related_name='counselors',
         on_delete=models.CASCADE, null=True
@@ -101,23 +107,30 @@ class AdmissionStudent(StudentBase):
         on_delete=models.CASCADE,
         blank=True, null=True
     )
+    exam_name = models.CharField(
+        'Exam Name',
+        choices=EXAM_NAMES,
+        max_length=10
+    )
+    passing_year = models.CharField(max_length=4)
     group = models.CharField(max_length=15)
     board = models.CharField(max_length=100)
     ssc_roll = models.CharField(max_length=10)
+    ssc_registration = models.CharField(max_length=12)
+    gpa = models.DecimalField(
+        decimal_places=2,
+        max_digits=4
+    )
     marksheet_image = models.ImageField(
         "Upload Your Marksheet",
         upload_to='students/applicants/marksheets/',
         blank=True, null=True
     )
-    nid_image = models.ImageField(
-        "Upload Your NID Card",
-        upload_to='students/applicants/nid_cards/',
-        blank=True, null=True
-    )
     admission_policy_agreement = models.BooleanField(
         """
-        এই মর্মে অঙ্গীকার করছি যে, ভর্তি হওয়ার সুযোগ পেলে আমি অত্র শিক্ষা প্রতিষ্ঠানের যাবতীয় আইনকানুন মেনে চলব এবং 
-        কোন অবস্থাতেই অত্র শিক্ষা প্রতিষ্ঠান এবং দেশের আইনের পরিপন্থি কোন কাজে লিপ্ত হব না 
+        এই মর্মে অঙ্গীকার করছি যে, ভর্তি হওয়ার সুযোগ পেলে আমি অত্র শিক্ষা প্রতিষ্ঠান ও 
+        বাংলাদেশ কারিগরি শিক্ষা বোর্ডের যাবতীয় আইনকানুন মেনে চলব এবং কোন অবস্থাতেই অত্র শিক্ষা প্রতিষ্ঠান, বাংলাদেশ কারিগরি শিক্ষা বোর্ড 
+        এবং দেশের আইনের পরিপন্থি কোন কাজে লিপ্ত হব না
         """,
         default=False
     )
