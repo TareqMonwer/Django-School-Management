@@ -25,7 +25,7 @@
                   <div class="main-content">
                     <small class="category-name">
 		      <a href="{{ latest_featured_article.categories.first.get_absolute_url }}">
-                        {{ latest_featured_article.categories.first|default:"CATEGORY PLACEHOLDER" }}
+                        {{ latest_featured_article.categories.first|default:"uncategorized" }}
                       </a>
                     </small>
                     <h4>
@@ -58,7 +58,7 @@
                 <div class="article-content p-2 ml-2">
                   <small class="category-name">
                     <a href="{{ article.categories.first.get_absolute_url }}">
-                      {{ article.categories.first }}
+                      {{ article.categories.first|default:"uncategorized" }}
                     </a>
                   </small>
                   <p class="mt-1"><b>
@@ -92,7 +92,7 @@
               <div class="article-content p-2">
                 <div class="category-name badge badge-info">
                   <a class="text-light" href="{{ article.categories.first.get_absolute_url }}">
-                    {{ article.categories.first }}
+                    {{ article.categories.first|default:"uncategorized" }}
                   </a>
                 </div>
                 <p class="my-1">
@@ -131,7 +131,7 @@
               <div class="article-content">
                 <small class="category-name">
                   <a href="{{ article.categories.first.get_absolute_url }}">
-                    {{ article.categories.first }}
+                    {{ article.categories.first|default:"uncategorized" }}
                   </a>
                 </small>
                 <p class="my-1">
@@ -171,8 +171,8 @@
               <div class="article-content">
                 <small class="category-name">
                   <a href="{{ article.categories.first.get_absolute_url }}">
-			  {{ article.categories.first }}
-		  </a>
+			              {{ article.categories.first|default:"uncategorized" }}
+		              </a>
                 </small>
                 <p class="my-1">
                   <b>
