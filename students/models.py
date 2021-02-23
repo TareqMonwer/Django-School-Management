@@ -101,6 +101,26 @@ class AdmissionStudent(StudentBase):
         on_delete=models.CASCADE,
         blank=True, null=True
     )
+    group = models.CharField(max_length=15)
+    board = models.CharField(max_length=100)
+    ssc_roll = models.CharField(max_length=10)
+    marksheet_image = models.ImageField(
+        "Upload Your Marksheet",
+        upload_to='students/applicants/marksheets/',
+        blank=True, null=True
+    )
+    nid_image = models.ImageField(
+        "Upload Your NID Card",
+        upload_to='students/applicants/nid_cards/',
+        blank=True, null=True
+    )
+    admission_policy_agreement = models.BooleanField(
+        """
+        এই মর্মে অঙ্গীকার করছি যে, ভর্তি হওয়ার সুযোগ পেলে আমি অত্র শিক্ষা প্রতিষ্ঠানের যাবতীয় আইনকানুন মেনে চলব এবং 
+        কোন অবস্থাতেই অত্র শিক্ষা প্রতিষ্ঠান এবং দেশের আইনের পরিপন্থি কোন কাজে লিপ্ত হব না 
+        """,
+        default=False
+    )
     admitted = models.BooleanField(default=False)
     admission_date = models.DateField(blank=True, null=True)
     paid = models.BooleanField(default=False)
