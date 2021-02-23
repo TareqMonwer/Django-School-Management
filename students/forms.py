@@ -12,20 +12,25 @@ class StudentForm(forms.ModelForm):
         model = AdmissionStudent
         fields = [
             'name',
-            'photo',
             'fathers_name',
             'mothers_name',
             'date_of_birth',
-            'last_exam_roll',
             'city',
             'current_address',
             'permanent_address',
-            'last_exam_registration',
             'department_choice',
             'mobile_number',
             'email',
             'last_exam_name',
-            'last_exam_result'
+            'group',
+            'board',
+            'last_exam_registration',
+            'last_exam_result',
+            'ssc_roll',
+            'photo',
+            'marksheet_image',
+            'nid_image',
+            'admission_policy_agreement',
         ]
         widgets = {
             'date_of_birth': forms.TextInput({'type': 'date'}),

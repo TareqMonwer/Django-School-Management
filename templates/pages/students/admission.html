@@ -8,6 +8,9 @@
         .selection {
             width: 100% !important;
         }
+        #id_current_address, #id_permanent_address {
+            max-height: 75px;
+        }
     </style>
 {% endblock %}
 
@@ -17,14 +20,14 @@
         <div class="container">
             <div class="row mt-5">
                 <div class="col-12">
-                    <h2>Admission Form SMS-LIO</h2>
-                    <p>Please Fillout the form with proper information. We'll contact you shortly.</p>
+                    <h2 class="text-light">Admission Form</h2>
+                    <p class="text-light">Please Fillout the form with proper information. We'll contact you shortly.</p>
                 </div>
             </div>
         </div>
     </div>
     <div id="admission-form-main" class="py-4">
-        <div class="container">
+        <div class="container-fluid">
             {% if form.errors %}
                 {% for field in form %}
                     {% for error in field.errors %}
@@ -46,6 +49,41 @@
                         {{ form|crispy }}
                         <input type="submit" value="Submit" class="btn btn-success">
                     </form>
+                </div>
+                <div class="col-md-4">
+                    <div class="notice p-4 bg-primary text-light" style="text-align: justify;">
+                        <div class="video-instruction w-100">
+                            <iframe class="embed-responsive-item w-100" height="280" src="https://www.youtube.com/embed/fQx_ZdqCX3I" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+                        </div>
+                        <h6 style="color: black; font-size: 22px; font-weight: bold;">
+                            আবেদন ফর্মটি পূরণ করার আগে ভর্তির যোগ্যতা ও শর্তাবলী দেখে নিন।
+                        </h6>
+                        <h6>
+                            <b>ভর্তির যোগ্যতা</b>
+                        </h6>
+                        <p class="text-light">
+                            ১। SSC / সমমান পরীক্ষায় যেকোন গ্রুপ থেকে জিপিএ ২.০০ পেয়ে উত্তীর্ণ। <br>
+                            ২। HSC (ভোকেশনাল) উত্তীর্ণ শিক্ষার্থীরা ক্রেডিট ট্রান্সফারের মাধ্যমে শূন্য আসনে ৪র্থ পর্বে ভর্তি হওয়ার সুযোগ পাবে।  <br>
+                            ৩। HSC (বিজ্ঞান) উত্তীর্ণ শিক্ষার্থীরা শূন্য আসনে ৩য় পর্বে ভর্তি হওয়ার সুযোগ পাবে। <br>
+                            ৪। HSC (বিজ্ঞান) উত্তীর্ণ শিক্ষার্থীরা শূন্য আসনে ৩য় পর্বে ভর্তি হওয়ার সুযোগ পাবে। <br>
+                            ৪। ২০১০ সালের পর থেকে পাশকৃত ছাত্র-ছাত্রীরাও আবেদন করতে পারবে ।
+                        </p>
+                        <h3 class="mt-2" style="color: black; font-size: 22px; font-weight: bold;">
+                            শর্তাবলী 
+                        </h3>
+                        <p class="text-light">
+                            ১. ভর্তির আবেদন গ্রহণ হওয়ার ২৪ ঘন্টার মধ্যে ভর্তি ফি প্রদান করতে হবে। <br>
+                            ২. ভর্তি ফি অফেরৎযোগ্য <br>
+                            ৩. বিকাশ পেমেন্ট করার পর প্রাপ্ত ট্রানজেকশন আইডি এসএমএস মাধ্যমে জানাতে হবে। <br>
+                            ৪. ভর্তি কার্যক্রম সম্পন হলে ইমেল বা এসএমএস এর মাধ্যমে শিক্ষার্থীর ভর্তি রোল জানিয়ে দেওয়া হবে <br>
+                            ৫. ভর্তি বাতিল করতে চাইলে সরাসরি ক্যাম্পাসে এসে যোগাযোগ করতে হবে।  <br>
+                        </p>
+                        <p class="text-light">
+                            <b>
+                                For Online Support: 01713493246 
+                            </b>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
