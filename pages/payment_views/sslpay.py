@@ -1,11 +1,14 @@
-from students.models import AdmissionStudent
 from sslcommerz_lib import SSLCOMMERZ
+from django.http import HttpResponseRedirect, HttpResponse
+from students.models import AdmissionStudent
+from django.conf import settings
 
-
+# Check if settings.DISALLOW_PAYMENT is False.
+# otherwise, these variables can't be imported and will raise exception.
 ssl_settings = {
-    'store_id': 'yourstoreid',
-    'store_pass': 'yourstorepassword',
-    'issandbox': True
+    'store_id': settings.STORE_ID,
+    'store_pass': settings.STORE_PASS,
+    'issandbox': settings.SSL_ISSANDBOX
 }
 
 def online_admission_sslpayment(request, pk):
@@ -34,8 +37,6 @@ def online_admission_sslpayment(request, pk):
     post_body['product_profile'] = "general"
 
     response = sslcommerz.createSession(post_body)
-    pprint(response)
-
     if response['status'] == 'SUCCESS':
         return HttpResponseRedirect(response['GatewayPageURL'])
     return HttpResponse(response)

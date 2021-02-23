@@ -26,7 +26,8 @@ env = environ.Env(
     USE_CELERY_REDIS=(bool, False),
     DISALLOW_PAYMENT=(bool, True),
     USE_SENTRY=(bool, False),
-    USE_MAILCHIMP=(bool, False)
+    USE_MAILCHIMP=(bool, False),
+    SSL_ISSANDBOX=(bool, True),
 )
 # reading .env file
 try:
@@ -302,9 +303,15 @@ DISALLOW_PAYMENT = env('DISALLOW_PAYMENT')
 
 if not DISALLOW_PAYMENT:
     try:
+        # Braintree
         BRAINTREE_MERCHANT_ID = env('BRAINTREE_MERCHANT_ID')
         BRAINTREE_PUBLIC_KEY = env('BRAINTREE_PUBLIC_KEY')
         BRAINTREE_PRIVATE_KEY = env('BRAINTREE_PRIVATE_KEY')
+
+        # SSLCommerz (only for Bangladesh)
+        STORE_ID = env('STORE_ID')
+        STORE_PASS = env('STORE_PASS')
+        SSL_ISSANDBOX = env('SSL_ISSANDBOX')
     except ImproperlyConfigured as e:
         raise ImproperlyConfigured(
             "Please enter you Braintree sandbox credentials in settings.py or config/.env file."
