@@ -101,8 +101,6 @@ class CommonUserProfileForm(djform.ModelForm):
     class Meta:
         model = CommonUserProfile
         fields = [
-            'profile_picture',
-            'cover_picture',
             'headline',
             'show_headline_in_bio',
             'country',
