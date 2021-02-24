@@ -20,7 +20,7 @@
             {% if request_institute.motto %}
               {{ request_institute.motto|safe }}
             {% else %}
-              {{ request_institute.description|safe }}
+              {{ request_institute.description|safe|default:"" }}
             {% endif %}
           </p>
           <div class="header-button">
@@ -74,7 +74,7 @@
             </div>
             <h4>{{ dept.name }}</h4>
             <p>
-              {{ dept.short_description }}
+              {{ dept.short_description|default:"" }}
             </p>
           </div>
         </div>
@@ -95,11 +95,11 @@
           <div>
             <h2 class="section-title">Services & Portals</h2>
             <div class="desc-text">
-              <p>
+              <!-- <p>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
                 <br />
                 eiusmod tempor incididunt ut labore et dolore.
-              </p>
+              </p> -->
             </div>
           </div>
         </div>
@@ -245,9 +245,9 @@
             <h2 class="section-title">Latest Blog Posts</h2>
             <div class="desc-text">
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+                Read our latest blog posts and browse all articles on our 
+                <a href="{% url 'articles:all_articles' %}">blog.</a>
               </p>
-              <p>eiusmod tempor incididunt ut labore et dolore.</p>
             </div>
           </div>
         </div>
@@ -268,25 +268,27 @@
             </div>
             <div class="blog-item-text">
               <h3>
-                <a href="single-post.html">
-                  {{ article.title }}  
+                <a href="{{ article.get_absolute_url }}"
+                  title="{{ article.title }}">
+                  {{ article.title|truncatechars:30 }}  
                 </a>
               </h3>
               <p>
                 {{ article.short_description}}
               </p>
-              <a href="" class="read-more">5 Min read</a>
+              <a href="{{ article.get_absolute_url }}" 
+                class="read-more">5 Min read</a>
             </div>
             <div class="author">
               <span class="name">
                 <i class="lni-user"></i>
-                <a href="#">
+                <a href="{% url 'articles:author_profile' article.author.username %}">
                   Posted by {{ article.author }}
                 </a>
               </span>
               <span class="date float-right"
                 ><i class="lni-calendar"></i>
-                <a href="#">{{ article.created }}</a>
+                <a href="#">{{ article.created|date:"dS b y" }}</a>
                 </span
               >
             </div>
@@ -312,10 +314,10 @@
           <div>
             <h2 class="section-title">Get In Touch</h2>
             <div class="desc-text">
-              <p>
+              <!-- <p>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
               </p>
-              <p>eiusmod tempor incididunt ut labore et dolore.</p>
+              <p>eiusmod tempor incididunt ut labore et dolore.</p> -->
             </div>
           </div>
         </div>
