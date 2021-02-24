@@ -177,15 +177,16 @@ class AuthorProfile(DetailView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         try:
-            profile = self.request.user.profile
-            profile_edit_form = CommonUserProfileForm(
-                instance=profile
-            )
-            ctx['profile_edit_form'] = profile_edit_form
-            formset = UserProfileSocialLinksFormSet(
-                instance=profile
-            )
-            ctx['social_links_form'] = formset
+            if self.request.user.is_authenticated:
+                profile = self.request.user.profile
+                profile_edit_form = CommonUserProfileForm(
+                    instance=profile
+                )
+                ctx['profile_edit_form'] = profile_edit_form
+                formset = UserProfileSocialLinksFormSet(
+                    instance=profile
+                )
+                ctx['social_links_form'] = formset
         except User.profile.RelatedObjectDoesNotExist:
             ctx['profile_not_found'] = 'We did not find any profile for you, \
                 please contact with authorities.'
