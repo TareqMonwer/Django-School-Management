@@ -7,36 +7,25 @@ class Subscriber(AbstractUserRole):
 
 class Student(AbstractUserRole):
     available_permissions = {
-        'visit_website': True,
-        'update_profile': True,
         'view_result': True,
         'create_article': True,
         'add_testimonial': True,
+        'can_see_dashboard': True
     }
+    # Student has all perms that a subscriber has.
+    available_permissions.update(Subscriber.available_permissions)
 
 
 class Teacher(AbstractUserRole):
     available_permissions = {
-        'visit_website': True,
-        'update_profile': True,
-        'view_result': True,
-        'create_article': True,
-        'add_testimonial': True,
         'add_result': True,
         'update_result': True,
-        'add_testimonial': True,
     }
+    available_permissions.update(Student.available_permissions)
 
 
 class Editor(AbstractUserRole):
     available_permissions = {
-        'visit_website': True,
-        'update_profile': True,
-        'view_result': True,
-        'create_article': True,
-        'add_testimonial': True,
-        'add_result': True,
-        'update_result': True,
         'crud_teacher_application': True,
         'crud_student_application': True,
         'crud_subject': True,
@@ -44,26 +33,29 @@ class Editor(AbstractUserRole):
         'crud_designation': True,
         'crud_result': True,
     }
+    available_permissions.update(Teacher.available_permissions)
 
 
 class AcademicOficer(AbstractUserRole):
     available_permissions = {
-        'visit_website': True,
-        'update_profile': True,
-        'create_article': True,
-        'add_testimonial': True,
         'crud_academic_session': True,
         'crud_counsel': True,
     }
+    available_permissions.update(Editor.available_permissions)
 
 
 class Admin(AbstractUserRole):
     available_permissions = {
-        'create_article': True,
-        'can_change_article': True,
-        'can_delete_article': True,
-        'can_view_article': True,
-        'can_add_like': True,
-        'can_view_like': True,
+        'crud_users': True,
     }
+    available_permissions.update(AcademicOficer.available_permissions)
 
+
+# Note: Accounts will have a bit different 
+# set of perms, they shouldn't be involved in 
+# any other actions.
+class Accounts(AbstractUserRole):
+    available_permissions = {
+        'manipulate_payments': True,
+    }
+    available_permissions.update(Student.available_permissions)

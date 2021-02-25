@@ -1,4 +1,5 @@
 {% load static %}
+{% load permission_tags %}
 
 <div class="sidebar">
   <div class="sidebar-inner">
@@ -218,6 +219,33 @@
           </li>
         </ul>
       </li>
+
+      {% if user|has_role:'accounts' %}
+      <!-- PAYMENTS (RESTRICTED) -->
+      <li class="nav-item dropdown">
+        <a class="dropdown-toggle" href="javascript:void(0);">
+          <span class="icon-holder">
+            <!-- <i class="c-light-blue-500 ti-pencil"></i> -->
+            <img src="{% static 'images/money.png' %}" 
+              height="17">
+          </span>
+          <span class="title">Payments</span>
+          <span class="arrow"><i class="ti-angle-right"></i></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <a class="sidebar-link" 
+              href="">
+              Manage Payments
+            </a>
+            <a class="sidebar-link" 
+              href="">
+              Student Payments
+            </a>
+          </li>
+        </ul>
+      </li>
+      {% endif %}
 
       {% if user.approval_status == 'a' %}
       <!-- USER OPTIONS -->
