@@ -40,5 +40,3 @@ def online_admission_sslpayment(request, pk):
     if response['status'] == 'SUCCESS':
         return HttpResponseRedirect(response['GatewayPageURL'])
     return HttpResponse(response)
-
-    

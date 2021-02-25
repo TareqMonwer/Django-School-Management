@@ -77,7 +77,7 @@ ALLOWED_HOSTS = env('ALLOWED_HOSTS').split(',')
 
 # Application definition
 
-INSTALLED_APPS_DEFAULT = [
+DEFAULT_APPS = [
     'accounts.apps.AccountsConfig',  # must be on top
     'django.contrib.admin',
     'django.contrib.auth',
@@ -90,18 +90,19 @@ INSTALLED_APPS_DEFAULT = [
     'django.contrib.sites',
 ]
 
-INSTALLED_APPS_LOCAL = [
+LOCAL_APPS = [
     'students',
     'teachers',
     'result',
     'academics',
     'pages',
     'articles',
-    'institute'
+    'institute',
+    'payments',
 ]
 
 # third party apps
-INSTALLED_APPS_THIRD_PARTY = [
+THIRD_PARTY_APPS = [
     'rest_framework',
     'corsheaders',
     'crispy_forms',
@@ -124,7 +125,7 @@ INSTALLED_APPS_THIRD_PARTY = [
     'admin_honeypot'
 ]
 
-INSTALLED_APPS = INSTALLED_APPS_DEFAULT + INSTALLED_APPS_LOCAL + INSTALLED_APPS_THIRD_PARTY
+INSTALLED_APPS = DEFAULT_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
 SITE_ID = 1
 
