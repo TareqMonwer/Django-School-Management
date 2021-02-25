@@ -35,6 +35,7 @@ class SSLPayment(TimeStampedModel):
     payer_country = models.CharField(max_length=55)
 
     class Meta:
+        verbose_name_plural = 'SSL Payment'
         ordering = ['-created', 'received_amount']
     
     def __str__(self):
@@ -62,6 +63,7 @@ class SSLAdmissionPaymentVerfication(TimeStampedModel):
     )
 
     class Meta:
+        verbose_name_plural = 'SSL Admission Payment Verfication'
         ordering = ['-created', ]
     
     def __str__(self):
