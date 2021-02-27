@@ -5,7 +5,7 @@ from itertools import chain
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404, HttpResponse, HttpResponseRedirect
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views import View
 from django.views.generic import (
@@ -16,11 +16,12 @@ from django.views.generic import (
 
 from accounts.models import User
 from accounts.forms import (
-    CommonUserProfileForm, UserProfileSocialLinksFormSet
+    CommonUserProfileForm, 
+    UserProfileSocialLinksFormSet,
 )
 from .models import Article, Like, Category, Newsletter
 from .mixins import AuthorArticleEditMixin
-from .forms import ArticleForm
+from .forms import ArticleForm, CommentForm
 from .utils import subscribe
 from permission_handlers.administrative import user_is_teacher_or_administrative
 
@@ -114,8 +115,23 @@ class ArticleDetail(DetailView):
         context = super().get_context_data(**kwargs)
         likes = Like.objects.filter(article=obj)
         context['likes'] = likes
+        context['comments'] = obj.comments.filter(approved=True)
+        context['comment_form'] = CommentForm()
         return context
 
+    def post(self, request, *args, **kwargs):
+        ctx = {}
+        article = super().get_object()
+        if 'content' in request.POST:
+            comment_form = CommentForm(request.POST)
+            if comment_form.is_valid():
+                comment_form.instance.author = request.user
+                comment_form.instance.article = super().get_object()
+                comment_form.save()
+                return redirect(article.get_absolute_url())
+            else:
+                return HttpResponse('Comment Form Contains Invalid Data.')
+        return redirect(article.get_absolute_url())
 
 class ArticleCreate(
     AuthorArticleEditMixin, LoginRequiredMixin,
