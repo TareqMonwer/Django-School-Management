@@ -1,5 +1,6 @@
 {% extends 'articles/base.html' %}
 {% load social_share %}
+{% load crispy_forms_tags %}
 
 {% block meta_tags %}
   <meta property="og:title" content="{{ obj.title }}" />
@@ -101,18 +102,48 @@
       </div>
 
       <!-- TODO:Comments -->
-      <div class="row">
-        {% for comment in comments %}
-        <div class="col-md-8">
-          <div class="card">
-            <div class="comment-metadata">
-              <!-- leftside -->
-              <!-- rightside -->
-            </div>
-            <div class="comment-content"></div>
-          </div>
+      <div class="row justify-content-center mt-5">
+        <div class="col-sm-12 col-md-8">
+          <h3>Post a Comment</h3>
+          <form action="" method="post">
+            {% csrf_token %}
+            {{ comment_form|crispy }}
+            <input type="submit" value="Comment" 
+            class="btn btn-success">
+          </form>
         </div>
-        {% endfor %}
+      </div>
+      
+      <!-- All Comments -->
+      <div class="row justify-content-center mt-5">
+
+        <div class="col-md-8">
+          {% for comment in comments %}
+          <div class="commentcard mb-3 border d-flex align-items-center">
+            <div class="leftside">
+              <img 
+                src="{{ comment.author.profile.profile_picture.url }}" 
+                alt="{{ comment.author }}"
+                height="60"  
+              >
+            </div>
+            <div class="comment-content ml-4">
+              <div class="rightside">
+                <div class="text-muted">
+                  <b>{{ comment.author }}</b>
+                  <small>
+                    commented on 
+                    <i>{{ comment.created }}</i>
+                  </small>
+                </div>
+                <p class="mt-1 mb-0">
+                  {{ comment }}
+                </p>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
       </div>
 
       <!-- Recommendations -->
