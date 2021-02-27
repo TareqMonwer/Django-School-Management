@@ -58,6 +58,7 @@ urlpatterns = [
         ),
         name='password_reset_complete'
     ),
+    path('dashboard/payments/', include('payments.urls')),
     # API URLS
     path('api/', include('articles.api.routes')),
 ]
