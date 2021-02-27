@@ -11,7 +11,7 @@ def user_is_editor(user):
 
 
 def user_is_academic_officer(user):
-    return user_is_verified(user) and user.requested_role == 'academic_oficer' \
+    return user_is_verified(user) and user.requested_role == 'academic_officer' \
         if user.is_authenticated else False
 
 

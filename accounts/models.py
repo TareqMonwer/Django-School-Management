@@ -15,7 +15,7 @@ class User(AbstractUser):
         ('student', 'Student'),
         ('teacher', 'Teacher'),
         ('editor', 'Editor'),
-        ('academic_oficer', 'Academic Officer'),
+        ('academic_officer', 'Academic Officer'),
         ('admin', 'Admin'),
     )
     APPROVAL_CHOICES = (
