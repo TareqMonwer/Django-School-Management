@@ -14,6 +14,12 @@ class ArticleForm(forms.ModelForm):
         fields = ['title', 'content', 'featured_image',]
 
 
+class ArticleUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Article
+        fields = ['title', 'content', 'featured_image',]
+
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment

@@ -21,7 +21,7 @@ from accounts.forms import (
 )
 from .models import Article, Like, Category, Newsletter
 from .mixins import AuthorArticleEditMixin
-from .forms import ArticleForm, CommentForm
+from .forms import ArticleForm, ArticleUpdateForm, CommentForm
 from .utils import subscribe
 from permission_handlers.administrative import user_is_teacher_or_administrative
 
@@ -171,7 +171,7 @@ class ArticleCreate(
 
 class ArticleUpdate(AuthorArticleEditMixin, UpdateView):
     fields = None
-    form_class = ArticleForm
+    form_class = ArticleUpdateForm
 
 
 class ArticleLike(LoginRequiredMixin, View):
