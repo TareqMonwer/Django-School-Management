@@ -46,7 +46,8 @@
                                     </button>
                                 </form>
 
-                                <a href="" class="btn btn-sm btn-success">
+                                <a href="{% url 'articles:update' slug=article.slug %}" 
+                                    class="btn btn-sm btn-success">
                                     Edit
                                 </a>
                             </td>
