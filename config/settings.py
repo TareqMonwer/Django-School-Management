@@ -122,7 +122,9 @@ THIRD_PARTY_APPS = [
     'django_social_share',
     'django_countries',
     'import_export',
-    'admin_honeypot'
+    'admin_honeypot',
+    'django_tables2',
+    'bootstrap4',
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + LOCAL_APPS + THIRD_PARTY_APPS

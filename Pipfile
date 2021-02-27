@@ -63,6 +63,8 @@ mysqlclient = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
 sslcommerz-lib = "*"
+django-tables2 = "*"
+django-bootstrap4 = "*"
 
 [requires]
 python_version = "3.8"
