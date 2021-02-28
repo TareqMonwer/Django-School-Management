@@ -14,6 +14,7 @@ def send_admission_confirmation_email(student_id):
     student = AdmissionStudent.objects.get(id=student_id)
     name = student.name
     choosen_dept = student.choosen_department
+    print("sending the mail...............")
     send_mail(
         f'SMS-LIO: Admission confirmed for student {name}',
         f'Choosen Dept: {choosen_dept}',
