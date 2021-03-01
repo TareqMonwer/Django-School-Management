@@ -23,6 +23,7 @@ from .models import Article, Like, Category, Newsletter
 from .mixins import AuthorArticleEditMixin
 from .forms import ArticleForm, ArticleUpdateForm, CommentForm
 from .utils import subscribe
+from articles.tasks import send_latest_article
 from permission_handlers.administrative import user_is_teacher_or_administrative
 
 
@@ -270,6 +271,8 @@ class ArticleCreateFromDashboard(LoginRequiredMixin,
         return redirect('account_login')
 
     def form_valid(self, form):
+        from django.core import serializers
+
         form.instance.author = self.request.user
         form.instance.status = 'published'
         form.instance.save()
@@ -279,6 +282,9 @@ class ArticleCreateFromDashboard(LoginRequiredMixin,
         ))
         categories = Category.objects.filter(id__in=categories_ids)
         form.instance.categories.add(*categories)
+        subscribers = serializers.serialize('json', Newsletter.objects.all())
+        # article = serializers.serialize('json', form.instance)
+        send_latest_article.delay(subscribers, form.instance.id)
         return super().form_valid(form)
 
 

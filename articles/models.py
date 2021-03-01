@@ -32,7 +32,7 @@ class Article(TimeStampedModel):
     content = RichTextUploadingField(config_name='default')
     is_featured = models.BooleanField(default=False)
     force_highlighted = models.BooleanField(default=False)
-    categories = TreeManyToManyField('Category', blank=True)
+    categories = TreeManyToManyField('Category', blank=True, null=True)
     status = models.CharField(max_length=10,
                               choices=STATUS_CHOICES,
                               default='draft')

@@ -190,7 +190,8 @@ DATABASES = {
 }
 
 # SET MYSQLDB charset for storing Bangla text
-DATABASES['default']['OPTIONS'] = {'charset': 'utf8mb4'}
+if 'mysql' in DATABASES['default']['ENGINE']:
+    DATABASES['default']['OPTIONS'] = {'charset': 'utf8mb4'}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators

@@ -4,9 +4,8 @@ from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import CreateView, ListView, DeleteView, UpdateView
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from articles.models import Article, Category, Newsletter
+from articles.models import Article, Category
 from articles.forms import ArticleForm
-from articles.tasks import send_latest_article
 from permission_handlers.administrative import user_is_admin_su_editor_or_ac_officer
 
 
@@ -26,12 +25,6 @@ class DashboardArticlePublishView(UserPassesTestMixin, CreateView):
             request,
             'articles/dashboard/article_publisher_cta.html', ctx
         )
-
-    def form_valid(self, form):
-        self.object = form.save()
-        subscribers = Newsletter.objects.all()
-        send_latest_article.delay(subscribers, self.object)
-        return HttpResponseRedirect(self.get_success_url())
     
     def test_func(self):
         user = self.request.user
