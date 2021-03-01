@@ -36,7 +36,7 @@ class Editor(AbstractUserRole):
     available_permissions.update(Teacher.available_permissions)
 
 
-class AcademicOficer(AbstractUserRole):
+class AcademicOfficer(AbstractUserRole):
     available_permissions = {
         'crud_academic_session': True,
         'crud_counsel': True,
@@ -48,7 +48,7 @@ class Admin(AbstractUserRole):
     available_permissions = {
         'crud_users': True,
     }
-    available_permissions.update(AcademicOficer.available_permissions)
+    available_permissions.update(AcademicOfficer.available_permissions)
 
 
 # Note: Accounts will have a bit different 
