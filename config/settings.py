@@ -183,11 +183,14 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': env.db(),
-    'extras': {
+    'localdb': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+# SET MYSQLDB charset for storing Bangla text
+DATABASES['default']['OPTIONS'] = {'charset': 'utf8mb4'}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
