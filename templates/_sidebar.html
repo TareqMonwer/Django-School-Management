@@ -58,7 +58,8 @@
         </a>
       </li>
 
-      <!-- MAIN SIDEBAR LINKS -->
+    {% if user|has_role:'academic_officer, admin' %}
+      <!-- Counsel/Admission Dashboard -->
       <li class="nav-item">
         <a class="sidebar-link" href="{% url 'students:students_dashboard_index' %}">
           <span class="icon-holder">
@@ -67,6 +68,7 @@
           <span class="title">Counsel & Admissions</span>
         </a>
       </li>
+      {% endif %}
 
       <!-- Students -->
       <li class="nav-item dropdown">
@@ -220,7 +222,7 @@
         </ul>
       </li>
 
-      {% if user|has_role:'accounts' %}
+      {% if user|has_role:'accounts, admin' %}
       <!-- PAYMENTS (RESTRICTED) -->
       <li class="nav-item dropdown">
         <a class="dropdown-toggle" href="javascript:void(0);">
@@ -235,7 +237,7 @@
         <ul class="dropdown-menu">
           <li>
             <a class="sidebar-link" 
-              href="">
+              href="{% url 'payments:dashboard_ssl_payments_list' %}">
               Manage Payments
             </a>
             <a class="sidebar-link" 
@@ -247,7 +249,7 @@
       </li>
       {% endif %}
 
-      {% if user.approval_status == 'a' %}
+      {% if user|has_role:'admin' %}
       <!-- USER OPTIONS -->
       <li class="nav-item dropdown">
         <a class="dropdown-toggle" href="javascript:void(0);">

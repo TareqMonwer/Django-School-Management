@@ -5,7 +5,7 @@ from mptt.models import TreeManyToManyField
 from django.forms import CheckboxSelectMultiple
 from django.contrib import admin
 
-from .models import Article, Like, Category, Newsletter
+from .models import Article, Like, Category, Newsletter, Comment
 
 class ArticleResource(resources.ModelResource):
     class Meta:
@@ -58,6 +58,12 @@ class LikeAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     # TODO: Display obj __str__ representation in list display.
     list_display = ['__str__', 'created']
     resource_class = LikeResource
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ['content', 'approved']
+    list_editable = ['approved',]
 
 
 # Registers

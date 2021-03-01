@@ -122,7 +122,9 @@ THIRD_PARTY_APPS = [
     'django_social_share',
     'django_countries',
     'import_export',
-    'admin_honeypot'
+    'admin_honeypot',
+    'django_tables2',
+    'bootstrap4',
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + LOCAL_APPS + THIRD_PARTY_APPS
@@ -181,11 +183,14 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': env.db(),
-    'extras': {
+    'localdb': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+# SET MYSQLDB charset for storing Bangla text
+DATABASES['default']['OPTIONS'] = {'charset': 'utf8mb4'}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
