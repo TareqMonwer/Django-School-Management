@@ -63,6 +63,8 @@ mysqlclient = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
 sslcommerz-lib = "*"
+psycopg2 = "==2.8.6"
+psycopg2-binary = "==2.8.5"
 
 [requires]
 python_version = "3.8"
