@@ -210,10 +210,14 @@
         </a>
         <ul class="dropdown-menu">
           <li>
-            <a class="sidebar-link" 
+            <!-- <a class="sidebar-link" 
               href="{% url 'articles:dashboard_article_publish' %}">
               Publish Article
+            </a> -->
+            <a class="sidebar-link" href="{% url 'articles:publish_article_from_dashboard' %}">
+              Publish Article
             </a>
+            
             <a class="sidebar-link" 
               href="{% url 'articles:dashboard_manage' %}">
               Manage Articles

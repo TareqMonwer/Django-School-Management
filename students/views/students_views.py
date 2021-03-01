@@ -233,7 +233,6 @@ def admit_student(request, pk):
             student.admitted = True
             student.paid = True
             student.admission_date = date.today()
-            student.save()
             send_admission_confirmation_email.delay(student.id)
             return redirect('students:admitted_student_list')
     else:
