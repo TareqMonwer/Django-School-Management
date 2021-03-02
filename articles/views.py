@@ -117,6 +117,10 @@ class ArticleDetail(DetailView):
         likes = Like.objects.filter(article=obj)
         context['likes'] = likes
         context['comments'] = obj.comments.filter(approved=True)
+        context['user_pending_comments'] = obj.comments.filter(
+            approved=False, 
+            author=self.request.user
+        )
         context['comment_form'] = CommentForm()
         return context
 
