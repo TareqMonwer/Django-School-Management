@@ -1,4 +1,5 @@
 {% extends 'articles/base.html' %}
+{% load static %}
 {% load social_share %}
 {% load crispy_forms_tags %}
 
@@ -118,11 +119,48 @@
       <div class="row justify-content-center mt-5">
 
         <div class="col-md-8">
+          {% if user_pending_comments %}
+            {% for comment in user_pending_comments %}
+            <div class="commentcard mb-3 border d-flex align-items-center" 
+              style="pointer-events:none; opacity: .6;">
+              <div class="leftside">
+                <img 
+                  {% if comment.author.profile.profile_picture %}
+                    src="{{ comment.author.profile.profile_picture.url }}" 
+                  {% else %}
+                    src="{% static 'images/media-alt/user-icon.png' %}" 
+                  {% endif %}
+                  alt="{{ comment.author }}"
+                  height="60"  
+                >
+              </div>
+              <div class="comment-content ml-4">
+                <div class="rightside">
+                  <div class="text-muted">
+                    <b>{{ comment.author }}</b>
+                    <small class="badge badge-danger">
+                      pending for approval
+                    </small>
+                  </div>
+                  <p class="mt-1 mb-0">
+                    {{ comment }}
+                  </p>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          {% endif %}
+
+          <!-- All Approved Comments -->
           {% for comment in comments %}
           <div class="commentcard mb-3 border d-flex align-items-center">
             <div class="leftside">
               <img 
-                src="{{ comment.author.profile.profile_picture.url }}" 
+                {% if comment.author.profile.profile_picture %}
+                  src="{{ comment.author.profile.profile_picture.url }}" 
+                {% else %}
+                  src="{% static 'images/media-alt/user-icon.png' %}" 
+                {% endif %}
                 alt="{{ comment.author }}"
                 height="60"  
               >

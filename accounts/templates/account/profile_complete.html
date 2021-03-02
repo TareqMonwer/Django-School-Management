@@ -41,11 +41,12 @@
               {% csrf_token %}
               <input id="profile-image-upload" class="hidden w-25 d-none" type="file"
               name="profile-picture">
-              <img id="profile-image"
+              <img id="profile-image" title="Upload new profile picture"
+                style="cursor: pointer;"
               {% if user.profile.profile_picture %}
                 src="{{ user.profile.profile_picture.url }}" 
               {% else %}
-                src=""
+                src="{% static 'images/media-alt/user-icon.png' %}" 
               {% endif %}
               width="150" />
             </form>
