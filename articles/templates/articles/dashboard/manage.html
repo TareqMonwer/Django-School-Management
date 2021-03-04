@@ -1,28 +1,71 @@
 {% extends 'dashboard.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
     
 
 {% block dashboard-body %}
 <div class="container">
+    <div class="row justify-content-between mb-2">
+        <div class="col-md-5 pl-0">
+            <form action="" class="form-inline">
+                <input type="text" 
+                class="form-control mr-sm-2" 
+                id="search_article" 
+                placeholder="Title">
+                <input type="submit" value="Search" class="btn btn-primary">
+            </form>
+        </div>
+        <div class="col-md-4 pr-0">
+            <button type="button" class="btn btn-primary float-right" 
+            data-toggle="modal" data-target="#filterModal">
+                Show Filters
+            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="filterModal"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="filterModalTitle">Filer Articles</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" method="get">
+                                {{ filter.form|crispy }}
+                                <input type="submit" value="Filter" class="btn btn-success">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
+        
         <div class="col-md-12 p-2 border">
             <table id="articlesDataTable" class="table table-striped table-bordered" style="width:100%">
                 <thead>
                     <tr>
                         <th>Title</th>
                         <th>Author</th>
+                        <th>Status</th>
                         <th>Category(s)</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody id="manage_articles_tbody">
-                    {% for article in article_list %}
+                    {% for article in filter.qs %}
                         <tr>
                             <td>
                                 {{ article.title }}
                             </td>
                             <td>
                                 {{ article.author }}
+                            </td>
+                            <td>
+                                {{ article.status }}
                             </td>
                             <td>
                                 {{ article.category }}
