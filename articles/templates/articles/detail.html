@@ -102,16 +102,24 @@
         </div>
       </div>
 
-      <!-- TODO:Comments -->
+      <!-- Comments -->
       <div class="row justify-content-center mt-5">
         <div class="col-sm-12 col-md-8">
-          <h3>Post a Comment</h3>
-          <form action="" method="post">
-            {% csrf_token %}
-            {{ comment_form|crispy }}
-            <input type="submit" value="Comment" 
-            class="btn btn-success">
-          </form>
+          {% if request.user.is_authenticated %}
+            <h3>Post a Comment</h3>
+            <form action="" method="post">
+              {% csrf_token %}
+              {{ comment_form|crispy }}
+              <input type="submit" value="Comment" 
+              class="btn btn-success">
+            </form>
+          {% else %}
+            <h3>
+              <a class="text-primary" href="{% url 'account_login' %}">
+                Sign in
+              </a>
+              to comment</h3>
+          {% endif %}
         </div>
       </div>
       
@@ -180,6 +188,10 @@
               </div>
             </div>
           </div>
+          {% empty %}
+            <h5>
+              No one commented in this article.
+            </h5>
           {% endfor %}
         </div>
       </div>
