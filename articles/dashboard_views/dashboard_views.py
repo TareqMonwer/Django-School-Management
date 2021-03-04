@@ -6,6 +6,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from articles.models import Article, Category
 from articles.forms import ArticleForm
+from articles.filters import ArticleFilter
 from permission_handlers.administrative import user_is_admin_su_editor_or_ac_officer
 
 
@@ -45,6 +46,14 @@ class DashboardManageArticleView(UserPassesTestMixin, ListView):
     def test_func(self):
         user =  self.request.user
         return user_is_admin_su_editor_or_ac_officer(user)
+    
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['filter'] = ArticleFilter(
+            self.request.GET,
+            queryset=Article.objects.all()
+        )
+        return ctx
 
 dashboard_manage_article = DashboardManageArticleView.as_view()
 
