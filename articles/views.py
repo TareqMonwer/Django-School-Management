@@ -291,7 +291,7 @@ class ArticleCreateFromDashboard(LoginRequiredMixin,
             'json', Newsletter.objects.filter(is_active=True)
         )
         # article = serializers.serialize('json', form.instance)
-        send_latest_article.delay(subscribers, form.instance.id)
+        send_latest_article(subscribers, form.instance.id)
         return super().form_valid(form)
 
 
