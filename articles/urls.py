@@ -17,6 +17,10 @@ urlpatterns = [
     path('manage/', dashboard_views.dashboard_manage_article,
         name='dashboard_manage'
     ),
+    path('manage/subscribers/', 
+        dashboard_views.SubscribersManageView.as_view(),
+        name='subscribers'
+    ),
     path('dashboard/delete/<int:pk>/', 
         dashboard_views.dashboard_article_delete, 
         name='dashboard_article_delete'

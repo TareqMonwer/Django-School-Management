@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import CreateView, ListView, DeleteView, UpdateView
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from articles.models import Article, Category
+from articles.models import Article, Category, Newsletter
 from articles.forms import ArticleForm
 from articles.filters import ArticleFilter
 from permission_handlers.administrative import user_is_admin_su_editor_or_ac_officer
@@ -76,3 +76,12 @@ def dashboard_article_draft(request, pk):
         article.status = 'draf'
         article.save()
         return redirect('articles:dashboard_manage')
+
+
+class SubscribersManageView(UserPassesTestMixin, ListView):
+    queryset = Newsletter.objects.all()
+    template_name = 'articles/dashboard/subscribers_manage.html'
+
+    def test_func(self):
+        user =  self.request.user
+        return user_is_admin_su_editor_or_ac_officer(user)
