@@ -1,0 +1,20 @@
+{% extends 'dashboard.html' %}
+{% load render_table from django_tables2 %}
+
+
+{% block dashboard-body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h4>
+                All Subscribers
+            </h4>
+        </div>
+
+        <div class="col-12">
+            {% render_table object_list 'django_tables2/bootstrap.html' %}
+        </div>
+       
+    </div>
+</div>
+{% endblock %}

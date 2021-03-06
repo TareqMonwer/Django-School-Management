@@ -60,7 +60,7 @@
             height: 150px;
             background-color: #feae39;
             padding: 1.3rem;
-            box-sizing: border-box;
+            margin-right: .4rem;
             border-radius: 3px;
         }
 
@@ -344,7 +344,7 @@
                                             <tr>
                                                 <td valign="middle" align="center" height="45" bgcolor="#feae39"
                                                     style="font-family:'Open Sans', Arial, sans-serif; font-size:17px; font-weight:bold; color:#ffffff; text-transform:uppercase;">
-                                                    <a href="" style="font-family:'Open Sans', Arial, sans-serif; font-size:18px; line-height:20px; color:#fff; text-decoration: none;">
+                                                    <a href="{{ article.get_absolute_url }}" style="font-family:'Open Sans', Arial, sans-serif; font-size:18px; line-height:20px; color:#fff; text-decoration: none;">
                                                         Read More
                                                     </a>
                                                 </td>
@@ -357,7 +357,7 @@
                                 </tr>
                                 <tr>
                                     <td align="center">
-                                        <img src="{{ article.featured_image }}"
+                                        <img src="{{ request.get_host }}/{{ article.featured_image.url }}"
                                             width="600" height="300"
                                             style="display:block;font-family:'FISHfingers', Tahoma, Geneva, sans-serif; font-size:40px; line-height:42px; color:#feae39; text-transform:uppercase; letter-spacing:5px;"
                                             border="0" alt="" class="em_full_img" />
@@ -387,18 +387,19 @@
 
                     <tbody id="categories" style="display: flex; justify-content: space-around; padding: 2rem 0;
                     align-items: center; text-align: center;">
+
                         <tr>
                             <td>
                                 <table border="0" cellspacing="0" cellpadding="0" align="center">
                                     <tr>
                                         <a href="">
-                                            <img src="https://i.ibb.co/MMV4Rbb/technical-support.png" 
-                                            height="60">
-                                            
+                                            <img src="https://i.ibb.co/MMV4Rbb/technical-support.png" alt="creativity" height="60">
                                         </a>
-                                        <a href="">
-                                            TECHNOLOGY
-                                        </a>
+                                        <h4>
+                                            <a href="http://apps.dpi.ac/blog/it/articles/">
+                                                TECHNOLOGY
+                                            </a>
+                                        </h4>
                                     </tr>
                                 </table>
                             </td>
@@ -412,7 +413,7 @@
                                             <img src="https://i.ibb.co/SQR015W/creativity.png" alt="creativity" height="60">
                                         </a>
                                         <h4>
-                                            <a href="">
+                                            <a href="http://apps.dpi.ac/blog/information/articles/">
                                                 INSPIRATION
                                             </a>
                                         </h4>
@@ -430,7 +431,7 @@
                                             height="60">
                                         </a>
                                         <h4>
-                                            <a href="">
+                                            <a href="http://apps.dpi.ac/blog/success-stories/articles/">
                                                 SUCCESS STORIES
                                             </a>
                                         </h4>
@@ -448,7 +449,7 @@
                                             height="60">
                                         </a>
                                         <h4>
-                                            <a href="">
+                                            <a href="http://apps.dpi.ac/blog/information/articles/">
                                                 INFORMATION
                                             </a>
                                         </h4>
