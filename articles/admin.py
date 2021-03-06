@@ -44,7 +44,8 @@ class NewsletterResource(resources.ModelResource):
 
 
 class NewsletterAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    list_display = ['email', 'created']
+    list_display = ['email', 'is_active', 'created']
+    list_editable = ['is_active', ]
     resource_class = NewsletterResource
 
 

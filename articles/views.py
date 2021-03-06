@@ -287,7 +287,9 @@ class ArticleCreateFromDashboard(LoginRequiredMixin,
         ))
         categories = Category.objects.filter(id__in=categories_ids)
         form.instance.categories.add(*categories)
-        subscribers = serializers.serialize('json', Newsletter.objects.all())
+        subscribers = serializers.serialize(
+            'json', Newsletter.objects.filter(is_active=True)
+        )
         # article = serializers.serialize('json', form.instance)
         send_latest_article.delay(subscribers, form.instance.id)
         return super().form_valid(form)
