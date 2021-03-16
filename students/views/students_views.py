@@ -38,6 +38,7 @@ def students_dashboard_index(request):
     admitted_students = AdmissionStudent.objects.filter(admitted=True, paid=True)
     paid_registrants = AdmissionStudent.objects.filter(paid=True, admitted=False)
     rejected_applicants = AdmissionStudent.objects.filter(rejected=True)
+    offline_applicants = AdmissionStudent.objects.filter(application_type='2')
 
     # List of months since first application registration date
     try:
@@ -62,6 +63,7 @@ def students_dashboard_index(request):
         'admitted_students': admitted_students,
         'paid_registrants': paid_registrants,
         'rejected_applicants': rejected_applicants,
+        'offline_applicants': offline_applicants,
         'month_list': month_list,
     }
     return render(request, 'students/dashboard_index.html', context)
@@ -86,7 +88,7 @@ def admitted_students_list(request):
     context = {
         'admitted_students': admitted_students,
     }
-    return render(request, 'students/dashboard_admitted_students.html', context)
+    return render(request, 'students/dashboard_all_cleared_students.html', context)
 
 
 @user_passes_test(user_is_admin_su_or_ac_officer)
@@ -291,8 +293,7 @@ def add_counseling_data(request, student_id):
         form = CounselingDataForm(request.POST)
         if form.is_valid():
             counseling_comment = form.save(commit=False)
-            # TODO: NEEDS IMPROVEMENT
-            # counseling_comment.counselor = "SHOULD BE A USER/COUNSELOR"
+            counseling_comment.counselor = request.user
             counseling_comment.registrant_student = registrant
             counseling_comment.save()
             return redirect('students:update_online_registrant', pk=student_id)
