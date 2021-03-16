@@ -30,9 +30,13 @@
             {% for record in counseling_records.all %}
                 <li class="list-group-item">
                     {{ record }} <br>
-                    <span class="badge badge-dark">
+                    <span class="badge badge-dark mr-1">
                         <strong>Comment by:</strong>
                         {{ record.counselor }}
+                    </span>
+                    <span class="badge badge-info text-light">
+                        <strong>Date:</strong>
+                        {{ record.created|date:"d b Y "}}
                     </span>
                 </li>
             {% endfor %}              

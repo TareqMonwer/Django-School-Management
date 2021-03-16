@@ -63,6 +63,7 @@ class StudentRegistrantUpdateForm(forms.ModelForm):
             'email',
             'choosen_department',
             'admitted',
+            'paid',
             'rejected',
         ]
         widgets = {
@@ -73,7 +74,7 @@ class StudentRegistrantUpdateForm(forms.ModelForm):
 class CounselingDataForm(forms.ModelForm):
     class Meta:
         model = CounselingComment
-        fields = ['comment', 'counselor']
+        fields = ['comment', ]
 
 
 class StudentUpdateForm(forms.ModelForm):

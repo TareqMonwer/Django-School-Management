@@ -2,6 +2,7 @@ from datetime import datetime
 
 from model_utils.models import TimeStampedModel
 
+from django.conf import settings
 from django.db import (
     models, OperationalError, 
     IntegrityError, transaction
@@ -70,7 +71,7 @@ class StudentBase(TimeStampedModel):
 
 class CounselingComment(TimeStampedModel):
     counselor = models.ForeignKey(
-        Teacher,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE, null=True
     )
     registrant_student = models.ForeignKey(
@@ -81,7 +82,10 @@ class CounselingComment(TimeStampedModel):
 
     def __str__(self):
         date = self.created.strftime("%d %B %Y")
-        return f"{self.registrant_student.name} | {self.comment} at {date}"
+        return self.comment
+    
+    class Meta:
+        ordering = ['-created', ]
 
 
 class AdmissionStudent(StudentBase):
