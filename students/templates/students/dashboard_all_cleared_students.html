@@ -20,7 +20,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 pl-0">
-            <h4 class="ml-0 mb-1">Admittable Applicants</h4>
+            <h4 class="ml-0 mb-1">Paid & Cleared Applicants</h4>
             <small class="mb-3">
                 Applicants who are approved to be admitted and cleared their admission fees.
             </small>
@@ -41,19 +41,18 @@
                 </thead>
                 <tbody class="bg-light">
                 
-                    {% for student in admitted_students %}
+                    {% for applicant in admitted_students %}
                     <tr>
-                        <th scope="row">{{ student.id }}</th>
+                        <th scope="row">{{ applicant.id }}</th>
                         <td>
-                            <img src="{{ student.photo.url }}" width="50" height="50">
+                            <img src="{{ applicant.photo.url }}" width="50" height="50">
                         </td>
-                        <td>{{ student.name }}</td>
-                        <td>{{ student.permanent_address }}</td>
-                        <td>{{ student.choosen_department }}</td>
-                        <td>{{ student.admission_date }}</td>
+                        <td>{{ applicant.name }}</td>
+                        <td>{{ applicant.permanent_address }}</td>
+                        <td>{{ applicant.choosen_department }}</td>
+                        <td>{{ applicant.admission_date }}</td>
                         <td>
-                            <a href="" class="btn btn-sm btn-primary">More</a>
-                            <a href="" class="btn btn-sm btn-success">
+                            <a href="{% url 'students:update_online_registrant' pk=applicant.id %}" class="btn btn-sm btn-success">
                                 Update
                             </a>
                         </td>

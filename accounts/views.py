@@ -23,7 +23,8 @@ from .forms import (CommonUserProfileForm,
     UserProfileSocialLinksFormSet
 )
 from permission_handlers.administrative import (
-    user_is_admin_or_su, user_editor_admin_or_su
+    user_is_admin_or_su, user_editor_admin_or_su,
+    user_is_teacher_or_administrative
 )
 from permission_handlers.basic import user_is_verified, permission_error
 
@@ -99,7 +100,7 @@ def profile_complete(request):
 
 
 @user_passes_test(
-    user_editor_admin_or_su,
+    user_is_teacher_or_administrative,
     login_url='account:profile_complete')
 def dashboard(request):
     total_students = Student.objects.count()
