@@ -44,10 +44,30 @@
                         <td>
                             <img src="{{ applicant.photo.url }}" width="50" height="50">
                         </td>
-                        <td>{{ applicant.name }}</td>
-                        <td>{{ applicant.mobile_number }}</td>
-                        <td>{{ applicant.department_choice }}</td>
-                        <td>{{ applicant.created }}</td>
+                        <td>
+                            <a href="{% url 'students:update_online_registrant' pk=applicant.id %}" 
+                            class="text-dark">
+                                {{ applicant.name }}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{% url 'students:update_online_registrant' pk=applicant.id %}" 
+                            class="text-dark">
+                                {{ applicant.mobile_number }}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{% url 'students:update_online_registrant' pk=applicant.id %}" 
+                            class="text-dark">
+                                {{ applicant.department_choice }}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{% url 'students:update_online_registrant' pk=applicant.id %}" 
+                            class="text-dark">
+                                {{ applicant.created }}
+                            </a>
+                        </td>
                         <td>
                             <form action="" method="post" class="mark-paid-form">
                                 {% csrf_token %}

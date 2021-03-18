@@ -50,7 +50,7 @@
           <div class="layer w-100 mB-10">
             <h6 class="lh-1">
               <a href="{% url 'students:admitted_student_list' %}" class="text-dark">
-                Admittable
+                All-Cleared 
               </a>
             </h6>
           </div>
@@ -162,22 +162,22 @@
         <div class="layers bd bgc-white p-20">
           <div class="layer w-100 mB-10">
             <h6 class="lh-1">
-              <a href="#" class="text-dark">
-                Visits
+              <a href="{% url 'students:add_student' %}" class="text-dark">
+                Add Offline Applicant
               </a>
             </h6>
           </div>
           <div class="layer w-100">
             <div class="peers ai-sb fxw-nw">
               <div class="peer peer-greed">
-                <a href="#" class="text-dark">
+                <a href="{% url 'students:add_student' %}" class="text-dark">
                   <i class="fas fa-users fa-3x"></i>
                 </a>
               </div>
               <div class="peer">
                 <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-green-50 c-green-500">
-                  <a href="#" class="text-dark">
-                    00
+                  <a href="{% url 'students:add_student' %}" class="text-dark">
+                    {{ offline_applicants.count }}
                   </a>
                 </span>
               </div>
