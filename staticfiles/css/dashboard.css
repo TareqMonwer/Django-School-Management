@@ -101,7 +101,9 @@
 }
 
 /* NAVBAR */
-
+.nav-item .title {
+	text-transform: capitalize !important;
+}
 
 /* ==================================== */
 /* --------- ADMISSION PAGE ----------- */
