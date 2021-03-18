@@ -257,12 +257,6 @@ CKEDITOR_CONFIGS = {
     },
 }
 
-# authentication stuffs
-# from .email_details import *
-
-# TODO:USE YOUR OWN EMAIL SETTINGS FILE 
-# for referrence, check the video tutorial link bellow
-# https://www.youtube.com/watch?v=51mmqf5a0Ss
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 
@@ -362,3 +356,5 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
