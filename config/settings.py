@@ -32,7 +32,7 @@ env = environ.Env(
 # reading .env file
 try:
     environ.Env.read_env()
-except:
+except ImproperlyConfigured:
     environ.Env.read_env(env_file='.env.example')
 
 # SENTRY
@@ -59,7 +59,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 try:
     SECRET_KEY = env('SECRET_KEY')
-except ImproperlyConfigured as e:
+except ImproperlyConfigured:
     raise ImproperlyConfigured(
         "You are seeing this because, you need to set SECRET_KEY from settings.py file ",
         "or config/.env file. If you don't have this file, create it."
@@ -70,7 +70,7 @@ DEBUG = env('DEBUG')
 
 try:
     DJANGO_ADMIN_URL = env('DJANGO_ADMIN_URL')
-except:
+except ImproperlyConfigured:
     DJANGO_ADMIN_URL = 'admin'
 
 ALLOWED_HOSTS = env('ALLOWED_HOSTS').split(',')
@@ -100,6 +100,7 @@ LOCAL_APPS = [
     'articles',
     'institute',
     'payments',
+    'notices',
 ]
 
 # third party apps
@@ -114,7 +115,6 @@ THIRD_PARTY_APPS = [
     'django_filters',
     'allauth',
     'allauth.account',
-    'django_rename_app',
     'allauth.socialaccount',
     'ckeditor',
     'ckeditor_uploader',
@@ -266,7 +266,7 @@ if 'console' not in EMAIL_BACKEND.split('.'):
         EMAIL_PORT = env('EMAIL_PORT')
         EMAIL_HOST_USER = env('EMAIL_HOST_USER')
         EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-    except ImproperlyConfigured as e:
+    except ImproperlyConfigured:
         raise ImproperlyConfigured(
             'Please complete email settings from config/.env file.'
             'If you wan\'t to use smtp mail, you must configure it.'
@@ -306,7 +306,7 @@ if not DISALLOW_PAYMENT:
         STORE_ID = env('STORE_ID')
         STORE_PASS = env('STORE_PASS')
         SSL_ISSANDBOX = env('SSL_ISSANDBOX')
-    except ImproperlyConfigured as e:
+    except ImproperlyConfigured:
         raise ImproperlyConfigured(
             "Please enter you Braintree sandbox credentials in settings.py or config/.env file."
             "Visit this url if you don't have a sandbox account: https://sandbox.braintreegateway.com/login"
@@ -328,7 +328,7 @@ if USE_CELERY_REDIS:
         CELERY_TASK_SERIALIZER = 'json'
         CELERY_RESULT_SERIALIZER = 'json'
         CELERY_TIMEZONE = 'Asia/Dhaka'
-    except ImproperlyConfigured as e:
+    except ImproperlyConfigured:
         raise ImproperlyConfigured(
             'This project uses celery/redis.'
             'If your\'re hearing these names first time, you can '
@@ -341,9 +341,9 @@ if USE_CELERY_REDIS:
 # MAILCHIMP INTEGRATION
 USE_MAILCHIMP = env('USE_MAILCHIMP')
 if USE_MAILCHIMP:
-    MAILCHIMP_API_KEY=env('MAILCHIMP_API_KEY')
-    MAILCHIMP_DATA_CENTER=env('MAILCHIMP_DATA_CENTER')
-    MAILCHIMP_LIST_ID=env('MAILCHIMP_LIST_ID')
+    MAILCHIMP_API_KEY = env('MAILCHIMP_API_KEY')
+    MAILCHIMP_DATA_CENTER = env('MAILCHIMP_DATA_CENTER')
+    MAILCHIMP_LIST_ID = env('MAILCHIMP_LIST_ID')
 
 
 # DRF CONFIGS
