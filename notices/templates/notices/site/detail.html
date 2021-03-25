@@ -1,0 +1,99 @@
+{% extends 'website/partials/tailwind_base.html' %}
+{% load permission_tags %}
+
+{% block content %}
+<div class="overflow-x-auto">
+    <div
+        class="min-w-screen min-h-screen bg-gray-100 flex items-center justify-center bg-gray-100 font-sans overflow-hidden">
+        <div class="w-full lg:w-5/6">
+            <div class="bg-white shadow-md rounded my-6">
+                <div class="notice-detail-box flex w-full">
+                    <div class="notice-main-contents w-8/12 p-12">
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-5">
+                            {{ notice.title }}
+                        </h3>
+
+                        <div class="notice-file mb-5">
+                            <!-- TODO: Render PDF/Image File Here -->
+                            <!-- notice.file.<render_somehow> -->
+                            <button
+                                class="bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 mt-1"
+                                type="button">
+                                Download Notice
+                            </button>
+                        </div>
+
+                        <div class="notice-contents">
+                            {{ notice.content|safe }}
+                        </div>
+                    </div>
+                    <div class="notice-metadata w-4/12 border-l">
+                        <div class="notice-metadata-topbar h-full">
+                            <div class="topbar-title text-white text-xl bg-indigo-500 px-5 py-3">
+                                Notice Insights
+                            </div>
+                            <div class="metadata-box p-5 h-full">
+                                <div
+                                    class="bordered-box text-sm text-gray-700 border-dashed border-md border-4 border-opacity-80 border-blue-400 p-2"  style="height: calc(100% - 72px);">
+                                    <!-- publisher -->
+                                    <div class="mb-2">
+                                        <strong class="italic">
+                                            Published by:
+                                        </strong>
+                                        <a href="#link-to-his-notices">
+                                            {{ notice.uploaded_by.username|title }}
+                                        </a>
+                                    </div>
+                                    <!-- date -->
+                                    <div class="mb-2">
+                                        <strong class="italic">Published Date: </strong>
+                                        {{ notice.created|date:"l, d M Y" }}
+                                    </div>
+                                    <!-- Target audience -->
+                                    <div class="mb-2">
+                                        <strong class="italic">Applicable for: </strong>
+                                        <div class="ml-2">
+                                            {% for group in notice.notfiy_groups.all %}
+                                            <div>
+                                                {{group}},
+                                            </div>
+                                            {% empty %}
+                                            <div>
+                                                Everybody
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <!-- Respondents -->
+                                    <div class="mb-2">
+                                        <strong class="italic">Responses: </strong>
+
+                                        <div class="flex items-center ml-2">
+                                            {% for response in notice.notice_responses %}
+                                                <img class="w-6 h-6 rounded-full border-gray-200 border transform hover:scale-125"
+                                                    src="https://randomuser.me/api/portraits/men/1.jpg" 
+                                                />
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <!-- User Response -->
+                                    <div class="text-center mt-5">
+                                        <button
+                                            class="bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                            type="button">
+                                            Response Now
+                                            <small>
+                                                [I have seen the notice]
+                                            </small>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
