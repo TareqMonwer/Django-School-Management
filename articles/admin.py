@@ -1,11 +1,16 @@
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
-from mptt.admin import MPTTModelAdmin
 from mptt.models import TreeManyToManyField
 from django.forms import CheckboxSelectMultiple
 from django.contrib import admin
 
-from .models import Article, Like, Category, Newsletter, Comment
+from .models import Article, Like, Category, Newsletter, Comment, BlogConfiguration
+
+
+@admin.register(BlogConfiguration)
+class BlogConfigurationAdmin(admin.ModelAdmin):
+    list_display = ('theme_name', )
+
 
 class ArticleResource(resources.ModelResource):
     class Meta:
@@ -13,11 +18,13 @@ class ArticleResource(resources.ModelResource):
 
 
 class ArticleAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    list_display = ['title', 'author', 'created',
+    list_display = [
+        'title', 'author', 'created',
         'force_highlighted', 'status'
     ]
     list_editable = ['status', 'force_highlighted']
-    list_filter = ['status', 'force_highlighted',
+    list_filter = [
+        'status', 'force_highlighted',
         'author', 'created'
     ]
     list_per_page = 25
@@ -34,7 +41,7 @@ class CategoryResource(resources.ModelResource):
 
 
 class CategoryAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    list_display = ['name',]
+    list_display = ['name', ]
     resource_class = CategoryResource
 
 
@@ -64,11 +71,10 @@ class LikeAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ['content', 'approved']
-    list_editable = ['approved',]
+    list_editable = ['approved', ]
 
 
 # Registers
 admin.site.register(Article, ArticleAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Newsletter, NewsletterAdmin)
-

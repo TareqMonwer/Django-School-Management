@@ -25,17 +25,23 @@ class Article(TimeStampedModel):
     )
     title = models.CharField("Article Title", max_length=255)
     featured_image = models.ImageField(upload_to="featured_images")
-    slug = AutoSlugField("Article Address", unique=True,
-                         always_update=False, populate_from='title')
-    author = models.ForeignKey(settings.AUTH_USER_MODEL,
-                               on_delete=models.DO_NOTHING)
+    slug = AutoSlugField(
+        "Article Address", unique=True,
+        always_update=False, populate_from='title'
+    )
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.DO_NOTHING
+    )
     content = RichTextUploadingField(config_name='default')
     is_featured = models.BooleanField(default=False)
     force_highlighted = models.BooleanField(default=False)
     categories = TreeManyToManyField('Category', blank=True, null=True)
-    status = models.CharField(max_length=10,
-                              choices=STATUS_CHOICES,
-                              default='draft')
+    status = models.CharField(
+        max_length=10,
+        choices=STATUS_CHOICES,
+        default='draft'
+    )
 
     objects = models.Manager()   # Default manager.
     published = PublishedManager()   # Custom published manager.
@@ -68,11 +74,13 @@ class Article(TimeStampedModel):
 
 
 class Comment(TimeStampedModel):
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, 
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='comments'
     )
-    article = models.ForeignKey(Article, on_delete=models.CASCADE,
+    article = models.ForeignKey(
+        Article, on_delete=models.CASCADE,
         related_name='comments'
     )
     content = models.TextField()
@@ -83,8 +91,10 @@ class Comment(TimeStampedModel):
 
 
 class Like(TimeStampedModel):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -136,3 +146,24 @@ class Newsletter(TimeStampedModel):
 
     def __str__(self):
         return self.email
+
+
+class BlogConfiguration(TimeStampedModel):
+    THEME_CHOICES = (
+        ('tw', 'tailwind'),
+        ('bs4', 'bootstrap4-rm'),
+    )
+    theme_name = models.CharField(
+        max_length=5,
+        choices=THEME_CHOICES,
+        default='bs4'
+    )
+    theme_preview = models.ImageField(
+        upload_to='blogtheme/previews/'
+    )
+
+    def __str__(self):
+        return self.theme_name
+
+    class Meta:
+        ordering = ['-created', ]
