@@ -44,6 +44,16 @@ class Notice(TimeStampedModel):
     @property
     def is_past_due(self):
         return date.today() > self.expires_at
+    
+    @property
+    def notice_file_type(self):
+        if self.file:
+            file_type = self.file.name.split('.')[-1].lower()
+            if file_type in ['jpg', 'jpeg', 'png']:
+                return 'img'
+            if file_type == 'pdf':
+                return 'pdf'
+        return None
 
 
 class NotifyGroup(TimeStampedModel):
