@@ -3,7 +3,7 @@ from .models import Notice, NotifyGroup, NoticeResponse
 
 
 class NoticeAdmin(admin.ModelAdmin):
-    list_display = ('title', 'created', 'uploaded_by')
+    list_display = ('title', 'created', 'expires_at', 'uploaded_by')
 
 
 class NotifyGroupAdmin(admin.ModelAdmin):

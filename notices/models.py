@@ -1,3 +1,4 @@
+from datetime import date
 from model_utils.models import TimeStampedModel
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.conf import settings
@@ -32,12 +33,17 @@ class Notice(TimeStampedModel):
         'NotifyGroup',
         related_name='notfied_notices'
     )
+    expires_at = models.DateField()
 
     def __str__(self):
         return self.title
 
     class Meta:
         ordering = ['-created', ]
+    
+    @property
+    def is_past_due(self):
+        return date.today() > self.expires_at
 
 
 class NotifyGroup(TimeStampedModel):

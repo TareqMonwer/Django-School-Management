@@ -31,17 +31,32 @@
                         <div class="notice-metadata-topbar h-full">
                             <div class="topbar-title text-white text-xl bg-indigo-500 px-5 py-3">
                                 Notice Insights
+                                
+                                {% if notice.is_past_due %}
+                                <span class="bg-red-200 text-red-600 py-1 px-3 rounded-full text-xs">Inactive</span>
+                                {% else %}
+                                <span class="bg-purple-200 text-purple-600 py-1 px-3 rounded-full text-xs">Active</span>
+                                {% endif %}
                             </div>
                             <div class="metadata-box p-5 h-full">
                                 <div
                                     class="bordered-box text-sm text-gray-700 border-dashed border-md border-4 border-opacity-80 border-blue-400 p-2"  style="height: calc(100% - 72px);">
+                                    <!-- expiracy -->
+                                    <div class="mb-2">
+                                        <strong class="italic">
+                                            Expiracy Date:
+                                        </strong>
+                                        <a href="#link-to-his-notices">
+                                            {{ notice.expires_at|date:"l, d M Y" }}
+                                        </a>
+                                    </div>
                                     <!-- publisher -->
                                     <div class="mb-2">
                                         <strong class="italic">
                                             Published by:
                                         </strong>
                                         <a href="#link-to-his-notices">
-                                            {{ notice.uploaded_by.username|title }}
+                                            {{ notice.uploaded_by.username|title|default:"Unknown" }}
                                         </a>
                                     </div>
                                     <!-- date -->
