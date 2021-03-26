@@ -61,12 +61,14 @@
                                 <!-- responders -->
                                 <td class="py-3 px-6 text-center">
                                     <div class="flex items-center justify-center">
+                                        {% for response in notice.responses.all %}
                                         <img class="w-6 h-6 rounded-full border-gray-200 border transform hover:scale-125"
-                                            src="https://randomuser.me/api/portraits/men/1.jpg" />
-                                        <img class="w-6 h-6 rounded-full border-gray-200 border -m-1 transform hover:scale-125"
-                                            src="https://randomuser.me/api/portraits/women/2.jpg" />
-                                        <img class="w-6 h-6 rounded-full border-gray-200 border -m-1 transform hover:scale-125"
-                                            src="https://randomuser.me/api/portraits/men/3.jpg" />
+                                            title="{{ response.responder.username|title }}" {% if response.responder.profile.profile_picture.url %}
+                                            src="{{ response.responder.profile.profile_picture.url }}" {% else %}
+                                            src="https://randomuser.me/api/portraits/men/1.jpg" {% endif %} />
+                                        {% empty %}
+                                            <span>No response.</span>
+                                        {% endfor %}
                                     </div>
                                 </td>
                                 <!-- status -->
