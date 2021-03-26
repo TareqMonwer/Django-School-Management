@@ -4,10 +4,10 @@
 {% block content %}
 <div class="overflow-x-auto">
     <div
-        class="min-w-screen min-h-screen bg-gray-100 flex items-center justify-center bg-gray-100 font-sans overflow-hidden">
+        class="min-w-screen min-h-screen bg-gray-100 flex justify-center bg-gray-100 font-sans overflow-hidden">
         <div class="w-full lg:w-5/6">
             <div class="bg-white shadow-md rounded my-6">
-                <div class="notice-detail-box flex w-full">
+                <div class="notice-detail-box flex w-full mt-12">
                     <div class="notice-main-contents w-8/12 p-12">
                         <h3 class="text-2xl font-semibold text-gray-800 mb-5">
                             {{ notice.title }}
@@ -16,11 +16,23 @@
                         <div class="notice-file mb-5">
                             <!-- TODO: Render PDF/Image File Here -->
                             <!-- notice.file.<render_somehow> -->
-                            <button
+                            <a  href="{{ notice.file.url }}"
                                 class="bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 mt-1"
-                                type="button">
+                                download>
                                 Download Notice
-                            </button>
+                            </a>
+                        </div>
+
+                        <div class="w-full mb-5">
+                            {% if notice.notice_file_type == 'pdf' %}
+                                <object data="{{ notice.file.url }}" type="application/pdf" class="w-full h-full">
+                                    <a href="{{ notice.file.url }}">
+                                        Notice PDF
+                                    </a>
+                                </object>
+                            {% elif notice.notice_file_type == 'img' %}
+                                <img class="object-contain md:object-scale-down" src="{{ notice.file.url }}">
+                            {% endif %}
                         </div>
 
                         <div class="notice-contents">
@@ -40,7 +52,9 @@
                             </div>
                             <div class="metadata-box p-5 h-full">
                                 <div
-                                    class="bordered-box text-sm text-gray-700 border-dashed border-md border-4 border-opacity-80 border-blue-400 p-2"  style="height: calc(100% - 72px);">
+                                    class="bordered-box text-sm text-gray-700 border-dashed border-md 
+                                    border-4 border-opacity-80 border-blue-400 p-2 2xl:p-5"  
+                                    style="height: calc(100% - 72px);">
                                     <!-- expiracy -->
                                     <div class="mb-2">
                                         <strong class="italic">
@@ -83,7 +97,7 @@
                                     <div class="mb-2">
                                         <strong class="italic">Responses: </strong>
 
-                                        <div class="flex items-center ml-2">
+                                        <div class="flex items-center ml-2 mt-2">
                                             {% for response in notice.responses.all %}
                                                 <img class="w-6 h-6 rounded-full border-gray-200 border transform hover:scale-125"
                                                     title="{{ response.responder.username|title }}"
