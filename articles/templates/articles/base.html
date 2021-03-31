@@ -5,6 +5,17 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>{% block title %}{{ request_institute.site_title }} | Blog{% endblock title %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Analytics -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-191909342-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-191909342-1');
+    </script>
     
     {% block meta_tags %}{% endblock %}
 
