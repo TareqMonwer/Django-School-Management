@@ -1,0 +1,229 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DPI BLOG | Learn, Share and Practice Writing Skills</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'articles/css/tw_theme.css' %}" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
+        integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous" />
+</head>
+
+<body>
+    <section id="hero-section">
+        <!-- This example requires Tailwind CSS v2.0+ -->
+
+        <div class="container mx-auto">
+            {% include "articles/tailwind-theme/_navbar.html" %}
+
+            <!-- hero banner -->
+            <div class="banner">
+                <div class="banner-bg">
+                    <img src="{{ latest_featured_article.featured_image.url }}" 
+                        alt="{{ latest_featured_article.title }}" />
+                </div>
+                <div class="banner-cta">
+                    <a href="" class="title"> {{ latest_featured_article.title }} </a>
+                    <a href="{{ latest_featured_article.get_absolute_url }}" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-full">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+
+            <!-- second navbar -->
+            {% include "articles/tailwind-theme/_registered_navlinks.html" %}
+        </div>
+    </section>
+
+
+    <!-- Popular articles -->
+    <section id="most-popular" class="mt-12">
+        <div class="container mx-auto w-4/5 2xl:w-3/5">
+            <div class="section-title uppercase w-full">Most Popular</div>
+            <div class="section-wrapper grid grid-cols-3 gap-10">
+                {% for article in highlights %}
+                    <div class="single-article">
+                        <div class="img-wrapper h-60">
+                            <a href="">
+                                <img class="object-fill w-full h-full rounded-xl shadow-xl" 
+                                    src="{{ article.featured_image.url }}" alt="{{ article.title }}">
+                            </a>
+                        </div>
+                        <div class="category-pill my-5 py-1 px-2 bg-red-100 text-red-400 text-center inline-block rounded-xl
+                        font-bold uppercase">
+                            <a href="{{ article.categories.first.get_absolute_url }}">
+                                {{ article.categories.first|default:"uncategorized" }}
+                            </a>
+                        </div>
+                        <div class="sa-title mb-3 w-full capitalize text-2xl font-bold gray-700">
+                            <a href="{{ article.get_absolute_url }}">
+                                {{ article.title }}
+                            </a>
+                        </div>
+                        <div class="sa-short-desc w-full text-justify text-gray-600">
+                            <a href="">
+                                {{ article.short_description }}
+                            </a>
+                        </div>
+                        <div class="sa-meta"></div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Recent articles -->
+    <section id="recents" class="mt-12">
+        <div class="container mx-auto w-4/5 2xl:w-3/5">
+            <div class="section-title uppercase w-full">Recently Published</div>
+            <div class="section-wrapper grid grid-cols-3 gap-10">
+                {% for article in articles %}
+                    <div class="single-article">
+                        <div class="img-wrapper h-60">
+                            <a href="{{ article.get_absolute_url }}">
+                                <img class="object-fill w-full h-full rounded-xl shadow-xl" 
+                                    src="{{ article.featured_image.url }}" 
+                                    alt="{{ article.title }}">
+                            </a>
+                        </div>
+                        <div class="category-pill my-5 py-1 px-2 bg-red-100 text-red-400 text-center inline-block rounded-xl
+                            font-bold uppercase">
+                            <a href="{{ article.categories.first.get_absolute_url }}">
+                                {{ article.categories.first }}
+                            </a>
+                        </div>
+                        <div class="sa-title mb-3 w-full capitalize text-2xl font-bold gray-700">
+                            <a href="{{ article.get_absolute_url }}">
+                                {{ article.title }}
+                            </a>
+                        </div>
+                        <div class="sa-short-desc w-full text-justify text-gray-600">
+                            <a href="{{ article.get_absolute_url }}">
+                                {{ article.title }}
+                            </a>
+                        </div>
+                        <div class="sa-meta"></div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section id="newsletter" class="bg-gray-200">
+        <div class="container mx-auto flex flex-row justify-center">
+            <div class="newsletter-area py-10">
+                <div class="section-title text-gray-900">
+                    Subscribe Our Newsletter
+                </div>
+                <form id="newsletter-form"
+                    action="{% url 'articles:newsletter'%}"
+                    method="POST">
+                    {% csrf_token %}
+                    <div class="input-container w-50 flex items-center">
+                        <input class="email-input w-full" type="email" 
+                            name="email" id="email" placeholder="Join our newsletter">
+                        <button type="submit"
+                            class="nl-submit-btn bg-blue-600 text-white shadow-lg">
+                            Submit
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="bg-blue-700 py-20 text-white">
+        <div class="container mx-auto w-4/5 2xl:w-3/5">
+            <div class="section-wrapper grid grid-cols-4 gap-10">
+                <div class="widget contact-widget">
+                    <div class="widget-title font-bold mb-3">
+                        Contact Us
+                    </div>
+                    <div class="widget-list">
+                        <a href="">
+                            Hourse 2B, <br>
+                            Road 12, Mirpur Road, <br>
+                            Dhanmondi, Dhaka - 1209
+                        </a>
+                    </div>
+                </div>
+
+                <div class="widget imporantlinks-widget">
+                    <div class="widget-title font-bold mb-3">
+                        Important Links
+                    </div>
+                    <div class="widget-list flex flex-col">
+                        <a href="">Corona Info</a>
+                        <a href="">Admission</a>
+                        <a href="">Blog</a>
+                        <a href="">BSDI</a>
+                        <a href="">Courses</a>
+                    </div>
+                </div>
+
+                <div class="widget sitemap-widget">
+                    <div class="widget-title font-bold mb-3">
+                        Sitemap
+                    </div>
+                    <div class="widget-list flex flex-col">
+                        <a href="">Administrative</a>
+                        <a href="">Departments</a>
+                        <a href="">News</a>
+                        <a href="">Mission and Vision</a>
+                        <a href="">Career</a>
+                    </div>
+                </div>
+
+                <div class="widget sitemap-widget">
+                    <div class="widget-title font-bold mb-3">
+                        Follow
+                    </div>
+                    <div class="widget-list grid grid-cols-5">
+                        <a href="">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="">
+                            <i class="fab fa-instagram-square"></i>
+                        </a>
+                        <a href="">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="">
+                            <i class="fab fa-twitter-square"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JS -->
+    <script>
+        const userBtn = document.getElementById("user-menu");
+        const userDropdown = document.getElementById("user-menu-dropdown");
+
+        const mobileMenu = document.getElementById("mobile-menu");
+        const moobileMenuBtn = document.getElementById("mobile-menu-toggler");
+
+        userBtn.addEventListener("click", () => {
+            userDropdown.classList.toggle("hidden");
+        });
+
+        moobileMenuBtn.addEventListener("click", () => {
+            mobileMenu.classList.toggle("hidden");
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,10 @@
+<nav id="blog-nav" class="flex justify-center mx-auto py-2">
+    {% if registered_navlinks %}
+        {% for category in registered_navlinks %}
+            <a href="{{ category.get_absolute_url }}" class="bnav-link">{{ category }}</a>
+        {% endfor %}
+    {% else %}
+    <a href="#" class="bnav-link">Tech</a>
+    <a href="#" class="bnav-link">Information</a>
+    {% endif %}
+</nav>

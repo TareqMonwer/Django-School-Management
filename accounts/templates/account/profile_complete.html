@@ -150,19 +150,6 @@
           </form>
           {% endif %}
         </div>
-
-        {% if user_perms %}
-          <div class="card p-3 mt-5">
-            <div class="card-header">
-              My Permissions
-            </div>
-            <div class="card-body">
-              {% for permission in user_perms %}
-              <div>{{ permission }}</div>
-              {% endfor %}
-            </div>
-          </div>
-         {% endif %}
       </div>
     </div>
   </div>
