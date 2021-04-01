@@ -43,7 +43,10 @@ class ArticleList(ListView):
     queryset = Article.published.all()
     context_object_name = 'articles'
     paginate_by = 10
-    template_name = 'articles/articles.html'
+    # Legacy theme
+    # template_name = 'articles/articles.html'
+    # Tailwind + UX Abu Ahmad's Theme
+    template_name = 'articles/tailwind-theme/list_tw.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -102,7 +105,10 @@ class CategoryArticles(ListView):
 
 class ArticleDetail(DetailView):
     model = Article
-    template_name = 'articles/detail.html'
+    # Legacy theme
+    # template_name = 'articles/detail.html'
+    # Tailwind+UX Abu Ahmad's Theme
+    template_name = 'articles/tailwind-theme/detail_tw.html'
 
     def get_object(self, qs=None):
         obj = super().get_object(queryset=qs)

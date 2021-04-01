@@ -1,0 +1,362 @@
+{% load static %}
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DPI BLOG | Learn, Share and Practice Writing Skills</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'articles/css/tw_theme.css' %}" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
+        integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous" />
+</head>
+
+<body>
+    <section id="hero-section">
+        <!-- This example requires Tailwind CSS v2.0+ -->
+
+        <div class="container mx-auto">
+            <!-- main navbar -->
+            {% include "articles/tailwind-theme/_navbar.html" %}
+
+            <!-- hero banner -->
+            <div class="banner">
+                <div class="banner-bg">
+                    <img src="{{ object.featured_image.url }}" alt="{{ object.title }}" />
+                </div>
+                <div class="banner-cta">
+                    <a href="{{ object.get_absolute_url }}" class="title"> {{ object.title }} </a>
+                    <a href="{{ object.get_absolute_url }}" 
+                        class="bg-yellow-500 hover:bg-yellow-600 text-white 
+                        font-bold py-2 px-4 rounded-full">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+
+            <!-- registered navbar -->
+            {% include "articles/tailwind-theme/_registered_navlinks.html" %}
+
+        </div>
+    </section>
+
+
+    <!-- Article Panel -->
+    <section id="article-detail">
+        <div class="container mx-auto">
+            <!-- Article and sidebar -->
+            <div class="article-content-wrapper flex mb-20">
+                <div class="leftbar row-span-3">
+                    <!-- atuhor metadata -->
+                    <div class="author-meta flex flex-col items-center">
+                        <img 
+                            class="rounded-full h-10 w-10 flex items-center justify-center" 
+                            src="{{ object.author.profile.profile_picture.url }}" 
+                            alt=""
+                        />
+                        
+                        <div class="flex flex-col text-center">
+                            <span class="text-gray-600 font-bold">{{ object.author|title }}</span>
+                            {% if object.author.profile.show_headline_in_bio %}
+                                <span class="text-gray-400">
+                                    {{ object.author.profile.headline }}
+                                </span>
+                            {% endif %}
+                        </div>
+
+                    </div>
+
+                    <!-- share widgets -->
+                    <div class="sharer-widget mt-20">
+                        <a href="">
+                            <img class="w-10 mb-2 ml-5" src="./source/images/icons/facebook.png" alt="">
+                        </a>
+                        <a href="">
+                            <img class="w-10 mb-2 ml-5" src="./source/images/icons/linkedin.png" alt="">
+                        </a>
+                        <a href="">
+                            <img class="w-10 mb-2 ml-5" src="./source/images/icons/twitter.png" alt="">
+                        </a>
+                        <a href="">
+                            <img class="w-10 mb-2 ml-5" src="./source/images/icons/whatsapp.png" alt="">
+                        </a>
+                        <a href="">
+                            <img class="w-10 mb-2 ml-5" src="./source/images/icons/reddit.png" alt="">
+                        </a>
+                        <a href="">
+                            <img class="w-10 mb-2 ml-5" src="./source/images/icons/pinterest.png" alt="">
+                        </a>
+                    </div>
+
+                    <!-- reaction widget -->
+                    <div class="article-like-btn rounded-full h-24 w-20 flex items-center justify-center
+                    mt-20 cursor-pointer">
+                        <img class="custom-img-shadow h-12 w-12" src="{% static 'articles/images/social-icons/heart.png' %}" alt="">
+                    </div>
+                </div>
+                <div class="rightbar-top col-span-2 pl-10 pt-10 mt-5 w-4/5">
+                    <h2 class="article-title mb-5 text-4xl text-blue-400 font-bold">
+                        {{ object.title }}
+                    </h2>
+                    <div>
+                        {{ object.content|safe }}
+                    </div>
+                    <!-- share widgets -->
+                    <div class="sharer-widget flex justify-end mt-12">
+                        <a href="">
+                            <img class="w-10 mb-2 ml-5" src="{% static 'articles/images/social-icons/facebook.png' %}">
+                        </a>
+                        <a href="">
+                            <img class="w-10 mb-2 ml-5" src="{% static 'articles/images/social-icons/linkedin.png' %}">
+                        </a>
+                        <a href="">
+                            <img class="w-10 mb-2 ml-5" src="{% static 'articles/images/social-icons/twitter.png' %}">
+                        </a>
+                        <a href="">
+                            <img class="w-10 mb-2 ml-5" src="{% static 'articles/images/social-icons/whatsapp.png' %}">
+                        </a>
+                        <a href="">
+                            <img class="w-10 mb-2 ml-5" src="{% static 'articles/images/social-icons/reddit.png' %}">
+                        </a>
+                        <a href="">
+                            <img class="w-10 mb-2 ml-5" src="{% static 'articles/images/social-icons/pinterest.png' %}">
+                        </a>
+                    </div>
+                    <!-- /sharer widget end -->
+                </div>
+            </div>
+
+            <!-- Comments Section -->
+            <div class="comments-section mb-12 w-9/12 sm:mx-auto">
+                <div class="section-title uppercase w-full">Comments</div>
+            
+                <div class="comments-container md:w-3/5 sm:w-full">
+                    {% if request.user.is_authenticated %}
+                        <h3>Post a Comment</h3>
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            {{ comment_form|crispy }}
+
+                            <input type="submit" value="Comment"
+                            class="mt-3 bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
+                        </form>
+                    {% else %}
+                        <h3>
+                            <a class="text-indigo-700" href="{% url 'account_login' %}">
+                            Sign in
+                            </a>
+                            to comment
+                        </h3>
+                    {% endif %}
+                    
+                    {% if user_pending_comments %}
+                        {% for comment in user_pending_comments %}
+                            <!-- User's pending comments -->
+                            <div class="req-user-comments mt-5">
+                                <div class="single-comment pending-comment flex mb-5">
+                                    <div class="mr-5">
+                                        <img src="{{ comment.author.profile.profile_picture.url }}" 
+                                            alt="{{ comment.author }}"
+                                            class="rounded-full h-14" 
+                                        />
+                                    </div>
+                                    <div class="comment-contents w-full">
+                                        <div class="comment-meta flex justify-between">
+                                            <div>
+                                                <span>{{ comment.author|title }}</span>
+                                                <span class="labels ml-1 bg-red-600 text-gray-100 rounded-lg px-2">
+                                                    Pending
+                                                </span>
+                                            </div>
+                                            <div class="comment-actions-btn text-gray-400 cursor-pointer">
+                                                ...
+                                            </div>
+                                        </div>
+                                        <div class="comment-content bg-gray-200 p-5">
+                                            {{ comment|safe }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% for comment in comments %}
+                        <div class="public-comments mt-5">
+                            <div class="single-comment flex mb-5">
+                                <div class="mr-5">
+                                    <img src="{{ comment.author.profile.profile_picture.url }}" 
+                                        alt="{{ comment.author|title }}" 
+                                        class="rounded-full h-14"
+                                    />
+                                </div>
+                                <div class="comment-contents w-full">
+                                    <div class="comment-meta flex justify-between">
+                                        <div>
+                                            <span>{{ comment.author|title }}</span>
+                                        </div>
+                                        <div class="comment-actions-btn text-gray-400 cursor-pointer">
+                                            ...
+                                        </div>
+                                    </div>
+                                    <div class="comment-content bg-gray-200 p-5">
+                                        {{ comment|safe }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Related articles -->
+            <section id="most-popular" class="my-12">
+                <div class="related-articles w-full">
+                    <div class="section-title uppercase w-full">Related Articles</div>
+                    <div class="section-wrapper grid grid-cols-4 gap-10">
+                        {% for article in object.get_related_articles %}
+                            <div class="single-article">
+                                <div class="img-wrapper h-60 mb-3">
+                                    <a href="{{ article.get_absolute_url }}">
+                                        <img class="object-fill w-full h-full rounded-xl shadow-xl" 
+                                            src="{{ article.featured_image.url }}" 
+                                            alt="" 
+                                        />
+                                    </a>
+                                </div>
+                                <div class="sa-title mb-3 w-full capitalize text-2xl font-bold gray-700">
+                                    <a href="{{ article.get_absolute_url }}">
+                                        {{ article.title }}
+                                    </a>
+                                </div>
+                                <div class="sa-short-desc w-full text-justify text-gray-600">
+                                    <a href="{{ article.get_absolute_url }}">
+                                        {{ article.short_description }}
+                                    </a>
+                                </div>
+                                <div class="sa-meta"></div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section id="newsletter" class="bg-gray-200">
+        <div class="container mx-auto flex flex-row justify-center">
+            <div class="newsletter-area py-10">
+                <div class="section-title text-gray-900">
+                    Subscribe Our Newsletter
+                </div>
+                <form id="newsletter-form"
+                    action="{% url 'articles:newsletter'%}"
+                    method="POST">
+                    {% csrf_token %}
+                    <div class="input-container w-50 flex items-center">
+                        <input class="email-input w-full" type="email" 
+                            name="email" id="email" placeholder="Join our newsletter">
+                        <button type="submit"
+                            class="nl-submit-btn bg-blue-600 text-white shadow-lg">
+                            Submit
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="bg-blue-700 py-20 text-white">
+        <div class="container mx-auto w-4/5 2xl:w-3/5">
+            <div class="section-wrapper grid grid-cols-4 gap-10">
+                <div class="widget contact-widget">
+                    <div class="widget-title font-bold mb-3">
+                        Contact Us
+                    </div>
+                    <div class="widget-list">
+                        <a href="">
+                            Hourse 2B, <br>
+                            Road 12, Mirpur Road, <br>
+                            Dhanmondi, Dhaka - 1209
+                        </a>
+                    </div>
+                </div>
+
+                <div class="widget imporantlinks-widget">
+                    <div class="widget-title font-bold mb-3">
+                        Important Links
+                    </div>
+                    <div class="widget-list flex flex-col">
+                        <a href="">Corona Info</a>
+                        <a href="">Admission</a>
+                        <a href="">Blog</a>
+                        <a href="">BSDI</a>
+                        <a href="">Courses</a>
+                    </div>
+                </div>
+
+                <div class="widget sitemap-widget">
+                    <div class="widget-title font-bold mb-3">
+                        Sitemap
+                    </div>
+                    <div class="widget-list flex flex-col">
+                        <a href="">Administrative</a>
+                        <a href="">Departments</a>
+                        <a href="">News</a>
+                        <a href="">Mission and Vision</a>
+                        <a href="">Career</a>
+                    </div>
+                </div>
+
+                <div class="widget sitemap-widget">
+                    <div class="widget-title font-bold mb-3">
+                        Follow
+                    </div>
+                    <div class="widget-list grid grid-cols-5">
+                        <a href="">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="">
+                            <i class="fab fa-instagram-square"></i>
+                        </a>
+                        <a href="">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="">
+                            <i class="fab fa-twitter-square"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JS -->
+    <script>
+        const userBtn = document.getElementById("user-menu");
+        const userDropdown = document.getElementById("user-menu-dropdown");
+
+        const mobileMenu = document.getElementById("mobile-menu");
+        const moobileMenuBtn = document.getElementById("mobile-menu-toggler");
+
+        userBtn.addEventListener("click", () => {
+            userDropdown.classList.toggle("hidden");
+        });
+
+        moobileMenuBtn.addEventListener("click", () => {
+            mobileMenu.classList.toggle("hidden");
+        });
+    </script>
+</body>
+
+</html>
