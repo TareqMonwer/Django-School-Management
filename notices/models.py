@@ -21,7 +21,11 @@ class Notice(TimeStampedModel):
         blank=True,
         null=True
     )
-    content = RichTextUploadingField(config_name='default')
+    content = RichTextUploadingField(
+        config_name='default',
+        blank=True,
+        null=True
+    )
     uploaded_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
@@ -54,6 +58,23 @@ class Notice(TimeStampedModel):
             if file_type == 'pdf':
                 return 'pdf'
         return None
+
+
+class NoticeDocument(TimeStampedModel):
+    notice = models.ForeignKey(
+        Notice,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name='documents'
+    )
+    file = models.FileField(
+        'Notice PDF Document',
+        upload_to='files/notices/'
+    )
+
+    def __str__(self):
+        return self.notice.title
 
 
 class NotifyGroup(TimeStampedModel):

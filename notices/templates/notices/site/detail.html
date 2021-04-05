@@ -13,20 +13,23 @@
                             {{ notice.title }}
                         </h3>
 
-                        <div class="notice-file mb-5">
-                            <!-- TODO: Render PDF/Image File Here -->
-                            <!-- notice.file.<render_somehow> -->
-                            <a  href="{{ notice.file.url }}"
-                                class="bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 mt-1"
-                                download>
-                                Download Notice
-                            </a>
-                        </div>
+                        
+                        {% if notice.file %}
+                            <div class="notice-file mb-5">
+                                <!-- TODO: Render PDF/Image File Here -->
+                                <!-- notice.file.<render_somehow> -->
+                                <a  href="{{ notice.file.url }}"
+                                    class="bg-indigo-500 text-white active:bg-indigo-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 mt-1"
+                                    download>
+                                    Download Notice
+                                </a>
+                            </div>
+                        {% endif %}
 
                         <div class="w-full mb-5">
                             {% if notice.notice_file_type == 'pdf' %}
                                 <object data="{{ notice.file.url }}" type="application/pdf" class="w-full h-full"
-                                style="height: 60rem;">
+                                style="height: 40rem;">
                                     <a href="{{ notice.file.url }}">
                                         Notice PDF
                                     </a>
@@ -36,9 +39,26 @@
                             {% endif %}
                         </div>
 
-                        <div class="notice-contents">
-                            {{ notice.content|safe }}
-                        </div>
+                        <!-- All PDF Documents -->
+                        
+                        {% for document in notice.documents.all %}
+                            <div class="w-full mb-5">
+                                <object data="{{ document.file.url }}" type="application/pdf" 
+                                    class="w-full h-full"
+                                    style="height: 40rem;">
+                                    <a href="{{ document.file.url }}">
+                                        Notice PDF
+                                    </a>
+                                </object>
+                            </div>
+                        {% endfor %}
+
+                        {% if notice.content %}
+                            <div class="notice-contents">
+                                {{ notice.content|safe }}
+                            </div>
+                        {% endif %}
+
                     </div>
 
                     <!-- HIDDEN SIDEBAR -->
