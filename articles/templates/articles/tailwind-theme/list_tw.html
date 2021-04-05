@@ -22,9 +22,10 @@
             {% include "articles/tailwind-theme/_navbar.html" %}
 
             <!-- hero banner -->
-            <div class="banner">
-                <div class="banner-bg">
+            <div class="banner w-full">
+                <div class="banner-bg w-full">
                     <img src="{{ latest_featured_article.featured_image.url }}" 
+                        class="w-full h-full"
                         alt="{{ latest_featured_article.title }}" />
                 </div>
                 <div class="banner-cta">
