@@ -8,7 +8,7 @@
         <div class="w-full lg:w-5/6">
             <div class="bg-white shadow-md rounded my-6">
                 <div class="notice-detail-box flex w-full mt-12">
-                    <div class="notice-main-contents w-8/12 p-12">
+                    <div class="notice-main-contents w-full p-12">
                         <h3 class="text-2xl font-semibold text-gray-800 mb-5">
                             {{ notice.title }}
                         </h3>
@@ -25,7 +25,8 @@
 
                         <div class="w-full mb-5">
                             {% if notice.notice_file_type == 'pdf' %}
-                                <object data="{{ notice.file.url }}" type="application/pdf" class="w-full h-full">
+                                <object data="{{ notice.file.url }}" type="application/pdf" class="w-full h-full"
+                                style="height: 60rem;">
                                     <a href="{{ notice.file.url }}">
                                         Notice PDF
                                     </a>
@@ -39,7 +40,9 @@
                             {{ notice.content|safe }}
                         </div>
                     </div>
-                    <div class="notice-metadata w-4/12 border-l">
+
+                    <!-- HIDDEN SIDEBAR -->
+                    <div class="notice-metadata w-4/12 border-l" style="display: none;">
                         <div class="notice-metadata-topbar h-full">
                             <div class="topbar-title text-white text-xl bg-indigo-500 px-5 py-3">
                                 Notice Insights
