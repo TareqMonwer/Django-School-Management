@@ -55,8 +55,13 @@
                     <div class="author-meta flex flex-col items-center">
                         <img 
                             class="rounded-full h-10 w-10 flex items-center justify-center" 
-                            src="{{ object.author.profile.profile_picture.url }}" 
-                            alt=""
+                            
+                            {% if object.author.profile.profile_picture %}
+                                src="{{ object.author.profile.profile_picture.url }}" 
+                            {% else %}
+                                src="#"
+                            {% endif %}
+                            alt="{{ object.author.profile.username|title }}"
                         />
                         
                         <div class="flex flex-col text-center">
@@ -159,7 +164,12 @@
                             <div class="req-user-comments mt-5">
                                 <div class="single-comment pending-comment flex mb-5">
                                     <div class="mr-5">
-                                        <img src="{{ comment.author.profile.profile_picture.url }}" 
+                                        <img 
+                                        {% if comment.author.profile.profile_picture %}
+                                            src="{{ comment.author.profile.profile_picture.url }}"
+                                        {% else %}
+                                            src="#"
+                                        {% endif %}
                                             alt="{{ comment.author }}"
                                             class="rounded-full h-14" 
                                         />
@@ -215,7 +225,7 @@
 
             <!-- Related articles -->
             <section id="most-popular" class="my-12">
-                <div class="related-articles w-full">
+                <div class="related-articles">
                     <div class="section-title uppercase w-full">Related Articles</div>
                     <div class="section-wrapper grid grid-cols-4 gap-10">
                         {% for article in object.get_related_articles %}
