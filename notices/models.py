@@ -3,6 +3,7 @@ from model_utils.models import TimeStampedModel
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.conf import settings
 from django.db import models
+from django.urls import reverse
 
 
 class Notice(TimeStampedModel):
@@ -35,7 +36,8 @@ class Notice(TimeStampedModel):
     )
     notfiy_groups = models.ManyToManyField(
         'NotifyGroup',
-        related_name='notfied_notices'
+        related_name='notfied_notices',
+        blank=True
     )
     expires_at = models.DateField()
 
@@ -58,6 +60,9 @@ class Notice(TimeStampedModel):
             if file_type == 'pdf':
                 return 'pdf'
         return None
+    
+    def get_absolute_url(self):
+        return reverse('notices:notice_detail', kwargs={'pk': self.pk})
 
 
 class NoticeDocument(TimeStampedModel):

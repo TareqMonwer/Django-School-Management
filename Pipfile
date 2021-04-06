@@ -70,6 +70,7 @@ psycopg2-binary = "==2.8.5"
 django-tables2 = "*"
 django-bootstrap4 = "*"
 whitenoise = "*"
+django-file-form = "*"
 
 [requires]
 python_version = "3.8"
