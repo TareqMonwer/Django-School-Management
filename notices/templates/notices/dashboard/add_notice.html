@@ -1,0 +1,70 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block extra_header %}
+    <link rel="stylesheet" href="{% static 'file_form/file_form.css' %}">
+    <style>
+        .django-ckeditor-widget {
+            width:100%;
+        }
+    </style> 
+{% endblock %}
+    
+
+{% block dashboard-body %}
+<div class="container">
+    <div class="h4">Publish Notice</div>
+    <div class="row">
+        
+        {% if not notice %}
+            <!-- Publish Notice -->
+            <div class="col-md-8 pb-5">
+                <form action="." 
+                    id="notice-form" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ notice_form.media }}
+                    {{ notice_form|crispy }}
+                    <input type="submit" value="Upload Notice and Attach Documents" name="notice-form"
+                    class="btn btn-primary">
+                </form>
+            </div>
+        {% endif %}
+
+        {% if notice %}
+            <!-- Publish Documents -->
+            <div class="col-md-12 py-3 border">
+                <h3>
+                    Attach Documents
+                    <span class="text-primary">
+                        on {{ notice }}
+                    </span>
+                </h3>
+                <form action="{% url 'notices_dashboard:publish_notice_documents' notice_pk=notice.pk %}" 
+                    id="example-form" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ documents_form|crispy }}
+                    <input type="submit" value="Attach Documents" name="documents-form"
+                    class="btn btn-primary">
+                </form>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+
+{% block extrajs %}
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'js/jquery-fileupload/jquery.ui.widget.js'}"></script>
+    <script src="{% static 'js/jquery-fileupload/jquery.iframe-transport.js'}"></script>
+    <script src="{% static 'js/jquery-fileupload/jquery.fileupload.js'}"></script>
+    <script src="{% static 'file_form/file_form.js' %}"></script>
+    <script>
+        initUploadFields(
+            document.getElementById("example-form")
+        );
+    </script>
+
+{% endblock extrajs %}
+    

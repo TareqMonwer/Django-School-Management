@@ -223,8 +223,12 @@
               Manage Articles
             </a>
             <a href="{% url 'articles:subscribers' %}"
-             class="sidebar-link">
+              class="sidebar-link">
               Manage Subscribers
+            </a>
+            <hr>
+            <a class="sidebar-link" href="{% url 'notices_dashboard:publish_notice_documents' %}">
+              Publish Notice
             </a>
           </li>
         </ul>

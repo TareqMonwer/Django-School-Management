@@ -67,6 +67,7 @@ urlpatterns = [
     path('dashboard/payments/', include('payments.urls')),
     # API URLS
     path('api/', include('articles.api.routes')),
+    path('upload/', include('django_file_form.urls')),
 ]
 
 urlpatterns += static(

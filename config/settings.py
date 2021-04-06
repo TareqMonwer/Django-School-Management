@@ -126,6 +126,7 @@ THIRD_PARTY_APPS = [
     'admin_honeypot',
     'django_tables2',
     'bootstrap4',
+    'django_file_form',
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + LOCAL_APPS + THIRD_PARTY_APPS
