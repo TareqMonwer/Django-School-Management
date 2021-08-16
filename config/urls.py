@@ -33,6 +33,7 @@ urlpatterns = [
     path('notices/', include('notices.site_urls')),
     path('notices/dashboard/', include('notices.dashboard_urls')),
     path('students/', include('students.urls')),
+    path('tinymce/', include('tinymce.urls')),
     path('teachers/', include('teachers.urls')),
     path('result/', include('result.urls')),
     path('institute/', include('institute.urls')),

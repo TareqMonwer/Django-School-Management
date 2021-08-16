@@ -20,6 +20,9 @@
             data-toggle="modal" data-target="#filterModal">
                 Show Filters
             </button>
+            <a href="{% url 'articles:publish_article_from_dashboard' %}" class="btn btn-primary float-right mr-1">
+                Publish Article
+            </a>
             <!-- Modal -->
             <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="filterModal"
                 aria-hidden="true">
