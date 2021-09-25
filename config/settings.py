@@ -71,7 +71,7 @@ DEBUG = env('DEBUG')
 try:
     DJANGO_ADMIN_URL = env('DJANGO_ADMIN_URL')
 except ImproperlyConfigured:
-    DJANGO_ADMIN_URL = 'admin'
+    DJANGO_ADMIN_URL = 'in'
 
 ALLOWED_HOSTS = env('ALLOWED_HOSTS').split(',')
 

@@ -18,7 +18,6 @@ except:
     admin.site.index_title = 'Django Administration'
 
 DJANGO_ADMIN_URL = settings.DJANGO_ADMIN_URL + '/'
-
 urlpatterns = [
     path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
     path(DJANGO_ADMIN_URL, admin.site.urls),
