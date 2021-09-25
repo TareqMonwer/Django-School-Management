@@ -32,6 +32,12 @@
                     Logout
                   </a>
                 </li>
+	            {% else %}
+	            <li class="nav-item">
+                  <a class="nav-link page-scroll" href="{% url 'account_login' %}">
+                    signIn/SignUp
+                  </a>
+              </li>
               {% endif %}
               <li class="nav-item">
                 <a class="btn btn-singin" href="{% url 'account:dashboard' %}">Dashboard</a>
