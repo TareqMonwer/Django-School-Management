@@ -75,7 +75,7 @@ odfpy==1.4.1
 openpyxl==3.0.6
 packaging==20.3
 pep517==0.8.2
-Pillow==8.1.0
+Pillow==9.0.1
 progress==1.5
 prompt-toolkit==2.0.9
 pycodestyle==2.5.0
