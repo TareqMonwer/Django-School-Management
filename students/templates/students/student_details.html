@@ -29,7 +29,7 @@
             Temporary ID: {{ student.temporary_id }}
           </h4>
           {% if student.roll %}
-            <h4>Roll: {{ student.roll }}</h4>
+          <h4>Roll: {{ student.roll }}</h4>
           {% endif %}
           {% if student.registration_number %}
           <h4>Registration: {{ student.registration_number }}</h4>
@@ -85,5 +85,5 @@
 {% endblock %}
 
 {% block extrajs %}
-  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
-{% endblock}
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+{% endblock %}

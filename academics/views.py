@@ -45,6 +45,7 @@ def semesters(request):
     Shows semester list and 
     contains semester create form
     '''
+    # TODO: Allow multiple semester creation together. (1,3,4,5) like this format.
     all_sems = Semester.objects.all()
     if request.method == 'POST':
         form = SemesterForm(request.POST)

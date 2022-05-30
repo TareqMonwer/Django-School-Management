@@ -25,7 +25,8 @@
                     </th>
                     <td>
                         <a href="{% url 'students:student_details' pk=student.id %}">
-                            {{ student.registration_number }}</td>
+                            {{ student.registration_number }}
+                    </td>
                     <td>
                         <a href="{% url 'students:student_details' pk=student.id %}">
                             <img src="{{ student.photo.url }}" class="mr-2 rounded-circle" height=24 width=24>
@@ -62,5 +63,5 @@
 {% endblock %}
 
 {% block extrajs %}
-  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
-{% endblock}
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+{% endblock %}
