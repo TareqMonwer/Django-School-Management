@@ -37,7 +37,7 @@
                     </tr>
                 </thead>
                 <tbody class="bg-light">
-                
+
                     {% for applicant in paid_students %}
                     <tr>
                         <th scope="row">{{ applicant.id }}</th>
@@ -60,7 +60,7 @@
                         </td>
                     </tr>
                     {% endfor %}
-                    
+
                 </tbody>
             </table>
         </div>
@@ -69,5 +69,5 @@
 {% endblock %}
 
 {% block extrajs %}
-  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
-{% endblock}
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+{% endblock %}
