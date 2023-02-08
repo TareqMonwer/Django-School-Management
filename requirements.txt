@@ -16,7 +16,7 @@ click-plugins==1.1.1
 click-repl==0.1.6
 colorama==0.4.3
 contextlib2==0.6.0
-cryptography==3.4.6
+cryptography==39.0.1
 dateparser==0.7.2
 defusedxml==0.6.0
 diff-match-patch==20200713
