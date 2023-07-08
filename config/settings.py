@@ -24,7 +24,7 @@ env = environ.Env(
     # set casting, default value
     DEBUG=(bool, True),
     USE_CELERY_REDIS=(bool, False),
-    DISALLOW_PAYMENT=(bool, True),
+    USE_PAYMENT_OPTIONS=(bool, True),
     USE_SENTRY=(bool, False),
     USE_MAILCHIMP=(bool, False),
     SSL_ISSANDBOX=(bool, True),
@@ -123,7 +123,7 @@ THIRD_PARTY_APPS = [
     'django_social_share',
     'django_countries',
     'import_export',
-    'admin_honeypot',
+    # 'admin_honeypot',   # admin_honeypot doesn't support Django 4
     'django_tables2',
     'bootstrap4',
     'django_file_form',
@@ -295,16 +295,16 @@ TAGGIT_CASE_INSENSITIVE = True
 
 # =========================== PAYMENTS ===========================
 # BRAINTREE FOR HANDLING PAYMENTS
-DISALLOW_PAYMENT = env('DISALLOW_PAYMENT')
+USE_PAYMENT_OPTIONS = env('USE_PAYMENT_OPTIONS')
 
-if not DISALLOW_PAYMENT:
+if USE_PAYMENT_OPTIONS:
     try:
         # Braintree
         BRAINTREE_MERCHANT_ID = env('BRAINTREE_MERCHANT_ID')
         BRAINTREE_PUBLIC_KEY = env('BRAINTREE_PUBLIC_KEY')
         BRAINTREE_PRIVATE_KEY = env('BRAINTREE_PRIVATE_KEY')
 
-        # SSLCommerz (only for Bangladesh)
+        # SSLCommerz
         STORE_ID = env('STORE_ID')
         STORE_PASS = env('STORE_PASS')
         SSL_ISSANDBOX = env('SSL_ISSANDBOX')
@@ -315,7 +315,7 @@ if not DISALLOW_PAYMENT:
         )
 else:
     PAYMENT_CONFIG_WARNING = 'You have not configured payment, check config/.env file \
-        and make sure DISALLOW_PAYMENT=False, other payment gateway configs are valid.'
+        and make sure USE_PAYMENT_OPTIONS=False, other payment gateway configs are valid.'
 
 # CELERY BROKER CONFIG
 # If you're wishing to update this variable, better update it

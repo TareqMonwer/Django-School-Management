@@ -19,7 +19,8 @@ except:
 
 DJANGO_ADMIN_URL = settings.DJANGO_ADMIN_URL + '/'
 urlpatterns = [
-    path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
+    # admin_honeypot doesn't support Django 4
+    # path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
     path(DJANGO_ADMIN_URL, admin.site.urls),
     path('', include('pages.urls')),
     path('api-auth/', include('rest_framework.urls')),

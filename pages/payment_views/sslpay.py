@@ -5,7 +5,7 @@ from students.models import AdmissionStudent
 from payments.models import SSLPayment
 
 
-# Check if settings.DISALLOW_PAYMENT is False.
+# Check if settings.USE_PAYMENT_OPTIONS is False.
 # otherwise, these variables can't be imported and will raise exception.
 ssl_settings = {
     'store_id': settings.STORE_ID,

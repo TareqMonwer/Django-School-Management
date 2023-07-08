@@ -1,8 +1,6 @@
 from pathlib import Path
-from celery.decorators import task
+from celery import shared_task
 from celery.utils.log import get_logger
-
-from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django.core import serializers
@@ -13,7 +11,7 @@ from .models import Article
 logger = get_logger(__name__)
 
 
-@task(name='send_latest_article')
+@shared_task(name='send_latest_article')
 def send_latest_article(mail_list, article_id):
     article = Article.objects.get(id=article_id)
     deserialized_mail_list = serializers.deserialize("json", mail_list, ignorenonexistent=True)
