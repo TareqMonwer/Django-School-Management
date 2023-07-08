@@ -1,0 +1,100 @@
+*, html {
+    font-size: 100%;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    background-color: #f1f1f1;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+    font-weight: bolder;
+    margin-bottom: 1.5rem;
+  }
+  
+  .custom-img-shadow {
+    -webkit-filter: drop-shadow(5px 5px 5px #ffa6a6);
+    filter: drop-shadow(5px 5px 5px #ffa6a6);
+  }
+  
+  .pending-comment {
+    pointer-events: none;
+    opacity: .6;
+  }
+  
+  #hero-section .banner {
+    position: relative;
+    height: 80vh;
+    width: 100%;
+  }
+  
+  #hero-section .banner .banner-bg img {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    size: cover;
+  }
+  
+  #hero-section .banner .banner-cta {
+    position: absolute;
+    bottom: 100px;
+    left: 100px;
+    font-size: 1.3rem;
+  }
+  
+  #hero-section .banner .banner-cta .title {
+    display: block;
+    font-size: 2.5rem;
+    text-transform: capitalize;
+    margin-bottom: 1rem;
+    color: #fff;
+    font-weight: 500;
+  }
+  
+  #hero-section #blog-nav .bnav-link {
+    font-weight: bold;
+  }
+  
+  #hero-section #blog-nav .bnav-link:not(:last-child) {
+    margin-right: 1.3rem;
+  }
+  
+  #most-popular .single-article, #recents .single-article {
+    margin-bottom: 2rem;
+  }
+  
+  #most-popular .single-article:not(:last-child), #recents .single-article:not(:last-child) {
+    margin-right: 1rem;
+  }
+  
+  .newsletter-area .input-container {
+    position: relative;
+  }
+  
+  .newsletter-area .input-container .email-input {
+    border: 5px solid #fff;
+    background: #e5e7eb;
+    border-radius: 2rem;
+    padding: .7rem 1rem;
+    color: #1d4ed8;
+    font-weight: bold;
+  }
+  
+  .newsletter-area .input-container .email-input:focus {
+    outline: none;
+  }
+  
+  .newsletter-area .input-container .nl-submit-btn {
+    position: absolute;
+    right: 5px;
+    height: 83%;
+    border-radius: 2rem;
+    padding: 0 1.5rem;
+    text-align: center;
+    font-weight: bold;
+    text-transform: capitalize;
+  }
