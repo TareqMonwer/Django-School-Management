@@ -42,7 +42,7 @@ class Department(TimeStampedModel):
     establish_date = models.DateField(auto_now_add=True)
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.DO_NOTHING,
+        on_delete=models.SET_NULL,
         null=True
     )
 
@@ -62,7 +62,7 @@ class AcademicSession(TimeStampedModel):
     year = models.PositiveIntegerField(unique=True)
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.DO_NOTHING, null=True)
+        on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return '{} - {}'.format(self.year, self.year + 1)
@@ -79,7 +79,7 @@ class Semester(TimeStampedModel):
     )
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.DO_NOTHING, null=True
+        on_delete=models.SET_NULL, null=True
     )
 
     class Meta:
@@ -114,7 +114,7 @@ class Subject(TimeStampedModel):
     practical_marks = models.PositiveIntegerField(blank=True, null=True)
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.DO_NOTHING, null=True)
+        on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return "{} ({})".format(self.name, self.subject_code)
