@@ -281,10 +281,14 @@
             </div>
             <div class="author">
               <span class="name">
-                <i class="lni-user"></i>
+                <i class="lni-user"></i>article.author
+                {% if article.author %}
                 <a href="{% url 'articles:author_profile' article.author.username %}">
                   Posted by {{ article.author }}
                 </a>
+                {% else %}
+                  Posted by <i>Unknown/Deleted author</i>
+                {% endif %}
               </span>
               <span class="date float-right"
                 ><i class="lni-calendar"></i>
