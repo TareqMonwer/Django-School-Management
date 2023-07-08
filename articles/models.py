@@ -31,7 +31,8 @@ class Article(TimeStampedModel):
     )
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.DO_NOTHING
+        on_delete=models.SET_NULL,
+        null=True
     )
     content = RichTextUploadingField(config_name='default')
     is_featured = models.BooleanField(default=False)

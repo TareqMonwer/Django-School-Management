@@ -1,0 +1,53 @@
+.dff-uploader .dff-files {
+  display: flex;
+  flex-direction: column;
+  margin: 16px 0 16px 0;
+  outline: solid 1px #ddd;
+  max-width: 40em;
+  padding: 16px;
+}
+.dff-uploader .dff-files:empty {
+  margin: 0;
+  outline: none;
+}
+.dff-uploader .dff-files.dff-dropping {
+  outline: dashed 2px #ddd;
+}
+.dff-uploader .dff-files .dff-file {
+  margin-bottom: 8px;
+}
+.dff-uploader .dff-files .dff-file:last-child {
+  margin-bottom: 0;
+}
+.dff-uploader .dff-files .dff-cancel,
+.dff-uploader .dff-files .dff-delete {
+  margin-left: 8px;
+}
+.dff-uploader .dff-files .dff-cancel.dff-disabled,
+.dff-uploader .dff-files .dff-delete.dff-disabled {
+  color: #aaa;
+  pointer-events: none;
+}
+.dff-uploader .dff-files span {
+  margin-left: 8px;
+}
+.dff-uploader .dff-progress {
+  background-color: #ccc;
+  width: 10em;
+  height: 4px;
+  display: inline-block;
+  margin-left: 8px;
+  vertical-align: middle;
+  position: relative;
+}
+.dff-uploader .dff-progress .dff-progress-inner {
+  height: 100%;
+  display: inline-block;
+  background-color: green;
+  position: absolute;
+  margin: 0;
+}
+.dff-uploader .dff-error {
+  margin-left: 8px;
+  color: red;
+}

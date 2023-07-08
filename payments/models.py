@@ -58,8 +58,9 @@ class SSLAdmissionPaymentVerfication(TimeStampedModel):
     )
     verified_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.DO_NOTHING,
+        on_delete=models.SET_NULL,
         related_name='admission_pay_verifications',
+        null=True
     )
 
     class Meta:

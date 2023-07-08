@@ -186,7 +186,7 @@ class Student(TimeStampedModel):
     guardian_mobile = models.CharField(max_length=11, blank=True, null=True)
     admitted_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.DO_NOTHING, null=True
+        on_delete=models.SET_NULL, null=True
     )
     is_alumni = models.BooleanField(default=False)
     is_dropped = models.BooleanField(default=False)
