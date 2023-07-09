@@ -16,4 +16,8 @@ urlpatterns = [
         views.InstituteProfileDetailDashboard.as_view(),
         name='institute_detail'
     ),
+    path('dashboard/settings/<int:institute_pk>/set-default/',
+        views.SetActiveInstituteProfile.as_view(),
+        name='set_default_institute'
+    ),
 ]
