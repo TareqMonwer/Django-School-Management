@@ -1,6 +1,7 @@
 from django.core import serializers
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 
@@ -45,3 +46,11 @@ class InstituteProfileDetailDashboard(DetailView):
         institute_fields = serializers.serialize("python", InstituteProfile.objects.all())
         ctx['institute_fields'] = institute_fields
         return ctx
+
+
+class SetActiveInstituteProfile(View):
+    def get(self, request, institute_pk, *args, **kwargs):
+        institute = InstituteProfile.objects.get(pk=institute_pk)
+        institute.active = True
+        institute.save()
+        return redirect('institute:institute_detail', institute_pk)
