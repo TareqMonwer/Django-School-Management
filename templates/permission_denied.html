@@ -1,0 +1,15 @@
+{% extends 'website/partials/website_base.html' %}
+{% load static %}
+
+{% block main_content %}
+  {% include 'website/partials/website_navbar.html' %}
+  <div class="container" style="margin-top: 7rem;">
+    <div class="row">
+      <div class="col-12">
+        <div class="alert alert-warning">
+          <strong>Permission denied</strong> This action is currently not allowed.
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

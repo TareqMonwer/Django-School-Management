@@ -84,12 +84,15 @@ DEFAULT_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'whitenoise.runserver_nostatic',  # must be on top of staticfiles
     'django.contrib.staticfiles',
 
     # allauth required
     'django.contrib.sites',
 ]
+
+if not DEBUG:
+    # whitenoise.runserver_nostatic must be on top of staticfiles
+    DEFAULT_APPS.insert(0, 'whitenoise.runserver_nostatic')
 
 LOCAL_APPS = [
     'students',
@@ -193,6 +196,16 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+CACHES = {
+    'default': {
+        'BACKEND': 'redis_cache.RedisCache',
+        'LOCATION': f'{env("REDIS_HOST")}:{env("REDIS_PORT")}',
+    },
+}
+
+# Write session to the DB, only load it from the cache
+SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
 # SET MYSQLDB charset for storing Bangla text
 if 'mysql' in DATABASES['default']['ENGINE']:
