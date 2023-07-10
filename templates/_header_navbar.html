@@ -70,14 +70,22 @@
         </a>
         <ul class="dropdown-menu fsz-sm">
           <li>
-            <a {% if request_institute %}
-                href="{% url 'institute:institute_detail' institute_pk=request_institute.pk %}" 
-              {% else %}
-                href="#"
-              {% endif %}
-              class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
+            {% if request_institute %}
+              <a href="{% url 'institute:institute_detail' institute_pk=request_institute.pk %}" 
+                class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
+                <i class="ti-settings mR-10"></i>
+                <span>School Profile</span>
+              </a>
+            {% else %}
+              <a href="{% url 'institute:setup_school' %}"
+                class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
+                <i class="ti-settings mR-10"></i>
+                <span>Setup School</span>
+              </a>
+            {% endif %}
+            <a href="{% url 'institute:institute_profile_list' %}" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
               <i class="ti-settings mR-10"></i>
-              <span>Setting</span>
+              <span>All Profiles</span>
             </a>
           </li>
           <li>
