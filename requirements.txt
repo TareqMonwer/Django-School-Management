@@ -18,6 +18,7 @@ click-plugins==1.1.1
 click-repl==0.2.0
 colorama==0.4.3
 contextlib2==21.6.0
+crispy-bootstrap4==2022.1
 cron-descriptor==1.4.0
 cryptography==41.0.1
 cssselect2==0.7.0
@@ -46,6 +47,7 @@ django-js-asset==2.1.0
 django-model-utils==4.3.1
 django-mptt==0.14.0
 django-mysql==4.10.0
+django-redis-cache==3.0.1
 django-rename-app==0.1.6
 django-role-permissions==3.2.0
 django-social-share==2.3.0
@@ -104,7 +106,7 @@ pytoml==0.1.21
 pytz==2023.3
 PyYAML==6.0
 qrcode==7.4.2
-redis==4.6.0
+redis==3.5.3
 regex==2023.6.3
 reportlab==3.6.13
 requests==2.31.0
