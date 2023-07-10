@@ -4,6 +4,10 @@ from . import views
 
 app_name = 'institute'
 urlpatterns = [
+    path('dashboard/settings/institute-profiles/',
+        views.InstituteProfileConfigListView.as_view(),
+        name='institute_profile_list'
+    ),
     path('dashboard/settings/setup-school/',
         views.InstituteProfileSetupDashboard.as_view(),
         name='setup_school'
