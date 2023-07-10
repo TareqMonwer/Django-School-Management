@@ -2,11 +2,17 @@ from django.core import serializers
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 
 from institute.forms.institute_profile_form import InstituteProfileCreateForm
 from .models import InstituteProfile
+
+
+class InstituteProfileConfigListView(ListView):
+    model = InstituteProfile
+    context_object_name = 'institute_profiles'
+    template_name = 'institute/dashboard/institute_profile_list.html'
 
 
 class InstituteProfileConfigDashboard(UpdateView):
