@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class AcademicsConfig(AppConfig):
-    name = 'academics'
+    name = 'django_school_management.academics'

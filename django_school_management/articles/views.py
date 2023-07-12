@@ -1,21 +1,15 @@
-from braces.views import LoginRequiredMixin
-
-from itertools import chain
-
 from django.contrib import messages
-from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404, HttpResponse, HttpResponseRedirect
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views import View
 from django.views.generic import (
     ListView, DetailView,
-    CreateView, UpdateView,
-    TemplateView
+    CreateView, UpdateView
 )
 
-from accounts.models import User
-from accounts.forms import (
+from django_school_management.accounts.models import User
+from django_school_management.accounts.forms import (
     CommonUserProfileForm, 
     UserProfileSocialLinksFormSet,
 )
@@ -23,7 +17,7 @@ from .models import Article, Like, Category, Newsletter
 from .mixins import AuthorArticleEditMixin
 from .forms import ArticleForm, ArticleUpdateForm, CommentForm
 from .utils import subscribe
-from articles.tasks import send_latest_article
+from django_school_management.articles.tasks import send_latest_article
 from permission_handlers.administrative import user_is_teacher_or_administrative
 
 

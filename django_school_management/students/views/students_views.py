@@ -3,27 +3,25 @@ from collections import OrderedDict
 
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, UpdateView
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
-from academics.models import (
-    Department, Semester, Subject, Batch, AcademicSession
+from django_school_management.academics.models import (
+    Department, Semester, Batch, AcademicSession
 )
-from result.models import SubjectGroup
-from students.models import Student, AdmissionStudent, CounselingComment
-from students.forms import (
+from django_school_management.result.models import SubjectGroup
+from django_school_management.students.models import Student, AdmissionStudent, CounselingComment
+from django_school_management.students.forms import (
     StudentForm, AdmissionForm, StudentRegistrantUpdateForm,
     CounselingDataForm, StudentUpdateForm
 )
-from students.filters import AlumniFilter
-from students.tasks import send_admission_confirmation_email
+from django_school_management.students.filters import AlumniFilter
+from django_school_management.students.tasks import send_admission_confirmation_email
 from permission_handlers.administrative import (
-    user_is_admin_or_su,
     user_is_admin_su_or_ac_officer,
-    user_is_student_or_administrative,
 )
 from permission_handlers.basic import user_is_verified
 

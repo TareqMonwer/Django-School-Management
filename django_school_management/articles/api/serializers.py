@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from articles.models import Article
+from django_school_management.articles.models import Article
 
 
 class ArticleSerializer(serializers.ModelSerializer):

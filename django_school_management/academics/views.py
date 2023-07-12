@@ -10,7 +10,7 @@ from rolepermissions.roles import assign_role
 from .models import (Semester, Department,
     AcademicSession, Subject)
 from .forms import SemesterForm, DepartmentForm, AcademicSessionForm
-from accounts.forms import UserCreateFormDashboard
+from django_school_management.accounts.forms import UserCreateFormDashboard
 from permission_handlers.administrative import (
     user_is_admin_su_editor_or_ac_officer,
     user_editor_admin_or_su,

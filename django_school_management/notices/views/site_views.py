@@ -1,5 +1,5 @@
-from django.views.generic import FormView, ListView, DetailView
-from notices.models import Notice, NoticeResponse
+from django.views.generic import ListView, DetailView
+from django_school_management.notices.models import Notice, NoticeResponse
 
 
 class NoticesPageView(ListView):

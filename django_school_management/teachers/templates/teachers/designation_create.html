@@ -14,7 +14,7 @@
     </ol>
 </nav>
 
-<form action="." method="post" class="admission-form d-block">
+<form action="" method="post" class="admission-form d-block">
     {% csrf_token %}
     {{ form|crispy }}
     <input class="btn btn-dark float-right" type="submit" value="Save">

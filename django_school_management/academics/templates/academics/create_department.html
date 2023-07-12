@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block dashboard-body %}
-<form action="." method="POST" class="d-block">
+<form action="" method="POST" class="d-block">
     {% csrf_token %}
     {{ form|crispy }}
     <input type="submit" value="Create Department" class="btn btn-dark">

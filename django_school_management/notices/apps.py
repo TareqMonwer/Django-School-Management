@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class NoticesConfig(AppConfig):
-    name = 'notices'
+    name = 'django_school_management.notices'

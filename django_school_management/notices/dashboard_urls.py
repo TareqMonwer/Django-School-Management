@@ -1,5 +1,5 @@
 from django.urls import path
-from notices.views import dashboard_views as views
+from django_school_management.notices.views import dashboard_views as views
 
 app_name = 'notices_dashboard'
 urlpatterns = [

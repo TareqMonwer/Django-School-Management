@@ -1,8 +1,8 @@
 from sslcommerz_lib import SSLCOMMERZ
 from django.conf import settings
 from django.http import HttpResponseRedirect, HttpResponse
-from students.models import AdmissionStudent
-from payments.models import SSLPayment
+from django_school_management.students.models import AdmissionStudent
+from django_school_management.payments.models import SSLPayment
 
 
 # Check if settings.USE_PAYMENT_OPTIONS is False.

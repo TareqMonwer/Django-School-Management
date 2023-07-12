@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block dashboard-body %}
-<form action="." method="POST" class="admission-form d-block" enctype='multipart/form-data'>
+<form action="" method="POST" class="admission-form d-block" enctype='multipart/form-data'>
   {% csrf_token %}
   {{ form|crispy }}
   <input class="btn btn-dark float-right" type="submit" value="Save">

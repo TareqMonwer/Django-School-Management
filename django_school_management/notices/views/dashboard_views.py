@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from notices.forms import NoticeDocumentForm, NoticeForm
-from notices.models import NoticeDocument, Notice
+from django_school_management.notices.forms import NoticeDocumentForm, NoticeForm
+from django_school_management.notices.models import NoticeDocument, Notice
 
 
 def publish_notice_documents(request, notice_pk=0):

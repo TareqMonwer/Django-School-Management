@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from accounts.views import AccountListView
+from django_school_management.accounts.views import AccountListView
 
 
 app_name = 'academics'

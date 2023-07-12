@@ -4,9 +4,9 @@ from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import CreateView, ListView, DeleteView, UpdateView
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from articles.models import Article, Category, Newsletter
-from articles.forms import ArticleForm
-from articles.filters import ArticleFilter
+from django_school_management.articles.models import Article, Category, Newsletter
+from django_school_management.articles.forms import ArticleForm
+from django_school_management.articles.filters import ArticleFilter
 from permission_handlers.administrative import user_is_admin_su_editor_or_ac_officer
 
 

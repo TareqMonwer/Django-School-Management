@@ -7,7 +7,6 @@ from django.utils.safestring import mark_safe
 from django.urls import reverse
 
 
-
 class InstituteProfile(models.Model):
 	name = models.CharField(max_length=255)
 	date_of_estashment = models.DateField(blank=True, null=True)

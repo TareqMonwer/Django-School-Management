@@ -4,8 +4,8 @@ from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse, HttpResponse
 
-from students.models import Student
-from academics.models import Semester, Subject, Department
+from django_school_management.students.models import Student
+from django_school_management.academics.models import Semester, Subject, Department
 from .models import Result, SubjectGroup
 from .filters import ResultFilter, SubjectGroupFilter
 from permission_handlers.basic import user_is_verified

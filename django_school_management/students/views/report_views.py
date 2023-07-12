@@ -6,10 +6,10 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.template.loader import get_template
 
-from students.models import AdmissionStudent
-from academics.models import Department
-from students.utils.bd_zila import ALL_ZILA
-from students.utils.helpers import render_to_pdf
+from django_school_management.students.models import AdmissionStudent
+from django_school_management.academics.models import Department
+from django_school_management.students.utils.bd_zila import ALL_ZILA
+from django_school_management.students.utils.helpers import render_to_pdf
 
 
 # Helper functions

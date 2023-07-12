@@ -1,5 +1,5 @@
 import django_filters
-from articles.models import Article
+from django_school_management.articles.models import Article
 
 
 class ArticleFilter(django_filters.FilterSet):

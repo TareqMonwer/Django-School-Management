@@ -1,4 +1,4 @@
-from institute.models import InstituteProfile
+from django_school_management.institute.models import InstituteProfile
 
 
 class AttachInstituteDataMiddleware:

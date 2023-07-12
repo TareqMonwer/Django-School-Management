@@ -1,6 +1,6 @@
 import django_filters
 
-from students.models import Student
+from django_school_management.students.models import Student
 
 
 class AlumniFilter(django_filters.FilterSet):
