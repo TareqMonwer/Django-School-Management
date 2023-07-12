@@ -4,8 +4,8 @@ from django.db import models
 from django.conf import settings
 from django.urls import reverse
 
-from students.models import Student
-from academics.models import Subject, Semester, Department
+from django_school_management.students.models import Student
+from django_school_management.academics.models import Subject, Semester, Department
 
 
 class Exam(TimeStampedModel):

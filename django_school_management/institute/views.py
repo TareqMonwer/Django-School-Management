@@ -5,7 +5,7 @@ from django.views import View
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 
-from institute.forms.institute_profile_form import InstituteProfileCreateForm
+from django_school_management.institute.forms.institute_profile_form import InstituteProfileCreateForm
 from .models import InstituteProfile
 
 

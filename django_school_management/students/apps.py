@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class StudentsConfig(AppConfig):
-    name = 'students'
+    name = 'django_school_management.students'

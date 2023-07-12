@@ -1,19 +1,17 @@
 from rolepermissions.roles import assign_role
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView
 from django.views.generic.edit import UpdateView
 from django.urls import reverse
 
-from academics.models import Department
-from students.models import Student
-from teachers.models import Teacher
+from django_school_management.academics.models import Department
+from django_school_management.students.models import Student
+from django_school_management.teachers.models import Teacher
 from .forms import (
-    UserRegistrationForm,
     ProfileCompleteForm,
     ApprovalProfileUpdateForm,
     UserChangeFormDashboard
@@ -23,8 +21,7 @@ from .forms import (CommonUserProfileForm,
     UserProfileSocialLinksFormSet
 )
 from permission_handlers.administrative import (
-    user_is_admin_or_su, user_editor_admin_or_su,
-    user_is_teacher_or_administrative
+    user_is_admin_or_su, user_is_teacher_or_administrative
 )
 from permission_handlers.basic import user_is_verified, permission_error
 

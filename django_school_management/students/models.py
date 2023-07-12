@@ -1,19 +1,16 @@
-from datetime import datetime
-
 from model_utils.models import TimeStampedModel
 
-from django.conf import settings
 from django.db import (
     models, OperationalError, 
     IntegrityError, transaction
 )
 from django.conf import settings
-from academics.models import (
+from django_school_management.academics.models import (
     Department, Semester,
     AcademicSession, Batch, 
     TempSerialID
 )
-from teachers.models import Teacher
+from django_school_management.teachers.models import Teacher
 from .utils.bd_zila import ALL_ZILA
 
 

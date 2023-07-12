@@ -20,7 +20,7 @@
         {% if not notice %}
             <!-- Publish Notice -->
             <div class="col-md-8 pb-5">
-                <form action="." 
+                <form action=""
                     id="notice-form" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ notice_form.media }}

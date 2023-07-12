@@ -7,8 +7,8 @@ from django.test import TestCase
 from django.urls import reverse
 
 from .models import AdmissionStudent
-from academics.models import Department
-from students.tasks import send_admission_confirmation_email
+from django_school_management.academics.models import Department
+from django_school_management.students.tasks import send_admission_confirmation_email
 
 
 class TestStudentsViews(TestCase):

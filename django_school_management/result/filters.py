@@ -1,6 +1,6 @@
 import django_filters
 
-from students.models import Student
+from django_school_management.students.models import Student
 from .models import Result, SubjectGroup
 
 class ResultFilter(django_filters.FilterSet):

@@ -4,7 +4,7 @@ from django.db import models, OperationalError
 from django.conf import settings
 from django.urls import reverse
 
-from teachers.models import Teacher
+from django_school_management.teachers.models import Teacher
 
 
 class Department(TimeStampedModel):

@@ -4,12 +4,12 @@ from config import settings
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 
-from academics.models import Department, Semester, AcademicSession, Subject
-from result.models import SubjectGroup
-from students.forms import StudentForm
-from students.models import AdmissionStudent
-from articles.models import Article
-from students.tasks import send_admission_confirmation_email
+from django_school_management.academics.models import Department, Semester, AcademicSession, Subject
+from django_school_management.result.models import SubjectGroup
+from django_school_management.students.forms import StudentForm
+from django_school_management.students.models import AdmissionStudent
+from django_school_management.articles.models import Article
+from django_school_management.students.tasks import send_admission_confirmation_email
 
 
 def index(request):
