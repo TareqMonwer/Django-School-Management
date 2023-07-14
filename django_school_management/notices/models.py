@@ -5,6 +5,8 @@ from django.conf import settings
 from django.db import models
 from django.urls import reverse
 
+from .utils import model_help_texts
+
 
 class Notice(TimeStampedModel):
     NOTICE_TYPES = (
@@ -74,7 +76,7 @@ class NoticeDocument(TimeStampedModel):
         related_name='documents'
     )
     file = models.FileField(
-        'Notice PDF Document',
+        model_help_texts.NOTICE_DOCUMENT_FILE,
         upload_to='files/notices/'
     )
 

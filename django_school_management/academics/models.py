@@ -5,22 +5,23 @@ from django.conf import settings
 from django.urls import reverse
 
 from django_school_management.teachers.models import Teacher
+from .utils import model_help_texts
 
 
 class Department(TimeStampedModel):
     name = models.CharField(max_length=255, unique=True)
     short_name = models.CharField(
-        'Department Short Form',
+        model_help_texts.DEPARTMENT_SHORT_NAME_TEXT,
         max_length=5
     )
     code = models.PositiveIntegerField()
     short_description = models.TextField(
-        help_text='Write short description about the department.',
+        help_text=model_help_texts.DEPARTMENT_SHORT_DESCRIPTION_TEXT,
         blank=True,
         null=True
     )
     department_icon = models.ImageField(
-        help_text='Upload an image/icon for the department',
+        help_text=model_help_texts.DEPARTMENT_DEPARTMENT_ICON_TEXT,
         upload_to='department_icon/',
         blank=True,
         null=True
@@ -30,12 +31,12 @@ class Department(TimeStampedModel):
         blank=True, null=True
     )
     current_batch = models.ForeignKey(
-        'Batch', on_delete=models.CASCADE,
+        model_help_texts.DEPARTMENT_CURRENT_BATCH_TEXT, on_delete=models.CASCADE,
         blank=True, null=True,
         related_name='current_batches'
     )
     batches = models.ManyToManyField(
-        'Batch',
+        model_help_texts.DEPARTMENT_BATCHES_TEXT,
         related_name='department_batches',
         blank=True
     )
@@ -125,7 +126,7 @@ class Subject(TimeStampedModel):
 
 class Batch(TimeStampedModel):
     year = models.ForeignKey(AcademicSession, on_delete=models.CASCADE)
-    number = models.PositiveIntegerField('Batch Number')
+    number = models.PositiveIntegerField(model_help_texts.BATCH_NUMBER_TEXT)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
 
     class Meta:

@@ -1,0 +1,6 @@
+DEPARTMENT_SHORT_NAME_TEXT = "Department Short Form"
+DEPARTMENT_SHORT_DESCRIPTION_TEXT = "Write short description about the department."
+DEPARTMENT_DEPARTMENT_ICON_TEXT = "Upload an image/icon for the department"
+DEPARTMENT_CURRENT_BATCH_TEXT = "Batch"
+DEPARTMENT_BATCHES_TEXT = "Batch"
+BATCH_NUMBER_TEXT = "Batch Number"

@@ -8,6 +8,8 @@ from sentry_sdk.integrations.django import DjangoIntegration
 from django.core.exceptions import ImproperlyConfigured
 from django.contrib.messages import constants as messages
 
+from utilities.constants import settings_message_constants
+
 
 ######################## Django Core & Custom Configs ########################
 ##############################################################################
@@ -287,13 +289,7 @@ if USE_PAYMENT_OPTIONS:
         STORE_PASS = env('STORE_PASS')
         SSL_ISSANDBOX = env('SSL_ISSANDBOX')
     except ImproperlyConfigured:
-        raise ImproperlyConfigured(
-            "Please enter you Braintree sandbox credentials in settings.py or config/.env file."
-            "Visit this url if you don't have a sandbox account: https://sandbox.braintreegateway.com/login"
-        )
-else:
-    PAYMENT_CONFIG_WARNING = 'You have not configured payment, check config/.env file \
-        and make sure USE_PAYMENT_OPTIONS=False, other payment gateway configs are valid.'
+        raise ImproperlyConfigured(settings_message_constants.INCORRECT_PAYMENT_GATEWAY_SETUP_MESSAGE)
 
 # CELERY BROKER CONFIG
 USE_CELERY_REDIS = env('USE_CELERY_REDIS')
@@ -307,12 +303,7 @@ if USE_CELERY_REDIS:
         CELERY_RESULT_SERIALIZER = 'json'
         CELERY_TIMEZONE = 'Asia/Dhaka'
     except ImproperlyConfigured:
-        raise ImproperlyConfigured(
-            'This project uses celery/redis.'
-            'to skip this set USE_CELERY_REDIS=False envs/.env'
-            'Otherwise, configure these as described '
-            'here: https://github.com/TareqMonwer/Django-School-Management#celery-redis-setup'
-        )
+        raise ImproperlyConfigured(settings_message_constants.INCORRECT_CELERY_REDIS_SETUP_MESSAGE)
 
 # MAILCHIMP INTEGRATION
 USE_MAILCHIMP = env('USE_MAILCHIMP')

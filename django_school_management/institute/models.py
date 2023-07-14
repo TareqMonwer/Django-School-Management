@@ -6,6 +6,8 @@ from django.conf import settings
 from django.utils.safestring import mark_safe
 from django.urls import reverse
 
+from .utils import model_help_texts
+
 
 class InstituteProfile(models.Model):
 	name = models.CharField(max_length=255)
@@ -14,19 +16,19 @@ class InstituteProfile(models.Model):
 	logo_small = models.ImageField(upload_to='institute/', blank=True, null=True)
 	site_favicon = models.ImageField(upload_to='institute', blank=True, null=True)
 	site_header = models.CharField(
-		help_text='Will be displayed in SuperAdmin Dashboard',
+		help_text=model_help_texts.INSTITUTE_PROFILE_SITEHEADER,
 		max_length=100,
-		default='Django-School-Management'
+		default=model_help_texts.INSTITUTE_PROFILE_SITEHEADER_DEFAULT
 	)
 	site_title = models.CharField(
-		help_text='Title of the application/site',
+		help_text=model_help_texts.INSTITUTE_PROFILE_SITETITLE,
 		max_length=100,
-		default='Welcome to the Django-School-Management'
+		default=model_help_texts.INSTITUTE_PROFILE_SITETITLE_DEFAULT
 	)
-	index_title = models.CharField(
-		help_text='Will be displayed in SuperAdmin dashboard listing pages',
+	super_admin_index_title = models.CharField(
+		help_text=model_help_texts.INSTITUTE_PROFILE_SUPER_ADMIN_INDEX_TITLE,
 		max_length=100,
-		default='Django-School-Management Admin'
+		default=model_help_texts.INSTITUTE_PROFILE_SUPER_ADMIN_INDEX_TITLE_DEFAULT
 	)
 	motto = models.TextField(blank=True, null=True)
 	description = models.TextField(blank=True, null=True)

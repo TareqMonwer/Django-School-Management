@@ -2,6 +2,8 @@ from model_utils.models import TimeStampedModel
 from django.conf import settings
 from django.db import models
 
+from .utils import model_help_texts
+
 
 class SSLPayment(TimeStampedModel):
     """ Table to store payment records coming from
@@ -17,7 +19,8 @@ class SSLPayment(TimeStampedModel):
         ('finalfee', 'Final Exam Fee'),
     )
     transaction_id = models.PositiveIntegerField()
-    payer = models.CharField("Name of the registrant",
+    payer = models.CharField(
+        model_help_texts.SSLPAYMENT_PAYER,
         max_length=150
     )
     received_amount = models.DecimalField(
@@ -35,7 +38,7 @@ class SSLPayment(TimeStampedModel):
     payer_country = models.CharField(max_length=55)
 
     class Meta:
-        verbose_name_plural = 'SSL Payment'
+        verbose_name_plural = model_help_texts.SSLPAYMENT_VERBOSE_NAME_PLURAL
         ordering = ['-created', 'received_amount']
     
     def __str__(self):
@@ -64,7 +67,7 @@ class SSLAdmissionPaymentVerfication(TimeStampedModel):
     )
 
     class Meta:
-        verbose_name_plural = 'SSL Admission Payment Verfication'
+        verbose_name_plural = model_help_texts.SSAL_ADMISSION_PAYMENT_VERIFICATION_VERBOSE_NAME_PLURAL
         ordering = ['-created', ]
     
     def __str__(self):

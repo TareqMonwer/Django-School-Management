@@ -11,7 +11,7 @@ try:
     institute = InstituteProfile.objects.get(active=True)
     admin.site.site_header = institute.site_header
     admin.site.site_title = institute.site_title
-    admin.site.index_title = institute.index_title
+    admin.site.index_title = institute.super_admin_index_title
 except InstituteProfile.DoesNotExist:
     admin.site.site_header = 'Django Administration'
     admin.site.site_title = 'Django Site Admin'
