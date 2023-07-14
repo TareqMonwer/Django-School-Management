@@ -1,0 +1,6 @@
+INSTITUTE_PROFILE_SITEHEADER = "Will be displayed in SuperAdmin Dashboard"
+INSTITUTE_PROFILE_SITEHEADER_DEFAULT = "Django-School-Management"
+INSTITUTE_PROFILE_SITETITLE = "Title of the application/site"
+INSTITUTE_PROFILE_SITETITLE_DEFAULT = "Welcome to the Django-School-Management"
+INSTITUTE_PROFILE_SUPER_ADMIN_INDEX_TITLE = "Will be displayed in SuperAdmin dashboard listing pages"
+INSTITUTE_PROFILE_SUPER_ADMIN_INDEX_TITLE_DEFAULT = "Django-School-Management Admin"
