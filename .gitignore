@@ -127,3 +127,4 @@ dj_sms_env/
 
 modules.txt
 celeryd.pid
+db.sqlite

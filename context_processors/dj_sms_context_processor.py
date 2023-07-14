@@ -1,7 +1,8 @@
-from institute.models import (InstituteProfile,
-        TextWidget, ListWidget
-)
-from articles.models import Category
+from django_school_management.institute.models import (InstituteProfile,
+                                                       TextWidget, ListWidget
+                                                       )
+from django_school_management.articles.models import Category
+
 
 def attach_institute_data_ctx_processor(request):
     try:
