@@ -8,6 +8,8 @@ from django.contrib.auth.models import Group
 from django.conf import settings
 from django.urls import reverse
 
+from .utils import model_help_texts
+
 
 class User(AbstractUser):
     REQUESTED_ACCOUNT_TYPE_CHOICES = (
@@ -94,11 +96,11 @@ class CommonUserProfile(models.Model):
         null=True
     )
     show_headline_in_bio = models.BooleanField(
-        help_text='I want to use this as my bio',
+        help_text=model_help_texts.COMMON_USER_PROFILE_SHOW_HEADLINE_IN_BIO_TEXT,
         default=False
     )
     summary = RichTextUploadingField(
-        help_text='Your Profile Summary',
+        help_text=model_help_texts.COMMON_USER_PROFILE_SUMMARY_TEXT,
         blank=True,
         null=True
     )

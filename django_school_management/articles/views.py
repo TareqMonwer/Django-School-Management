@@ -16,8 +16,8 @@ from django_school_management.accounts.forms import (
 from .models import Article, Like, Category, Newsletter
 from .mixins import AuthorArticleEditMixin
 from .forms import ArticleForm, ArticleUpdateForm, CommentForm
-from .utils import subscribe
-from django_school_management.articles.tasks import send_latest_article
+from .utils.mailchimp_functions import subscribe
+from .tasks import send_latest_article
 from permission_handlers.administrative import user_is_teacher_or_administrative
 
 

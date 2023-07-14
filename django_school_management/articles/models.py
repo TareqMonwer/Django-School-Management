@@ -11,6 +11,8 @@ from django.conf import settings
 from django.db import models
 from django.urls import reverse
 
+from .utils import model_help_texts
+
 
 class PublishedManager(models.Manager):
     def get_queryset(self):
@@ -23,10 +25,10 @@ class Article(TimeStampedModel):
         ('draft', 'Draft'),
         ('published', 'Published')
     )
-    title = models.CharField("Article Title", max_length=255)
+    title = models.CharField(model_help_texts.ARTICLE_TITLE, max_length=255)
     featured_image = models.ImageField(upload_to="featured_images")
     slug = AutoSlugField(
-        "Article Address", unique=True,
+        model_help_texts.ARTICLE_SLUG, unique=True,
         always_update=False, populate_from='title'
     )
     author = models.ForeignKey(
@@ -110,7 +112,7 @@ class Category(MPTTModel):
         null=True, blank=True, related_name='children'
     )
     slug = AutoSlugField(
-        "Category Link", unique=True,
+        model_help_texts.CATEGORY_SLUG, unique=True,
         always_update=False, populate_from='name'
     )
     created = models.DateField(auto_now_add=True, blank=True, null=True)

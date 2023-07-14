@@ -12,6 +12,7 @@ from django_school_management.academics.models import (
 )
 from django_school_management.teachers.models import Teacher
 from .utils.bd_zila import ALL_ZILA
+from .utils import model_help_texts
 
 
 class StudentManager(models.Manager):
@@ -38,17 +39,17 @@ class StudentBase(TimeStampedModel):
         (1, 'Yes'),
         (0, 'No'),
     )
-    name = models.CharField("Full Name", max_length=100)
+    name = models.CharField(model_help_texts.STUDENT_BASE_NAME, max_length=100)
     photo = models.ImageField(upload_to='students/applicant/')
-    fathers_name = models.CharField("Father's Name", max_length=100)
-    mothers_name = models.CharField("Mother's Name", max_length=100)
-    date_of_birth = models.DateField("Birth Date", blank=True, null=True)
-    email = models.EmailField("Email Address")
+    fathers_name = models.CharField(model_help_texts.STUDENT_BASE_FATHER_NAME, max_length=100)
+    mothers_name = models.CharField(model_help_texts.STUDENT_BASE_MOTHER_NAME, max_length=100)
+    date_of_birth = models.DateField(blank=True, null=True)
+    email = models.EmailField()
     city = models.CharField(max_length=2, choices=ALL_ZILA)
     current_address = models.TextField()
     permanent_address = models.TextField()
-    mobile_number = models.CharField('Mobile Number', max_length=11)
-    guardian_mobile_number = models.CharField('Guardian Mobile Number', max_length=11)
+    mobile_number = models.CharField(max_length=11)
+    guardian_mobile_number = models.CharField(max_length=11)
     tribal_status = models.PositiveSmallIntegerField(
         choices=TRIBAL_STATUS, default=0
     )
@@ -109,7 +110,6 @@ class AdmissionStudent(StudentBase):
         blank=True, null=True
     )
     exam_name = models.CharField(
-        'Exam Name',
         choices=EXAM_NAMES,
         max_length=10
     )
@@ -123,16 +123,12 @@ class AdmissionStudent(StudentBase):
         max_digits=4
     )
     marksheet_image = models.ImageField(
-        "Upload Your Marksheet",
+        model_help_texts.ADMISSION_STUDENT_MARKSHEET_IMAGE,
         upload_to='students/applicants/marksheets/',
         blank=True, null=True
     )
     admission_policy_agreement = models.BooleanField(
-        """
-        এই মর্মে অঙ্গীকার করছি যে, ভর্তি হওয়ার সুযোগ পেলে আমি অত্র শিক্ষা প্রতিষ্ঠান ও 
-        বাংলাদেশ কারিগরি শিক্ষা বোর্ডের যাবতীয় আইনকানুন মেনে চলব এবং কোন অবস্থাতেই অত্র শিক্ষা প্রতিষ্ঠান, বাংলাদেশ কারিগরি শিক্ষা বোর্ড 
-        এবং দেশের আইনের পরিপন্থি কোন কাজে লিপ্ত হব না
-        """,
+        model_help_texts.ADMISSION_STUDENT_ADMISSION_POLICY_AGGREMENT_TEXT,
         default=False
     )
     admitted = models.BooleanField(default=False)
