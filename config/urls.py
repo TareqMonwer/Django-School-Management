@@ -7,15 +7,9 @@ from django.contrib.auth import views as auth_views
 from django_school_management.institute.models import InstituteProfile
 from django_school_management.accounts.views import dashboard
 
-try:
-    institute = InstituteProfile.objects.get(active=True)
-    admin.site.site_header = institute.site_header
-    admin.site.site_title = institute.site_title
-    admin.site.index_title = institute.super_admin_index_title
-except InstituteProfile.DoesNotExist:
-    admin.site.site_header = 'Django Administration'
-    admin.site.site_title = 'Django Site Admin'
-    admin.site.index_title = 'Django Administration'
+admin.site.site_header = 'Django Administration'
+admin.site.site_title = 'Django Site Admin'
+admin.site.index_title = 'Django Administration'
 
 DJANGO_ADMIN_URL = settings.DJANGO_ADMIN_URL + '/'
 urlpatterns = [
