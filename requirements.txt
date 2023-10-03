@@ -84,7 +84,7 @@ openpyxl==3.1.2
 oscrypto==1.3.0
 packaging==23.1
 pep517==0.13.0
-Pillow==10.0.0
+Pillow==10.0.1
 progress==1.6
 promise==2.3
 prompt-toolkit==2.0.9
