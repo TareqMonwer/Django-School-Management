@@ -20,7 +20,7 @@ colorama==0.4.3
 contextlib2==21.6.0
 crispy-bootstrap4==2022.1
 cron-descriptor==1.4.0
-cryptography==41.0.3
+cryptography==41.0.6
 cssselect2==0.7.0
 dateparser==1.1.8
 defusedxml==0.7.1
