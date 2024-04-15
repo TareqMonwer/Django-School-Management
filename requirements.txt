@@ -118,7 +118,7 @@ six==1.16.0
 social-auth-core==4.4.2
 soupsieve==2.4.1
 SQLAlchemy==1.4.49
-sqlparse==0.4.4
+sqlparse==0.5.0
 sslcommerz-lib==1.0
 svglib==1.5.1
 tablib==3.5.0
