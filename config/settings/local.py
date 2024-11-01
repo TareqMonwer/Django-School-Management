@@ -3,7 +3,9 @@ from .base import env
 
 
 DEBUG = True
-SSL_ISSANDBOX = True
+SSL_ISSANDBOX = env('SSL_ISSANDBOX')
+STORE_ID = env('STORE_ID')
+STORE_PASS = env('STORE_PASS')
 ALLOWED_HOSTS = ['*', ]
 
 THIRD_PARTY_APPS += [
