@@ -11,6 +11,7 @@ from django.urls import reverse
 from django_school_management.academics.models import Department
 from django_school_management.students.models import Student
 from django_school_management.teachers.models import Teacher
+from .constants import ProfileApprovalStatusEnum
 from .forms import (
     ProfileCompleteForm,
     ApprovalProfileUpdateForm,
@@ -20,10 +21,11 @@ from .models import CustomGroup, User
 from .forms import (CommonUserProfileForm,
     UserProfileSocialLinksFormSet
 )
+from .service import profile_not_approved, map_profile_approval_status_message
 from permission_handlers.administrative import (
     user_is_admin_or_su, user_is_teacher_or_administrative
 )
-from permission_handlers.basic import user_is_verified, permission_error
+from permission_handlers.basic import user_is_verified
 
 
 @login_required(login_url='account_login')
@@ -31,7 +33,13 @@ def profile_complete(request):
     ctx = {}
     user = User.objects.get(pk=request.user.pk)
 
-    try:
+    if profile_not_approved(request.user):
+        messages.add_message(
+            request,
+            messages.INFO,
+            map_profile_approval_status_message(request.user.approval_status)
+        )
+    else:
         profile_edit_form = CommonUserProfileForm(
             instance=user.profile
         )
@@ -42,12 +50,6 @@ def profile_complete(request):
             'profile_edit_form': profile_edit_form,
             'social_links_form': social_links_form
         })
-    except:
-        messages.add_message(
-            request,
-            messages.INFO,
-            "Maybe your account is not verified yet, please check your badge."
-        )
 
     verification_form = ProfileCompleteForm(instance=user)
     if request.method == 'POST':
@@ -221,7 +223,7 @@ class GroupListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
 
 class UserRequestsListView(LoginRequiredMixin, UserPassesTestMixin,ListView):
-    queryset = User.objects.exclude(approval_status='a')
+    queryset = User.objects.exclude(approval_status=ProfileApprovalStatusEnum.approved.value)
     template_name = 'account/user_requests.html'
     context_object_name = 'users'
 
