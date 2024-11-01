@@ -25,7 +25,7 @@ from .services.common import profile_not_approved, map_profile_approval_status_m
 from permission_handlers.administrative import (
     user_is_admin_or_su, user_is_teacher_or_administrative
 )
-from permission_handlers.basic import user_is_verified
+from permission_handlers.basic import user_is_verified, can_access_dashboard
 from .services.profile_complete import ProfileCompleteService
 
 
@@ -65,7 +65,7 @@ def profile_complete(request):
 
 
 @user_passes_test(
-    user_is_teacher_or_administrative,
+    can_access_dashboard,
     login_url='account:profile_complete')
 def dashboard(request):
     total_students = Student.objects.count()
