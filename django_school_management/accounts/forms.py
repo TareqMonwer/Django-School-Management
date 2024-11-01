@@ -98,6 +98,7 @@ UserProfileSocialLinksFormSet = inlineformset_factory(
 )
 
 class CommonUserProfileForm(djform.ModelForm):
+    """Core details of user profile created only after account verification by institute."""
     class Meta:
         model = CommonUserProfile
         fields = [

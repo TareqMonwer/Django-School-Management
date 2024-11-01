@@ -22,7 +22,7 @@ class User(AbstractUser):
     )
     APPROVAL_CHOICES = (
         ('n', 'Not Requested For Approval'),
-        ('p', 'Approval Application on Pending'),
+        ('p', 'Approval Application is Pending'),
         ('d', 'Approval Request Declined'),
         ('a', 'Verified')
     )
@@ -74,6 +74,7 @@ class SocialLink(models.Model):
 
 
 class CommonUserProfile(models.Model):
+    """Core details of user profile created only after account verification by institute."""
     user = models.OneToOneField(
         User,
         related_name='profile',
