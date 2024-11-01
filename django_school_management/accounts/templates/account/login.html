@@ -36,15 +36,17 @@
             </a>
           </p>
         </div>
-        <form class="mt-8 space-y-6" action="" method="POST">
+        <form class="mt-8 space-y-6" action="{% url 'account_login' %}" method="POST">
           {% csrf_token %} 
           {% for hidden_field in form.hidden_fields %}
             {{ hidden_field.errors }}
             {{ hidden_field }}
           {% endfor %}
 
-          
-          <!-- <input type="hidden" name="remember" value="true" /> -->
+          <ul class="errorlist bg-red-500	p-3">
+            {% for key, value in form.errors.items %}<li>{% if key != '__all__' %}{{ key }} {% endif %}{{ value }}</li>
+            {% endfor %}
+          </ul>
           <div class="rounded-md shadow-sm -space-y-px">
             {% for field in form.visible_fields %}
               {% if not field.name == 'remember' %}
