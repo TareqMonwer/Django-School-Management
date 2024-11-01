@@ -21,11 +21,12 @@ from .models import CustomGroup, User
 from .forms import (CommonUserProfileForm,
     UserProfileSocialLinksFormSet
 )
-from .service import profile_not_approved, map_profile_approval_status_message
+from .services.common import profile_not_approved, map_profile_approval_status_message
 from permission_handlers.administrative import (
     user_is_admin_or_su, user_is_teacher_or_administrative
 )
 from permission_handlers.basic import user_is_verified
+from .services.profile_complete import ProfileCompleteService
 
 
 @login_required(login_url='account_login')
@@ -51,48 +52,12 @@ def profile_complete(request):
             'social_links_form': social_links_form
         })
 
-    verification_form = ProfileCompleteForm(instance=user)
     if request.method == 'POST':
-        verification_form = ProfileCompleteForm(
-            request.POST,
-            instance=user
-        )
-        if 'user-profile-update-form' in request.POST:
-            profile_edit_form = CommonUserProfileForm(
-                request.POST,
-                request.FILES,
-                instance=user.profile
-            )
-            social_links_form = UserProfileSocialLinksFormSet(
-                request.POST,
-                instance=user.profile
-            )
-            if profile_edit_form.is_valid():
-                profile_edit_form.save()
+        ProfileCompleteService(request, user, messages).handle_profile_update()
 
-            if social_links_form.is_valid():
-                social_links_form.save()
-            
-            messages.add_message(
-                request,
-                messages.SUCCESS,
-                'Your profile has been saved.'
-            )
-            return redirect('account:profile_complete')
-        else:
-            if verification_form.is_valid():
-                verification_form.instance.approval_status = 'p'
-                # approval status get's pending
-                verification_form.save()
-                messages.add_message(
-                    request,
-                    messages.SUCCESS,
-                    'Your request has been sent, please be patient.'
-                )
-                return redirect('account:profile_complete')
     user_permissions = user.user_permissions.all()
     ctx.update({
-        'verification_form': verification_form,
+        'verification_form': ProfileCompleteForm(instance=user),
         'user_perms': user_permissions if user_permissions else None,
     })
     return render(request, 'account/profile_complete.html', ctx)
