@@ -9,7 +9,7 @@ from django_school_management.accounts.models import User
 
 
 class ProfileCompleteService:
-    def __init__(self, request: WSGIRequest, user: User, session_messages):
+    def __init__(self, request: Any, user: User, session_messages):
         self.request = request
         self.user = user
         self.session_messages = session_messages
@@ -49,14 +49,13 @@ class ProfileCompleteService:
             self.session_messages.add_message(
                 self.request,
                 self.session_messages.SUCCESS,
-                'Your request has been sent. I will be approved by your institute.'
+                'Your request has been sent and will be reviewed by your institute.'
             )
 
-    @staticmethod
     def handle_profile_update(self):
         if 'user-profile-update-form' in self.request.POST:
-            self._handle_handle_approval_submit()
-        else:
             self._handle_user_profile_update()
+        else:
+            self._handle_handle_approval_submit()
 
         return redirect('account:profile_complete')
