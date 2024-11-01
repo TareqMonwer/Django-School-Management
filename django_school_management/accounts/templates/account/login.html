@@ -43,10 +43,13 @@
             {{ hidden_field }}
           {% endfor %}
 
-          <ul class="errorlist bg-red-500	p-3">
-            {% for key, value in form.errors.items %}<li>{% if key != '__all__' %}{{ key }} {% endif %}{{ value }}</li>
-            {% endfor %}
-          </ul>
+          {% if form.errors %}
+            <ul class="errorlist bg-red-500	p-3">
+              {% for key, value in form.errors.items %}
+                <li>{% if key != '__all__' %}{{ key }} {% endif %}{{ value }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
           <div class="rounded-md shadow-sm -space-y-px">
             {% for field in form.visible_fields %}
               {% if not field.name == 'remember' %}
