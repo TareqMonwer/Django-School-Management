@@ -52,7 +52,7 @@
             </form>
             <div class="card-text align-self-end ml-3">
               <div class="text-left">
-                <h6 class="mb-0">
+                  <h6 class="mb-0">
                   <span>{{ request.user.username }}</span>
                   <span class="small text-dark"
                     style="cursor: pointer;"
@@ -80,8 +80,17 @@
       <div class="col-md-8">
         <div class="card p-3">
           {% if user.approval_status != 'a' %}
-          <div class="alert alert-warning" role="alert">
-            Your profile is not verified yet, please verify your account.
+          <div class="alert alert-warning d-flex justify-content-between align-items-center" role="alert">
+            <b>Your profile is not verified yet.</b>
+              {% if user.approval_status == 'p' %}
+              <button class="btn btn-sm btn-primary" disabled style="cursor: not-allowed; opacity: .4;">
+                  Request for approval
+              </button>
+              {% else %}
+              <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#request-update-modal">
+                  Request for approval
+              </button>
+              {% endif %}
           </div>
           {% endif %} 
           

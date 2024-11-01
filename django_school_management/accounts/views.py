@@ -53,7 +53,8 @@ def profile_complete(request):
         })
 
     if request.method == 'POST':
-        ProfileCompleteService(request, user, messages).handle_profile_update()
+        profile_service = ProfileCompleteService(request, user, messages)
+        profile_service.handle_profile_update()
 
     user_permissions = user.user_permissions.all()
     ctx.update({
