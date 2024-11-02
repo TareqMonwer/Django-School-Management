@@ -64,7 +64,7 @@ future==0.18.3
 graphene==2.1.9
 graphql-core==2.3.2
 graphql-relay==2.0.1
-greenlet==2.0.2
+greenlet==3.0.3
 html5lib==1.1
 idna==3.4
 ipaddr==2.2.0
@@ -104,7 +104,7 @@ python-slugify==8.0.1
 python3-openid==3.2.0
 pytoml==0.1.21
 pytz==2023.3
-PyYAML==6.0
+PyYAML==6.0.1
 qrcode==7.4.2
 redis==3.5.3
 regex==2023.6.3
