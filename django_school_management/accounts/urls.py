@@ -1,27 +1,55 @@
 from permission_handlers.basic import permission_error
 from django.urls import path, include
 from . import views
-
+from .constants import AccountURLEnums
 
 app_name = 'account'
 
 urlpatterns = [
-    path('', views.profile_complete, name='profile_complete'),
-    path('auth/', include('django.contrib.auth.urls')),
-    # register path is archived since we're using allauth'
-    # path('register/', views.register, name='register'),
-    path('dashboard/', views.dashboard, name='dashboard'),
-    path('groups/', views.GroupListView.as_view(), name='groups'),
-    path('user-requests/', views.user_requests_list, name='user_requests'),
-    path('permission-error/', permission_error, name='permission_error'),
-    path('approval/<int:pk>/<int:approved>',
-         views.user_approval, name='user_approval'),
-    path('modify-and-approve/<int:pk>/',
-        views.user_approval_with_modification,
-        name='approval_with_modification'
+    path(
+        AccountURLEnums.profile_complete.value,
+        views.profile_complete,
+        name=AccountURLEnums.profile_complete.name
     ),
-    path('user/<int:pk>/change', views.UserUpdateView.as_view(), name='user_change'),
-    path('api/upload-profile-picture', views.profile_picture_upload,
-        name='profile_picture_upload'
+    path('auth/', include('django.contrib.auth.urls')),
+    path(
+        AccountURLEnums.dashboard.value,
+        views.dashboard,
+        name=AccountURLEnums.dashboard.name
+    ),
+    path(
+        AccountURLEnums.groups.value,
+        views.GroupListView.as_view(),
+        name=AccountURLEnums.groups.name
+    ),
+    path(
+        AccountURLEnums.user_requests.value,
+        views.user_requests_list,
+        name=AccountURLEnums.user_requests.name
+    ),
+    path(
+        AccountURLEnums.permission_error.value,
+        permission_error,
+        name=AccountURLEnums.permission_error.name
+    ),
+    path(
+        AccountURLEnums.approval_with_modification.value,
+        views.user_approval,
+        name=AccountURLEnums.approval_with_modification.name
+    ),
+    path(
+        AccountURLEnums.approval_with_modification.value,
+        views.user_approval_with_modification,
+        name=AccountURLEnums.approval_with_modification.name
+    ),
+    path(
+        AccountURLEnums.user_change.value,
+        views.UserUpdateView.as_view(),
+        name=AccountURLEnums.user_change.name
+    ),
+    path(
+        AccountURLEnums.profile_complete.value,
+        views.profile_picture_upload,
+        name=AccountURLEnums.profile_complete.name
     ),
 ]
