@@ -33,9 +33,9 @@ urlpatterns = [
         name=AccountURLEnums.permission_error.name
     ),
     path(
-        AccountURLEnums.approval_with_modification.value,
+        AccountURLEnums.user_approval.value,
         views.user_approval,
-        name=AccountURLEnums.approval_with_modification.name
+        name=AccountURLEnums.user_approval.name
     ),
     path(
         AccountURLEnums.approval_with_modification.value,
@@ -48,8 +48,8 @@ urlpatterns = [
         name=AccountURLEnums.user_change.name
     ),
     path(
-        AccountURLEnums.profile_complete.value,
+        AccountURLEnums.profile_picture_upload.value,
         views.profile_picture_upload,
-        name=AccountURLEnums.profile_complete.name
+        name=AccountURLEnums.profile_picture_upload.name
     ),
 ]

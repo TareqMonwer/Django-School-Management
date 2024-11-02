@@ -13,6 +13,7 @@ from permission_handlers.administrative import (
     user_is_teacher_or_administrative,
 )
 from permission_handlers.basic import user_is_verified
+from ..accounts.constants import AccountURLConstants
 
 
 @user_passes_test(user_is_teacher_or_administrative)
@@ -65,7 +66,7 @@ class teacher_update_view(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def handle_no_permission(self):
         if self.request.user.is_authenticated:
-            return redirect('account:profile_complete')
+            return redirect(AccountURLConstants.profile_complete)
         return redirect('account_login')
 
     def get_success_url(self):
@@ -103,5 +104,5 @@ class designation_list_view(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def handle_no_permission(self):
         if self.request.user.is_authenticated:
-            return redirect('account:profile_complete')
+            return redirect(AccountURLConstants.profile_complete)
         return redirect('account_login')

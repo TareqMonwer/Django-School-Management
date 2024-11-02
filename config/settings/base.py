@@ -8,6 +8,7 @@ from sentry_sdk.integrations.django import DjangoIntegration
 from django.core.exceptions import ImproperlyConfigured
 from django.contrib.messages import constants as messages
 
+from django_school_management.accounts.constants import AccountURLConstants
 from utilities.constants import settings_message_constants
 
 
@@ -216,10 +217,10 @@ EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 
 # login/register redirects
 
-LOGIN_REDIRECT_URL = 'account:profile_complete'
+LOGIN_REDIRECT_URL = AccountURLConstants.profile_complete
 LOGOUT_REDIRECT_URL = 'account_login'
 
-LOGIN_URL = 'account:profile_complete'
+LOGIN_URL = AccountURLConstants.profile_complete
 LOGOUT_URL = 'account_logout'
 
 
