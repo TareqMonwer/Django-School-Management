@@ -38,18 +38,18 @@
         {% endwith %}
         <td>{{ user.get_requested_role_display }}</td>
         <td>
-          <a href="{% url 'account:user_approval' pk=user.pk approved=1 %}"
+          <a href="{% url account_urls.user_approval pk=user.pk approved=1 %}"
             class="btn btn-sm btn-success approve"
             data-user-pk="{{ user.pk }}">
             Aprove
           </a>
           <a 
-            href="{% url 'account:approval_with_modification' pk=user.pk %}" 
+            href="{% url account_urls.approval_with_modification pk=user.pk %}"
             class="btn btn-sm btn-primary approve"
             data-user-pk="{{ user.pk }}">
             Modify & Approve
           </a>
-          <a href="{% url 'account:user_approval' pk=user.pk approved=0 %}" 
+          <a href="{% url account_urls.user_approval pk=user.pk approved=0 %}"
             class="btn btn-sm btn-danger">
             Decline
           </a>

@@ -128,6 +128,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 # ctx processeor to attach institute data in templates
                 'context_processors.dj_sms_context_processor.attach_institute_data_ctx_processor',
+                'context_processors.dj_sms_context_processor.attach_urls_for_common_templates',
             ],
         },
     },

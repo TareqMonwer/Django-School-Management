@@ -15,7 +15,7 @@
       {% endfor %} 
   {% endif %}
   <form
-    action="{% url 'account:user_change' pk=object.pk %}"
+    action="{% url account_urls.user_change pk=object.pk %}"
     method="POST"
     class="admission-form d-block"
   >

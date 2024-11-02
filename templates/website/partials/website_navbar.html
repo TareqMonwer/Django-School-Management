@@ -25,7 +25,7 @@
               </li>
               {% if request.user.is_authenticated %}
                 <li class="nav-item">
-                  <a class="nav-link page-scroll" href="{% url 'account:profile_complete' %}">My Account</a>
+                  <a class="nav-link page-scroll" href="{% url account_urls.profile_complete %}">My Account</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link page-scroll" href="{% url 'account_logout' %}">
@@ -40,7 +40,7 @@
               </li>
               {% endif %}
               <li class="nav-item">
-                <a class="btn btn-singin" href="{% url 'account:dashboard' %}">Dashboard</a>
+                <a class="btn btn-singin" href="{% url account_urls.dashboard %}">Dashboard</a>
               </li>
             </ul>
           </div>
