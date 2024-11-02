@@ -35,7 +35,7 @@
         <div class="card text-center">
           <div class="card-header">{{ user.get_approval_status_display }}</div>
           <div class="card-body d-flex">
-            <form action="{% url 'account:profile_picture_upload' %}" 
+            <form action="{% url account_urls.profile_picture_upload %}"
             method="post" id="profile-image-form"
             enctype="multipart/form-data">
               {% csrf_token %}
@@ -169,7 +169,7 @@
   id="request-update-modal" tabindex="-1" 
   role="dialog" 
   aria-hidden="true">
-  <form action="{% url 'account:profile_complete' %}" method="post">
+  <form action="{% url account_urls.profile_complete %}" method="post">
     {% csrf_token %}
     <div class="modal-dialog" role="document">
       <div class="modal-content">

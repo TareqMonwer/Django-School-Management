@@ -30,7 +30,7 @@
     </div>
     <ul class="sidebar-menu scrollable pos-r">
       <li class="nav-item mT-30 actived">
-        <a class="sidebar-link" href="{% url 'account:dashboard' %}">
+        <a class="sidebar-link" href="{% url account_urls.dashboard %}">
           <span class="icon-holder">
             <i class="c-blue-500 ti-home"></i>
           </span>
@@ -279,7 +279,7 @@
             </li>
             <li>
             <a class="sidebar-link" 
-                href="{% url 'account:user_requests' %}">
+                href="{% url account_urls.user_requests %}">
                 User Requests
               </a>
             </li>
@@ -292,7 +292,7 @@
           </li>
           <li>
             <a class="sidebar-link" 
-              href="{% url 'account:groups' %}">
+              href="{% url account_urls.groups %}">
               Groups
             </a>
           </li>

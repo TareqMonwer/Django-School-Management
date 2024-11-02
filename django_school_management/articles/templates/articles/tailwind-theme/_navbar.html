@@ -48,7 +48,7 @@
                 class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 
                 {% if user.is_authenticated %}
-                    <a href="{% url 'account:dashboard' %}" class="text-gray-900 hover:bg-blue-300 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
+                    <a href="{% url account_urls.dashboard %}" class="text-gray-900 hover:bg-blue-300 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
                         Dashboard
                     </a>
                 {% endif %}
@@ -99,7 +99,7 @@
                                 role="menuitem">
                                 Logout
                             </a>
-                            <a href="{% url 'account:profile_complete' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            <a href="{% url account_urls.profile_complete %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                             role="menuitem">
                                 My Profile
                             </a>
@@ -124,7 +124,7 @@
     <div class="sm:hidden hidden" id="mobile-menu">
         <div class="px-2 pt-2 pb-3 space-y-1">
             <!-- Current: "text-blue-600", Default: "text-gray-900 hover:bg-blue-300 hover:text-blue-600" -->
-            <a href="{% url 'account:dashboard' %}" class="text-gray-900 hover:bg-blue-300 hover:text-blue-600  block px-3 py-2 rounded-md text-base font-medium">
+            <a href="{% url account_urls.dashboard %}" class="text-gray-900 hover:bg-blue-300 hover:text-blue-600  block px-3 py-2 rounded-md text-base font-medium">
                 Dashboard
             </a>
             <a href="/static"

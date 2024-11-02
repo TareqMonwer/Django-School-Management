@@ -29,7 +29,7 @@
                                 general user
                             {% endfor %}
                             <sup>
-                                <a href="{% url 'account:user_change' pk=account.pk %}">
+                                <a href="{% url account_urls.user_change pk=account.pk %}">
                                     change
                                 </a>
                             </sup>

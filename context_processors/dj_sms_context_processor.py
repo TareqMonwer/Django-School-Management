@@ -1,3 +1,4 @@
+from django_school_management.accounts.constants import AccountURLConstants
 from django_school_management.institute.models import (InstituteProfile,
                                                        TextWidget, ListWidget
                                                        )
@@ -38,3 +39,7 @@ def attach_institute_data_ctx_processor(request):
         ctx['first_widget'] = first_widget
         ctx['list_widgets'] = list_widgets
     return ctx
+
+
+def attach_urls_for_common_templates(request):
+    return dict(account_urls=AccountURLConstants)

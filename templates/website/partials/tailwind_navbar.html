@@ -70,11 +70,11 @@
 
                 {% if user.is_authenticated %}
                     {% if user.approval_status == 'a' %}
-                        <a href="{% url 'account:dashboard' %}" class="bg-gray-900 text-gray-300 hover:bg-gray-700 
+                        <a href="{% url account_urls.dashboard %}" class="bg-gray-900 text-gray-300 hover:bg-gray-700
                                         hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                             Dashboard
                         </a>
-                        <a href="{% url 'account:profile_complete' %}" class="text-gray-300 hover:bg-gray-700 
+                        <a href="{% url account_urls.profile_complete %}" class="text-gray-300 hover:bg-gray-700
                             hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                             Profile
                         </a>
@@ -83,7 +83,7 @@
                             Logout
                         </a>
                     {% else %}
-                    <a href="{% url 'account:profile_complete' %}" class="text-gray-300 hover:bg-gray-700 
+                    <a href="{% url account_urls.profile_complete %}" class="text-gray-300 hover:bg-gray-700
                                     hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                         Verify Your Profile
                     </a>
