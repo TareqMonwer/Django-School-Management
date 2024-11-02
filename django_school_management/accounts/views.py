@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test, login_required
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.views.generic import ListView
 from django.views.generic.edit import UpdateView
 from django.urls import reverse
@@ -17,6 +17,7 @@ from .forms import (
     ApprovalProfileUpdateForm,
     UserChangeFormDashboard
 )
+from .mixins.no_permission import LoginRequiredNoPermissionMixin
 from .models import CustomGroup, User
 from .forms import (CommonUserProfileForm,
     UserProfileSocialLinksFormSet
@@ -131,7 +132,7 @@ def user_approval_with_modification(request, pk):
     return render(request, 'account/modify_approval.html', ctx)
 
 
-class AccountListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+class AccountListView(LoginRequiredNoPermissionMixin, UserPassesTestMixin, ListView):
     model = User
     template_name = 'account/dashboard/accounts_list.html'
     context_object_name = 'accounts'
@@ -140,13 +141,8 @@ class AccountListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         user =  self.request.user
         return user_is_verified(user)
 
-    def handle_no_permission(self):
-        if self.request.user.is_authenticated:
-            return redirect(AccountURLConstants.profile_complete)
-        return redirect('account_login')
 
-
-class GroupListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+class GroupListView(LoginRequiredNoPermissionMixin, UserPassesTestMixin, ListView):
     model = CustomGroup
     template_name = 'academics/group_list.html'
     context_object_name = 'groups'
@@ -155,13 +151,8 @@ class GroupListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         user =  self.request.user
         return user_is_verified(user)
 
-    def handle_no_permission(self):
-        if self.request.user.is_authenticated:
-            return redirect(AccountURLConstants.profile_complete)
-        return redirect('account_login')
 
-
-class UserRequestsListView(LoginRequiredMixin, UserPassesTestMixin,ListView):
+class UserRequestsListView(UserPassesTestMixin, ListView):
     queryset = User.objects.exclude(approval_status=ProfileApprovalStatusEnum.approved.value)
     template_name = 'account/user_requests.html'
     context_object_name = 'users'

@@ -14,6 +14,7 @@ from permission_handlers.administrative import (
 )
 from permission_handlers.basic import user_is_verified
 from ..accounts.constants import AccountURLConstants
+from ..accounts.mixins.no_permission import LoginRequiredNoPermissionMixin
 
 
 @user_passes_test(user_is_teacher_or_administrative)
@@ -55,7 +56,7 @@ def teacher_detail_view(request, pk):
     return render(request, 'teachers/teacher_detail.html', context)
 
 
-class teacher_update_view(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class teacher_update_view(LoginRequiredNoPermissionMixin, UserPassesTestMixin, UpdateView):
     model = Teacher
     fields = '__all__'
     template_name = 'teachers/update_teacher.html'
@@ -63,11 +64,6 @@ class teacher_update_view(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def test_func(self):
         user = self.request.user
         return user_editor_admin_or_su(user)
-
-    def handle_no_permission(self):
-        if self.request.user.is_authenticated:
-            return redirect(AccountURLConstants.profile_complete)
-        return redirect('account_login')
 
     def get_success_url(self):
         teacher_id = self.kwargs['pk']
@@ -94,15 +90,10 @@ def create_designation(request):
     return render(request, 'teachers/designation_create.html', context)
 
 
-class designation_list_view(LoginRequiredMixin, UserPassesTestMixin, ListView):
+class designation_list_view(LoginRequiredNoPermissionMixin, UserPassesTestMixin, ListView):
     model = Designation
     template_name = 'teachers/designation_list.html'
 
     def test_func(self):
         user = self.request.user
         return user_is_verified(user)
-
-    def handle_no_permission(self):
-        if self.request.user.is_authenticated:
-            return redirect(AccountURLConstants.profile_complete)
-        return redirect('account_login')

@@ -1,18 +1,17 @@
 from django.contrib.auth.mixins import UserPassesTestMixin
-from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
-from django.views.generic import CreateView, ListView, DeleteView, UpdateView
+from django.views.generic import CreateView, ListView, DeleteView
 from django.shortcuts import render
 from django.urls import reverse_lazy
 
-from django_school_management.accounts.constants import AccountURLConstants
-from django_school_management.articles.models import Article, Category, Newsletter
+from django_school_management.accounts.mixins.no_permission import LoginRequiredNoPermissionMixin
+from django_school_management.articles.models import Article, Newsletter
 from django_school_management.articles.forms import ArticleForm
 from django_school_management.articles.filters import ArticleFilter
 from permission_handlers.administrative import user_is_admin_su_editor_or_ac_officer
 
 
-class DashboardArticlePublishView(UserPassesTestMixin, CreateView):
+class DashboardArticlePublishView(LoginRequiredNoPermissionMixin, UserPassesTestMixin, CreateView):
     model = Article
     form_class = ArticleForm
     template_name = 'articles/dashboard/publish.html'
@@ -32,11 +31,6 @@ class DashboardArticlePublishView(UserPassesTestMixin, CreateView):
     def test_func(self):
         user = self.request.user
         return user_is_admin_su_editor_or_ac_officer(user)
-
-    def handle_no_permission(self):
-        if self.request.user.is_authenticated:
-            return redirect(AccountURLConstants.profile_complete)
-        return redirect('account_login')
 
 dashboard_article_publish = DashboardArticlePublishView.as_view()
 
