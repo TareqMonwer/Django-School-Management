@@ -12,6 +12,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django_school_management.academics.models import (
     Department, Semester, Batch, AcademicSession
 )
+from django_school_management.accounts.constants import AccountURLEnums, AccountURLConstants
 from django_school_management.result.models import SubjectGroup
 from django_school_management.students.models import Student, AdmissionStudent, CounselingComment
 from django_school_management.students.forms import (
@@ -356,7 +357,7 @@ class StudentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def handle_no_permission(self):
         if self.request.user.is_authenticated:
-            return redirect('account:profile_complete')
+            return redirect(AccountURLConstants.profile_complete)
         return redirect('account_login')
 
     def post(self, request, pk, *args, **kwargs):
@@ -381,7 +382,7 @@ class StudentDetailsView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 
     def handle_no_permission(self):
         if self.request.user.is_authenticated:
-            return redirect('account:profile_complete')
+            return redirect(AccountURLConstants.profile_complete)
         return redirect('account_login')
 
     def get_context_data(self, **kwargs):
@@ -421,7 +422,7 @@ class AlumnusListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def handle_no_permission(self):
         if self.request.user.is_authenticated:
-            return redirect('account:profile_complete')
+            return redirect(AccountURLConstants.profile_complete)
         return redirect('account_login')
 
     def get_queryset(self):

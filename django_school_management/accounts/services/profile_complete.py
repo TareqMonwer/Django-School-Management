@@ -1,8 +1,8 @@
 from typing import Any
 
-from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import redirect
 
+from django_school_management.accounts.constants import AccountURLConstants
 from django_school_management.accounts.forms import CommonUserProfileForm, UserProfileSocialLinksFormSet, \
     ProfileCompleteForm
 from django_school_management.accounts.models import User
@@ -58,4 +58,4 @@ class ProfileCompleteService:
         else:
             self._handle_handle_approval_submit()
 
-        return redirect('account:profile_complete')
+        return redirect(AccountURLConstants.profile_complete)
