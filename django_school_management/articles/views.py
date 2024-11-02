@@ -19,6 +19,7 @@ from .forms import ArticleForm, ArticleUpdateForm, CommentForm
 from .utils.mailchimp_functions import subscribe
 from .tasks import send_latest_article
 from permission_handlers.administrative import user_is_teacher_or_administrative
+from ..accounts.constants import AccountURLConstants
 
 
 class AllArticles(ListView):
@@ -160,7 +161,7 @@ class ArticleCreate(
                 "If you want to write articles in this portal, "
                 "please communicate with authorities."
             )
-            return redirect('account:profile_complete')
+            return redirect(AccountURLConstants.profile_complete)
         return redirect('account_login')
 
     def form_valid(self, form):
@@ -272,7 +273,7 @@ class ArticleCreateFromDashboard(LoginRequiredMixin,
                 "If you want to write articles in this portal, "
                 "please communicate with authorities."
             )
-            return redirect('account:profile_complete')
+            return redirect(AccountURLConstants.profile_complete)
         return redirect('account_login')
 
     def form_valid(self, form):

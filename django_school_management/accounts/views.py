@@ -11,7 +11,7 @@ from django.urls import reverse
 from django_school_management.academics.models import Department
 from django_school_management.students.models import Student
 from django_school_management.teachers.models import Teacher
-from .constants import ProfileApprovalStatusEnum
+from .constants import ProfileApprovalStatusEnum, AccountURLConstants
 from .forms import (
     ProfileCompleteForm,
     ApprovalProfileUpdateForm,
@@ -60,13 +60,15 @@ def profile_complete(request):
     ctx.update({
         'verification_form': ProfileCompleteForm(instance=user),
         'user_perms': user_permissions if user_permissions else None,
+        'profile_complete_url': AccountURLConstants.profile_complete
     })
     return render(request, 'account/profile_complete.html', ctx)
 
 
 @user_passes_test(
     can_access_dashboard,
-    login_url='account:profile_complete')
+    login_url=AccountURLConstants.profile_complete
+)
 def dashboard(request):
     total_students = Student.objects.count()
     total_teachers = Teacher.objects.count()
@@ -79,7 +81,7 @@ def dashboard(request):
     return render(request, 'dashboard.html', context)
 
 
-@user_passes_test(user_is_admin_or_su, login_url='account:permission_error')
+@user_passes_test(user_is_admin_or_su, login_url=AccountURLConstants.permission_error)
 def user_approval(request, pk, approved):
     """ Approve or decline approval request based on parameter `approved`.
     approved=0 means decline, 1 means approve.
@@ -104,10 +106,10 @@ def user_approval(request, pk, approved):
             messages.SUCCESS,
             f'{user}\'s request for {requested_role} has been declined.'
         )
-    return redirect('account:user_requests')
+    return redirect(AccountURLConstants.user_requests)
 
 
-@user_passes_test(user_is_admin_or_su, login_url='account:permission_error')
+@user_passes_test(user_is_admin_or_su, login_url=AccountURLConstants.permission_error)
 def user_approval_with_modification(request, pk):
     user = User.objects.get(pk=pk)
     form = ApprovalProfileUpdateForm()
@@ -123,7 +125,7 @@ def user_approval_with_modification(request, pk):
             messages.SUCCESS,
             f'{user}\'s account has been approved.'
         )
-        return redirect('account:user_requests')
+        return redirect(AccountURLConstants.user_requests)
     ctx = {
         'form': form,
     }
@@ -168,7 +170,7 @@ class AccountListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def handle_no_permission(self):
         if self.request.user.is_authenticated:
-            return redirect('account:profile_complete')
+            return redirect(AccountURLConstants.profile_complete)
         return redirect('account_login')
 
 
@@ -184,7 +186,7 @@ class GroupListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def handle_no_permission(self):
         if self.request.user.is_authenticated:
-            return redirect('account:profile_complete')
+            return redirect(AccountURLConstants.profile_complete)
         return redirect('account_login')
 
 

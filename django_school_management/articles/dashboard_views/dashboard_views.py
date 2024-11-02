@@ -4,6 +4,8 @@ from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import CreateView, ListView, DeleteView, UpdateView
 from django.shortcuts import render
 from django.urls import reverse_lazy
+
+from django_school_management.accounts.constants import AccountURLConstants
 from django_school_management.articles.models import Article, Category, Newsletter
 from django_school_management.articles.forms import ArticleForm
 from django_school_management.articles.filters import ArticleFilter
@@ -33,7 +35,7 @@ class DashboardArticlePublishView(UserPassesTestMixin, CreateView):
 
     def handle_no_permission(self):
         if self.request.user.is_authenticated:
-            return redirect('account:profile_complete')
+            return redirect(AccountURLConstants.profile_complete)
         return redirect('account_login')
 
 dashboard_article_publish = DashboardArticlePublishView.as_view()
