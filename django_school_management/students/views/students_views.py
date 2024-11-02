@@ -7,12 +7,12 @@ from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, UpdateView
 from django.contrib.auth.decorators import user_passes_test
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 
 from django_school_management.academics.models import (
     Department, Semester, Batch, AcademicSession
 )
-from django_school_management.accounts.constants import AccountURLEnums, AccountURLConstants
+from django_school_management.accounts.mixins.no_permission import LoginRequiredNoPermissionMixin
 from django_school_management.result.models import SubjectGroup
 from django_school_management.students.models import Student, AdmissionStudent, CounselingComment
 from django_school_management.students.forms import (
@@ -343,7 +343,7 @@ def students_by_department_view(request, pk):
     return render(request, 'students/students_by_department.html', context)
 
 
-class StudentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class StudentUpdateView(LoginRequiredNoPermissionMixin, UserPassesTestMixin, UpdateView):
     """
     renders a student update form to update students details.
     """
@@ -354,11 +354,6 @@ class StudentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def test_func(self):
         user = self.request.user
         return user_is_admin_su_or_ac_officer(user)
-
-    def handle_no_permission(self):
-        if self.request.user.is_authenticated:
-            return redirect(AccountURLConstants.profile_complete)
-        return redirect('account_login')
 
     def post(self, request, pk, *args, **kwargs):
         obj = get_object_or_404(Student, pk=pk)
@@ -372,18 +367,13 @@ class StudentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return reverse_lazy('students:student_details', kwargs={'pk': student_id})
 
 
-class StudentDetailsView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+class StudentDetailsView(LoginRequiredNoPermissionMixin, UserPassesTestMixin, DetailView):
     model = Student
     template_name = 'students/student_details.html'
 
     def test_func(self):
         user = self.request.user
         return user_is_admin_su_or_ac_officer(user)
-
-    def handle_no_permission(self):
-        if self.request.user.is_authenticated:
-            return redirect(AccountURLConstants.profile_complete)
-        return redirect('account_login')
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
@@ -411,7 +401,7 @@ def student_delete_view(request, pk):
     return redirect('students:all_student')
 
 
-class AlumnusListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+class AlumnusListView(LoginRequiredNoPermissionMixin, UserPassesTestMixin, ListView):
     model = Student
     context_object_name = 'alumnus'
     template_name = 'students/list/alumnus.html'
@@ -419,11 +409,6 @@ class AlumnusListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     def test_func(self):
         user = self.request.user
         return user_is_verified(user)
-
-    def handle_no_permission(self):
-        if self.request.user.is_authenticated:
-            return redirect(AccountURLConstants.profile_complete)
-        return redirect('account_login')
 
     def get_queryset(self):
         queryset = Student.alumnus.all()
