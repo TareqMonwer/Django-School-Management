@@ -6,4 +6,4 @@ class AccountsConfig(AppConfig):
     name = 'django_school_management.accounts'
     
     def ready(self):
-        pass
+        from . import signals
