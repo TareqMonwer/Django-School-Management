@@ -8,6 +8,15 @@ class ProfileApprovalStatusEnum(Enum):
     approved = 'a'
 
 
+class AccountTypesEnum(Enum):
+    subscriber = 'subscriber'
+    student = 'student'
+    teacher = 'teacher'
+    editor = 'editor'
+    academic_officer = 'academic_officer'
+    admin = 'admin'
+
+
 class AccountURLEnums(Enum):
     approval_with_modification = 'modify-and-approve/<int:pk>/'
     dashboard = 'dashboard/'
