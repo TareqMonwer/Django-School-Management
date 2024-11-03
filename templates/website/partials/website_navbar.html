@@ -32,6 +32,9 @@
                     Logout
                   </a>
                 </li>
+                <li class="nav-item">
+                  <a class="btn btn-singin" href="{% url account_urls.dashboard %}">Dashboard</a>
+                </li>
 	            {% else %}
 	            <li class="nav-item">
                   <a class="nav-link page-scroll" href="{% url 'account_login' %}">
@@ -39,9 +42,6 @@
                   </a>
               </li>
               {% endif %}
-              <li class="nav-item">
-                <a class="btn btn-singin" href="{% url account_urls.dashboard %}">Dashboard</a>
-              </li>
             </ul>
           </div>
     </div>
