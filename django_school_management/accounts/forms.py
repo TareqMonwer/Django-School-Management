@@ -20,7 +20,7 @@ class UserChangeForm(forms.UserChangeForm):
 class UserCreateFormDashboard(forms.UserCreationForm):
     class Meta:
         model = User
-        fields = fields = (
+        fields = (
             'username', 'email', 'password1', 'password2',
             'requested_role', 'approval_status', 'is_staff')
 
@@ -43,6 +43,7 @@ class UserRegistrationForm(forms.UserCreationForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.template_pack = 'tailwind'
+
     error_message = forms.UserCreationForm.error_messages.update(
         {
             "duplicate_username": _(
@@ -53,7 +54,9 @@ class UserRegistrationForm(forms.UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password1', 'password2')
+        fields = (
+            'username', 'email', 'password1', 'password2',
+            'requested_role', 'approval_status', 'is_staff', 'is_superuser',)
 
     def clean_username(self):
         username = self.cleaned_data["username"]

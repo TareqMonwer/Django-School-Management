@@ -19,25 +19,27 @@ class UserResource(resources.ModelResource):
         model = User
 
 
-class UserAdmin(RolePermissionsUserAdminMixin, ImportExportModelAdmin, auth_admin.UserAdmin):
+class CustomUserAdmin(auth_admin.UserAdmin):
 
     form = UserChangeForm
     add_form = UserRegistrationForm
+    model = User
     fieldsets = (
         ("User", {"fields": ("approval_status", "requested_role")}),
     ) + auth_admin.UserAdmin.fieldsets
+    add_fieldsets = (
+        (None, {
+            "classes": ("wide",),
+            "fields": (
+                "username", "email", "password1", "password2", "is_staff",
+                "is_active", "is_superuser", "groups", "user_permissions"
+            )}
+         ),
+    )
     list_display = ["username", "is_superuser", "approval_status", "requested_role"]
-    list_editable = ["approval_status",]
+    list_editable = ["approval_status", "requested_role", ]
     search_fields = ["approval_status", "requested_role"]
     resource_class = UserResource
-
-    # TODO: Assign users to requested group
-    # def save_model(self, request, obj, form, change): 
-    #     instance = form.save(commit=False)
-    #     requested_role = request.POST.get('requested_role')
-    #     assign_role(obj, requested_role)
-    #     instance.save()
-    #     return instance
 
 
 class UserProfileResource(resources.ModelResource):
@@ -55,4 +57,4 @@ class CustomGroupAdmin(GroupAdmin):
 
 admin.site.register(CommonUserProfile, UserProfileAdmin)
 admin.site.register(CustomGroup, CustomGroupAdmin)
-admin.site.register(User, UserAdmin)
+admin.site.register(User, CustomUserAdmin)
