@@ -18,6 +18,8 @@ class AccountTypesEnum(Enum):
 
 
 class AccountURLEnums(Enum):
+    all_accounts = 'accounts/'
+    add_user = 'add_user/'
     approval_with_modification = 'modify-and-approve/<int:pk>/'
     dashboard = 'dashboard/'
     groups = 'groups/'
@@ -30,6 +32,8 @@ class AccountURLEnums(Enum):
 
 
 class AccountURLConstants:
+    all_accounts = f'account:{AccountURLEnums.all_accounts.name}'
+    add_user = f'account:{AccountURLEnums.add_user.name}'
     approval_with_modification = f'account:{AccountURLEnums.approval_with_modification.name}'
     dashboard = f'account:{AccountURLEnums.dashboard.name}'
     groups = f'account:{AccountURLEnums.groups.name}'

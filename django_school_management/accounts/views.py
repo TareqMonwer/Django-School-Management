@@ -15,7 +15,7 @@ from .constants import ProfileApprovalStatusEnum, AccountURLConstants
 from .forms import (
     ProfileCompleteForm,
     ApprovalProfileUpdateForm,
-    UserChangeFormDashboard
+    UserChangeFormDashboard, UserCreateFormDashboard
 )
 from .mixins.no_permission import LoginRequiredNoPermissionMixin
 from .models import CustomGroup, User
@@ -65,6 +65,7 @@ def profile_complete(request):
     return render(request, 'account/profile_complete.html', ctx)
 
 
+@login_required(login_url=AccountURLConstants.permission_error)
 @user_passes_test(
     can_access_dashboard,
     login_url=AccountURLConstants.profile_complete
@@ -81,6 +82,7 @@ def dashboard(request):
     return render(request, 'dashboard.html', context)
 
 
+@login_required(login_url=AccountURLConstants.permission_error)
 @user_passes_test(user_is_admin_or_su, login_url=AccountURLConstants.permission_error)
 def user_approval(request, pk, approved):
     """ Approve or decline approval request based on parameter `approved`.
@@ -109,6 +111,7 @@ def user_approval(request, pk, approved):
     return redirect(AccountURLConstants.user_requests)
 
 
+@login_required(login_url=AccountURLConstants.permission_error)
 @user_passes_test(user_is_admin_or_su, login_url=AccountURLConstants.permission_error)
 def user_approval_with_modification(request, pk):
     user = User.objects.get(pk=pk)
@@ -130,6 +133,27 @@ def user_approval_with_modification(request, pk):
         'form': form,
     }
     return render(request, 'account/modify_approval.html', ctx)
+
+
+@login_required(login_url=AccountURLConstants.permission_error)
+@user_passes_test(user_is_admin_or_su, login_url=AccountURLConstants.permission_error)
+def add_user_view(request):
+    if request.user.has_perm('create_stuff'):
+        if request.method == 'POST':
+            user_form = UserCreateFormDashboard(request.POST)
+            if user_form.is_valid():
+                user = user_form.save()
+                return redirect(
+                    user.get_author_url()
+                )
+        else:
+            user_form = UserCreateFormDashboard()
+        context = {
+            'user_form': user_form,
+        }
+        return render(request, 'academics/add_user.html', context)
+    else:
+        return render(request, 'academics/permission_required.html')
 
 
 class AccountListView(LoginRequiredNoPermissionMixin, UserPassesTestMixin, ListView):

@@ -273,7 +273,7 @@
           {% if perms.auth.add_user %}
             <li>
               <a class="sidebar-link" 
-                href="{% url 'academics:add_user' %}">
+                href="{% url account_urls.add_user %}">
                 Add People
               </a>
             </li>
@@ -286,7 +286,7 @@
           {% endif %}
           <li>
             <a class="sidebar-link" 
-              href="{% url 'academics:all_accounts' %}">
+              href="{% url account_urls.all_accounts %}">
               Users
             </a>
           </li>
