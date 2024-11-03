@@ -11,7 +11,7 @@ from django.urls import reverse
 from django_school_management.academics.models import Department
 from django_school_management.students.models import Student
 from django_school_management.teachers.models import Teacher
-from .constants import ProfileApprovalStatusEnum, AccountURLConstants
+from .constants import ProfileApprovalStatusEnum, AccountURLConstants, AccountTypesEnum
 from .forms import (
     ProfileCompleteForm,
     ApprovalProfileUpdateForm,
@@ -142,22 +142,21 @@ def add_user_view(request):
         if request.method == 'POST':
             user_form = UserCreateFormDashboard(request.POST)
             if user_form.is_valid():
-                user = user_form.save()
-                return redirect(
-                    user.get_author_url()
-                )
+                user_form.save()
+                return redirect(AccountURLConstants.all_accounts)
         else:
             user_form = UserCreateFormDashboard()
-        context = {
-            'user_form': user_form,
-        }
-        return render(request, 'academics/add_user.html', context)
+            context = {
+                'user_form': user_form,
+            }
+            return render(request, 'academics/add_user.html', context)
     else:
         return render(request, 'academics/permission_required.html')
 
 
 class AccountListView(LoginRequiredNoPermissionMixin, UserPassesTestMixin, ListView):
     model = User
+    queryset = User.objects.exclude(is_superuser=True)
     template_name = 'account/dashboard/accounts_list.html'
     context_object_name = 'accounts'
 
