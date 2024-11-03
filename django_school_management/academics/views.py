@@ -1,42 +1,20 @@
 import csv, io
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import ListView
 from django.urls import reverse_lazy
-from rolepermissions.roles import assign_role
 
 from .models import (Semester, Department,
     AcademicSession, Subject)
 from .forms import SemesterForm, DepartmentForm, AcademicSessionForm
-from django_school_management.accounts.forms import UserCreateFormDashboard
 from permission_handlers.administrative import (
     user_is_admin_su_editor_or_ac_officer,
     user_editor_admin_or_su,
     user_is_teacher_or_administrative,
 )
 from permission_handlers.basic import user_is_verified
-
-
-@login_required
-def add_user_view(request):
-    if request.user.has_perm('create_stuff'):
-        if request.method == 'POST':
-            user_form = UserCreateFormDashboard(request.POST)
-            if user_form.is_valid():
-                user = user_form.save()
-                return redirect(
-                    user.get_author_url()
-                )
-        else:
-            user_form = UserCreateFormDashboard()
-        context = {
-            'user_form': user_form,
-        }
-        return render(request, 'academics/add_user.html', context)
-    else:
-        return render(request, 'academics/permission_required.html')
 
 
 @user_passes_test(user_is_admin_su_editor_or_ac_officer)

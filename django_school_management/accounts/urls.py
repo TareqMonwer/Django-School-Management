@@ -52,4 +52,14 @@ urlpatterns = [
         views.profile_picture_upload,
         name=AccountURLEnums.profile_picture_upload.name
     ),
+    path(
+        AccountURLEnums.all_accounts.value,
+        views.AccountListView.as_view(),
+        name=AccountURLEnums.all_accounts.name
+    ),
+    path(
+        AccountURLEnums.add_user.value,
+        views.add_user_view,
+        name=AccountURLEnums.add_user.name
+    ),
 ]
