@@ -1,30 +1,64 @@
 from django.urls import path
 from . import views
-from django_school_management.accounts.views import AccountListView
-
+from .constants import AcademicsURLEnum
 
 app_name = 'academics'
 
 urlpatterns = [
     # Semester
-    path('semesters/', views.semesters, name='all_semester'),
-    path('departments/', views.departments, name='departments'),
-    path('create-department/', views.create_department,
-        name='create_department'
+    path(
+        AcademicsURLEnum.all_semester.name,
+        views.semesters,
+        name=AcademicsURLEnum.all_semester.value
     ),
-    path('create-semester/', views.create_semester,
-        name='create_semester'
+    path(
+        AcademicsURLEnum.departments.name,
+        views.departments,
+        name=AcademicsURLEnum.departments.value
     ),
-    path('create-academic-session/', views.create_academic_semester,
-        name='create_academic_session'
+    path(
+        AcademicsURLEnum.create_department.name,
+        views.create_department,
+        name=AcademicsURLEnum.create_department.value
     ),
-    path('create-subject', views.create_subject,
-        name='create_subject'
+    path(
+        AcademicsURLEnum.create_semester.name,
+        views.create_semester,
+        name=AcademicsURLEnum.create_semester.value
     ),
-    path('depts/delete/<int:pk>/', views.delete_department, name='delete_dept'),
-    path('academic_sessions/', views.academic_session, name='academic_sessions'),
-    path('department/update/<int:pk>/', views.UpdateDepartment.as_view(),
-        name='update_department'),
-    path('subjects/', views.subject_list, name='subject_list'),
-    path('upload-subjects-csv/', views.upload_subjects_csv, name='import_subject_csv'),
+    path(
+        AcademicsURLEnum.create_academic_session.name,
+        views.create_academic_semester,
+        name=AcademicsURLEnum.create_academic_session.value
+    ),
+    path(
+        AcademicsURLEnum.create_subject.name,
+        views.create_subject,
+        name=AcademicsURLEnum.create_subject.value
+    ),
+    path(
+        AcademicsURLEnum.delete_dept.name,
+        views.delete_department,
+        name=AcademicsURLEnum.delete_dept.value
+    ),
+    path(
+        AcademicsURLEnum.academic_sessions.name,
+        views.academic_session,
+        name=AcademicsURLEnum.academic_sessions.value
+    ),
+    path(
+        AcademicsURLEnum.update_department.name,
+        views.UpdateDepartment.as_view(),
+        name=AcademicsURLEnum.update_department.value
+    ),
+    path(
+        AcademicsURLEnum.subject_list.name,
+        views.subject_list,
+        name=AcademicsURLEnum.subject_list.value
+    ),
+    path(
+        AcademicsURLEnum.import_subject_csv.name,
+        views.upload_subjects_csv,
+        name=AcademicsURLEnum.import_subject_csv.value
+    ),
 ]
