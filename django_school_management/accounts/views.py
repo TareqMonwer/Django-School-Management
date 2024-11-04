@@ -138,16 +138,18 @@ def user_approval_with_modification(request, pk):
 @login_required(login_url=AccountURLConstants.permission_error)
 @user_passes_test(user_is_admin_or_su, login_url=AccountURLConstants.permission_error)
 def add_user_view(request):
+    context = dict()
     if request.method == 'POST':
         user_form = UserCreateFormDashboard(request.POST)
         if user_form.is_valid():
             user_form.save()
             return redirect(AccountURLConstants.all_accounts)
+        else:
+            context['user_form'] = user_form
+            return render(request, 'academics/add_user.html', context)
     else:
         user_form = UserCreateFormDashboard()
-        context = {
-            'user_form': user_form,
-        }
+        context['user_form'] = user_form
         return render(request, 'academics/add_user.html', context)
 
 
