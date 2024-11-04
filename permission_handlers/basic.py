@@ -6,7 +6,7 @@ UserTypes: Student, Teacher
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 
-from permission_handlers.role_enums import RoleEnums
+from django_school_management.accounts.constants import AccountTypesEnum
 
 
 @login_required
@@ -26,7 +26,7 @@ def user_is_teacher(user):
 
 def can_access_dashboard(user):
     restricted_roles = [
-        RoleEnums.subscriber.value
+        AccountTypesEnum.subscriber.value
     ]
     if user.requested_role in restricted_roles:
         return False
