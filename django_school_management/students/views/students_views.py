@@ -12,7 +12,7 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from django_school_management.academics.models import (
     Department, Semester, Batch, AcademicSession
 )
-from django_school_management.accounts.mixins.no_permission import LoginRequiredNoPermissionMixin
+from django_school_management.mixins.no_permission import LoginRequiredNoPermissionMixin
 from django_school_management.result.models import SubjectGroup
 from django_school_management.students.models import Student, AdmissionStudent, CounselingComment
 from django_school_management.students.forms import (

@@ -17,7 +17,7 @@ from .forms import (
     ApprovalProfileUpdateForm,
     UserChangeFormDashboard, UserCreateFormDashboard
 )
-from .mixins.no_permission import LoginRequiredNoPermissionMixin
+from django_school_management.mixins.no_permission import LoginRequiredNoPermissionMixin
 from .models import CustomGroup, User
 from .forms import (CommonUserProfileForm,
     UserProfileSocialLinksFormSet
