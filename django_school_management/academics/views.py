@@ -8,13 +8,14 @@ from django.urls import reverse_lazy
 
 from .models import (Semester, Department,
     AcademicSession, Subject)
-from .forms import SemesterForm, DepartmentForm, AcademicSessionForm
+from .forms import SemesterForm, DepartmentForm, AcademicSessionForm, SubjectForm
 from permission_handlers.administrative import (
     user_is_admin_su_editor_or_ac_officer,
     user_editor_admin_or_su,
     user_is_teacher_or_administrative,
 )
 from permission_handlers.basic import user_is_verified
+from ..mixins.created_by import CreatedByMixin
 
 
 @user_passes_test(user_is_admin_su_editor_or_ac_officer)
@@ -146,9 +147,8 @@ def upload_subjects_csv(request):
         return render(request, 'admin_tools/permission_required.html')
 
 
-class CreateDepartmentView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
-    model = Department
-    fields = '__all__'
+class CreateDepartmentView(LoginRequiredMixin, UserPassesTestMixin, CreateView, CreatedByMixin):
+    form_class = DepartmentForm
     success_url = reverse_lazy('academics:departments')
     template_name = 'academics/create_department.html'
 
@@ -159,9 +159,8 @@ class CreateDepartmentView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 create_department = CreateDepartmentView.as_view()
 
 
-class CreateSemesterView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
-    model = Semester
-    fields = '__all__'
+class CreateSemesterView(LoginRequiredMixin, UserPassesTestMixin, CreateView, CreatedByMixin):
+    form_class = SemesterForm
     success_url = reverse_lazy('academics:all_semester')
     template_name = 'academics/create_semester.html'
 
@@ -172,9 +171,8 @@ class CreateSemesterView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 create_semester = CreateSemesterView.as_view()
 
 
-class CreateAcademicSession(LoginRequiredMixin, UserPassesTestMixin, CreateView):
-    model = AcademicSession
-    fields = '__all__'
+class CreateAcademicSession(LoginRequiredMixin, UserPassesTestMixin, CreateView, CreatedByMixin):
+    form_class = AcademicSessionForm
     success_url = reverse_lazy('academics:academic_sessions')
     template_name = 'academics/create_academic_semester.html'
 
@@ -197,9 +195,8 @@ class SubjectListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 subject_list = SubjectListView.as_view()
 
 
-class CreateSubjectView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
-    model = Subject
-    fields = '__all__'
+class CreateSubjectView(LoginRequiredMixin, UserPassesTestMixin, CreateView, CreatedByMixin):
+    form_class = SubjectForm
     template_name = 'academics/create_subject.html'
     success_url = reverse_lazy('academics:subject_list')
 

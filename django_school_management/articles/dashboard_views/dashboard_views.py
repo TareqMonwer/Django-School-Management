@@ -4,7 +4,7 @@ from django.views.generic import CreateView, ListView, DeleteView
 from django.shortcuts import render
 from django.urls import reverse_lazy
 
-from django_school_management.accounts.mixins.no_permission import LoginRequiredNoPermissionMixin
+from django_school_management.mixins.no_permission import LoginRequiredNoPermissionMixin
 from django_school_management.articles.models import Article, Newsletter
 from django_school_management.articles.forms import ArticleForm
 from django_school_management.articles.filters import ArticleFilter

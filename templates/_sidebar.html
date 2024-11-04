@@ -14,11 +14,6 @@
                     width="50">
                 </div>
               </div>
-              <div class="peer peer-greed">
-                <h5 class="lh-1 mB-0 logo-text">
-
-                </h5>
-              </div>
             </div>
           </a></div>
         <div class="peer">
@@ -192,6 +187,12 @@
           </li>
           <li>
             <a class="sidebar-link" 
+              href="{% url 'academics:create_semester' %}">
+              Create Semester
+            </a>
+          </li>
+          <li>
+            <a class="sidebar-link" 
               href="{% url 'academics:all_semester' %}">
               Semesters
             </a>
@@ -210,14 +211,9 @@
         </a>
         <ul class="dropdown-menu">
           <li>
-            <!-- <a class="sidebar-link" 
-              href="{% url 'articles:dashboard_article_publish' %}">
-              Publish Article
-            </a> -->
             <a class="sidebar-link" href="{% url 'articles:publish_article_from_dashboard' %}">
               Publish Article
             </a>
-            
             <a class="sidebar-link" 
               href="{% url 'articles:dashboard_manage' %}">
               Manage Articles
@@ -239,8 +235,7 @@
       <li class="nav-item dropdown">
         <a class="dropdown-toggle" href="javascript:void(0);">
           <span class="icon-holder">
-            <!-- <i class="c-light-blue-500 ti-pencil"></i> -->
-            <img src="{% static 'images/money.png' %}" 
+            <img alt="Payments" src="{% static 'images/money.png' %}" 
               height="17">
           </span>
           <span class="title">Payments</span>
@@ -299,21 +294,6 @@
         </ul>
       </li>
       {% endif %}
-
-      <!-- Taken for Icons Classes -->
-      <!-- <li class="nav-item">
-        <a class="sidebar-link" href="">
-          <span class="icon-holder">
-            <i class="c-light-blue-500 ti-pencil"></i>
-          </span>
-          <span class="icon-holder">
-            <i class="c-pink-500 ti-palette"></i>
-          </span>
-          <span class="icon-holder">
-            <i class="c-red-500 ti-files"></i> 
-          </span>
-        </a>
-      </li> -->
     </ul>
   </div>
 </div>

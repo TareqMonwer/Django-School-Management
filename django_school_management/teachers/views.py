@@ -13,8 +13,7 @@ from permission_handlers.administrative import (
     user_is_teacher_or_administrative,
 )
 from permission_handlers.basic import user_is_verified
-from ..accounts.constants import AccountURLConstants
-from ..accounts.mixins.no_permission import LoginRequiredNoPermissionMixin
+from django_school_management.mixins.no_permission import LoginRequiredNoPermissionMixin
 
 
 @user_passes_test(user_is_teacher_or_administrative)
