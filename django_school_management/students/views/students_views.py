@@ -32,17 +32,9 @@ def students_dashboard_index(request):
     """
     Dashboard for online admission system. 
     """
-    unpaid_registrants = AdmissionStudent.objects.filter(paid=False)
-    all_applicants = AdmissionStudent.objects.all().order_by('-created')
-    admitted_students = AdmissionStudent.objects.filter(admitted=True, paid=True)
-    paid_registrants = AdmissionStudent.objects.filter(paid=True, admitted=False)
-    rejected_applicants = AdmissionStudent.objects.filter(rejected=True)
-    offline_applicants = AdmissionStudent.objects.filter(application_type='2')
-
     # List of months since first application registration date
     try:
-        first_application_date = AdmissionStudent.objects.order_by(
-            'created')[0].created.date()
+        first_application_date = datetime.strftime(datetime.now() - timedelta(days=365),'%Y-%m-%d' )
         last_application_date = date.today()
         dates = [str(first_application_date), str(last_application_date)]
         months_start, months_end = [
@@ -55,6 +47,13 @@ def students_dashboard_index(request):
         ).keys()
     except IndexError:
         month_list = []
+
+    unpaid_registrants = AdmissionStudent.objects.filter(paid=False)
+    all_applicants = AdmissionStudent.objects.all().order_by('-created')
+    admitted_students = AdmissionStudent.objects.filter(admitted=True, paid=True)
+    paid_registrants = AdmissionStudent.objects.filter(paid=True, admitted=False)
+    rejected_applicants = AdmissionStudent.objects.filter(rejected=True)
+    offline_applicants = AdmissionStudent.objects.filter(application_type='2')
 
     context = {
         'all_applicants': all_applicants,

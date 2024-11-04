@@ -1,3 +1,4 @@
+import calendar
 import datetime
 
 from django.db.models.functions import ExtractMonth
@@ -65,21 +66,12 @@ def counsel_monthly_report(request, response_type='html', date_param=None):
     # to generate last months report.
     if date_param:
         date = date_param.date()
-        # Used for filtering qs
-        report_month = date.month
-        # Used to return reporting month name
-        report_month_dt = date
     else:
         date = datetime.date.today()
-        first_day_of_month = date.replace(day=1)
-        # Used to return reporting month name
-        report_month_dt = first_day_of_month - datetime.timedelta(days=1)
-        # Used for filtering qs
-        report_month = report_month_dt.month
 
     total_applications = AdmissionStudent.objects.order_by('-created').filter(
         created__year=date.year,
-        created__month=report_month)
+        created__month=date.month)
 
     # Online/offline applications
     online_applications = total_applications.filter(application_type='1')  # 1 is online
@@ -87,7 +79,7 @@ def counsel_monthly_report(request, response_type='html', date_param=None):
 
     total_admission = AdmissionStudent.objects.filter(admitted=True).filter(
         created__year=date.year,
-        created__month=report_month)
+        created__month=date.month)
 
     # Online/offline admissions
     total_admission_online = total_admission.filter(application_type='1')  # 1 is online
@@ -107,7 +99,7 @@ def counsel_monthly_report(request, response_type='html', date_param=None):
 
     ctx = {
         'date': datetime.date.today(),
-        'report_month': report_month_dt.strftime('%B'), # Format full month name (July)
+        'report_month': date.strftime('%B'), # Format full month name (July)
         'total_applications': total_applications.count(),
         'total_admissions': total_admission.count(),
         'online_applications': online_applications.count(),
@@ -124,7 +116,7 @@ def counsel_monthly_report(request, response_type='html', date_param=None):
         return JsonResponse({'data': ctx})
     elif response_type.lower() == 'pdf':
         template = get_template('students/reports/counsel_monthly_report.html')
-        html = template.render(ctx)
+        template.render(ctx)
         pdf = render_to_pdf(
             'students/reports/counsel_monthly_report.html', ctx)
         
