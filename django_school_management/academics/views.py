@@ -6,6 +6,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import ListView
 from django.urls import reverse_lazy
 
+from .constants import AcademicsURLConstants
 from .models import (Semester, Department,
     AcademicSession, Subject)
 from .forms import SemesterForm, DepartmentForm, AcademicSessionForm, SubjectForm
@@ -32,7 +33,7 @@ def semesters(request):
             semster = form.save(commit=False)
             semster.created_by = request.user
             semster.save()
-            return redirect('academics:all_semester')
+            return redirect(AcademicsURLConstants.all_semester)
     form = SemesterForm()
     ctx = {
         'all_sems': all_sems,
@@ -53,7 +54,7 @@ def academic_session(request):
             ac_session = form.save(commit=False)
             ac_session.created_by = request.user
             ac_session.save()
-            return redirect('academics:academic_sessions')
+            return redirect(AcademicsURLConstants.academic_sessions)
     else:
         form = AcademicSessionForm()
     all_academic_session = AcademicSession.objects.all()
@@ -76,7 +77,7 @@ def departments(request):
             dept = form.save(commit=False)
             dept.created_by = request.user
             dept.save()
-            return redirect('academics:departments')
+            return redirect(AcademicsURLConstants.departments)
     else:
         form = DepartmentForm()
     all_department = Department.objects.all()
@@ -91,14 +92,14 @@ def departments(request):
 def delete_semester(request, pk):
     obj = get_object_or_404(Semester, pk=pk)
     obj.delete()
-    return redirect('academics:departments')
+    return redirect(AcademicsURLConstants.all_semester)
 
 
 class UpdateDepartment(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Department
     form_class = DepartmentForm
     template_name = 'academics/update_department.html'
-    success_url = reverse_lazy('academics:departments')
+    success_url = reverse_lazy(AcademicsURLConstants.departments)
 
     def test_func(self):
         user = self.request.user
@@ -112,7 +113,7 @@ class UpdateDepartment(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 def delete_department(request, pk):
     obj = get_object_or_404(Department, pk=pk)
     obj.delete()
-    return redirect('academics:departments')
+    return redirect(AcademicsURLConstants.departments)
 
 
 @user_passes_test(user_is_teacher_or_administrative)
@@ -149,7 +150,7 @@ def upload_subjects_csv(request):
 
 class CreateDepartmentView(LoginRequiredMixin, UserPassesTestMixin, CreateView, CreatedByMixin):
     form_class = DepartmentForm
-    success_url = reverse_lazy('academics:departments')
+    success_url = reverse_lazy(AcademicsURLConstants.departments)
     template_name = 'academics/create_department.html'
 
     def test_func(self):
@@ -161,7 +162,7 @@ create_department = CreateDepartmentView.as_view()
 
 class CreateSemesterView(LoginRequiredMixin, UserPassesTestMixin, CreateView, CreatedByMixin):
     form_class = SemesterForm
-    success_url = reverse_lazy('academics:all_semester')
+    success_url = reverse_lazy(AcademicsURLConstants.all_semester)
     template_name = 'academics/create_semester.html'
 
     def test_func(self):
@@ -173,7 +174,7 @@ create_semester = CreateSemesterView.as_view()
 
 class CreateAcademicSession(LoginRequiredMixin, UserPassesTestMixin, CreateView, CreatedByMixin):
     form_class = AcademicSessionForm
-    success_url = reverse_lazy('academics:academic_sessions')
+    success_url = reverse_lazy(AcademicsURLConstants.academic_sessions)
     template_name = 'academics/create_academic_semester.html'
 
     def test_func(self):
@@ -198,7 +199,7 @@ subject_list = SubjectListView.as_view()
 class CreateSubjectView(LoginRequiredMixin, UserPassesTestMixin, CreateView, CreatedByMixin):
     form_class = SubjectForm
     template_name = 'academics/create_subject.html'
-    success_url = reverse_lazy('academics:subject_list')
+    success_url = reverse_lazy(AcademicsURLConstants.subject_list)
 
     def test_func(self):
         user = self.request.user
