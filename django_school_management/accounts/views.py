@@ -11,7 +11,7 @@ from django.urls import reverse
 from django_school_management.academics.models import Department
 from django_school_management.students.models import Student
 from django_school_management.teachers.models import Teacher
-from .constants import ProfileApprovalStatusEnum, AccountURLConstants, AccountTypesEnum
+from .constants import ProfileApprovalStatusEnum, AccountURLConstants
 from .forms import (
     ProfileCompleteForm,
     ApprovalProfileUpdateForm,
@@ -138,20 +138,17 @@ def user_approval_with_modification(request, pk):
 @login_required(login_url=AccountURLConstants.permission_error)
 @user_passes_test(user_is_admin_or_su, login_url=AccountURLConstants.permission_error)
 def add_user_view(request):
-    if request.user.has_perm('create_stuff'):
-        if request.method == 'POST':
-            user_form = UserCreateFormDashboard(request.POST)
-            if user_form.is_valid():
-                user_form.save()
-                return redirect(AccountURLConstants.all_accounts)
-        else:
-            user_form = UserCreateFormDashboard()
-            context = {
-                'user_form': user_form,
-            }
-            return render(request, 'academics/add_user.html', context)
+    if request.method == 'POST':
+        user_form = UserCreateFormDashboard(request.POST)
+        if user_form.is_valid():
+            user_form.save()
+            return redirect(AccountURLConstants.all_accounts)
     else:
-        return render(request, 'academics/permission_required.html')
+        user_form = UserCreateFormDashboard()
+        context = {
+            'user_form': user_form,
+        }
+        return render(request, 'academics/add_user.html', context)
 
 
 class AccountListView(LoginRequiredNoPermissionMixin, UserPassesTestMixin, ListView):

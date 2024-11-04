@@ -1,4 +1,6 @@
 import csv, io
+
+from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -21,10 +23,10 @@ from ..mixins.created_by import CreatedByMixin
 
 @user_passes_test(user_is_admin_su_editor_or_ac_officer)
 def semesters(request):
-    '''
-    Shows semester list and 
+    """
+    Shows semester list and
     contains semester create form
-    '''
+    """
     # TODO: Allow multiple semester creation together. (1,3,4,5) like this format.
     all_sems = Semester.objects.all()
     if request.method == 'POST':
@@ -44,10 +46,10 @@ def semesters(request):
 
 @user_passes_test(user_is_admin_su_editor_or_ac_officer)
 def academic_session(request):
-    '''
+    """
     Responsible for academic session list view
     and academic session create view.
-    '''
+    """
     if request.method == 'POST':
         form = AcademicSessionForm(request.POST)
         if form.is_valid():
@@ -67,10 +69,10 @@ def academic_session(request):
 
 @user_passes_test(user_is_verified)
 def departments(request):
-    '''
+    """
     Responsible for department list view
     and department create view.
-    '''
+    """
     if request.method == 'POST':
         form = DepartmentForm(request.POST, request.FILES)
         if form.is_valid():
@@ -118,34 +120,31 @@ def delete_department(request, pk):
 
 @user_passes_test(user_is_teacher_or_administrative)
 def upload_subjects_csv(request):
-    if request.user.has_perm('create_stuff'):
-        template = 'result/add_subject_csv.html'
-        prompt = {
-            'order': 'Subject name, Subject Code'
-        }
-        if request.method == 'GET':
-            return render(request, template, prompt)
-        
-        csv_file = request.FILES['file']
-        if not csv_file.name.endswith('.csv'):
-            messages.error(request, 'Please, upload a CSV file.')
-        try:
-            data_set = csv_file.read().decode('UTF-8')
-            io_string = io.StringIO(data_set)
-            next(io_string)
-            # TODO: upload data for foreignkey also, and
-            # create object for foreignkey if no data found.
-            for column in csv.reader(io_string, delimiter=',', quotechar='|'):
-                _, created = Subject.objects.update_or_create(
-                    name=column[0],
-                    subject_code=column[1]
-                )
-        except:
-            pass
-        context = {}
-        return render(request, template, context)
-    else:
-        return render(request, 'admin_tools/permission_required.html')
+    template = 'result/add_subject_csv.html'
+    prompt = {
+        'order': 'Subject name, Subject Code'
+    }
+    if request.method == 'GET':
+        return render(request, template, prompt)
+
+    csv_file = request.FILES['file']
+    if not csv_file.name.endswith('.csv'):
+        messages.error(request, 'Please, upload a CSV file.')
+    try:
+        data_set = csv_file.read().decode('UTF-8')
+        io_string = io.StringIO(data_set)
+        next(io_string)
+        # TODO: upload data for foreignkey also, and
+        # create object for foreignkey if no data found.
+        for column in csv.reader(io_string, delimiter=',', quotechar='|'):
+            _, created = Subject.objects.update_or_create(
+                name=column[0],
+                subject_code=column[1]
+            )
+    except:
+        pass
+    context = {}
+    return render(request, template, context)
 
 
 class CreateDepartmentView(LoginRequiredMixin, UserPassesTestMixin, CreateView, CreatedByMixin):
