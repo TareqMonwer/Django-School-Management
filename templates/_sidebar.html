@@ -145,6 +145,7 @@
         </ul>
       </li>
 
+    {% if user.approval_status == 'a' and user|has_role:'academic_officer, admin' %}
       <!-- Academic Tools -->
       <li class="nav-item dropdown">
         <a class="dropdown-toggle" href="javascript:void(0);">
@@ -186,7 +187,7 @@
             </a>
           </li>
           <li>
-            <a class="sidebar-link" 
+            <a class="sidebar-link"
               href="{% url academic_urls.create_semester %}">
               Create Semester
             </a>
@@ -198,13 +199,14 @@
             </a>
           </li>
           <li>
-            <a class="sidebar-link" 
+            <a class="sidebar-link"
               href="{% url academic_urls.all_semester %}">
               Semesters
             </a>
           </li>
         </ul>
       </li>
+    {% endif %}
 
       <!-- PUBLISHING OPTIONS -->
       <li class="nav-item dropdown">
@@ -236,12 +238,12 @@
         </ul>
       </li>
 
-      {% if user|has_role:'accounts, admin' %}
+      {% if user.approval_status == 'a' and user|has_role:'accounts, admin' %}
       <!-- PAYMENTS (RESTRICTED) -->
       <li class="nav-item dropdown">
         <a class="dropdown-toggle" href="javascript:void(0);">
           <span class="icon-holder">
-            <img alt="Payments" src="{% static 'images/money.png' %}" 
+            <img alt="Payments" src="{% static 'images/money.png' %}"
               height="17">
           </span>
           <span class="title">Payments</span>
@@ -262,7 +264,7 @@
       </li>
       {% endif %}
 
-      {% if user|has_role:'admin' %}
+      {% if user.approval_status == 'a' and user|has_role:'admin' %}
       <!-- USER OPTIONS -->
       <li class="nav-item dropdown">
         <a class="dropdown-toggle" href="javascript:void(0);">
