@@ -23,10 +23,10 @@
                     <td>{{ department.head.name }}</td>
                     <td>{{ department.created_by }}</td>
                     <td>
-                        <a class="btn btn-sm btn-danger" href="{% url 'academics:delete_dept' pk=department.id %}">
+                        <a class="btn btn-sm btn-danger" href="{% url academic_urls.delete_dept pk=department.id %}">
                             Delete
                         </a>
-                        <a href="{% url 'academics:update_department' pk=department.pk %}" class="btn btn-sm btn-primary">
+                        <a href="{% url academic_urls.update_department pk=department.pk %}" class="btn btn-sm btn-primary">
                             Update
                         </a>
                     </td>

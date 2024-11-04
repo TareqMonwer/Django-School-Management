@@ -157,13 +157,13 @@
         <ul class="dropdown-menu">
           <li>
             <a class="sidebar-link" 
-              href="{% url 'academics:departments' %}">
+              href="{% url academic_urls.departments %}">
               Departments
             </a>
           </li>
           <li>
             <a class="sidebar-link" 
-              href="{% url 'academics:create_subject' %}">
+              href="{% url academic_urls.create_subject %}">
               Create Subject
             </a>
           </li>
@@ -181,19 +181,25 @@
           </li>
           <li>
             <a class="sidebar-link" 
-              href="{% url 'academics:academic_sessions' %}">
+              href="{% url academic_urls.academic_sessions %}">
               Academic Sessions
             </a>
           </li>
           <li>
             <a class="sidebar-link" 
-              href="{% url 'academics:create_semester' %}">
+              href="{% url academic_urls.create_semester %}">
               Create Semester
             </a>
           </li>
           <li>
             <a class="sidebar-link" 
-              href="{% url 'academics:all_semester' %}">
+              href="{% url academic_urls.all_semester %}">
+              Semesters
+            </a>
+          </li>
+          <li>
+            <a class="sidebar-link" 
+              href="{% url academic_urls.all_semester %}">
               Semesters
             </a>
           </li>

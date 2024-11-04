@@ -6,11 +6,13 @@
 {% endblock %}
 
 {% block dashboard-body %}
-<form action="{% url 'academics:create_subject' %}" method="POST" class="d-block">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <input type="submit" value="Create Subject" class="btn btn-dark">
-</form>
+    <h4>Introduce New Subject</h4>
+    <hr>
+    <form action="{% url academic_urls.create_subject %}" method="POST" class="d-block">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input type="submit" value="Create Subject" class="btn btn-dark">
+    </form>
 {% endblock %}
 
 

@@ -5,6 +5,7 @@ from django.conf import settings
 from django.urls import reverse
 
 from django_school_management.teachers.models import Teacher
+from .constants import AcademicsURLConstants
 from .utils import model_help_texts
 
 
@@ -56,7 +57,7 @@ class Department(TimeStampedModel):
         return str(self.name)
     
     def create_resource(self):
-        return reverse('academics:create_department')
+        return reverse(AcademicsURLConstants.create_department)
 
 
 class AcademicSession(TimeStampedModel):
@@ -69,7 +70,7 @@ class AcademicSession(TimeStampedModel):
         return '{} - {}'.format(self.year, self.year + 1)
     
     def create_resource(self):
-        return reverse('academics:create_academic_session')
+        return reverse(AcademicsURLConstants.create_academic_session)
 
 
 class Semester(TimeStampedModel):
@@ -97,7 +98,7 @@ class Semester(TimeStampedModel):
             return '%sth' % self.number
     
     def create_resource(self):
-        return reverse('academics:create_semester')
+        return reverse(AcademicsURLConstants.create_semester)
 
 
 class Subject(TimeStampedModel):
@@ -121,7 +122,7 @@ class Subject(TimeStampedModel):
         return "{} ({})".format(self.name, self.subject_code)
     
     def create_resource(self):
-        return reverse('academics:create_subject')
+        return reverse(AcademicsURLConstants.create_subject)
 
 
 class Batch(TimeStampedModel):
