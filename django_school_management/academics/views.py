@@ -10,7 +10,7 @@ from django.urls import reverse_lazy
 
 from .constants import AcademicsURLConstants
 from .models import (Semester, Department,
-    AcademicSession, Subject)
+                     AcademicSession, Subject, Batch)
 from .forms import SemesterForm, DepartmentForm, AcademicSessionForm, SubjectForm
 from permission_handlers.administrative import (
     user_is_admin_su_editor_or_ac_officer,
@@ -205,3 +205,28 @@ class CreateSubjectView(LoginRequiredMixin, UserPassesTestMixin, CreateView, Cre
         return user_is_teacher_or_administrative(user)
 
 create_subject = CreateSubjectView.as_view()
+
+
+class CreateBatchView(LoginRequiredMixin, UserPassesTestMixin, CreateView, CreatedByMixin):
+    model = Batch
+    template_name = 'academics/create_batch.html'
+    success_url = reverse_lazy(AcademicsURLConstants.batch_list)
+    fields = ['department', 'year', 'number']
+
+    def test_func(self):
+        user = self.request.user
+        return user_is_teacher_or_administrative(user)
+
+create_batch_view = CreateBatchView.as_view()
+
+
+class BatchListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = Batch
+    context_object_name = 'batches'
+    template_name = 'academics/batch_list.html'
+
+    def test_func(self):
+        user = self.request.user
+        return user_is_teacher_or_administrative(user)
+
+batch_list_view = BatchListView.as_view()

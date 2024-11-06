@@ -187,6 +187,18 @@
             </a>
           </li>
           <li>
+            <a class="sidebar-link" 
+              href="{% url academic_urls.batch_list %}">
+              Batch List
+            </a>
+          </li>
+          <li>
+            <a class="sidebar-link" 
+              href="{% url academic_urls.create_batch %}">
+              Create Batch
+            </a>
+          </li>
+          <li>
             <a class="sidebar-link"
               href="{% url academic_urls.create_semester %}">
               Create Semester
@@ -194,12 +206,6 @@
           </li>
           <li>
             <a class="sidebar-link" 
-              href="{% url academic_urls.all_semester %}">
-              Semesters
-            </a>
-          </li>
-          <li>
-            <a class="sidebar-link"
               href="{% url academic_urls.all_semester %}">
               Semesters
             </a>

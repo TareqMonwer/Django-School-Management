@@ -137,6 +137,9 @@ class Batch(TimeStampedModel):
     def __str__(self):
         return f'{self.department.name} Batch {self.number} ({self.year})'
 
+    def create_resource(self):
+        return reverse(AcademicsURLConstants.create_batch)
+
 
 class TempSerialID(TimeStampedModel):
     student = models.OneToOneField('students.Student', on_delete=models.CASCADE,
