@@ -4,7 +4,7 @@ from config import settings
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 
-from django_school_management.academics.models import Department, Semester, AcademicSession, Subject
+from django_school_management.academics.models import Department, Semester, AcademicSession, Subject, Batch
 from django_school_management.result.models import SubjectGroup
 from django_school_management.students.forms import StudentForm
 from django_school_management.students.models import AdmissionStudent
@@ -102,7 +102,7 @@ class UserGuideView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
-        check_models = [Department, Semester, AcademicSession, Subject, SubjectGroup]
+        check_models = [Department, Semester, AcademicSession, Subject, SubjectGroup, Batch]
         models = []
 
         for model in check_models:
