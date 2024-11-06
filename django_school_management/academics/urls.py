@@ -5,7 +5,16 @@ from .constants import AcademicsURLEnum
 app_name = 'academics'
 
 urlpatterns = [
-    # Semester
+    path(
+        AcademicsURLEnum.batch_list.value,
+        views.batch_list_view,
+        name=AcademicsURLEnum.batch_list.name
+    ),
+    path(
+        AcademicsURLEnum.create_batch.value,
+        views.create_batch_view,
+        name=AcademicsURLEnum.create_batch.name
+    ),
     path(
         AcademicsURLEnum.all_semester.value,
         views.semesters,

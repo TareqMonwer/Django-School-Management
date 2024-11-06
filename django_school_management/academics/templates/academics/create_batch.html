@@ -1,0 +1,28 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block extra_header %}
+{% endblock %}
+
+{% block dashboard-body %}
+    <h4>Create Batch</h4>
+    <hr>
+    <form action="{% url academic_urls.create_batch %}" method="POST" class="d-block">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input type="submit" value="Create Batch" class="btn btn-dark">
+    </form>
+{% endblock %}
+
+
+{% block extrajs %}
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+<script>
+  // Select image
+  $('input[type="file"]').change(function (e) {
+    const fileName = e.target.files[0].name;
+    $(".custom-file-label").html(fileName);
+  });
+</script>
+{% endblock %}

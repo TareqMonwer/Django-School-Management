@@ -13,6 +13,8 @@ class AcademicsURLEnum(Enum):
     update_department = 'department/update/<int:pk>/'
     subject_list = 'subjects/'
     import_subject_csv = 'upload-subjects-csv/'
+    create_batch = 'create-batch/'
+    batch_list = 'batch-list/'
 
 
 class AcademicsURLConstants:
@@ -27,3 +29,5 @@ class AcademicsURLConstants:
     update_department = f'academics:{AcademicsURLEnum.update_department.name}'
     subject_list = f'academics:{AcademicsURLEnum.subject_list.name}'
     import_subject_csv = f'academics:{AcademicsURLEnum.import_subject_csv.name}'
+    create_batch = f'academics:{AcademicsURLEnum.create_batch.name}'
+    batch_list = f'academics:{AcademicsURLEnum.batch_list.name}'
