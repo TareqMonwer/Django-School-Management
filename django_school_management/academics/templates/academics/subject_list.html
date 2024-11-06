@@ -13,9 +13,14 @@
 </nav>
 
 <div class="row">
-  <div class="col-12 mb-2">
+  <div class="col-8 mb-2">
     <h4 class="ml-0">All Subjects</h4>
   </div>
+    <div class="col-4">
+        <a href="{% url academic_urls.create_subject %}" class="btn btn-dark">Create New Subject</a>
+    </div>
+</div>
+<div class="row">
   <div class="col-12">
     <table class="table table-bordered">
       <thead>

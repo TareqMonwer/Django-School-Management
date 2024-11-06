@@ -99,6 +99,33 @@
           </div>
         </div>
       </div>
+        <div class="col-md-3">
+        <div class="layers bd bgc-white p-20">
+          <div class="layer w-100 mB-10">
+            <h6 class="lh-1">
+              <a href="{% url 'students:unpaid_registrants' %}" class="text-dark">
+                Paid
+              </a>
+            </h6>
+          </div>
+          <div class="layer w-100">
+            <div class="peers ai-sb fxw-nw">
+              <div class="peer peer-greed">
+                <a href="{% url 'students:paid_registrants' %}" class="text-dark">
+                  <i class="fas fa-users fa-3x"></i>
+                </a>
+              </div>
+              <div class="peer">
+                <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-purple-50 c-purple-500">
+                  <a href="{% url 'students:paid_registrants' %}" class="text-dark">
+                    {{ paid_registrants.count }}
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="col-md-3">
         <div class="layers bd bgc-white p-20">
           <div class="layer w-100 mB-10">
