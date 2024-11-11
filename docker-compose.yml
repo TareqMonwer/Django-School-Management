@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 services:
   redis:
     image: redis:latest
@@ -6,10 +6,26 @@ services:
     command: redis-server
     ports:
     - '6379:6379'
+    networks:
+      django_school_network:
+  postgres_db:
+    image: postgres:latest
+    container_name: django_school_pgsql
+    volumes:
+      - /d/dockerdata/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=django-school-1
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    networks:
+      django_school_network:
   django:
     build: .
     container_name: dj_sms_server
     image: dj_sms_docker
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
       - static:/code/static
@@ -18,9 +34,11 @@ services:
       - "8000:8000"
     links:
       - redis
+      - postgres_db
     depends_on:
-      - celery
-
+      - postgres_db
+    networks:
+      django_school_network:
   celery:
     build: .
     command: celery -A config worker -l INFO
@@ -28,7 +46,16 @@ services:
       - .:/code
     links:
       - redis
+      - django
+    depends_on:
+      - django
+    networks:
+      django_school_network:
 
 volumes:
   media:
   static:
+
+networks:
+  django_school_network:
+    driver: bridge
