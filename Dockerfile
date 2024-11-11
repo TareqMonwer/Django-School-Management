@@ -15,6 +15,8 @@ RUN pip install -r requirements.txt
 # copy project
 COPY . .
 
+RUN pip install gunicorn==21.2.0
+
 RUN python manage.py collectstatic --noinput
 
 # Tell uWSGI where to find your wsgi file (change this):
@@ -31,4 +33,6 @@ ENV UWSGI_STATIC_MAP="/static/=/code/static/" UWSGI_STATIC_EXPIRES_URI="/static/
 
 # RUN python manage.py migrate --noinput
 
-# CMD python manage.py runserver 0.0.0.0:8000
+EXPOSE 8000
+
+ENTRYPOINT ["python", "-m", "gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000"]
