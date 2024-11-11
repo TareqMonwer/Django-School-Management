@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django
+  labels:
+    app: django
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: django
+  template:
+    metadata:
+      labels:
+        app: django
+    spec:
+      containers:
+      - name: django
+        image: tareqmonwer/django-school-management:latest
+        env:
+          - name: DB_NAME
+            value: django-school-1
+          - name: DB_USER
+            value: postgres
+          - name: DB_PASSWORD
+            value: your_password_here
+          - name: DB_HOST
+            value: postgres
+          - name: DB_PORT
+            value: "5432"
+        ports:
+          - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: django
+spec:
+  ports:
+    - port: 8000
+  selector:
+    app: django
