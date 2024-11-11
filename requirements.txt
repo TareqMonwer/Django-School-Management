@@ -46,7 +46,6 @@ django-import-export==3.2.0
 django-js-asset==2.1.0
 django-model-utils==4.3.1
 django-mptt==0.14.0
-django-mysql==4.10.0
 django-redis-cache==3.0.1
 django-rename-app==0.1.6
 django-role-permissions==3.2.0
@@ -77,7 +76,6 @@ lxml==4.9.3
 Markdown==3.4.3
 MarkupPy==1.14
 msgpack==1.0.5
-mysqlclient==2.2.0
 oauthlib==3.2.2
 odfpy==1.4.1
 openpyxl==3.1.2
@@ -88,7 +86,7 @@ Pillow==10.0.0
 progress==1.6
 promise==2.3
 prompt-toolkit==2.0.9
-psycopg==2-2.9.10
+psycopg2-binary==2.9.10
 pycodestyle==2.10.0
 pycparser==2.21
 pyHanko==0.19.0
@@ -105,11 +103,11 @@ python-slugify==8.0.1
 python3-openid==3.2.0
 pytoml==0.1.21
 pytz==2023.3
-PyYAML==6.0
+pyyaml==5.3.1
 qrcode==7.4.2
 redis==3.5.3
 regex==2023.6.3
-reportlab==3.6.13
+reportlab==4.2.5
 requests==2.31.0
 requests-oauthlib==1.3.1
 retrying==1.3.4
@@ -136,6 +134,6 @@ vine==5.0.0
 wcwidth==0.2.6
 webencodings==0.5.1
 whitenoise==6.5.0
-xhtml2pdf==0.2.11
+xhtml2pdf==0.2.16
 xlrd==2.0.1
 xlwt==1.3.0
