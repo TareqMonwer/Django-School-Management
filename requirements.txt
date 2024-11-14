@@ -9,7 +9,7 @@ billiard==4.1.0
 braintree==4.6.0
 CacheControl==0.13.1
 celery==5.3.1
-certifi==2023.7.22
+certifi==2024.7.4
 cffi==1.15.1
 charset-normalizer==3.2.0
 click==8.1.4
