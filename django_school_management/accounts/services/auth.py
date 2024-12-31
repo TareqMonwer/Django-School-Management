@@ -1,6 +1,14 @@
-from django_school_management.accounts.constants import ProfileApprovalStatusEnum, AccountTypesEnum
-from django_school_management.accounts.models import CommonUserProfile, CustomGroup
-from django_school_management.accounts.request_context import RequestUserContext
+from django_school_management.accounts.constants import (
+    ProfileApprovalStatusEnum,
+    AccountTypesEnum,
+)
+from django_school_management.accounts.models import (
+    CommonUserProfile,
+    CustomGroup,
+)
+from django_school_management.accounts.request_context import (
+    RequestUserContext,
+)
 
 
 def create_profile_for_approved_account(user):
@@ -18,8 +26,15 @@ def handle_superuser_creation(user):
 
 
 def assign_role_based_groups(user):
-    already_assigned_to_group = user.groups.filter(name=user.requested_role).exists()
-    if user.approval_status == ProfileApprovalStatusEnum.approved.value and not already_assigned_to_group:
+    already_assigned_to_group = user.groups.filter(
+        name=user.requested_role
+    ).exists()
+    if (
+        user.approval_status == ProfileApprovalStatusEnum.approved.value
+        and not already_assigned_to_group
+    ):
         group_creator = RequestUserContext.get_current_user()
-        group, created = CustomGroup.objects.get_or_create(name=user.requested_role, group_creator=group_creator)
+        group, created = CustomGroup.objects.get_or_create(
+            name=user.requested_role, group_creator=group_creator
+        )
         user.groups.add(group)

@@ -73,33 +73,13 @@
           <span class="arrow"><i class="ti-angle-right"></i></span>
         </a>
         <ul class="dropdown-menu">
-          <li>
-            <a class="sidebar-link" 
-              href="{% url 'students:add_student' %}">
-              New Application
-            </a>
-          </li>
-          <li>
-            <a class="sidebar-link" 
-              href="{% url 'students:all_student' %}">
-              Students List
-            </a>
-          </li>
-          <li>
-            <a class="sidebar-link" href="{% url 'result:result_entry' %}">
-              Add Result
-            </a>
-          </li>
-          <li>
-            <a class="sidebar-link" href="{% url 'result:result_home' %}">
-              Results
-            </a>
-          </li>
-          <li>
-            <a class="sidebar-link" href="{% url 'students:alumnus' %}">
-              Alumnus
-            </a>
-          </li>
+          {% for menu_item in student_menu_items %}
+            <li>
+              <a class="sidebar-link" href="{{ menu_item.url }}">
+                {{ menu_item.title }}
+              </a>
+            </li>
+          {% endfor %}
         </ul>
       </li>
 
@@ -111,41 +91,17 @@
           <span class="arrow"><i class="ti-angle-right"></i></span>
         </a>
         <ul class="dropdown-menu">
-          {% if user.approval_status == 'a' %}
-          <li>
-            <a class="sidebar-link" 
-              href="{% url 'articles:create' %}">
-              Write Article
-            </a>
-          </li>
-          <li>
-            <a class="sidebar-link" 
-              href="{% url 'articles:create' %}">
-              Articles
-            </a>
-          </li>
-          {% endif %}
-          
-          <li>
-            <a class="sidebar-link" 
-              href="{% url 'teachers:all_teacher' %}">
-              Teachers
-            </a>
-          </li>
-          <li>
-            <a class="sidebar-link" href="#">
-              Promotion
-            </a>
-          </li>
-          <li>
-            <a class="sidebar-link" href="{% url 'teachers:designations' %}">
-              Designations
-            </a>
-          </li>
+          {% for menu_item in teacher_menu_items %}
+            <li>
+              <a class="sidebar-link" href="{{ menu_item.url }}">
+                {{ menu_item.title }}
+              </a>
+            </li>
+          {% endfor %}
         </ul>
       </li>
 
-    {% if user.approval_status == 'a' and user|has_role:'academic_officer, admin' %}
+    {% if user|has_role:'academic_officer, admin' %}
       <!-- Academic Tools -->
       <li class="nav-item dropdown">
         <a class="dropdown-toggle" href="javascript:void(0);">
@@ -215,6 +171,7 @@
     {% endif %}
 
       <!-- PUBLISHING OPTIONS -->
+      {% if user|has_role:'admin, editor' %}
       <li class="nav-item dropdown">
         <a class="dropdown-toggle" href="javascript:void(0);">
           <span class="icon-holder">
@@ -243,8 +200,9 @@
           </li>
         </ul>
       </li>
+      {% endif %}
 
-      {% if user.approval_status == 'a' and user|has_role:'accounts, admin' %}
+      {% if  user|has_role:'accounts, admin' %}
       <!-- PAYMENTS (RESTRICTED) -->
       <li class="nav-item dropdown">
         <a class="dropdown-toggle" href="javascript:void(0);">
@@ -270,7 +228,7 @@
       </li>
       {% endif %}
 
-      {% if user.approval_status == 'a' and user|has_role:'admin' %}
+      {% if user|has_role:'admin' %}
       <!-- USER OPTIONS -->
       <li class="nav-item dropdown">
         <a class="dropdown-toggle" href="javascript:void(0);">
