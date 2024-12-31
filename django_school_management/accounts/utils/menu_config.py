@@ -36,7 +36,7 @@ MENU_CONFIG = {
             ],
         },
         {
-            "groups": {"academic_officer"},
+            "groups": {"admin", "academic_officer"},
             "urls": [
                 add_student,
                 all_students,

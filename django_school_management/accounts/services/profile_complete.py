@@ -46,6 +46,8 @@ class ProfileCompleteService:
             verification_form.instance.approval_status = 'p'
             # approval status get's pending
             verification_form.save()
+            self.user.approval_status = 'p'
+            self.user.save()
             self.session_messages.add_message(
                 self.request,
                 self.session_messages.SUCCESS,
