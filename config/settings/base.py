@@ -115,20 +115,19 @@ ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            str(BASE_DIR / 'templates')
-        ],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [str(BASE_DIR / "templates")],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
                 # ctx processeor to attach institute data in templates
-                'context_processors.dj_sms_context_processor.attach_institute_data_ctx_processor',
-                'context_processors.dj_sms_context_processor.attach_urls_for_common_templates',
+                "context_processors.attach_resources.attach_institute_data_ctx_processor",
+                "context_processors.attach_resources.attach_urls_for_common_templates",
+                "context_processors.attach_resources.attach_dashboard_menu_items",
             ],
         },
     },

@@ -2,66 +2,148 @@ from datetime import datetime
 
 from django.urls import path, register_converter
 
+from django_school_management.students.constants import StudentsURLEnums
+
 from .views import students_views as views
 from .views import pdf_views
 from .views import report_views
 
-app_name = 'students'
+app_name = "students"
 
 
 class DateConverter:
-     # Convert a string passed as date in datetime object
-     regex = '\d{4}-\d{2}-\d{2}'
+    # Convert a string passed as date in datetime object
+    regex = "\d{4}-\d{2}-\d{2}"
 
-     def to_python(self, value):
-          return datetime.strptime(value, '%Y-%m-%d')
-     
-     def to_url(self, value):
-          return value
+    def to_python(self, value):
+        return datetime.strptime(value, "%Y-%m-%d")
 
-register_converter(DateConverter, 'date')
+    def to_url(self, value):
+        return value
+
+
+register_converter(DateConverter, "date")
 
 urlpatterns = [
-     path('', views.students_dashboard_index, 
-          name='students_dashboard_index'),
-     # TEST PDF PRINTER
-     path('pdf/', pdf_views.test_pdf, name='test_pdf'),
-     path('add/', views.add_student_view, name='add_student'),
-     path('all/', views.students_view, name='all_student'),
-     path('alumnus/', views.AlumnusListView.as_view(), name='alumnus'),
-     path('applicants/', views.all_applicants, name='all_applicants'),
-     path('applicants/unpaid/', views.unpaid_registrants, name='unpaid_registrants'),
-     path('applicants/unpaid/mark-paid/', views.mark_as_paid_or_unpaid,
-          name='mark_as_paid_or_unpaid'),
-     path('add-counsel-data/<int:student_id>/', views.add_counseling_data, 
-          name='add_counseling_data'),
-     path('admitted-students/', views.admitted_students_list,
-          name='admitted_student_list'),
-     path('admission-confirm/', views.admission_confirmation,
-          name='admission_confirmation'),
-     path('api/batches/<int:department_code>/', views.get_json_batch_data,
-          name='get_json_batch_data'),
-     path('api/yearly-graph/', report_views.yearly_graph_api,
-          name='yearly_graph_api'),
-     path('online-applicants/<int:pk>/admit/', views.admit_student,
-          name='admit_student'),
-     path('paid-registrants/', views.paid_registrants, 
-          name='paid_registrants'),
-     path('rejected-registrants/', views.rejected_registrants,
-          name='rejected_registrants'),
-     path('update-registrant/<int:pk>/', views.update_online_registrant, 
-          name='update_online_registrant'),
-     path('update/<int:pk>/', views.StudentUpdateView.as_view(),
-          name='update_student'),
-     path('<int:pk>/detail/', views.StudentDetailsView.as_view(),
-          name='student_details'),
-     path('<int:pk>/delete/', views.student_delete_view, name='delete_student'),
-     path('<int:pk>/students/', views.students_by_department_view,
-          name='students_by_dept'),
-     path('counsel-report/', report_views.counsel_monthly_report, name='counsel_monthly_report'),
-     path('counsel-report/<str:response_type>/', report_views.counsel_monthly_report,
-          name='counsel_monthly_report_typed'),
-     path('counsel-report/<str:response_type>/<date:date_param>/',
-          report_views.counsel_monthly_report,
-          name='counsel_report_monthly_with_date'),
+    path(
+        StudentsURLEnums.students_dashboard_index.value,
+        views.students_dashboard_index,
+        name=StudentsURLEnums.students_dashboard_index.name,
+    ),
+    # TEST PDF PRINTER
+    path(
+        StudentsURLEnums.test_pdf.value,
+        pdf_views.test_pdf,
+        name=StudentsURLEnums.test_pdf.name,
+    ),
+    path(
+        StudentsURLEnums.add_student.value,
+        views.add_student_view,
+        name=StudentsURLEnums.add_student.name,
+    ),
+    path(
+        StudentsURLEnums.all_student.value,
+        views.students_view,
+        name=StudentsURLEnums.all_student.name,
+    ),
+    path(
+        StudentsURLEnums.alumnus.value,
+        views.AlumnusListView.as_view(),
+        name=StudentsURLEnums.alumnus.name,
+    ),
+    path(
+        StudentsURLEnums.all_applicants.value,
+        views.all_applicants,
+        name=StudentsURLEnums.all_applicants.name,
+    ),
+    path(
+        StudentsURLEnums.unpaid_registrants.value,
+        views.unpaid_registrants,
+        name=StudentsURLEnums.unpaid_registrants.name,
+    ),
+    path(
+        StudentsURLEnums.mark_as_paid_or_unpaid.value,
+        views.mark_as_paid_or_unpaid,
+        name=StudentsURLEnums.mark_as_paid_or_unpaid.name,
+    ),
+    path(
+        StudentsURLEnums.add_counseling_data.value,
+        views.add_counseling_data,
+        name=StudentsURLEnums.add_counseling_data.name,
+    ),
+    path(
+        StudentsURLEnums.admitted_student_list.value,
+        views.admitted_students_list,
+        name=StudentsURLEnums.admitted_student_list.name,
+    ),
+    path(
+        StudentsURLEnums.admission_confirmation.value,
+        views.admission_confirmation,
+        name=StudentsURLEnums.admission_confirmation.name,
+    ),
+    path(
+        StudentsURLEnums.get_json_batch_data.value,
+        views.get_json_batch_data,
+        name=StudentsURLEnums.get_json_batch_data.name,
+    ),
+    path(
+        StudentsURLEnums.yearly_graph_api.value,
+        report_views.yearly_graph_api,
+        name=StudentsURLEnums.yearly_graph_api.name,
+    ),
+    path(
+        StudentsURLEnums.admit_student.value,
+        views.admit_student,
+        name=StudentsURLEnums.admit_student.name,
+    ),
+    path(
+        StudentsURLEnums.paid_registrants.value,
+        views.paid_registrants,
+        name=StudentsURLEnums.paid_registrants.name,
+    ),
+    path(
+        StudentsURLEnums.rejected_registrants.value,
+        views.rejected_registrants,
+        name=StudentsURLEnums.rejected_registrants.name,
+    ),
+    path(
+        StudentsURLEnums.update_online_registrant.value,
+        views.update_online_registrant,
+        name=StudentsURLEnums.update_online_registrant.name,
+    ),
+    path(
+        StudentsURLEnums.update_student.value,
+        views.StudentUpdateView.as_view(),
+        name=StudentsURLEnums.update_student.name,
+    ),
+    path(
+        StudentsURLEnums.student_details.value,
+        views.StudentDetailsView.as_view(),
+        name=StudentsURLEnums.student_details.name,
+    ),
+    path(
+        StudentsURLEnums.delete_student.value,
+        views.student_delete_view,
+        name=StudentsURLEnums.delete_student.name,
+    ),
+    path(
+        StudentsURLEnums.students_by_dept.value,
+        views.students_by_department_view,
+        name=StudentsURLEnums.students_by_dept.name,
+    ),
+    path(
+        StudentsURLEnums.counsel_monthly_report.value,
+        report_views.counsel_monthly_report,
+        name=StudentsURLEnums.counsel_monthly_report.name,
+    ),
+    path(
+        StudentsURLEnums.counsel_monthly_report_typed.value,
+        report_views.counsel_monthly_report,
+        name=StudentsURLEnums.counsel_monthly_report_typed.name,
+    ),
+    path(
+        StudentsURLEnums.counsel_report_monthly_with_date.value,
+        report_views.counsel_monthly_report,
+        name=StudentsURLEnums.counsel_report_monthly_with_date.name,
+    ),
 ]
