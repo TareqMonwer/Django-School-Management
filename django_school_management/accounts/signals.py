@@ -10,9 +10,11 @@ from django_school_management.accounts.services.auth import handle_superuser_cre
 
 User = get_user_model()
 
+
 @receiver(user_logged_in)
 def set_user_on_login(sender, request, user, **kwargs):
     RequestUserContext.set_current_user(user)
+
 
 @receiver(user_logged_out)
 def clear_user_on_logout(sender, request, user, **kwargs):
@@ -24,9 +26,10 @@ def assign_all_permissions_to_superuser(sender, instance, created, **kwargs):
     user = User.objects.get(id=instance.id)
     user_profile = getattr(user, 'profile', None)
 
+    RequestUserContext.set_current_user(user)
     if instance.is_superuser and not user_profile:
         handle_superuser_creation(user)
-    elif created and not user_profile:
-        create_profile_for_approved_account(user)
+
+    create_profile_for_approved_account(user)
 
     assign_role_based_groups(user)
