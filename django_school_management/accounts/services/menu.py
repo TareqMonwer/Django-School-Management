@@ -26,7 +26,10 @@ class MenuService:
         Add reversed URLs and titles to the menu_items list, ensuring only unique URLs are added.
         """
         for url in urls:
-            reversed_url = reverse(url["name"])
+            if url.get("args"):
+                reversed_url = reverse(url["name"], args=url.get('args'))
+            else:
+                reversed_url = reverse(url["name"])
             if reversed_url not in added_urls:
                 menu_items.append({"url": reversed_url, "title": url["title"]})
                 added_urls.add(reversed_url)

@@ -21,6 +21,7 @@
       <tr>
         <th scope="col">#</th>
         <th scope="col">Email</th>
+        <th scope="col">ID</th>
         <th scope="col">Approval Status</th>
         <th scope="col">Requested Role</th>
         <th scope="col">Approval Action</th>
@@ -31,6 +32,7 @@
       <tr>
         <th scope="row">{{ forloop.counter }}</th>
         <td>{{ user }}</td>
+        <td>{{ user.employee_or_student_id }}</td>
         {% with req_role=user.approval_status %}
           <td class="{% if req_role == 'd' %}bg-warning{% endif %}">
             {{ user.get_approval_status_display }}
