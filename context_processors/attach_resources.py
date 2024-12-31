@@ -1,7 +1,7 @@
 from django_school_management.academics.constants import AcademicsURLConstants
 from django_school_management.accounts.constants import AccountURLConstants
 from django_school_management.accounts.services.menu import MenuService
-from django_school_management.accounts.utils.menu_config import MENU_CONFIG
+from django_school_management.accounts.utils.menu_config import get_menu_config
 from django_school_management.institute.models import (
     InstituteProfile,
     TextWidget,
@@ -54,12 +54,20 @@ def attach_urls_for_common_templates(request):
 
 
 def attach_dashboard_menu_items(request):
-    menu_service = MenuService(MENU_CONFIG)
-    return dict(
-        student_menu_items=menu_service.get_menu_items(
+    if request.user.is_authenticated:
+        menu_cofig = get_menu_config(request.user)
+        menu_service = MenuService(menu_cofig)
+        student_menu_items = menu_service.get_menu_items(
             "student", request.user
-        ),
-        teacher_menu_items=menu_service.get_menu_items(
+        )
+        teacher_menu_items = menu_service.get_menu_items(
             "teacher", request.user
-        ),
+        )
+        return dict(
+            student_menu_items=student_menu_items,
+            teacher_menu_items=teacher_menu_items,
+        )
+    return dict(
+        student_menu_items=[],
+        teacher_menu_items=[],
     )

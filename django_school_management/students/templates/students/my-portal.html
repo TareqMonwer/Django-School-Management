@@ -1,0 +1,74 @@
+{% extends 'dashboard.html' %}
+
+{% block dashboard-body %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+    <li class="breadcrumb-item active" aria-current="page">My Portal</li>
+  </ol>
+</nav>
+
+<div class="row gap-20 masonry pos-r">
+  <div class="masonry-sizer col-md-6"></div>
+  <div class="masonry-item w-100">
+    <div class="row gap-20">
+      <div class="col-4">
+        <div class="card" style="width: 18rem;">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              Department: {{ student.admission_student.choosen_department }}
+            </li>
+            <li class="list-group-item">
+              Class/Semester: {{ student.semester }}
+            </li>
+            <li class="list-group-item">
+              Session: {{ student.ac_session }}
+            </li>
+            <li class="list-group-item">
+              Batch: 21
+            </li>
+            <li class="list-group-item">
+              ID: {{ student.temporary_id }}
+            </li>
+            <li class="list-group-item">
+              Roll: {{ student.roll }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <h3>Subjects</h3>
+        <table class='{% cycle "table table-striped table-bordered table-dark" "table table-striped table-bordered" %}'>
+          <thead>
+            <tr>
+              <th scope="col">Code</th>
+              <th scope="col">Subject</th>
+              <th scope="col">Instructor</th>
+              <th scope="col">Theory</th>
+              <th scope="col">Practical</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for subject in subjects %}
+            <tr>
+              <td>{{ subject.subject_code }}</td>
+              <td>{{ subject.name }}</td>
+              <td>{{ subject.instructor }}</td>
+              <td>{{ subject.theory_marks }}</td>
+              <td>{{ subject.practical_marks }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+<hr />
+
+{% endblock %}

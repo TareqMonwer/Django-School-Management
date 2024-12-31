@@ -146,4 +146,9 @@ urlpatterns = [
         report_views.counsel_monthly_report,
         name=StudentsURLEnums.counsel_report_monthly_with_date.name,
     ),
+    path(
+        StudentsURLEnums.student_my_portal.value,
+        views.student_my_portal,
+        name=StudentsURLEnums.student_my_portal.name,
+    ),
 ]
