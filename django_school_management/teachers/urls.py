@@ -15,7 +15,7 @@ urlpatterns = [
     path(
         TeachersURLEnums.add_teacher.value,
         views.add_teacher_view,
-        name=TeachersURLEnums.add_teacher.value,
+        name=TeachersURLEnums.add_teacher.name,
     ),
     path(
         TeachersURLEnums.teacher_details.value,
@@ -41,5 +41,10 @@ urlpatterns = [
         TeachersURLEnums.create_designation.value,
         views.create_designation,
         name=TeachersURLEnums.create_designation.name,
+    ),
+    path(
+        TeachersURLEnums.teacher_my_portal.value,
+        views.teacher_my_portal,
+        name=TeachersURLEnums.teacher_my_portal.name,
     ),
 ]

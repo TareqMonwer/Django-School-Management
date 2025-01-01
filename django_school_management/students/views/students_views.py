@@ -3,7 +3,7 @@ from collections import OrderedDict
 
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import JsonResponse
+from django.http import HttpResponseNotFound, JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, UpdateView
 from django.contrib.auth.decorators import user_passes_test
@@ -38,7 +38,7 @@ from django_school_management.students.tasks import (
 from permission_handlers.administrative import (
     user_is_admin_su_or_ac_officer,
 )
-from permission_handlers.basic import user_is_verified
+from permission_handlers.basic import user_is_student, user_is_verified
 
 
 @user_passes_test(user_is_admin_su_or_ac_officer)
@@ -460,7 +460,11 @@ class AlumnusListView(
         return ctx
 
 
+@user_passes_test(user_is_student)
 def student_my_portal(request, student_id: str):
+    if request.user.employee_or_student_id != student_id:
+        return HttpResponseNotFound("Page not found!")
+
     student = Student.objects.get(temporary_id=student_id)
 
     department = student.admission_student.choosen_department

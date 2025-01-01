@@ -19,6 +19,10 @@ def get_menu_config(user: User):
         "name": StudentsURLConstants.add_student,
         "title": "New Application",
     }
+    add_teacher = {
+        "name": TeachersURLConstants.add_teacher,
+        "title": "Add Teacher"
+    }
     all_students = {
         "name": StudentsURLConstants.all_student,
         "title": "Students List",
@@ -29,6 +33,11 @@ def get_menu_config(user: User):
 
     student_my_profile = {
         "name": StudentsURLConstants.student_my_portal,
+        "title": "My Portal",
+        "args": [user.employee_or_student_id],
+    }
+    teacher_my_profile = {
+        "name": TeachersURLConstants.teacher_my_portal,
         "title": "My Portal",
         "args": [user.employee_or_student_id],
     }
@@ -72,6 +81,10 @@ def get_menu_config(user: User):
                 "urls": [all_teachers],
             },
             {
+                "groups": {"teacher"},
+                "urls": [teacher_my_profile],
+            },
+            {
                 "groups": {"editor"},
                 "urls": [
                     all_teachers,
@@ -85,7 +98,7 @@ def get_menu_config(user: User):
             },
             {
                 "groups": {"admin"},
-                "urls": [teacher_designations],
+                "urls": [teacher_designations, add_teacher],
             },
         ],
     }
