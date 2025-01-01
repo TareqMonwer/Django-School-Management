@@ -53,7 +53,7 @@ django-social-share==2.3.0
 django-tables2==2.6.0
 django-taggit==4.0.0
 django-timezone-field==5.1
-django-tinymce==3.6.1
+django-tinymce==4.1.0
 django-widget-tweaks==1.4.12
 djangorestframework==3.14.0
 et-xmlfile==1.1.0
