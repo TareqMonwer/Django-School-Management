@@ -9,6 +9,7 @@ class TeachersURLEnums(Enum):
     delete_teacher = '<int:pk>/delete/'
     designations = 'designations/'
     create_designation = 'create/designation/'
+    teacher_my_portal = "my-portal/<str:teacher_id>/"
 
 
 class TeachersURLConstants:
@@ -19,3 +20,4 @@ class TeachersURLConstants:
     delete_teacher = f"teachers:{TeachersURLEnums.delete_teacher.name}"
     designations = f"teachers:{TeachersURLEnums.designations.name}"
     create_designation = f"teachers:{TeachersURLEnums.create_designation.name}"
+    teacher_my_portal = f"teachers:{TeachersURLEnums.teacher_my_portal.name}"

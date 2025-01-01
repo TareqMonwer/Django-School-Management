@@ -1,0 +1,140 @@
+{% extends 'dashboard.html' %}
+
+{% block dashboard-body %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+    <li class="breadcrumb-item active" aria-current="page">My Portal</li>
+  </ol>
+</nav>
+
+<div class="row mb-5">
+  <div class="col-xl-3 col-sm-6 col-12">
+    <div class="card">
+      <div class="card-content">
+        <div class="card-body text-primary">
+          <div class="media d-flex">
+            <div class="align-self-center">
+              <h3><i class="fas fa-pen"></i></h3>
+            </div>
+            <div class="media-body text-right">
+              <h3>278</h3>
+              <span>My Assignments</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3 col-sm-6 col-12">
+    <div class="card text-success">
+      <div class="card-content">
+        <div class="card-body">
+          <div class="media d-flex">
+            <div class="align-self-center">
+              <h3>
+                <i class="fas fa-envelope"></i>
+              </h3>
+            </div>
+            <div class="media-body text-right">
+              <h3>156</h3>
+              <span>My Application/Letters</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3 col-sm-6 col-12">
+    <div class="card text-info">
+      <div class="card-content">
+        <div class="card-body">
+          <div class="media d-flex">
+            <div class="align-self-center">
+              <h3>
+                <i class="fas fa-users"></i>
+              </h3>
+            </div>
+            <div class="media-body text-right">
+              <h3>64.89 %</h3>
+              <span>My Attendance</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-3 col-sm-6 col-12">
+    <div class="card text-danger">
+      <div class="card-content">
+        <div class="card-body">
+          <div class="media d-flex">
+            <div class="align-self-center">
+              <h3>
+                <i class="fas fa-chalkboard-teacher"></i>
+              </h3>
+            </div>
+            <div class="media-body text-right">
+              <h3>423</h3>
+              <span>Exams</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row gap-20">
+  <div class="col-3">
+    <div class="card">
+      <div class="card-header">
+        Basic Info
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          ID: {{ teacher.employee_id }}
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-3">
+    <div class="card">
+      <div class="card-header">
+        Personal Details
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Cras justo odio</li>
+        <li class="list-group-item">Dapibus ac facilisis in</li>
+        <li class="list-group-item">Vestibulum at eros</li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-3">
+    <div class="card">
+      <div class="card-header">
+        Performance Metrics
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Cras justo odio</li>
+        <li class="list-group-item">Dapibus ac facilisis in</li>
+        <li class="list-group-item">Vestibulum at eros</li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-3">
+    <div class="card">
+      <div class="card-header">
+        Attendance Metrics
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Cras justo odio</li>
+        <li class="list-group-item">Dapibus ac facilisis in</li>
+        <li class="list-group-item">Vestibulum at eros</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

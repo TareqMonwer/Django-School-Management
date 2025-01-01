@@ -1,3 +1,4 @@
+from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView
@@ -12,7 +13,7 @@ from permission_handlers.administrative import (
     user_is_admin_or_su,
     user_is_teacher_or_administrative,
 )
-from permission_handlers.basic import user_is_verified
+from permission_handlers.basic import user_is_teacher, user_is_verified
 from django_school_management.mixins.no_permission import LoginRequiredNoPermissionMixin
 
 
@@ -96,3 +97,12 @@ class designation_list_view(LoginRequiredNoPermissionMixin, UserPassesTestMixin,
     def test_func(self):
         user = self.request.user
         return user_is_verified(user)
+
+
+@user_passes_test(user_is_teacher)
+def teacher_my_portal(request, teacher_id: str):
+    if request.user.employee_or_student_id != teacher_id:
+        return HttpResponseNotFound("Page not found!")
+
+    ctx = dict()
+    return render(request, "teachers/my-portal.html", ctx)
