@@ -35,4 +35,4 @@ ENV UWSGI_STATIC_MAP="/static/=/code/static/" UWSGI_STATIC_EXPIRES_URI="/static/
 
 EXPOSE 8000
 
-ENTRYPOINT ["python", "-m", "gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD ["python", "-m", "gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000"]

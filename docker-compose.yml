@@ -12,7 +12,7 @@ services:
     image: postgres:latest
     container_name: django_school_pgsql
     volumes:
-      - /d/dockerdata/db:/var/lib/postgresql/data
+      - ./dockerdata/db:/var/lib/postgresql
     environment:
       - POSTGRES_DB=django-school-1
       - POSTGRES_USER=postgres

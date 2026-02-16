@@ -35,7 +35,7 @@ def add_teacher_view(request):
     :param request:
     :return: teacher add form
     """
-    if request.user.has_perm('create_teacher'):
+    try:
         if request.method == 'POST':
             form = TeacherForm(request.POST, request.FILES)
             if form.is_valid():
@@ -45,7 +45,8 @@ def add_teacher_view(request):
         form = TeacherForm()
         context = {'form': form}
         return render(request, 'teachers/add_teacher.html', context)
-    else:
+    except Exception as e:
+        print(e)
         return render(request, 'admin_tools/permission_required.html')
 
 

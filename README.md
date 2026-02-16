@@ -1,6 +1,10 @@
 # Django-School-Management
 A fullstack school management project in django, bootstrap-4 and javascript.
 
+# Required setup components:
+- PostgreSQL Database
+- Redis instance up and running
+
 # Installation:
 1. go to the project folder
 2. run `pip install -r requirements.txt`
