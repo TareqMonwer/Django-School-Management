@@ -1,6 +1,6 @@
 import braintree
 
-from config import settings
+from django.conf import settings
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 
@@ -33,6 +33,8 @@ def online_admission(request):
             data = form.save()
             # TODO: return to payment pages based on global/local payment method
             # return redirect('pages:online_admission_payment', pk=data.pk)
+            if settings.USE_STRIPE:
+                return redirect('pages:online_admission_stripepayment', pk=data.pk)
             return redirect('pages:online_admission_sslpayment', pk=data.pk)
     else:
         form = StudentForm()

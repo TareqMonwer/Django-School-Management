@@ -137,3 +137,4 @@ whitenoise==6.5.0
 xhtml2pdf==0.2.16
 xlrd==2.0.1
 xlwt==1.3.0
+stripe==14.3.0
