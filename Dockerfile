@@ -15,6 +15,8 @@ RUN pip install -r requirements.txt
 # copy project
 COPY . .
 
+RUN chmod +x pre-deploy.sh
+
 RUN pip install gunicorn==21.2.0
 
 RUN python manage.py collectstatic --noinput

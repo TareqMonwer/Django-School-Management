@@ -25,6 +25,7 @@ env = environ.Env(
     USE_MAILCHIMP=(bool, False),
     SSL_ISSANDBOX=(bool, True),
     USE_STRIPE=(bool, False),
+    IS_DEMO_ENV=(bool, False),
 )
 # reading .env file
 env.read_env(str(BASE_DIR / "envs/.env"))
@@ -338,3 +339,8 @@ TINYMCE_DEFAULT_CONFIG = {
     "alignright alignjustify | bullist numlist outdent indent | "
     "removeformat | help",
 }
+
+IS_DEMO_ENV = env('IS_DEMO_ENV')
+DEMO_SUPERUSER_USERNAME = env('DEMO_SUPERUSER_USERNAME')
+DEMO_SUPERUSER_EMAIL = env('DEMO_SUPERUSER_EMAIL')
+DEMO_SUPERUSER_PASSWORD = env('DEMO_SUPERUSER_PASSWORD')
