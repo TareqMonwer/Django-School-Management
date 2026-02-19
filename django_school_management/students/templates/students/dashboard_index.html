@@ -4,6 +4,7 @@
 {% block extra_header %}
 <script src="{% static 'js/chartjs/Chart.min.js' %}"></script>
 <script src="{% static 'js/chartjs/utils.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.2/masonry.pkgd.min.js"></script>
 {% endblock %}
 
 {% block dashboard-body %}
@@ -446,7 +447,6 @@
 {% endblock %}
 
 {% block extrajs %}
-<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
 <script>
   // Google Chrome change event support code.
   const is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;

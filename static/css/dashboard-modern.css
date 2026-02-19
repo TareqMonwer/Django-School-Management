@@ -48,6 +48,401 @@ body.app {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ============================================================= */
+/*  STRUCTURAL LAYOUT                                            */
+/*  Sidebar fixed left, page-container offset, header fixed top  */
+/* ============================================================= */
+
+/* --- Sidebar structure --- */
+.sidebar {
+  background-color: #fff;
+  bottom: 0;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  transition: all .2s ease;
+  width: 280px;
+  z-index: 1000;
+}
+
+.sidebar .sidebar-inner {
+  position: relative;
+  height: 100%;
+}
+
+.sidebar .sidebar-logo {
+  border-bottom: 1px solid rgba(0,0,0,.0625);
+  border-right: 1px solid rgba(0,0,0,.0625);
+  line-height: 0;
+  padding: 0 20px;
+  transition: all .2s ease;
+}
+
+.sidebar .sidebar-logo a {
+  display: inline-block;
+  width: 100%;
+}
+
+.sidebar .sidebar-logo .mobile-toggle {
+  display: none;
+  float: right;
+  font-size: 18px;
+  line-height: 64px;
+}
+
+/* --- Sidebar menu structure --- */
+.sidebar .sidebar-menu {
+  border-right: 1px solid rgba(0,0,0,.0625);
+  height: calc(100vh - 65px);
+  list-style: none;
+  margin: 0;
+  overflow: auto;
+  padding: 0;
+  position: relative;
+}
+
+.sidebar .sidebar-menu::after {
+  display: block;
+  clear: both;
+  content: "";
+}
+
+.sidebar .sidebar-menu .dropdown-toggle::after {
+  display: none;
+}
+
+.sidebar .sidebar-menu li {
+  position: relative;
+}
+
+.sidebar .sidebar-menu li.dropdown .arrow {
+  font-size: 10px;
+  line-height: 40px;
+  position: absolute;
+  right: 30px;
+  transition: all .05s ease-in;
+}
+
+.sidebar .sidebar-menu li.dropdown.open > a > .arrow {
+  transform: rotate(90deg);
+}
+
+.sidebar .sidebar-menu li.dropdown.open > .dropdown-menu {
+  display: block;
+}
+
+.sidebar .sidebar-menu li.dropdown.open > .dropdown-menu .dropdown-menu {
+  padding-left: 20px;
+}
+
+.sidebar .sidebar-menu li.dropdown.open > .dropdown-menu .arrow {
+  line-height: 25px;
+}
+
+.sidebar .sidebar-menu > li.dropdown ul.dropdown-menu {
+  background-color: transparent;
+  border-radius: 0;
+  border: 0;
+  box-shadow: none;
+  float: none;
+  padding-left: 50px;
+  padding-top: 0;
+  position: relative;
+  width: 100%;
+}
+
+.sidebar .sidebar-menu > li.dropdown ul.dropdown-menu > li > a {
+  display: block;
+  padding: 10px 15px;
+}
+
+.sidebar .sidebar-menu > li > a {
+  display: block;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 5px 15px;
+  position: relative;
+  white-space: nowrap;
+}
+
+.sidebar .sidebar-menu > li > a .icon-holder {
+  border-radius: 6px;
+  display: inline-block;
+  font-size: 17px;
+  height: 35px;
+  left: 0;
+  line-height: 35px;
+  margin-right: 14px;
+  position: relative;
+  text-align: center;
+  transition: all .3s ease;
+  width: 35px;
+}
+
+/* --- Page container --- */
+.page-container {
+  min-height: 100vh;
+  padding-left: 280px;
+  transition: all .2s ease;
+}
+
+/* --- Header structure --- */
+.header {
+  background-color: #fff;
+  border-bottom: 1px solid rgba(0,0,0,.0625);
+  display: block;
+  margin-bottom: 0;
+  padding: 0;
+  position: fixed;
+  transition: all .2s ease;
+  width: calc(100% - 280px);
+  z-index: 800;
+}
+
+.header .header-container {
+  height: 65px;
+}
+
+.header .header-container::after {
+  display: block;
+  clear: both;
+  content: "";
+}
+
+.header .header-container .nav-left,
+.header .header-container .nav-right {
+  list-style: none;
+  margin-bottom: 0;
+  padding-left: 0;
+  position: relative;
+}
+
+.header .header-container .nav-left > li,
+.header .header-container .nav-right > li {
+  float: left;
+}
+
+.header .header-container .nav-left > li > a,
+.header .header-container .nav-right > li > a {
+  color: #72777a;
+  display: block;
+  line-height: 65px;
+  min-height: 65px;
+  padding: 0 15px;
+  transition: all .2s ease-in-out;
+}
+
+.header .header-container .nav-left .notifications,
+.header .header-container .nav-right .notifications {
+  position: relative;
+}
+
+.header .header-container .nav-left .notifications .counter,
+.header .header-container .nav-right .notifications .counter {
+  background-color: #ff3c7e;
+  border-radius: 50px;
+  color: #fff;
+  font-size: 10px;
+  line-height: 1;
+  padding: 3px 5.5px;
+  position: absolute;
+  right: 6px;
+  top: 12px;
+}
+
+.header .header-container .nav-left .notifications .dropdown-menu,
+.header .header-container .nav-right .notifications .dropdown-menu {
+  min-width: 350px;
+  padding: 0;
+}
+
+.header .header-container .dropdown-menu {
+  display: block;
+  margin: 0;
+  transform-origin: top right;
+  transform: scale(0);
+  transition: transform .15s ease-out;
+}
+
+.header .header-container .dropdown-menu .divider {
+  border-bottom: 1px solid rgba(0,0,0,.0625);
+  height: 1px;
+  overflow: hidden;
+}
+
+.header .header-container .show .dropdown-menu {
+  transform: scale(1);
+}
+
+.header .header-container .nav-left {
+  float: left;
+  margin-left: 15px;
+}
+
+.header .header-container .nav-right {
+  float: right;
+}
+
+.header .header-container .nav-right .dropdown-menu {
+  left: auto;
+  right: 0;
+}
+
+.header .header-container .nav-right .dropdown-menu > li {
+  width: 100%;
+}
+
+.header .header-container .nav-right .dropdown-menu > li > a {
+  line-height: 1.5;
+  min-height: auto;
+  padding: 10px 15px;
+}
+
+.header .search-box.active .search-icon,
+.header .search-box .search-icon-close {
+  display: none;
+}
+
+.header .search-box.active .search-icon-close {
+  display: inline-block;
+}
+
+.header .search-input {
+  display: none;
+}
+
+.header .search-input.active {
+  display: inline-block;
+}
+
+.header .search-input input {
+  background-color: transparent;
+  border: 0;
+  box-shadow: none;
+  font-size: 18px;
+  height: 40px;
+  margin-top: 12px;
+  outline: none;
+  padding: 5px;
+}
+
+/* --- Main content --- */
+.main-content {
+  padding: 85px 20px 20px;
+  min-height: calc(100vh - 61px);
+}
+
+/* --- Collapsed sidebar (>= 1440px) --- */
+@media screen and (min-width: 1440px) {
+  .is-collapsed .sidebar {
+    width: 70px;
+  }
+  .is-collapsed .sidebar .sidebar-inner .sidebar-menu > li > a .title {
+    display: none;
+  }
+  .is-collapsed .sidebar .sidebar-inner .sidebar-menu li.dropdown.open ul.dropdown-menu {
+    display: none !important;
+  }
+  .is-collapsed .sidebar:hover {
+    width: 280px;
+  }
+  .is-collapsed .sidebar:hover .sidebar-inner .sidebar-menu > li > a .title {
+    display: inline-block;
+  }
+  .is-collapsed .sidebar:hover .sidebar-inner .sidebar-menu li.open > ul.dropdown-menu {
+    display: block !important;
+  }
+  .is-collapsed .page-container {
+    padding-left: 70px;
+  }
+  .is-collapsed .header {
+    width: calc(100% - 70px);
+  }
+}
+
+/* --- Medium screens: collapsed by default (992–1439px) --- */
+@media screen and (min-width: 992px) and (max-width: 1439px) {
+  .sidebar {
+    width: 70px;
+  }
+  .sidebar .sidebar-inner .sidebar-logo a .logo {
+    background-position: 50%;
+    width: 70px;
+  }
+  .sidebar .sidebar-inner .sidebar-menu > li > a .title {
+    display: none;
+  }
+  .sidebar .sidebar-inner .sidebar-menu li.dropdown.open ul.dropdown-menu {
+    display: none !important;
+  }
+  .sidebar:hover {
+    width: 280px;
+  }
+  .sidebar:hover .sidebar-inner .sidebar-menu > li > a .title {
+    display: inline-block;
+  }
+  .sidebar:hover .sidebar-inner .sidebar-menu li.open > ul.dropdown-menu {
+    display: block !important;
+  }
+  .page-container {
+    padding-left: 70px;
+  }
+  .header {
+    width: calc(100% - 70px);
+  }
+
+  .is-collapsed .sidebar {
+    width: 280px;
+  }
+  .is-collapsed .sidebar .sidebar-inner .sidebar-logo > a .logo {
+    background-position: 0;
+    width: 150px;
+  }
+  .is-collapsed .sidebar .sidebar-inner .sidebar-menu > li > a .title {
+    display: inline-block;
+  }
+  .is-collapsed .sidebar .sidebar-inner .sidebar-menu li.open > ul.dropdown-menu {
+    display: block !important;
+  }
+  .is-collapsed .page-container {
+    padding-left: 280px;
+  }
+  .is-collapsed .header {
+    width: calc(100% - 280px);
+  }
+}
+
+/* --- Small screens / mobile (<= 991px) --- */
+@media screen and (max-width: 991px) {
+  .sidebar {
+    left: -280px;
+    width: 250px;
+  }
+  .sidebar .sidebar-logo .mobile-toggle {
+    display: block;
+  }
+  .page-container {
+    padding-left: 0;
+  }
+  .header {
+    width: 100%;
+  }
+  .is-collapsed .sidebar {
+    left: 0;
+  }
+  .is-collapsed .page-container {
+    padding-left: 0;
+  }
+
+  .main-content {
+    padding: 85px 5px 5px;
+  }
+}
+
+/* ============================================================= */
+/*  VISUAL OVERRIDES — Modern theme skin                         */
+/* ============================================================= */
+
 /* ============================== */
 /*           SIDEBAR              */
 /* ============================== */
@@ -397,9 +792,6 @@ body.app {
 /* ============================== */
 .main-content {
   background: var(--body-bg) !important;
-  padding-left: 20px !important;
-  padding-right: 20px !important;
-  padding-bottom: 20px !important;
 }
 
 .main-content #mainContent {
@@ -870,28 +1262,32 @@ footer {
 /* ============================== */
 /*   COLLAPSED SIDEBAR OVERRIDES  */
 /* ============================== */
-.is-collapsed .sidebar .sidebar-menu .nav-label {
-  display: none;
-}
-
 .sidebar .sidebar-menu .nav-item > a .title {
   transition: opacity var(--transition-fast);
 }
 
 @media screen and (min-width: 992px) and (max-width: 1439px) {
-  .sidebar .sidebar-menu .nav-label {
+  .sidebar .sidebar-menu .nav-label,
+  .sidebar .sidebar-menu .nav-item > a .arrow {
     display: none;
   }
   .sidebar:hover .sidebar-menu .nav-label {
     display: list-item;
   }
+  .sidebar:hover .sidebar-menu .nav-item > a .arrow {
+    display: block;
+  }
 }
 
 @media screen and (min-width: 1440px) {
-  .is-collapsed .sidebar .sidebar-menu .nav-label {
+  .is-collapsed .sidebar .sidebar-menu .nav-label,
+  .is-collapsed .sidebar .sidebar-menu .nav-item > a .arrow {
     display: none;
   }
   .is-collapsed .sidebar:hover .sidebar-menu .nav-label {
     display: list-item;
+  }
+  .is-collapsed .sidebar:hover .sidebar-menu .nav-item > a .arrow {
+    display: block;
   }
 }
