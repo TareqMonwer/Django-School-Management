@@ -5,14 +5,20 @@
   <div class="sidebar-inner">
     <div class="sidebar-logo">
       <div class="peers ai-c fxw-nw">
-        <div class="peer peer-greed"><a class="sidebar-link td-n" href="index.html">
+        <div class="peer peer-greed"><a class="sidebar-link td-n" href="{% url account_urls.dashboard %}">
             <div class="peers ai-c fxw-nw">
               <div class="peer">
                 <div class="logo pl-2">
                   <img src="{{ request_institute.logo.url }}" 
                     alt="{{ request_institute.name }}"
-                    width="50">
+                    width="40"
+                    style="border-radius: 8px;">
                 </div>
+              </div>
+              <div class="peer" style="margin-left: 12px;">
+                <span style="color: #fff; font-weight: 700; font-size: 0.95rem; letter-spacing: -0.01em;">
+                  {{ request_institute.name }}
+                </span>
               </div>
             </div>
           </a></div>
@@ -23,52 +29,56 @@
         </div>
       </div>
     </div>
+
     <ul class="sidebar-menu scrollable pos-r">
-      <li class="nav-item mT-30 actived">
+
+      <!-- MAIN NAV LABEL -->
+      <li class="nav-label">Main</li>
+
+      <li class="nav-item mT-5 actived">
         <a class="sidebar-link" href="{% url account_urls.dashboard %}">
           <span class="icon-holder">
-            <i class="c-blue-500 ti-home"></i>
+            <i class="fas fa-home"></i>
           </span>
-          <span class="title">
-            {{request_institute.name}} Dashboard 
-          </span>
+          <span class="title">Dashboard</span>
         </a>
       </li>
+
       <li class="nav-item">
         <a class="sidebar-link" href="{% url 'pages:landing' %}" target="_blank">
           <span class="icon-holder">
-            <i class="c-blue-500 ti-share"></i> 
+            <i class="fas fa-external-link-alt"></i>
           </span>
           <span class="title">Visit Site</span>
         </a>
       </li>
 
-      <!-- USER GUIDE -->
       <li class="nav-item">
         <a class="sidebar-link" href="{% url 'pages:userguide' %}">
           <span class="icon-holder">
-            <i class="c-purple-500 ti-map"></i>
+            <i class="fas fa-book-open"></i>
           </span>
           <span class="title">User Guide</span>
         </a>
       </li>
 
-    {% if user|has_role:'academic_officer, admin' %}
-      <!-- Counsel/Admission Dashboard -->
+      {% if user|has_role:'academic_officer, admin' %}
+      <!-- ACADEMICS LABEL -->
+      <li class="nav-label">Academics</li>
+
       <li class="nav-item">
         <a class="sidebar-link" href="{% url 'students:students_dashboard_index' %}">
           <span class="icon-holder">
-            <i class="c-indigo-500 ti-bar-chart"></i>
+            <i class="fas fa-chart-bar"></i>
           </span>
           <span class="title">Counsel & Admissions</span>
         </a>
       </li>
       {% endif %}
 
-      <!-- Students -->
       <li class="nav-item dropdown">
         <a class="dropdown-toggle" href="javascript:void(0);">
-          <span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i> </span>
+          <span class="icon-holder"><i class="fas fa-user-graduate"></i></span>
           <span class="title">Students</span>
           <span class="arrow"><i class="ti-angle-right"></i></span>
         </a>
@@ -83,10 +93,9 @@
         </ul>
       </li>
 
-      <!-- Teachers -->
       <li class="nav-item dropdown">
         <a class="dropdown-toggle" href="javascript:void(0);">
-          <span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i> </span>
+          <span class="icon-holder"><i class="fas fa-chalkboard-teacher"></i></span>
           <span class="title">Teachers</span>
           <span class="arrow"><i class="ti-angle-right"></i></span>
         </a>
@@ -102,11 +111,10 @@
       </li>
 
     {% if user|has_role:'academic_officer, admin' %}
-      <!-- Academic Tools -->
       <li class="nav-item dropdown">
         <a class="dropdown-toggle" href="javascript:void(0);">
           <span class="icon-holder">
-            <i class="c-blue-500 ti-calendar"></i>
+            <i class="fas fa-cogs"></i>
           </span>
           <span class="title">Academic Options</span>
           <span class="arrow"><i class="ti-angle-right"></i></span>
@@ -170,12 +178,16 @@
       </li>
     {% endif %}
 
-      <!-- PUBLISHING OPTIONS -->
+      <!-- MANAGEMENT LABEL -->
+      {% if user|has_role:'admin, editor' or user|has_role:'accounts, admin' %}
+      <li class="nav-label">Management</li>
+      {% endif %}
+
       {% if user|has_role:'admin, editor' %}
       <li class="nav-item dropdown">
         <a class="dropdown-toggle" href="javascript:void(0);">
           <span class="icon-holder">
-            <i class="c-light-blue-500 ti-pencil"></i>
+            <i class="fas fa-pen-fancy"></i>
           </span>
           <span class="title">Publishing</span>
           <span class="arrow"><i class="ti-angle-right"></i></span>
@@ -185,15 +197,20 @@
             <a class="sidebar-link" href="{% url 'articles:publish_article_from_dashboard' %}">
               Publish Article
             </a>
+          </li>
+          <li>
             <a class="sidebar-link" 
               href="{% url 'articles:dashboard_manage' %}">
               Manage Articles
             </a>
+          </li>
+          <li>
             <a href="{% url 'articles:subscribers' %}"
               class="sidebar-link">
               Manage Subscribers
             </a>
-            <hr>
+          </li>
+          <li>
             <a class="sidebar-link" href="{% url 'notices_dashboard:publish_notice_documents' %}">
               Publish Notice
             </a>
@@ -202,13 +219,11 @@
       </li>
       {% endif %}
 
-      {% if  user|has_role:'accounts, admin' %}
-      <!-- PAYMENTS (RESTRICTED) -->
+      {% if user|has_role:'accounts, admin' %}
       <li class="nav-item dropdown">
         <a class="dropdown-toggle" href="javascript:void(0);">
           <span class="icon-holder">
-            <img alt="Payments" src="{% static 'images/money.png' %}"
-              height="17">
+            <i class="fas fa-wallet"></i>
           </span>
           <span class="title">Payments</span>
           <span class="arrow"><i class="ti-angle-right"></i></span>
@@ -219,6 +234,8 @@
               href="{% url 'payments:dashboard_ssl_payments_list' %}">
               Manage Payments
             </a>
+          </li>
+          <li>
             <a class="sidebar-link" 
               href="">
               Student Payments
@@ -229,10 +246,11 @@
       {% endif %}
 
       {% if user|has_role:'admin' %}
-      <!-- USER OPTIONS -->
+      <li class="nav-label">Administration</li>
+
       <li class="nav-item dropdown">
         <a class="dropdown-toggle" href="javascript:void(0);">
-          <span class="icon-holder"><i class="c-orange-500 ti-layout-list-thumb"></i> </span>
+          <span class="icon-holder"><i class="fas fa-shield-alt"></i></span>
           <span class="title">Administrative</span>
           <span class="arrow"><i class="ti-angle-right"></i></span>
         </a>
