@@ -20,11 +20,11 @@ BASE_DIR = Path(__file__).parent.parent.parent
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, True),
-    USE_CELERY_REDIS=(bool, False),
     USE_PAYMENT_OPTIONS=(bool, True),
     USE_SENTRY=(bool, False),
     USE_MAILCHIMP=(bool, False),
     SSL_ISSANDBOX=(bool, True),
+    USE_STRIPE=(bool, False),
 )
 # reading .env file
 env.read_env(str(BASE_DIR / "envs/.env"))
@@ -300,19 +300,24 @@ if USE_PAYMENT_OPTIONS:
     except ImproperlyConfigured:
         raise ImproperlyConfigured(settings_message_constants.INCORRECT_PAYMENT_GATEWAY_SETUP_MESSAGE)
 
-# CELERY BROKER CONFIG
-USE_CELERY_REDIS = env('USE_CELERY_REDIS')
-
-if USE_CELERY_REDIS:
+USE_STRIPE = env('USE_STRIPE')
+if USE_STRIPE:
     try:
-        CELERY_BROKER_URL = env('CELERY_BROKER_URL')
-        CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND')
-        CELERY_ACCEPT_CONTENT = ['application/json']
-        CELERY_TASK_SERIALIZER = 'json'
-        CELERY_RESULT_SERIALIZER = 'json'
-        CELERY_TIMEZONE = 'Asia/Dhaka'
+        STRIPE_PUBLISHABLE_KEY = env('STRIPE_PUBLISHABLE_KEY')
+        STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
     except ImproperlyConfigured:
-        raise ImproperlyConfigured(settings_message_constants.INCORRECT_CELERY_REDIS_SETUP_MESSAGE)
+        raise ImproperlyConfigured(settings_message_constants.INCORRECT_STRIPE_SETUP_MESSAGE)
+
+# CELERY BROKER CONFIG
+try:
+    CELERY_BROKER_URL = env('CELERY_BROKER_URL')
+    CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND')
+    CELERY_ACCEPT_CONTENT = ['application/json']
+    CELERY_TASK_SERIALIZER = 'json'
+    CELERY_RESULT_SERIALIZER = 'json'
+    CELERY_TIMEZONE = 'Asia/Dhaka'
+except ImproperlyConfigured:
+    raise ImproperlyConfigured(settings_message_constants.INCORRECT_CELERY_REDIS_SETUP_MESSAGE)
 
 # MAILCHIMP INTEGRATION
 USE_MAILCHIMP = env('USE_MAILCHIMP')

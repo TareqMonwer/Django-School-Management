@@ -1,0 +1,63 @@
+{% extends 'website/partials/website_base.html' %}
+
+{% block main_content %}
+    {% include 'website/partials/website_navbar.html' %}
+    <div class="text-light py-5 text-center" style="background: linear-gradient(95deg, #5533ff 40%, #25ddf5 100%)">
+        <div class="container">
+            <div class="row mt-5">
+                <div class="col-12">
+                    <h2 class="text-light">Admission Payment</h2>
+                    <p class="text-light">Complete your payment to finalize your admission.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card shadow">
+                        <div class="card-body p-4">
+                            <h4 class="card-title mb-4">Payment Summary</h4>
+
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td><strong>Applicant Name</strong></td>
+                                    <td>{{ registrant.name }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Email</strong></td>
+                                    <td>{{ registrant.email }}</td>
+                                </tr>
+                                {% if registrant.choosen_department %}
+                                <tr>
+                                    <td><strong>Department</strong></td>
+                                    <td>{{ registrant.choosen_department }}</td>
+                                </tr>
+                                {% endif %}
+                                <tr>
+                                    <td><strong>Admission Fee</strong></td>
+                                    <td><span class="badge badge-success p-2" style="font-size: 1rem;">$20.00</span></td>
+                                </tr>
+                            </table>
+
+                            <hr>
+
+                            <form method="POST" action="{% url 'pages:online_admission_stripepayment' pk=registrant.pk %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                    Pay with Stripe
+                                </button>
+                            </form>
+
+                            <a href="{% url 'pages:online_admission' %}" class="btn btn-outline-secondary btn-block mt-2">
+                                Cancel
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

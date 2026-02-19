@@ -1,0 +1,45 @@
+{% extends 'website/partials/website_base.html' %}
+
+{% block main_content %}
+    {% include 'website/partials/website_navbar.html' %}
+    <div class="text-light py-5 text-center" style="background: linear-gradient(95deg, #dc3545 40%, #fd7e14 100%)">
+        <div class="container">
+            <div class="row mt-5">
+                <div class="col-12">
+                    <h2 class="text-light">Payment Cancelled</h2>
+                    <p class="text-light">Your payment was not completed.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card shadow">
+                        <div class="card-body p-4 text-center">
+                            <div class="mb-4">
+                                <span style="font-size: 4rem; color: #dc3545;">&#10007;</span>
+                            </div>
+                            <h4 class="card-title mb-3">Payment Not Completed</h4>
+                            <p class="text-muted">
+                                Your payment was cancelled. Your application has been saved
+                                and you can try again using the button below.
+                            </p>
+
+                            <hr>
+
+                            <a href="{% url 'pages:online_admission_stripepayment' pk=registrant.pk %}" class="btn btn-primary btn-lg">
+                                Try Again
+                            </a>
+                            <a href="{% url 'pages:landing' %}" class="btn btn-outline-secondary btn-lg mt-2">
+                                Back to Home
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
