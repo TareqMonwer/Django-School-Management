@@ -76,10 +76,11 @@
       }
     }
   </style>
-  <link href="{% static 'css/adminator.css' %}" rel="stylesheet">
-  <!-- IMPORTANT FOR DASHBOARD ICONS AND STUFFS -->
+  <!-- Utility classes & Themify icons (adminatorinlines) -->
   <link href="{% static 'css/adminatorinlines.css' %}" rel="stylesheet"> 
-  <!-- MODERN DASHBOARD OVERRIDE -->
+  <!-- Bootstrap 4 -->
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+  <!-- Modern Dashboard Override -->
   <link href="{% static 'css/dashboard-modern.css' %}" rel="stylesheet">
 </head>
 
@@ -192,8 +193,12 @@
     </div>
   </div>
   
-  <script type="text/javascript" src="{% static 'js/adminator/vendor.js' %}"></script>
-  <script type="text/javascript" src="{% static 'js/adminator/bundle.js' %}"></script>
+  <!-- jQuery + Popper + Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+  <!-- Sidebar interactions + active menu state -->
+  <script type="text/javascript" src="{% static 'js/sidebar.js' %}"></script>
   {% block extrajs %}
   {% endblock %}
 </body>
