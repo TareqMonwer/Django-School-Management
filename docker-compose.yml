@@ -25,7 +25,7 @@ services:
     build: .
     container_name: dj_sms_server
     image: dj_sms_docker
-    command: python manage.py runserver 0.0.0.0:8000
+    command: bash -c "./pre-deploy.sh && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/code
       - static:/code/static
