@@ -1,14 +1,26 @@
 {% extends 'dashboard.html' %}
 
-
 {% block dashboard-body %}
 <div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">User Guide</li>
+        </ol>
+    </nav>
+
+    <h4>User Guide</h4>
+
     <div class="row">
         <div class="col-md-6">
             {% for model in models %}
                 <div class="alert alert-primary my-2" role="alert">
-                    You have not created any {{ model.classname }}, 
+                    You have not created any {{ model.classname }},
                     <a href="{{ model.create_resource }}">create one</a>
+                </div>
+            {% empty %}
+                <div class="alert alert-success" role="alert">
+                    All resources have been configured.
                 </div>
             {% endfor %}
         </div>

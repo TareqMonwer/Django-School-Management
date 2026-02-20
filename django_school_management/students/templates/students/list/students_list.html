@@ -12,78 +12,72 @@
           <a href="{% url account_urls.dashboard %}">Dashboard</a>
         </li>
         <li class="breadcrumb-item">
-            <a href="{% url 'students:all_student' %}">Applicants</a>
+            <a href="{% url 'students:all_applicants' %}">Applicants</a>
         </li>
         <li class="breadcrumb-item active" aria-current="page">List</li>
     </ol>
 </nav>
 
-
 <div class="row">
   <div class="col-12">
-    <table class="table table-bordered" id="studentsDataTable">
-      <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Name</th>
-          <th scope="col">Department</th>
-          <th scope="col">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% if students %}
-          {% for student in students %}
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover" id="studentsDataTable">
+        <thead>
           <tr>
-            <th scope="row">
-              <a href="{% url 'students:student_details' pk=student.id %}">
-                {{ student.temporary_id }}
-            </th>
-            <td>
-              <a href="{% url 'students:student_details' pk=student.id %}">
-              <img src="{{ student.photo.url }}" class="mr-2 rounded-circle" height=24 width=24>
-              {{ student.admission_student.name }}
-            </td>
-            <td>
-              <a href="{% url 'students:student_details' pk=student.id %}">
-                {{ student.admission_student.choosen_department.name }}
-            </td>
-            <td>
-              <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-success">
-                  <i class="fas fa-cogs"></i>
-                </button>
-                <a href="{% url 'students:update_student' pk=student.id %}" class="btn btn-secondary">
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Department</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if students %}
+            {% for student in students %}
+            <tr>
+              <th scope="row">
+                <a href="{% url 'students:student_details' pk=student.id %}">
+                  {{ student.temporary_id }}
+                </a>
+              </th>
+              <td>
+                <a href="{% url 'students:student_details' pk=student.id %}">
+                  <img src="{{ student.photo.url }}" class="mr-2 rounded-circle" height="24" width="24" alt="{{ student.admission_student.name }}">
+                  {{ student.admission_student.name }}
+                </a>
+              </td>
+              <td>
+                <a href="{% url 'students:student_details' pk=student.id %}">
+                  {{ student.admission_student.choosen_department.name }}
+                </a>
+              </td>
+              <td>
+                <a href="{% url 'students:update_student' pk=student.id %}" class="btn btn-sm btn-primary">
                   <i class="fas fa-edit"></i>
                 </a>
-              </div>
-            </td>
-          </tr>
-          {% endfor %}
-        {% else %}
-          <tr>
-            <td colspan="6">
-              No Student Data Found
-            </td>
-          </tr>
-        {% endif %}
-      </tbody>
-    </table>
+              </td>
+            </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="4" class="text-center text-muted py-4">
+                No Student Data Found
+              </td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 
 {% endblock %}
 
-
-
 {% block extrajs %}
-  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
-  <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>>
+  <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
   <script src="{% static 'js/dataTables.bootstrap4.min.js' %}"></script>
-
   <script>
     $(document).ready(function() {
       $('#studentsDataTable').dataTable();
     });
   </script>
 {% endblock extrajs %}
-  

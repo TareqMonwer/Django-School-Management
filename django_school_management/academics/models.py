@@ -96,6 +96,7 @@ class Semester(TimeStampedModel):
             return '3rd'
         if self.number and 3 < self.number <= 12:
             return '%sth' % self.number
+        return '%dth' % self.number
     
     def create_resource(self):
         return reverse(AcademicsURLConstants.create_semester)

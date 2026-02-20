@@ -7,26 +7,43 @@
 {% endblock %}
 
 {% block dashboard-body %}
-<form action="" method="POST" class="admission-form d-block" enctype='multipart/form-data'>
-  {% csrf_token %}
-  {{ form|crispy }}
-  <input class="btn btn-dark float-right" type="submit" value="Save">
-</form>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'teachers:teacher_list' %}">Teachers</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Add Teacher</li>
+    </ol>
+</nav>
+
+<h4 class="mb-3">Add Teacher</h4>
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <form action="" method="POST" enctype='multipart/form-data'>
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block extrajs %}
-  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
   <script src="{% static 'js/tagify/tagify.min.js' %}"></script>
   <script>
-    // Select Image
     $('input[type="file"]').change(function(e){
       const fileName = e.target.files[0].name;
       $('.custom-file-label').html(fileName);
     });
 
-    // Tagify
     const input = document.getElementById('id_expertise'),
       tagify = new Tagify( input, {duplicates: false} );
-
   </script>
 {% endblock %}

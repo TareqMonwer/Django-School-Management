@@ -3,63 +3,59 @@
 {% block dashboard-body %}
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
-        <li class="breadcrumb-item"><a href="#">Administrative</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+        <li class="breadcrumb-item">Administrative</li>
         <li class="breadcrumb-item active" aria-current="page">Groups</li>
     </ol>
 </nav>
 
-<div class="row">
-    <!-- groupS LIST -->
-    <div class="col-md-12">
-        <table class="table border">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Group Name</th>
-                    <th scope="col">Users In Group</th>
-                    <th scope="col">Created By</th>
-                    <th scope="col">Permissions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for group in groups %}
-                <tr>
-                    <td>{{ group.name }}</td>
-                    <td>{{ group.user_set.all.count  }}</td>
-                    <td>{{ group.group_creator }}</td>
-                    <td>
-                        <div class="group-table-perms">
-                            {% for perm in group.permissions.all %}
-                                <p>{{ perm.name }}</p>
-                            {% endfor %}
+<h4>Groups</h4>
 
-                            <div class="table-td-show-more">
-                                <i class="fas fa-chevron-circle-down"></i>
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table border">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Group Name</th>
+                        <th scope="col">Users In Group</th>
+                        <th scope="col">Created By</th>
+                        <th scope="col">Permissions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for group in groups %}
+                    <tr>
+                        <td>{{ group.name }}</td>
+                        <td>{{ group.user_set.all.count  }}</td>
+                        <td>{{ group.group_creator }}</td>
+                        <td>
+                            <div class="group-table-perms">
+                                {% for perm in group.permissions.all %}
+                                    <p>{{ perm.name }}</p>
+                                {% endfor %}
+
+                                <div class="table-td-show-more">
+                                    <i class="fas fa-chevron-circle-down"></i>
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center text-muted py-4">No data found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-    <!-- SIDEBAR -->
-    <!-- <div class="col-md-3">
-        <ul class="list-group">
-            <li class="list-group-item">
-                <a href="#">add new group</a>
-            </li>
-        </ul>
-    </div>  -->
-    <!-- /sidebar -->
 </div>
 {% endblock %}
 
 {% block extrajs %}
 <script>
-    // TODO: Add show more on click
     const permsTd = $('.table-td-show-more');
-    // console.log(permsTd);
 
     const toggleHeight = (element) => {
         const currentHeight = element.style.height;

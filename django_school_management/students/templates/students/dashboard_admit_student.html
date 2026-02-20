@@ -2,43 +2,43 @@
 {% load static %}
 {% load crispy_forms_tags %}
 
-{% block extra_header %}
-{% endblock %}
-
 {% block dashboard-body %}
-<!-- STUDENT ADMISSION VIA ADMINS -->
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'students:students_dashboard_index' %}">Applicants</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Admit Student</li>
+    </ol>
+</nav>
+
 <div class="alert alert-warning">
-    <strong>BE SURE, YOU'RE ADMITTING {{ applicant.name }} in Following Department:</strong>
+    <strong>Please confirm you are admitting {{ applicant.name }} to the following department:</strong>
 </div>
 <div class="row">
     <div class="col-md-7">
         <form action="" method="POST">
+            {% csrf_token %}
             {{ form|crispy }}
             <div>
-                <input type="submit" value="ADMIT" class="btn btn-success">
+                <button type="submit" class="btn btn-primary">Admit Student</button>
             </div>
-            {% csrf_token %}
         </form>
     </div>
     <div class="col-md-5">
-        <h4>STUDENT INFORMATION</h4>
+        <h4>Student Information</h4>
         <div class="card p-3">
-            <p><i>Name:</i> {{ applicant.name }}</p>
-            <p><i>His Dept. Choice was: </i>{{ applicant.department_choice }}</p>
-            <p><i>Applied at: </i>{{ applicant.created }}</p>
+            <p><strong>Name:</strong> {{ applicant.name }}</p>
+            <p><strong>Department Choice:</strong> {{ applicant.department_choice }}</p>
+            <p><strong>Applied at:</strong> {{ applicant.created }}</p>
             <p>
-                <i>Today: </i><span id="date"></span>
+                <strong>Today:</strong>
+                <span id="date">
+                    <script>document.write(new Date().toLocaleDateString('en-US', {year:'numeric', month:'short', day:'numeric'}))</script>
+                </span>
             </p>
         </div>
     </div>
 </div>
-{% endblock %}
-
-{% block extrajs %}
-<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
-<script src="{% static 'js/moment.js' %}"></script>
-<script>
-    let today = moment().format("MMM Do YY, h:mm a"); 
-    document.getElementById('date').innerHTML = today;
-</script>
 {% endblock %}

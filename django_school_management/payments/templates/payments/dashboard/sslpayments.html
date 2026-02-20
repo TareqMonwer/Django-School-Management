@@ -4,11 +4,16 @@
 
 {% block dashboard-body %}
 <div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Online Payments</li>
+        </ol>
+    </nav>
+
     <div class="row">
         <div class="col-12">
-            <h4>
-                Online Payment History (SSLCommerz)
-            </h4>
+            <h4>Online Payment History (SSLCommerz)</h4>
         </div>
         {% if filter %}
         <div class="col-12">
@@ -21,7 +26,6 @@
         <div class="col-12">
             {% render_table table 'django_tables2/bootstrap.html' %}
         </div>
-       
     </div>
 </div>
 {% endblock %}

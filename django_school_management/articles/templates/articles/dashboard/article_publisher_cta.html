@@ -3,19 +3,27 @@
 {% block dashboard-body %}
 <section class="bg-light">
     <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Publish Article</li>
+            </ol>
+        </nav>
+
+        <h4>Select Publishing Medium</h4>
+
         <div class="row justify-content-center">
             <div class="col-12 mb-5">
-                <h5>Select Where You Want to Publish Your Article</h5>
                 <p class="m-0">
                     This widget let's you choose to publish articles in other mediums
                     (currently, wordpress sites only). Please make your choices from the options below.
                     If you do not have any other medium, just click to skip. <br>
-                    <i>If you wnat to add your existing Publishing medium, click to add Publishing medium button.</i>
+                    <i>If you want to add your existing Publishing medium, click to add Publishing medium button.</i>
                 </p>
             </div>
             <div class="col-6">
-                <a href="{% url 'articles:publish_article_from_dashboard' %}" class="btn btn-dark">
-                    SKIP & Publish Here
+                <a href="{% url 'articles:publish_article_from_dashboard' %}" class="btn btn-primary">
+                    SKIP &amp; Publish Here
                 </a>
                 <a href="" class="btn btn-outline-success">
                     Add Publishing Medium
@@ -30,21 +38,21 @@
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="site-1">
-                        <label class="form-check-label" for="site-1">
-                            sitename1.com
+                        <input class="form-check-input" type="checkbox" value="" id="site-2">
+                        <label class="form-check-label" for="site-2">
+                            sitename2.com
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="site-1">
-                        <label class="form-check-label" for="site-1">
-                            sitename1.com
+                        <input class="form-check-input" type="checkbox" value="" id="site-3">
+                        <label class="form-check-label" for="site-3">
+                            sitename3.com
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="site-1">
-                        <label class="form-check-label" for="site-1">
-                            sitename1.com
+                        <input class="form-check-input" type="checkbox" value="" id="site-4">
+                        <label class="form-check-label" for="site-4">
+                            sitename4.com
                         </label>
                     </div>
 

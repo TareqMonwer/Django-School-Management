@@ -2,27 +2,34 @@
 {% load crispy_forms_tags %}
 
 {% block extra_header %}
-    <style>
-        .django-ckeditor-widget {
-            width:100%;
-        }
-    </style>
     {{ form.media }}
 {% endblock %}
-    
 
 {% block dashboard-body %}
 <div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Publish Article</li>
+        </ol>
+    </nav>
+
+    <h4>Publish Article</h4>
+
     <div class="row">
         <div class="col-md-12">
-            <form method="POST" action="" 
-            enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.media }}
-                {{ form|crispy }}
-                <input class="btn btn-dark float-right" type="submit" 
-                value="Publish">
-            </form>
+            <div class="card">
+                <div class="card-body">
+                    <form method="POST" action=""
+                    enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">Publish</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
