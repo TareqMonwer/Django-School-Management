@@ -1,48 +1,47 @@
 {% extends 'dashboard.html' %}
-{% load static %}
 
 {% block dashboard-body %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-    <li class="breadcrumb-item active" aria-current="page">All Batch</li>
+    <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+    <li class="breadcrumb-item active" aria-current="page">All Batches</li>
   </ol>
 </nav>
 
 <div class="row">
   <div class="col-8 mb-2">
-    <h4 class="ml-0">All Batch</h4>
+    <h4 class="ml-0">All Batches</h4>
   </div>
     <div class="col-4">
-        <a href="{% url academic_urls.create_batch %}" class="btn btn-dark">Create New Batch</a>
+        <a href="{% url academic_urls.create_batch %}" class="btn btn-primary">Create New Batch</a>
     </div>
 </div>
 <div class="row">
   <div class="col-12">
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th scope="col">Dept</th>
-          <th scope="col">Year</th>
-          <th scope="col">Batch No</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for batch in batches %}
-        <tr>
-          <td>
-            <a href="#"> {{ batch.department }} </a>
-          </td>
-          <td>
-            <a href="#"> {{ batch.year }} </a>
-          </td>
-          <td>
-            <a href="#"> {{ batch.number }} </a>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Dept</th>
+            <th scope="col">Year</th>
+            <th scope="col">Batch No</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for batch in batches %}
+          <tr>
+            <td>{{ batch.department }}</td>
+            <td>{{ batch.year }}</td>
+            <td>{{ batch.number }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="3" class="text-center text-muted py-4">No data found.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 

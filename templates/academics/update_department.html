@@ -2,13 +2,22 @@
 {% load crispy_forms_tags %}
 
 {% block dashboard-body %}
-<div class="row">
-    <div class="col-md-12">
-        <form action="." method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form|crispy }}
-            <input type="submit" value="Update" class="btn btn-success">
-        </form>
-    </div>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Update Department</li>
+  </ol>
+</nav>
+
+<h4>Update Department</h4>
+<hr>
+<div class="card">
+  <div class="card-body">
+    <form action="." method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input type="submit" value="Update" class="btn btn-primary">
+    </form>
+  </div>
 </div>
 {% endblock %}

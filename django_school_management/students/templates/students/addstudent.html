@@ -1,44 +1,49 @@
-{% extends 'dashboard.html' %} 
-{% load static %} 
-{% load crispy_forms_tags %} 
-
-{% block extra_header %} {% endblock %} 
+{% extends 'dashboard.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
 
 {% block dashboard-body %}
-<div class="container">
-  <div class="row justify-content-between">
-    <div class="col-md-6">
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'students:students_dashboard_index' %}">Applicants</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Add Applicant</li>
+    </ol>
+</nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-7">
       <form
         action=""
         method="POST"
-        class="admission-form d-block"
+        class="d-block"
         enctype="multipart/form-data"
       >
         <div class="alert alert-warning">
-          <p>
-            Fill up all the required field first, then click
+          <p class="mb-0">
+            Fill up all the required fields first, then click
             <em>Add New Application</em>
           </p>
         </div>
         {% csrf_token %} {{ form|crispy }}
-        <input type="submit" value="Add New Application" class="btn btn-dark" />
+        <button type="submit" class="btn btn-primary">Add New Application</button>
       </form>
     </div>
     <div class="col-md-5">
       <div class="card p-3">
-        <h6>
-          Form-fillup Guidelines
-        </h6>
+        <h6>Form-fillup Guidelines</h6>
+        <p class="text-muted mb-0">Please ensure all required fields are filled accurately before submitting.</p>
       </div>
     </div>
   </div>
 </div>
-{% endblock %} 
+{% endblock %}
 
 {% block extrajs %}
-<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
 <script>
-  // Select image
   $('input[type="file"]').change(function (e) {
     const fileName = e.target.files[0].name;
     $(".custom-file-label").html(fileName);

@@ -106,7 +106,7 @@
         <div class="layers bd bgc-white p-20">
           <div class="layer w-100 mB-10">
             <h6 class="lh-1">
-              <a href="{% url 'students:unpaid_registrants' %}" class="text-dark">
+              <a href="{% url 'students:paid_registrants' %}" class="text-dark">
                 Paid
               </a>
             </h6>
@@ -546,8 +546,8 @@
       const city_tr = `
             <tr>
                 <td>${city}</td>
-                <td>${applications}</>
-                <td>${admissions}</>
+                <td>${applications}</td>
+                <td>${admissions}</td>
             </tr>`;
       cities_template += city_tr;
     }

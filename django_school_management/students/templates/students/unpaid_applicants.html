@@ -2,13 +2,10 @@
 {% load static %}
 {% load crispy_forms_tags %}
 
-{% block extra_header %}
-{% endblock %}
-
 {% block dashboard-body %}
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
         <li class="breadcrumb-item">
             <a href="{% url 'students:students_dashboard_index' %}">Students</a>
         </li>
@@ -16,111 +13,100 @@
     </ol>
 </nav>
 
-<!-- Online Applicants Table Row -->
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12 pl-0">
-            <h4 class="ml-0">Unpaid Registrants</h4>
+        <div class="col-12">
+            <h4 class="mb-3">Unpaid Registrants</h4>
         </div>
-        <!-- Online Applicants Table -->
-        <div id="online-applicants" class="col-md-12 mt-4">
-            <table class="table table-bordered table-hover">
-                <thead class="thead-light">
-                    <tr>
-                        <th scope="col">SYL</th>
-                        <th scope="col">Image</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Contact</th>
-                        <th scope="col">Department Choice</th>
-                        <th scope="col">Application Date</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-light">
-                
-                    {% for applicant in unpaid_applicants %}
-                    <tr>
-                        <th scope="row">{{ forloop.counter }}</th>
-                        <td>
-                            <img src="{{ applicant.photo.url }}" width="50" height="50">
-                        </td>
-                        <td>
-                            <a href="{% url 'students:update_online_registrant' pk=applicant.id %}" 
-                            class="text-dark">
-                                {{ applicant.name }}
-                            </a>
-                        </td>
-                        <td>
-                            <a href="{% url 'students:update_online_registrant' pk=applicant.id %}" 
-                            class="text-dark">
-                                {{ applicant.mobile_number }}
-                            </a>
-                        </td>
-                        <td>
-                            <a href="{% url 'students:update_online_registrant' pk=applicant.id %}" 
-                            class="text-dark">
-                                {{ applicant.department_choice }}
-                            </a>
-                        </td>
-                        <td>
-                            <a href="{% url 'students:update_online_registrant' pk=applicant.id %}" 
-                            class="text-dark">
-                                {{ applicant.created }}
-                            </a>
-                        </td>
-                        <td>
-                            <form action="" method="post" class="mark-paid-form">
-                                {% csrf_token %}
-                                <input type="hidden" name="registrant_id" value="{{ applicant.pk }}">
-                                <button type="submit" class="btn btn-sm mark-paid-btn btn-dark mb-1 btn-block">
-                                    <span class="mark-paid-text">Mark as paid</span>
-                                </button>
-                            </form>
-                            <a href="{% url 'students:admit_student' pk=applicant.pk %}" 
-                            class="btn btn-sm btn-primary d-block">
-                                Admit
-                            </a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                    
-                </tbody>
-            </table>
+        <div id="online-applicants" class="col-md-12">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">SYL</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Contact</th>
+                            <th scope="col">Department Choice</th>
+                            <th scope="col">Application Date</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for applicant in unpaid_applicants %}
+                        <tr>
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td>
+                                <img src="{{ applicant.photo.url }}" width="50" height="50" class="rounded" alt="{{ applicant.name }}">
+                            </td>
+                            <td>
+                                <a href="{% url 'students:update_online_registrant' pk=applicant.id %}">
+                                    {{ applicant.name }}
+                                </a>
+                            </td>
+                            <td>{{ applicant.mobile_number }}</td>
+                            <td>{{ applicant.department_choice }}</td>
+                            <td>{{ applicant.created }}</td>
+                            <td>
+                                <form action="" method="post" class="mark-paid-form d-inline">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="registrant_id" value="{{ applicant.pk }}">
+                                    <button type="submit" class="btn btn-sm mark-paid-btn btn-outline-primary mb-1 btn-block">
+                                        <span class="mark-paid-text">Mark as paid</span>
+                                    </button>
+                                </form>
+                                <a href="{% url 'students:admit_student' pk=applicant.pk %}"
+                                class="btn btn-sm btn-primary d-block">
+                                    Admit
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center text-muted py-4">No unpaid applicants found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
 {% endblock %}
 
 {% block extrajs %}
-    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
     <script>
         const forms = document.querySelectorAll('.mark-paid-form');
         forms.forEach(function(element){
             element.addEventListener('submit', function(event){
                 event.preventDefault();
                 const serializedData = $(this).serialize();
-                changePayStatus(element, serializedData)
+                const btn = element.querySelector('.mark-paid-btn');
+                btn.disabled = true;
+                changePayStatus(element, serializedData);
             });
         });
 
         function changePayStatus(element, data){
             const url = "{% url 'students:mark_as_paid_or_unpaid' %}";
+            const btn = element.querySelector('.mark-paid-btn');
             $.ajax({
                 type: 'POST',
                 url: url,
                 data: data,
                 success: function(response) {
+                    btn.disabled = false;
                     if (response.data) {
-                        element.querySelector('.mark-paid-text').innerHTML = '<b>PAID</b>'
+                        element.querySelector('.mark-paid-text').innerHTML = '<b>PAID</b>';
                     } else {
-                        element.querySelector('.mark-paid-text').innerHTML = '<b>Mark as paid</b>'
+                        element.querySelector('.mark-paid-text').innerHTML = '<b>Mark as paid</b>';
                     }
                 },
                 error: function(error){
-                    console.log(error);
+                    btn.disabled = false;
+                    alert('Failed to update payment status. Please try again.');
                 }
             });
         }
-
     </script>
 {% endblock %}

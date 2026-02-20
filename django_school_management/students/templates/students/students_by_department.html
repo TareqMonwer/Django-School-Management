@@ -3,65 +3,77 @@
 
 {% block dashboard-body %}
 
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'students:students_dashboard_index' %}">Students</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">By Department</li>
+    </ol>
+</nav>
+
 <div class="row">
-    <div class="col-9">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Registration</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Department</th>
-                    <th scope="col">Semester</th>
-                    <th scope="col">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for student in students %}
-                <tr>
-                    <th scope="row">
-                        <a href="{% url 'students:student_details' pk=student.id %}">
-                            {{ student.roll }}
-                    </th>
-                    <td>
-                        <a href="{% url 'students:student_details' pk=student.id %}">
-                            {{ student.registration_number }}
-                    </td>
-                    <td>
-                        <a href="{% url 'students:student_details' pk=student.id %}">
-                            <img src="{{ student.photo.url }}" class="mr-2 rounded-circle" height=24 width=24>
-                            {{ student.name }}
-                    </td>
-                    <td>
-                        <a href="{% url 'students:student_details' pk=student.id %}">
-                            {{ student.department.name }}
-                    </td>
-                    <td>
-                        <a href="{% url 'students:student_details' pk=student.id %}">
-                            {{ student.semester }}
-                    </td>
-                    <td>
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-success">
-                                <i class="fas fa-cogs"></i>
-                            </button>
-                            <a href="{% url 'students:update_student' pk=student.id %}" class="btn btn-secondary">
+    <div class="col-md-9 col-12">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Registration</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Department</th>
+                        <th scope="col">Semester</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <th scope="row">
+                            <a href="{% url 'students:student_details' pk=student.id %}">
+                                {{ student.roll }}
+                            </a>
+                        </th>
+                        <td>
+                            <a href="{% url 'students:student_details' pk=student.id %}">
+                                {{ student.registration_number }}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{% url 'students:student_details' pk=student.id %}">
+                                <img src="{{ student.photo.url }}" class="mr-2 rounded-circle" height="24" width="24" alt="{{ student.name }}">
+                                {{ student.name }}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{% url 'students:student_details' pk=student.id %}">
+                                {{ student.department.name }}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{% url 'students:student_details' pk=student.id %}">
+                                {{ student.semester }}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{% url 'students:update_student' pk=student.id %}" class="btn btn-sm btn-primary">
                                 <i class="fas fa-edit"></i>
                             </a>
-                        </div>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center text-muted py-4">No students found in this department.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div class="col-3">
+    <div class="col-md-3 col-12">
         {% include "students/student_list_sidebar.html" %}
     </div>
 </div>
 
-{% endblock %}
-
-{% block extrajs %}
-<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
 {% endblock %}

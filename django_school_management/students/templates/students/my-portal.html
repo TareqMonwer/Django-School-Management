@@ -3,94 +3,74 @@
 {% block dashboard-body %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
     <li class="breadcrumb-item active" aria-current="page">My Portal</li>
   </ol>
 </nav>
 
-<div class="row mb-5">
-  <div class="col-xl-3 col-sm-6 col-12">
-    <div class="card">
-      <div class="card-content">
-        <div class="card-body text-primary">
-          <div class="media d-flex">
-            <div class="align-self-center">
-              <h3><i class="fas fa-pen"></i></h3>
-            </div>
-            <div class="media-body text-right">
-              <h3>278</h3>
-              <span>My Assignments</span>
-            </div>
-          </div>
+<div class="row mb-4">
+  <div class="col-xl-3 col-sm-6 col-12 mb-3">
+    <div class="stat-card">
+      <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+        <div>
+          <div class="stat-label">My Assignments</div>
+          <div class="stat-value" style="color: var(--text-muted);">&mdash;</div>
+        </div>
+        <div class="stat-icon indigo">
+          <i class="fas fa-pen"></i>
         </div>
       </div>
+      <div class="stat-footer"><i class="fas fa-clock mr-1"></i> Coming soon</div>
     </div>
   </div>
-  <div class="col-xl-3 col-sm-6 col-12">
-    <div class="card text-success">
-      <div class="card-content">
-        <div class="card-body">
-          <div class="media d-flex">
-            <div class="align-self-center">
-              <h3>
-                <i class="fas fa-envelope"></i>
-              </h3>
-            </div>
-            <div class="media-body text-right">
-              <h3>156</h3>
-              <span>My Application/Letters</span>
-            </div>
-          </div>
+  <div class="col-xl-3 col-sm-6 col-12 mb-3">
+    <div class="stat-card">
+      <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+        <div>
+          <div class="stat-label">My Applications</div>
+          <div class="stat-value" style="color: var(--text-muted);">&mdash;</div>
+        </div>
+        <div class="stat-icon green">
+          <i class="fas fa-envelope"></i>
         </div>
       </div>
+      <div class="stat-footer"><i class="fas fa-clock mr-1"></i> Coming soon</div>
     </div>
   </div>
-  <div class="col-xl-3 col-sm-6 col-12">
-    <div class="card text-info">
-      <div class="card-content">
-        <div class="card-body">
-          <div class="media d-flex">
-            <div class="align-self-center">
-              <h3>
-                <i class="fas fa-users"></i>
-              </h3>
-            </div>
-            <div class="media-body text-right">
-              <h3>64.89 %</h3>
-              <span>My Attendance</span>
-            </div>
-          </div>
+  <div class="col-xl-3 col-sm-6 col-12 mb-3">
+    <div class="stat-card">
+      <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+        <div>
+          <div class="stat-label">My Attendance</div>
+          <div class="stat-value" style="color: var(--text-muted);">&mdash;</div>
+        </div>
+        <div class="stat-icon blue">
+          <i class="fas fa-users"></i>
         </div>
       </div>
+      <div class="stat-footer"><i class="fas fa-clock mr-1"></i> Coming soon</div>
     </div>
   </div>
-  <div class="col-xl-3 col-sm-6 col-12">
-    <div class="card text-danger">
-      <div class="card-content">
-        <div class="card-body">
-          <div class="media d-flex">
-            <div class="align-self-center">
-              <h3>
-                <i class="fas fa-chalkboard-teacher"></i>
-              </h3>
-            </div>
-            <div class="media-body text-right">
-              <h3>423</h3>
-              <span>Exams</span>
-            </div>
-          </div>
+  <div class="col-xl-3 col-sm-6 col-12 mb-3">
+    <div class="stat-card">
+      <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+        <div>
+          <div class="stat-label">Exams</div>
+          <div class="stat-value" style="color: var(--text-muted);">&mdash;</div>
+        </div>
+        <div class="stat-icon warning">
+          <i class="fas fa-chalkboard-teacher"></i>
         </div>
       </div>
+      <div class="stat-footer"><i class="fas fa-clock mr-1"></i> Coming soon</div>
     </div>
   </div>
 </div>
 
-<div class="row gap-20">
-  <div class="col-3">
-    <div class="card">
-      <div class="card-header">
-        Basic Info
-      </div>
+<div class="row mb-4">
+  <div class="col-lg-3 col-md-6 mb-3">
+    <div class="card h-100">
+      <div class="card-header">Basic Info</div>
       <ul class="list-group list-group-flush">
         <li class="list-group-item">
           Department: {{ student.admission_student.choosen_department }}
@@ -102,113 +82,103 @@
           Session: {{ student.ac_session }}
         </li>
         <li class="list-group-item">
-          Batch: 21
+          Batch: {{ student.batch|default_if_none:"N/A" }}
         </li>
         <li class="list-group-item">
           ID: {{ student.temporary_id }}
         </li>
         <li class="list-group-item">
-          Roll: {{ student.roll | default_if_none:"Not Set" }}
+          Roll: {{ student.roll|default_if_none:"Not Set" }}
         </li>
       </ul>
     </div>
   </div>
 
-  <div class="col-3">
-    <div class="card">
-      <div class="card-header">
-        Personal Details
-      </div>
+  <div class="col-lg-3 col-md-6 mb-3">
+    <div class="card h-100">
+      <div class="card-header">Personal Details</div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item">Cras justo odio</li>
-        <li class="list-group-item">Dapibus ac facilisis in</li>
-        <li class="list-group-item">Vestibulum at eros</li>
+        <li class="list-group-item text-muted">Details will be available soon.</li>
       </ul>
     </div>
   </div>
-  <div class="col-3">
-    <div class="card">
-      <div class="card-header">
-        Performance Metrics
-      </div>
+  <div class="col-lg-3 col-md-6 mb-3">
+    <div class="card h-100">
+      <div class="card-header">Performance Metrics</div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item">Cras justo odio</li>
-        <li class="list-group-item">Dapibus ac facilisis in</li>
-        <li class="list-group-item">Vestibulum at eros</li>
+        <li class="list-group-item text-muted">Metrics will be available soon.</li>
       </ul>
     </div>
   </div>
-  <div class="col-3">
-    <div class="card">
-      <div class="card-header">
-        Attendance Metrics
-      </div>
+  <div class="col-lg-3 col-md-6 mb-3">
+    <div class="card h-100">
+      <div class="card-header">Attendance Metrics</div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item">Cras justo odio</li>
-        <li class="list-group-item">Dapibus ac facilisis in</li>
-        <li class="list-group-item">Vestibulum at eros</li>
+        <li class="list-group-item text-muted">Metrics will be available soon.</li>
       </ul>
     </div>
   </div>
 </div>
 
-<div class="row mt-5">
-  <div class="col-md-6">
-    <h3>My Subjects</h3>
-    <table class='{% cycle "table table-striped table-bordered" "table table-striped table-bordered" %}'>
-      <thead>
-        <tr>
-          <th scope="col">Code</th>
-          <th scope="col">Subject</th>
-          <th scope="col">Instructor</th>
-          <th scope="col">Theory</th>
-          <th scope="col">Practical</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for subject in subjects %}
-        <tr>
-          <td>{{ subject.subject_code }}</td>
-          <td>{{ subject.name }}</td>
-          <td>{{ subject.instructor | default_if_none:"TBA" }}</td>
-          <td>{{ subject.theory_marks }}</td>
-          <td>{{ subject.practical_marks }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+<div class="row mt-4">
+  <div class="col-md-6 mb-3">
+    <h4 class="mb-3">My Subjects</h4>
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Code</th>
+            <th scope="col">Subject</th>
+            <th scope="col">Instructor</th>
+            <th scope="col">Theory</th>
+            <th scope="col">Practical</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for subject in subjects %}
+          <tr>
+            <td>{{ subject.subject_code }}</td>
+            <td>{{ subject.name }}</td>
+            <td>{{ subject.instructor|default_if_none:"TBA" }}</td>
+            <td>{{ subject.theory_marks }}</td>
+            <td>{{ subject.practical_marks }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="5" class="text-center text-muted py-4">No subjects assigned yet.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
 
-
-  <div class="col-md-6">
-    <h3>My Classmates</h3>
-    <table class='{% cycle "table table-striped table-bordered" "table table-striped table-bordered" %}'>
-      <thead>
-        <tr>
-          <th scope="col">Roll</th>
-          <th scope="col">Name</th>
-          <th scope="col">Image</th>
-          <th scope="col">Contact</th>
-          <th scope="col">Emergency Contact</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1212</td>
-          <td>Student 2</td>
-          <td>...</td>
-          <td>0121233112</td>
-          <td>Private <a href="">request access</a></td>
-        </tr>
-        <tr>
-          <td>2321</td>
-          <td>Student 3</td>
-          <td>...</td>
-          <td>01212354343</td>
-          <td>01212354343</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="col-md-6 mb-3">
+    <h4 class="mb-3">My Classmates</h4>
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Roll</th>
+            <th scope="col">Name</th>
+            <th scope="col">Contact</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for classmate in classmates %}
+          <tr>
+            <td>{{ classmate.roll|default_if_none:"N/A" }}</td>
+            <td>{{ classmate.admission_student.name }}</td>
+            <td>{{ classmate.admission_student.mobile_number|default_if_none:"N/A" }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="3" class="text-center text-muted py-4">No classmates data available.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 

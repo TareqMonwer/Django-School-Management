@@ -1,25 +1,30 @@
 {% extends 'dashboard.html' %}
-{% load static %}
 {% load crispy_forms_tags %}
 
-{% block extra_header %}
-{% endblock %}
-
 {% block dashboard-body %}
-    <h4>Introduce New Subject</h4>
-    <hr>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Create Subject</li>
+  </ol>
+</nav>
+
+<h4>Introduce New Subject</h4>
+<hr>
+<div class="card">
+  <div class="card-body">
     <form action="{% url academic_urls.create_subject %}" method="POST" class="d-block">
         {% csrf_token %}
         {{ form|crispy }}
-        <input type="submit" value="Create Subject" class="btn btn-dark">
+        <input type="submit" value="Create Subject" class="btn btn-primary">
     </form>
+  </div>
+</div>
 {% endblock %}
 
 
 {% block extrajs %}
-<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
 <script>
-  // Select image
   $('input[type="file"]').change(function (e) {
     const fileName = e.target.files[0].name;
     $(".custom-file-label").html(fileName);

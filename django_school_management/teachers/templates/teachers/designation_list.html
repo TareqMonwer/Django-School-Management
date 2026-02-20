@@ -13,15 +13,15 @@
     </ol>
 </nav>
 
-
 <div class="row">
     <div class="col-12 mb-2">
-        <a href="{% url 'teachers:create_designation' %}" class="btn btn-success">
-            Add New Designation
+        <a href="{% url 'teachers:create_designation' %}" class="btn btn-primary">
+            <i class="fas fa-plus mr-1"></i> Add New Designation
         </a>
     </div>
     <div class="col-12">
-            <table class="table table-bordered">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
                 <thead>
                     <tr>
                         <th scope="col">Designation</th>
@@ -34,15 +34,14 @@
                         <td>{{ object.title }}</td>
                         <td>{{ object.resources.all.count }}</td>
                     </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="2" class="text-center text-muted py-4">No designations found.</td>
+                    </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
+    </div>
 </div>
 {% endblock %}
-
-
-{% block extrajs %}
-    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
-{% endblock extrajs %}
-    

@@ -19,8 +19,8 @@
   </ol>
 </nav>
 
-<div class="row border">
-    <div class="col-md-12 py-2">
+<div class="card mb-3">
+    <div class="card-body">
         <form action="" method="get">
             <div class="form-row align-items-end">
                 <div class="col">
@@ -40,66 +40,60 @@
                 </div>
                 <div class="col">
                     <div class="form-group">
-                        <div class="">
-                            <input type="submit" value="Submit" class="btn btn-primary">
-                        </div>
+                        <input type="submit" value="Filter" class="btn btn-primary">
                     </div>
                 </div>
             </div>
         </form>
     </div>
 </div>
+
 <div class="row">
   <div class="col-12">
-    <table class="table table-bordered" id="alumnussDataTable">
-      <thead>
-        <tr>
-          <th scope="col">Name</th>
-          <th scope="col">Department</th>
-          <th scope="col">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for alumni in filter.qs %} 
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover" id="alumnusDataTable">
+        <thead>
           <tr>
-            <td>
-              <a href="#">
-                <img src="{{ student.photo.url }}" class="mr-2 rounded-circle" height=24 width=24>
+            <th scope="col">Name</th>
+            <th scope="col">Department</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for alumni in filter.qs %}
+            <tr>
+              <td>
+                <img src="{{ alumni.photo.url }}" class="mr-2 rounded-circle" height="24" width="24" alt="{{ alumni.admission_student.name }}">
                 {{ alumni.admission_student.name }}
-            </td>
-            <td>
-              <a href="#">
+              </td>
+              <td>
                 {{ alumni.admission_student.choosen_department.name }}
-            </td>
-            <td>
-              <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-success">
-                  <i class="fas fa-cogs"></i>
-                </button>
-                <a href="#" class="btn btn-secondary">
+              </td>
+              <td>
+                <a href="{% url 'students:update_student' pk=alumni.id %}" class="btn btn-sm btn-primary">
                   <i class="fas fa-edit"></i>
                 </a>
-              </div>
-            </td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="3" class="text-center text-muted py-4">No alumni records found.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 
 {% endblock %}
 
-
-
 {% block extrajs %}
-<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
-<script src="{% static 'js/jquery.dataTables.min.js' %}"></script>>
+<script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
 <script src="{% static 'js/dataTables.bootstrap4.min.js' %}"></script>
-
 <script>
   $(document).ready(function () {
-    $('#alumnussDataTable').dataTable();
+    $('#alumnusDataTable').dataTable();
   });
 </script>
 {% endblock extrajs %}

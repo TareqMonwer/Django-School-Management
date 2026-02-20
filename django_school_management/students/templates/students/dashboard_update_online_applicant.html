@@ -3,38 +3,50 @@
 {% load crispy_forms_tags %}
 
 {% block dashboard-body %}
-<!-- UPDATE APPLICANT INFORMATION -->
-<div class="row justify-content-between">
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'students:students_dashboard_index' %}">Applicants</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Update Applicant</li>
+    </ol>
+</nav>
+
+<h4 class="mb-3">Update Applicant Information</h4>
+<div class="row">
     <div class="col-md-7">
-        <form action="" method="POST" enctype="multipart/form-data">
-            {{ form|crispy }}
-            <div>
-                <input type="submit" value="UPDATE" class="btn btn-success">
+        <div class="card">
+            <div class="card-body">
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <div>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                </form>
             </div>
-            {% csrf_token %}
-        </form>
+        </div>
     </div>
-    <div class="col-md-4">
-        <!-- Update Counseling Data -->
-        <div class="card p-3 mb-5">
+    <div class="col-md-5">
+        <div class="card p-3 mb-3">
+            <h6 class="mb-3">Add Counseling Data</h6>
             <form action="{% url 'students:add_counseling_data' student_id=applicant.id %}" method="post">
-                {{ counseling_form|crispy }}
                 {% csrf_token %}
-                <input type="submit" class="btn btn-primary" value="Save Changes">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                {{ counseling_form|crispy }}
+                <button type="submit" class="btn btn-primary">Save Changes</button>
             </form>
         </div>
-        <div class="list-group card">
+        <div class="list-group card mb-3">
             <li class="list-group-item active">Student Information</li>
             <li class="list-group-item"><b>Requested Dept: </b>{{ applicant.department_choice }}</li>
         </div>
-        <!-- Display Counseling Data -->
         <ul class="list-group card">
-            <li class="list-group-item active">Counseling Information</li>           
+            <li class="list-group-item active">Counseling Information</li>
             {% for record in counseling_records.all %}
                 <li class="list-group-item">
                     {{ record }} <br>
-                    <span class="badge badge-dark mr-1">
+                    <span class="badge badge-primary mr-1">
                         <strong>Comment by:</strong>
                         {{ record.counselor }}
                     </span>
@@ -43,19 +55,19 @@
                         {{ record.created|date:"d b Y "}}
                     </span>
                 </li>
-            {% endfor %}              
+            {% empty %}
+                <li class="list-group-item text-muted">No counseling records yet.</li>
+            {% endfor %}
         </ul>
     </div>
 </div>
 {% endblock %}
 
 {% block extrajs %}
-    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
     <script>
-        // Select image
         $('input[type="file"]').change(function(e){
             const fileName = e.target.files[0].name;
-        $('.custom-file-label').html(fileName);
+            $('.custom-file-label').html(fileName);
         });
     </script>
 {% endblock %}

@@ -2,21 +2,29 @@
 {% load crispy_forms_tags %}
 {% load static %}
 
-
 {% block dashboard-body %}
 <div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Institute Settings</li>
+        </ol>
+    </nav>
+
+    <h4>Institute Settings</h4>
+
     <div class="row">
         <div class="col-md-12">
-            <h4>Institute Settings</h4>
-
-            <div class="institute-settings-form">
-                <form action="" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    {{ form|crispy }}
-                    <input type="submit" value="Save Changes"
-                        class="btn btn-success float-right"
-                    >
-                </form>
+            <div class="card">
+                <div class="card-body">
+                    <form action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-success">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

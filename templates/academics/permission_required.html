@@ -1,7 +1,15 @@
 {% extends 'dashboard.html' %}
 
 {% block dashboard-body %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Permission Required</li>
+  </ol>
+</nav>
+
+<h4>Permission Required</h4>
 <div class="alert alert-warning">
-    You are not authorized for this action,<strong>please contact with administrator</strong>.
+    You are not authorized for this action, <strong>please contact the administrator</strong>.
 </div>
 {% endblock %}
