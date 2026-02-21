@@ -1,7 +1,6 @@
-import braintree
-
 from django.conf import settings
-from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView
 
 from django_school_management.academics.models import Department, Semester, AcademicSession, Subject, Batch
@@ -31,8 +30,6 @@ def online_admission(request):
         form = StudentForm(request.POST, request.FILES)
         if form.is_valid():
             data = form.save()
-            # TODO: return to payment pages based on global/local payment method
-            # return redirect('pages:online_admission_payment', pk=data.pk)
             if settings.USE_STRIPE:
                 return redirect('pages:online_admission_stripepayment', pk=data.pk)
             return redirect('pages:online_admission_sslpayment', pk=data.pk)
@@ -42,61 +39,78 @@ def online_admission(request):
 
 
 def online_admission_payment(request, pk):
-    """ 
-    Generates nonce and renders payment form
     """
-     
+    Braintree payment flow (currently deferred -- PayPal not available in region).
+    Generates nonce and renders payment form.
+    """
+    import braintree
+
+    registrant = get_object_or_404(AdmissionStudent, pk=pk)
     braintree_env = braintree.Environment.Sandbox
 
-    # Configure braintree payment
     try:
         braintree.Configuration.configure(
             braintree_env,
             merchant_id=settings.BRAINTREE_MERCHANT_ID,
             public_key=settings.BRAINTREE_PUBLIC_KEY,
-            private_key=settings.BRAINTREE_PRIVATE_KEY
+            private_key=settings.BRAINTREE_PRIVATE_KEY,
         )
-    except:
-        raise Exception("Payment Gateway is Not Configured Properly.")
+    except Exception:
+        messages.error(request, "Payment gateway is not configured properly.")
+        return redirect('pages:online_admission')
+
     try:
-        braintree_client_token = braintree.ClientToken.generate(
-            {"registrant": registrant.id})
-    except:
         braintree_client_token = braintree.ClientToken.generate({})
+    except Exception:
+        messages.error(request, "Could not initialize payment. Please try again.")
+        return redirect('pages:online_admission')
+
     context = {
-        'braintree_client_token': braintree_client_token, 
+        'braintree_client_token': braintree_client_token,
         'registrant': registrant,
     }
     return render(request, 'pages/students/admission_payment.html', context)
 
 
 def payment(request, pk):
-    """ 
-    Handles the payment from student registrant
     """
-    registrant = AdmissionStudent.objects.get(pk=pk)
+    Handles the Braintree payment from student registrant.
+    """
+    import braintree
+
+    registrant = get_object_or_404(AdmissionStudent, pk=pk)
     if request.method == 'POST':
         nonce_from_the_client = request.POST.get('paymentMethodNonce')
         customer_kwargs = {
             'first_name': registrant.name,
-            'email': registrant.email
+            'email': registrant.email,
         }
-        customer_create = braintree.Customer.create(customer_kwargs)
-        customer_id = customer_create.customer.id
-        result = braintree.Transaction.sale({
-            "amount": 100, 
-            "payment_method_nonce": nonce_from_the_client,
-            "options": {
-                "submit_for_settlement": True
-            }
-        })
-        # mark registrant payment as done if payment is done.
+        try:
+            customer_create = braintree.Customer.create(customer_kwargs)
+            customer_id = customer_create.customer.id
+            result = braintree.Transaction.sale({
+                "amount": 100,
+                "payment_method_nonce": nonce_from_the_client,
+                "options": {"submit_for_settlement": True},
+            })
+        except Exception:
+            messages.error(request, "Payment processing failed. Please try again.")
+            return redirect('pages:online_admission_payment', pk=pk)
+
         if result.is_success:
             registrant.paid = True
-            registrant.admitted = True
             registrant.save()
-            send_admission_confirmation_email(registrant.id)
+            try:
+                send_admission_confirmation_email(registrant.id)
+            except Exception:
+                pass
+            messages.success(request, "Payment successful! Your application has been received.")
             return redirect('pages:online_admission')
+        else:
+            messages.error(request, "Payment was declined. Please try again.")
+            return redirect('pages:online_admission_payment', pk=pk)
+
+    return redirect('pages:online_admission_payment', pk=pk)
 
 
 class UserGuideView(TemplateView):
