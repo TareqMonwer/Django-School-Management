@@ -1,4 +1,6 @@
 #!/bin/bash
-python manage.py migrate
+set -e
+
+python manage.py migrate --noinput
 
 python seed.py

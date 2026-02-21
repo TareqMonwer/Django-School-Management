@@ -11,10 +11,14 @@ from django_school_management.articles.models import Category
 
 
 def attach_institute_data_ctx_processor(request):
-    try:
-        institute = InstituteProfile.objects.get(active=True)
-    except:
-        institute = None
+    institute = None
+    if hasattr(request, 'user') and request.user.is_authenticated:
+        institute = getattr(request.user, 'institute', None)
+    if not institute:
+        try:
+            institute = InstituteProfile.objects.get(active=True)
+        except InstituteProfile.DoesNotExist:
+            institute = None
     ctx = {
         "request_institute": institute,
     }

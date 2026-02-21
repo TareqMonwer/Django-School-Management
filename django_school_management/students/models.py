@@ -10,8 +10,8 @@ from django_school_management.academics.models import (
     AcademicSession, Batch, 
     TempSerialID
 )
+from django_school_management.institute.models import City
 from django_school_management.teachers.models import Teacher
-from .utils.bd_zila import ALL_ZILA
 from .utils import model_help_texts
 
 
@@ -45,7 +45,12 @@ class StudentBase(TimeStampedModel):
     mothers_name = models.CharField(model_help_texts.STUDENT_BASE_MOTHER_NAME, max_length=100)
     date_of_birth = models.DateField(blank=True, null=True)
     email = models.EmailField()
-    city = models.CharField(max_length=2, choices=ALL_ZILA)
+    city = models.ForeignKey(
+        City,
+        on_delete=models.SET_NULL,
+        null=True, blank=True,
+        related_name='students',
+    )
     current_address = models.TextField()
     permanent_address = models.TextField()
     mobile_number = models.CharField(max_length=11)
