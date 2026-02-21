@@ -27,6 +27,7 @@ class StudentsURLEnums(Enum):
     counsel_monthly_report_typed = "counsel-report/<str:response_type>/"
     counsel_report_monthly_with_date = "counsel-report/<str:response_type>/<date:date_param>/"
     student_my_portal = "my-portal/<str:student_id>"
+    reject_applicant = "applicants/<int:pk>/reject/"
 
 
 class StudentsURLConstants:
@@ -55,3 +56,4 @@ class StudentsURLConstants:
     counsel_monthly_report_typed = f"students:{StudentsURLEnums.counsel_monthly_report_typed.name}"
     counsel_report_monthly_with_date = f"students:{StudentsURLEnums.counsel_report_monthly_with_date.name}"
     student_my_portal = f"students:{StudentsURLEnums.student_my_portal.name}"
+    reject_applicant = f"students:{StudentsURLEnums.reject_applicant.name}"

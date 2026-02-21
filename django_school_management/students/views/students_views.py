@@ -2,6 +2,7 @@ from datetime import date, timedelta, datetime
 from collections import OrderedDict
 
 from django.contrib import messages
+from django.db import transaction
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseNotFound, JsonResponse
 from django.urls import reverse_lazy
@@ -182,8 +183,6 @@ def admission_confirmation(request):
         dept_code = request.POST.get("department_code")
         batch_id = request.POST.get("batch_id")
         session_id = request.POST.get("session_id")
-        # If confirmation processes is followed by checkmarks,
-        # then we confirm admission for only selected candidates.
         checked_registrant_ids = request.POST.getlist("registrant_choice")
 
         try:
@@ -194,61 +193,64 @@ def admission_confirmation(request):
                 to_be_admitted = AdmissionStudent.objects.filter(
                     id__in=list(map(int, checked_registrant_ids))
                 )
-        except ValueError:
-            messages.add_message(
+        except (ValueError, TypeError):
+            messages.error(
                 request,
-                messages.ERROR,
                 "Please select applicants to permit for admission.",
             )
-            to_be_admitted = []
+            return render(request, "students/list/confirm_admission.html", ctx)
+
+        semester_number = 1
+        try:
+            semester = Semester.objects.get(number=semester_number)
+        except Semester.DoesNotExist:
+            messages.error(request, f"Semester {semester_number} not found! Please create it first.")
+            return render(request, "students/list/confirm_admission.html", ctx)
 
         try:
-            # get first semester to admit in first semester.
-            semester_number = 1
-            semester = Semester.objects.get(number=semester_number)
             batch = Batch.objects.get(id=batch_id)
-        except Semester.DoesNotExist:
-            messages.add_message(
-                request,
-                messages.ERROR,
-                f"Given semester number {semester_number} not found!",
-            )
-        except Batch.DoesNotExist:
-            messages.add_message(
-                request, messages.ERROR, "Please select/create a batch first."
-            )
+        except (Batch.DoesNotExist, ValueError, TypeError):
+            messages.error(request, "Please select or create a batch first.")
+            return render(request, "students/list/confirm_admission.html", ctx)
+
+        try:
+            session = AcademicSession.objects.get(id=session_id)
+        except (AcademicSession.DoesNotExist, ValueError, TypeError):
+            messages.error(request, "Please choose a valid academic session.")
+            return render(request, "students/list/confirm_admission.html", ctx)
 
         students = []
-        for candidate in to_be_admitted:
-            try:
-                session = AcademicSession.objects.get(id=session_id)
-            except ValueError:
-                messages.add_message(
-                    request, messages.ERROR, "Please choose a valid session."
-                )
-            # If student.save() doesn't raise any exceptions,
-            # we save student, except, we skip making student object.
-            try:
-                student = Student.objects.create(
-                    admission_student=candidate,
-                    semester=semester,
-                    batch=batch,
-                    ac_session=session,
-                    admitted_by=request.user,
-                )
-                students.append(student)
-            except:
-                pass
+        errors = []
+        with transaction.atomic():
+            for candidate in to_be_admitted:
+                try:
+                    student = Student.objects.create(
+                        admission_student=candidate,
+                        semester=semester,
+                        batch=batch,
+                        ac_session=session,
+                        admitted_by=request.user,
+                    )
+                    students.append(student)
+                except Exception as e:
+                    errors.append(f"{candidate.name}: {e}")
+
+        if students:
+            messages.success(request, f"{len(students)} student(s) created successfully.")
+        if errors:
+            for err in errors:
+                messages.error(request, err)
+
         ctx["students"] = students
         return render(request, "students/list/confirm_admission.html", ctx)
-    else:
-        return render(request, "students/list/confirm_admission.html", ctx)
+
+    return render(request, "students/list/confirm_admission.html", ctx)
 
 
 @user_passes_test(user_is_admin_su_or_ac_officer)
 def admit_student(request, pk):
     """
-    Admit applicant found by id/pk into chosen department
+    Admit applicant found by id/pk into chosen department.
     """
     applicant = get_object_or_404(AdmissionStudent, pk=pk)
     if request.method == "POST":
@@ -256,14 +258,30 @@ def admit_student(request, pk):
         if form.is_valid():
             student = form.save(commit=False)
             student.admitted = True
-            student.paid = True
             student.admission_date = date.today()
-            send_admission_confirmation_email.delay(student.id)
+            student.save()
+            try:
+                send_admission_confirmation_email.delay(student.id)
+            except Exception:
+                pass
+            messages.success(request, f"{applicant.name} has been admitted.")
             return redirect("students:admitted_student_list")
     else:
-        form = AdmissionForm()
-        context = {"form": form, "applicant": applicant}
+        form = AdmissionForm(instance=applicant)
+    context = {"form": form, "applicant": applicant}
     return render(request, "students/dashboard_admit_student.html", context)
+
+
+@user_passes_test(user_is_admin_su_or_ac_officer)
+def reject_applicant(request, pk):
+    """Reject an applicant with an optional reason."""
+    applicant = get_object_or_404(AdmissionStudent, pk=pk)
+    if request.method == "POST":
+        applicant.rejected = True
+        applicant.admitted = False
+        applicant.save()
+        messages.success(request, f"{applicant.name} has been rejected.")
+    return redirect("students:all_applicants")
 
 
 @user_passes_test(user_is_admin_su_or_ac_officer)
@@ -285,9 +303,7 @@ def mark_as_paid_or_unpaid(request):
 
 @user_passes_test(user_is_admin_su_or_ac_officer)
 def update_online_registrant(request, pk):
-    """
-    Update applicants details, counseling information
-    """
+    """Update applicant details and counseling information."""
     applicant = get_object_or_404(AdmissionStudent, pk=pk)
     counseling_records = CounselingComment.objects.filter(
         registrant_student=applicant
@@ -298,16 +314,17 @@ def update_online_registrant(request, pk):
         )
         if form.is_valid():
             form.save()
-            return redirect("students:paid_registrants")
+            messages.success(request, f"{applicant.name} updated.")
+            return redirect("students:all_applicants")
     else:
         form = StudentRegistrantUpdateForm(instance=applicant)
-        counseling_form = CounselingDataForm()
-        context = {
-            "form": form,
-            "applicant": applicant,
-            "counseling_records": counseling_records,
-            "counseling_form": counseling_form,
-        }
+    counseling_form = CounselingDataForm()
+    context = {
+        "form": form,
+        "applicant": applicant,
+        "counseling_records": counseling_records,
+        "counseling_form": counseling_form,
+    }
     return render(
         request, "students/dashboard_update_online_applicant.html", context
     )
@@ -328,18 +345,14 @@ def add_counseling_data(request, student_id):
 
 @user_passes_test(user_is_admin_su_or_ac_officer)
 def add_student_view(request):
-    """
-    :param request:
-    :return: admission form to
-    logged in user.
-    """
+    """Offline admission form."""
     if request.method == "POST":
         form = StudentForm(request.POST, request.FILES)
         if form.is_valid():
             student = form.save(commit=False)
-            # check student as offline registration
             student.application_type = "2"
             student.save()
+            messages.success(request, f"{student.name} added as offline applicant.")
             return redirect("students:all_applicants")
     else:
         form = StudentForm()

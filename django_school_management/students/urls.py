@@ -151,4 +151,9 @@ urlpatterns = [
         views.student_my_portal,
         name=StudentsURLEnums.student_my_portal.name,
     ),
+    path(
+        StudentsURLEnums.reject_applicant.value,
+        views.reject_applicant,
+        name=StudentsURLEnums.reject_applicant.name,
+    ),
 ]
