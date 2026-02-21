@@ -43,6 +43,12 @@ class User(AbstractUser):
     approval_extra_note = models.TextField(
         blank=True, null=True
     )
+    institute = models.ForeignKey(
+        'institute.InstituteProfile',
+        on_delete=models.SET_NULL,
+        null=True, blank=True,
+        related_name='users',
+    )
 
     def get_author_url(self):
         return reverse(

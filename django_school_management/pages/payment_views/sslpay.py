@@ -48,8 +48,8 @@ def online_admission_sslpayment(request, pk):
     post_body['cus_email'] = registrant.email
     post_body['cus_phone'] = registrant.mobile_number
     post_body['cus_add1'] = registrant.current_address
-    post_body['cus_city'] = registrant.city
-    post_body['cus_country'] = "Bangladesh"
+    post_body['cus_city'] = str(registrant.city) if registrant.city else ''
+    post_body['cus_country'] = str(registrant.city.country) if registrant.city else ''
     post_body['product_profile'] = "general"
     post_body['product_name'] = 'Online Admission'
     post_body['product_category'] = 'Educational Service'

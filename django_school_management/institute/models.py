@@ -1,3 +1,4 @@
+from django_countries.fields import CountryField
 from ckeditor_uploader.fields import RichTextUploadingField
 from model_utils.models import TimeStampedModel
 
@@ -12,7 +13,8 @@ from .utils import model_help_texts
 class InstituteProfile(models.Model):
 	name = models.CharField(max_length=255)
 	date_of_estashment = models.DateField(blank=True, null=True)
-	logo  = models.ImageField(upload_to='institute/')
+	country = CountryField(blank=True, null=True)
+	logo = models.ImageField(upload_to='institute/')
 	logo_small = models.ImageField(upload_to='institute/', blank=True, null=True)
 	site_favicon = models.ImageField(upload_to='institute', blank=True, null=True)
 	site_header = models.CharField(
@@ -41,9 +43,26 @@ class InstituteProfile(models.Model):
 
 	def __str__(self):
 		return self.name
-	
+
 	def get_absolute_url(self):
 		return reverse('institute:institute_detail', args=[self.pk])
+
+
+class City(TimeStampedModel):
+	name = models.CharField(max_length=150)
+	country = CountryField()
+	code = models.CharField(
+		max_length=10,
+		help_text='Short code or district number (e.g. "13" for Dhaka)',
+	)
+
+	class Meta:
+		verbose_name_plural = 'cities'
+		ordering = ['name']
+		unique_together = ['country', 'code']
+
+	def __str__(self):
+		return self.name
 
 
 class BaseWidget(TimeStampedModel):

@@ -96,6 +96,8 @@ def user_approval(request, pk, approved):
         if requested_role == 'admin':
             user.is_staff = True
         user.approval_status = 'a'
+        if request.user.institute and not user.institute:
+            user.institute = request.user.institute
         user.save()
         messages.add_message(
             request,
@@ -122,6 +124,8 @@ def user_approval_with_modification(request, pk):
         if requested_role == 'admin':
             user.is_staff = True
         user.approval_status = 'a'
+        if request.user.institute and not user.institute:
+            user.institute = request.user.institute
         user.save()
         messages.add_message(
             request,
