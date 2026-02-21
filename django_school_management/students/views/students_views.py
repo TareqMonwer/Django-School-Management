@@ -39,6 +39,7 @@ from permission_handlers.administrative import (
     user_is_admin_su_or_ac_officer,
 )
 from permission_handlers.basic import user_is_student, user_is_verified
+from django_school_management.mixins.institute import get_user_institute
 
 
 @user_passes_test(user_is_admin_su_or_ac_officer)
@@ -46,6 +47,8 @@ def students_dashboard_index(request):
     """
     Dashboard for online admission system.
     """
+    institute = get_user_institute(request.user)
+
     # List of months since first application registration date
     try:
         first_application_date = datetime.strftime(
@@ -56,7 +59,6 @@ def students_dashboard_index(request):
         months_start, months_end = [
             datetime.strptime(_, "%Y-%m-%d") for _ in dates
         ]
-        # List of month to display options in student dashboard index
         month_list = OrderedDict(
             ((months_start + timedelta(_)).strftime(r"%B-%Y"), None)
             for _ in range((months_end - months_start).days)
@@ -64,16 +66,16 @@ def students_dashboard_index(request):
     except IndexError:
         month_list = []
 
-    unpaid_registrants = AdmissionStudent.objects.filter(paid=False)
-    all_applicants = AdmissionStudent.objects.all().order_by("-created")
-    admitted_students = AdmissionStudent.objects.filter(
-        admitted=True, paid=True
-    )
-    paid_registrants = AdmissionStudent.objects.filter(
-        paid=True, admitted=False
-    )
-    rejected_applicants = AdmissionStudent.objects.filter(rejected=True)
-    offline_applicants = AdmissionStudent.objects.filter(application_type="2")
+    base_qs = AdmissionStudent.objects.all()
+    if institute:
+        base_qs = base_qs.filter(department_choice__institute=institute)
+
+    unpaid_registrants = base_qs.filter(paid=False)
+    all_applicants = base_qs.order_by("-created")
+    admitted_students = base_qs.filter(admitted=True, paid=True)
+    paid_registrants = base_qs.filter(paid=True, admitted=False)
+    rejected_applicants = base_qs.filter(rejected=True)
+    offline_applicants = base_qs.filter(application_type="2")
 
     context = {
         "all_applicants": all_applicants,
@@ -90,7 +92,10 @@ def students_dashboard_index(request):
 @user_passes_test(user_is_admin_su_or_ac_officer)
 def all_applicants(request):
     """Display all registered students list"""
+    institute = get_user_institute(request.user)
     registrants = AdmissionStudent.objects.all().order_by("-created")
+    if institute:
+        registrants = registrants.filter(department_choice__institute=institute)
     ctx = {
         "registrants": registrants,
     }
@@ -349,9 +354,14 @@ def students_view(request):
     :return: renders student list with all department
     and semesters list.
     """
+    institute = get_user_institute(request.user)
     all_students = Student.objects.select_related(
         "admission_student", "semester", "ac_session"
     ).all()
+    if institute:
+        all_students = all_students.filter(
+            admission_student__choosen_department__institute=institute
+        )
     context = {
         "students": all_students,
     }

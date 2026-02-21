@@ -1,0 +1,199 @@
+{% extends "institute/onboarding/base.html" %}
+
+{% block extra_css %}
+<style>
+  .dept-row {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .dept-row .remove-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: none;
+    border: none;
+    color: #ef4444;
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+  .dept-row .remove-btn:hover { background: #fef2f2; }
+  .add-dept-btn {
+    background: none;
+    border: 2px dashed var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    width: 100%;
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 24px;
+  }
+  .add-dept-btn:hover {
+    border-color: var(--primary);
+    background: rgba(99,102,241,0.04);
+  }
+  .section-divider {
+    border-top: 1px solid var(--border);
+    margin: 28px 0;
+    padding-top: 24px;
+  }
+  .existing-badge {
+    display: inline-block;
+    background: rgba(99,102,241,0.1);
+    color: var(--primary);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin: 4px 4px 4px 0;
+  }
+</style>
+{% endblock %}
+
+{% block onboarding_content %}
+<div class="onboarding-card">
+  <h2>Academic Structure</h2>
+  <p class="subtitle">Set up your departments and the current academic session.</p>
+
+  <form method="post">
+    {% csrf_token %}
+
+    {% if existing_departments %}
+    <div style="margin-bottom: 20px;">
+      <label style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted);">
+        Current Departments
+      </label>
+      <div>
+        {% for dept in existing_departments %}
+          <span class="existing-badge">{{ dept.name }}{% if dept.short_name %} ({{ dept.short_name }}){% endif %}</span>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <label style="font-weight: 600; margin-bottom: 12px; display: block;">
+      <i class="fas fa-plus-circle" style="color: var(--primary); margin-right: 6px;"></i>
+      Add New Departments
+    </label>
+    <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">
+      Leave blank if you don't need to add more departments right now.
+    </p>
+
+    {{ dept_formset.management_form }}
+    <div id="dept-forms">
+      {% for dept_form in dept_formset %}
+      <div class="dept-row dept-form-row">
+        <button type="button" class="remove-btn" onclick="this.parentElement.remove();" title="Remove">
+          <i class="fas fa-times"></i>
+        </button>
+        <div class="row">
+          <div class="col-md-5">
+            <div class="form-group mb-2">
+              <label class="mb-1">Name</label>
+              {{ dept_form.name }}
+              {{ dept_form.name.errors }}
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group mb-2">
+              <label class="mb-1">Short Name</label>
+              {{ dept_form.short_name }}
+              {{ dept_form.short_name.errors }}
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group mb-2">
+              <label class="mb-1">Code</label>
+              {{ dept_form.code }}
+              {{ dept_form.code.errors }}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <button type="button" class="add-dept-btn" id="add-dept">
+      <i class="fas fa-plus" style="margin-right: 6px;"></i> Add Another Department
+    </button>
+
+    <div class="section-divider">
+      <label style="font-weight: 600; margin-bottom: 12px; display: block;">
+        <i class="fas fa-calendar-alt" style="color: var(--primary); margin-right: 6px;"></i>
+        Academic Session
+      </label>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="{{ session_form.year.id_for_label }}">Starting Year *</label>
+            {{ session_form.year }}
+            {{ session_form.year.errors }}
+            <small class="helptext">e.g. 2026 for the 2026-2027 session.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="onboarding-actions">
+      <a href="{% url 'institute:onboarding_step1' %}" class="btn-onboard btn-onboard-secondary">
+        <i class="fas fa-arrow-left"></i> Back
+      </a>
+      <button type="submit" class="btn-onboard btn-onboard-primary">
+        Continue <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function() {
+  const formsContainer = document.getElementById('dept-forms');
+  const addBtn = document.getElementById('add-dept');
+  const totalForms = document.getElementById('id_departments-TOTAL_FORMS');
+
+  addBtn.addEventListener('click', function() {
+    const formIdx = parseInt(totalForms.value);
+    const template = formsContainer.querySelector('.dept-form-row');
+    if (!template) return;
+
+    const newRow = template.cloneNode(true);
+    // Clear values and update name/id indices
+    newRow.querySelectorAll('input, select').forEach(function(input) {
+      const name = input.getAttribute('name');
+      if (name) {
+        input.setAttribute('name', name.replace(/-\d+-/, '-' + formIdx + '-'));
+      }
+      const id = input.getAttribute('id');
+      if (id) {
+        input.setAttribute('id', id.replace(/-\d+-/, '-' + formIdx + '-'));
+      }
+      if (input.type !== 'hidden') {
+        input.value = '';
+      }
+    });
+    // Update labels
+    newRow.querySelectorAll('label').forEach(function(label) {
+      const forAttr = label.getAttribute('for');
+      if (forAttr) {
+        label.setAttribute('for', forAttr.replace(/-\d+-/, '-' + formIdx + '-'));
+      }
+    });
+    // Clear errors
+    newRow.querySelectorAll('.errorlist').forEach(function(el) { el.remove(); });
+
+    formsContainer.appendChild(newRow);
+    totalForms.value = formIdx + 1;
+  });
+})();
+</script>
+{% endblock %}

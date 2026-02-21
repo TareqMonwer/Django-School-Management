@@ -83,14 +83,20 @@
         </a>
         <ul class="dropdown-menu fsz-sm">
           <li>
-            {% if request_institute %}
+            {% if request_institute and request_institute.onboarding_completed %}
               <a href="{% url 'institute:institute_detail' institute_pk=request_institute.pk %}" 
                 class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
                 <i class="fas fa-school mR-10"></i>
                 <span>School Profile</span>
               </a>
+            {% elif request_institute %}
+              <a href="{% url 'institute:onboarding_step1' %}"
+                class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
+                <i class="fas fa-cog mR-10" style="color: #6366f1;"></i>
+                <span style="font-weight: 600;">Continue Setup</span>
+              </a>
             {% else %}
-              <a href="{% url 'institute:setup_school' %}"
+              <a href="{% url 'institute:onboarding_step1' %}"
                 class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
                 <i class="fas fa-school mR-10"></i>
                 <span>Setup School</span>

@@ -1,0 +1,67 @@
+{% extends "institute/onboarding/base.html" %}
+
+{% block onboarding_content %}
+<div class="onboarding-card">
+  <h2>School Profile</h2>
+  <p class="subtitle">Tell us about your institution. You can update these details later from settings.</p>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="form-group">
+      <label for="{{ form.name.id_for_label }}">School Name *</label>
+      {{ form.name }}
+      {{ form.name.errors }}
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="{{ form.country.id_for_label }}">Country</label>
+          {{ form.country }}
+          {{ form.country.errors }}
+          <small class="helptext">Sets the default city/district list for student forms.</small>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="{{ form.date_of_estashment.id_for_label }}">Date of Establishment</label>
+          {{ form.date_of_estashment }}
+          {{ form.date_of_estashment.errors }}
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.logo.id_for_label }}">School Logo *</label>
+      {% if form.instance.logo %}
+        <div style="margin-bottom: 8px;">
+          <img src="{{ form.instance.logo.url }}" alt="Current logo"
+               style="max-height: 60px; border-radius: 8px; border: 1px solid var(--border);">
+        </div>
+      {% endif %}
+      {{ form.logo }}
+      {{ form.logo.errors }}
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.motto.id_for_label }}">Motto</label>
+      {{ form.motto }}
+      {{ form.motto.errors }}
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.description.id_for_label }}">Description</label>
+      {{ form.description }}
+      {{ form.description.errors }}
+    </div>
+
+    <div class="onboarding-actions">
+      <span></span>
+      <button type="submit" class="btn-onboard btn-onboard-primary">
+        Continue <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %}

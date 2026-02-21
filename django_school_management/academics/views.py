@@ -19,6 +19,7 @@ from permission_handlers.administrative import (
 )
 from permission_handlers.basic import user_is_verified
 from ..mixins.created_by import CreatedByMixin
+from ..mixins.institute import get_user_institute, InstituteAutoSetMixin
 
 
 @user_passes_test(user_is_admin_su_editor_or_ac_officer)
@@ -73,16 +74,18 @@ def departments(request):
     Responsible for department list view
     and department create view.
     """
+    institute = get_user_institute(request.user)
     if request.method == 'POST':
         form = DepartmentForm(request.POST, request.FILES)
         if form.is_valid():
             dept = form.save(commit=False)
             dept.created_by = request.user
+            dept.institute = institute
             dept.save()
             return redirect(AcademicsURLConstants.departments)
     else:
         form = DepartmentForm()
-    all_department = Department.objects.all()
+    all_department = Department.objects.filter(institute=institute) if institute else Department.objects.all()
     ctx = {
         'form': form,
         'departments': all_department,
@@ -147,7 +150,7 @@ def upload_subjects_csv(request):
     return render(request, template, context)
 
 
-class CreateDepartmentView(LoginRequiredMixin, UserPassesTestMixin, CreateView, CreatedByMixin):
+class CreateDepartmentView(LoginRequiredMixin, UserPassesTestMixin, InstituteAutoSetMixin, CreateView):
     form_class = DepartmentForm
     success_url = reverse_lazy(AcademicsURLConstants.departments)
     template_name = 'academics/create_department.html'

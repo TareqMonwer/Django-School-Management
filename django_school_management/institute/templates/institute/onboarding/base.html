@@ -1,0 +1,261 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+  <title>School Setup — Step {{ current_step }}</title>
+  <script src="https://kit.fontawesome.com/16475baae0.js" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'css/dashboard-modern.css' %}" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --success: #22c55e;
+      --bg: #f1f5f9;
+      --card-bg: #fff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      min-height: 100vh;
+    }
+
+    .onboarding-wrapper {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px 60px;
+    }
+
+    .onboarding-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .onboarding-header h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0 0 6px;
+    }
+    .onboarding-header p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin: 0;
+    }
+
+    /* Step indicator */
+    .steps {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 0;
+      margin-bottom: 40px;
+    }
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      flex: 1;
+      max-width: 180px;
+    }
+    .step-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: 2px solid var(--border);
+      background: var(--card-bg);
+      color: var(--text-muted);
+      position: relative;
+      z-index: 2;
+      transition: all 0.3s;
+    }
+    .step.active .step-circle {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+      box-shadow: 0 0 0 4px rgba(99,102,241,0.15);
+    }
+    .step.completed .step-circle {
+      background: var(--success);
+      border-color: var(--success);
+      color: #fff;
+    }
+    .step-label {
+      margin-top: 10px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-align: center;
+    }
+    .step.active .step-label { color: var(--primary); font-weight: 600; }
+    .step.completed .step-label { color: var(--success); }
+
+    .step-connector {
+      flex: 1;
+      height: 2px;
+      background: var(--border);
+      margin-top: 22px;
+      max-width: 100px;
+    }
+    .step-connector.done { background: var(--success); }
+
+    /* Card */
+    .onboarding-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+      padding: 32px;
+    }
+    .onboarding-card h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 0 0 4px;
+    }
+    .onboarding-card .subtitle {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-bottom: 24px;
+    }
+
+    /* Form styles */
+    .onboarding-card label {
+      font-weight: 500;
+      font-size: 0.85rem;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .onboarding-card .form-control,
+    .onboarding-card select {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 0.9rem;
+      transition: border-color 0.2s;
+    }
+    .onboarding-card .form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
+      outline: none;
+    }
+    .onboarding-card .helptext,
+    .onboarding-card .help-block {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .onboarding-card .errorlist {
+      color: #ef4444;
+      font-size: 0.8rem;
+      list-style: none;
+      padding: 0;
+      margin: 4px 0 0;
+    }
+
+    /* Buttons */
+    .onboarding-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 28px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+    .btn-onboard {
+      padding: 10px 28px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-onboard-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+    .btn-onboard-primary:hover {
+      background: var(--primary-dark);
+      color: #fff;
+      text-decoration: none;
+    }
+    .btn-onboard-secondary {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+    .btn-onboard-secondary:hover {
+      background: #f8fafc;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .btn-onboard-success {
+      background: var(--success);
+      color: #fff;
+    }
+    .btn-onboard-success:hover {
+      background: #16a34a;
+      color: #fff;
+      text-decoration: none;
+    }
+  </style>
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+  <div class="onboarding-wrapper">
+    <div class="onboarding-header">
+      <h1>Set Up Your School</h1>
+      <p>Complete these steps to get your school management system ready.</p>
+    </div>
+
+    <!-- Step indicator -->
+    <div class="steps">
+      {% for step in onboarding_steps %}
+        {% if not forloop.first %}
+          <div class="step-connector {% if step.status == 'completed' or step.status == 'active' and forloop.counter0 > 0 %}done{% endif %}"></div>
+        {% endif %}
+        <div class="step {{ step.status }}">
+          <div class="step-circle">
+            {% if step.status == 'completed' %}
+              <i class="fas fa-check"></i>
+            {% else %}
+              <i class="{{ step.icon }}"></i>
+            {% endif %}
+          </div>
+          <div class="step-label">{{ step.title }}</div>
+        </div>
+      {% endfor %}
+    </div>
+
+    {% block onboarding_content %}{% endblock %}
+
+    <div style="text-align: center; margin-top: 24px;">
+      <a href="{% url 'index_view' %}?skip_onboarding=1"
+         style="color: var(--text-muted); font-size: 0.82rem; text-decoration: none;">
+        Skip for now — I'll finish setup later
+      </a>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

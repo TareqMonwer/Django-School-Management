@@ -27,6 +27,12 @@ class Teacher(TimeStampedModel):
     mobile = models.CharField(max_length=11, blank=True, null=True)
     email = models.CharField(max_length=255, blank=True, null=True)
     joining_date = models.DateField(auto_now=True)
+    institute = models.ForeignKey(
+        'institute.InstituteProfile',
+        on_delete=models.CASCADE,
+        null=True, blank=True,
+        related_name='teachers',
+    )
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL, null=True)

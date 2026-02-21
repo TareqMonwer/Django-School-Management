@@ -109,6 +109,24 @@
         <div id="mainContent">
           {% block dashboard-body %}
 
+            {% if request_institute and not request_institute.onboarding_completed %}
+            <!-- ONBOARDING INCOMPLETE BANNER -->
+            <div class="fade-in-up" style="background: linear-gradient(135deg, #eef2ff, #e0e7ff); border: 1px solid #c7d2fe; border-radius: 10px; padding: 20px 24px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="background: #6366f1; color: #fff; width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                  <i class="fas fa-cog"></i>
+                </div>
+                <div>
+                  <div style="font-weight: 700; font-size: 0.95rem; color: #312e81;">School setup is incomplete</div>
+                  <div style="font-size: 0.82rem; color: #4338ca;">Complete the setup wizard to unlock all features.</div>
+                </div>
+              </div>
+              <a href="{% url 'institute:onboarding_step1' %}" style="background: #6366f1; color: #fff; padding: 8px 20px; border-radius: 8px; font-weight: 600; font-size: 0.85rem; text-decoration: none; white-space: nowrap;">
+                Continue Setup <i class="fas fa-arrow-right" style="margin-left: 6px;"></i>
+              </a>
+            </div>
+            {% endif %}
+
             <!-- WELCOME BANNER -->
             <div class="welcome-banner fade-in-up">
               <h2>Welcome back{% if user.first_name %}, {{ user.first_name }}{% endif %}</h2>

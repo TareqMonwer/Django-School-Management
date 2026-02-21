@@ -9,6 +9,7 @@ from django.views.generic.edit import UpdateView
 from django.urls import reverse
 
 from django_school_management.academics.models import Department
+from django_school_management.institute.models import InstituteProfile
 from django_school_management.students.models import Student
 from django_school_management.teachers.models import Teacher
 from .constants import ProfileApprovalStatusEnum, AccountURLConstants
@@ -71,9 +72,41 @@ def profile_complete(request):
     login_url=AccountURLConstants.profile_complete
 )
 def dashboard(request):
-    total_students = Student.objects.count()
-    total_teachers = Teacher.objects.count()
-    total_departments = Department.objects.count()
+    institute = getattr(request.user, 'institute', None)
+    if not institute:
+        active = InstituteProfile.objects.filter(active=True).first()
+        if active:
+            request.user.institute = active
+            request.user.save(update_fields=['institute'])
+            institute = active
+
+    is_admin = request.user.is_superuser or request.user.requested_role == 'admin'
+
+    if request.GET.get('skip_onboarding'):
+        request.session['skip_onboarding'] = True
+
+    skipped = request.session.get('skip_onboarding', False)
+
+    if is_admin and not skipped:
+        if not institute:
+            return redirect('institute:onboarding_step1')
+        if not institute.onboarding_completed:
+            next_step = institute.onboarding_step
+            if next_step == 2:
+                return redirect('institute:onboarding_step2')
+            elif next_step == 3:
+                return redirect('institute:onboarding_step3')
+
+    if institute:
+        total_students = Student.objects.filter(
+            admission_student__choosen_department__institute=institute
+        ).count()
+        total_teachers = Teacher.objects.filter(institute=institute).count()
+        total_departments = Department.objects.filter(institute=institute).count()
+    else:
+        total_students = Student.objects.count()
+        total_teachers = Teacher.objects.count()
+        total_departments = Department.objects.count()
     context = {
         'total_students': total_students,
         'total_teachers': total_teachers,
