@@ -155,10 +155,10 @@ class AdmissionStudent(StudentBase):
         return f"{self.name}"
 
     def save(self, *args, **kwargs):
-        if self.department_choice != self.choosen_department:
-            status = f'From {self.department_choice} to {self.choosen_department}'
-            self.migration_status = status
-            super().save(*args, **kwargs)
+        if self.choosen_department and self.department_choice != self.choosen_department:
+            self.migration_status = (
+                f'From {self.department_choice} to {self.choosen_department}'
+            )
         super().save(*args, **kwargs)
 
 

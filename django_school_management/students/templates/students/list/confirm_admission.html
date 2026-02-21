@@ -94,17 +94,17 @@
                             </thead>
                             <tbody>
                                 {% if not students %}
-                                    {% for student in selected_registrants %}
+                                    {% for registrant in selected_registrants %}
                                         <tr>
                                             <td>
                                                 <input name="registrant_choice" type="checkbox"
-                                                value="{{ student.pk }}"/>
+                                                value="{{ registrant.pk }}"/>
                                             </td>
-                                            <td>{{ student.get_temp_id }}</td>
-                                            <td>{{ student.name }}</td>
-                                            <td>{{ student.choosen_department }}</td>
-                                            <td>{{ student.batch }}</td>
-                                            <td>{{ student.semester }}</td>
+                                            <td>{{ registrant.pk }}</td>
+                                            <td>{{ registrant.name }}</td>
+                                            <td>{{ registrant.choosen_department }}</td>
+                                            <td>--</td>
+                                            <td>--</td>
                                             <td>--</td>
                                         </tr>
                                     {% empty %}
