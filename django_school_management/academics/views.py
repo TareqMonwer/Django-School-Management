@@ -11,7 +11,7 @@ from django.urls import reverse_lazy
 from .constants import AcademicsURLConstants
 from .models import (Semester, Department,
                      AcademicSession, Subject, Batch)
-from .forms import SemesterForm, DepartmentForm, AcademicSessionForm, SubjectForm
+from .forms import SemesterForm, DepartmentForm, AcademicSessionForm, SubjectForm, BatchForm
 from permission_handlers.administrative import (
     user_is_admin_su_editor_or_ac_officer,
     user_editor_admin_or_su,
@@ -233,3 +233,83 @@ class BatchListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return user_is_teacher_or_administrative(user)
 
 batch_list_view = BatchListView.as_view()
+
+
+# ── Subject Update / Delete ──────────────────────────────
+
+class UpdateSubjectView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Subject
+    form_class = SubjectForm
+    template_name = 'academics/update_subject.html'
+    success_url = reverse_lazy(AcademicsURLConstants.subject_list)
+
+    def test_func(self):
+        return user_is_teacher_or_administrative(self.request.user)
+
+update_subject = UpdateSubjectView.as_view()
+
+
+@user_passes_test(user_is_teacher_or_administrative)
+def delete_subject(request, pk):
+    obj = get_object_or_404(Subject, pk=pk)
+    obj.delete()
+    messages.success(request, "Subject deleted.")
+    return redirect(AcademicsURLConstants.subject_list)
+
+
+# ── Academic Session Update / Delete ─────────────────────
+
+class UpdateAcademicSessionView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = AcademicSession
+    form_class = AcademicSessionForm
+    template_name = 'academics/update_academic_session.html'
+    success_url = reverse_lazy(AcademicsURLConstants.academic_sessions)
+
+    def test_func(self):
+        return user_is_admin_su_editor_or_ac_officer(self.request.user)
+
+update_academic_session = UpdateAcademicSessionView.as_view()
+
+
+@user_passes_test(user_is_admin_su_editor_or_ac_officer)
+def delete_academic_session(request, pk):
+    obj = get_object_or_404(AcademicSession, pk=pk)
+    obj.delete()
+    messages.success(request, "Academic session deleted.")
+    return redirect(AcademicsURLConstants.academic_sessions)
+
+
+# ── Batch Update / Delete ────────────────────────────────
+
+class UpdateBatchView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Batch
+    form_class = BatchForm
+    template_name = 'academics/update_batch.html'
+    success_url = reverse_lazy(AcademicsURLConstants.batch_list)
+
+    def test_func(self):
+        return user_is_teacher_or_administrative(self.request.user)
+
+update_batch = UpdateBatchView.as_view()
+
+
+@user_passes_test(user_is_teacher_or_administrative)
+def delete_batch(request, pk):
+    obj = get_object_or_404(Batch, pk=pk)
+    obj.delete()
+    messages.success(request, "Batch deleted.")
+    return redirect(AcademicsURLConstants.batch_list)
+
+
+# ── Semester Update ──────────────────────────────────────
+
+class UpdateSemesterView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Semester
+    form_class = SemesterForm
+    template_name = 'academics/update_semester.html'
+    success_url = reverse_lazy(AcademicsURLConstants.all_semester)
+
+    def test_func(self):
+        return user_editor_admin_or_su(self.request.user)
+
+update_semester = UpdateSemesterView.as_view()

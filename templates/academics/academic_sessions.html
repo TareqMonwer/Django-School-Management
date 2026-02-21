@@ -18,16 +18,22 @@
                 <thead>
                     <tr>
                         <th scope="col">Academic Session</th>
+                        <th scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for academic_session in academic_sessions %}
                     <tr>
                         <td>{{ academic_session }}</td>
+                        <td>
+                            <a href="{% url academic_urls.update_academic_session pk=academic_session.pk %}" class="btn btn-sm btn-primary">Edit</a>
+                            <a href="{% url academic_urls.delete_academic_session pk=academic_session.pk %}" class="btn btn-sm btn-danger"
+                               onclick="return confirm('Delete this session?');">Delete</a>
+                        </td>
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="1" class="text-center text-muted py-4">No data found.</td>
+                        <td colspan="2" class="text-center text-muted py-4">No data found.</td>
                     </tr>
                     {% endfor %}
                 </tbody>

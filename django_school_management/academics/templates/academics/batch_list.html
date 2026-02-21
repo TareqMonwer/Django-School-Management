@@ -25,6 +25,7 @@
             <th scope="col">Dept</th>
             <th scope="col">Year</th>
             <th scope="col">Batch No</th>
+            <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -33,10 +34,15 @@
             <td>{{ batch.department }}</td>
             <td>{{ batch.year }}</td>
             <td>{{ batch.number }}</td>
+            <td>
+              <a href="{% url academic_urls.update_batch pk=batch.pk %}" class="btn btn-sm btn-primary">Edit</a>
+              <a href="{% url academic_urls.delete_batch pk=batch.pk %}" class="btn btn-sm btn-danger"
+                 onclick="return confirm('Delete this batch?');">Delete</a>
+            </td>
           </tr>
           {% empty %}
           <tr>
-            <td colspan="3" class="text-center text-muted py-4">No data found.</td>
+            <td colspan="4" class="text-center text-muted py-4">No data found.</td>
           </tr>
           {% endfor %}
         </tbody>
