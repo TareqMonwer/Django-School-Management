@@ -1,6 +1,10 @@
 {% extends 'dashboard.html' %}
 {% load static %}
 
+{% block extra_header %}
+<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap4.min.css' %}">
+{% endblock %}
+
 {% block dashboard-body %}
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -21,20 +25,21 @@
     </div>
   <div class="col-12">
     <div class="table-responsive">
-      <table class="table table-bordered table-hover">
+      <table class="table table-bordered table-hover" id="applicantsTable">
         <thead class="thead-light">
           <tr>
             <th scope="col">SYL</th>
             <th scope="col">Name</th>
             <th scope="col">Application Date</th>
             <th scope="col">Payment Status</th>
-            <th scope="col">Admitted</th>
+            <th scope="col">Status</th>
             <th scope="col">Contact</th>
+            <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
           {% for applicant in registrants %}
-          <tr>
+          <tr{% if applicant.rejected %} class="table-danger"{% endif %}>
             <th scope="row">
               <a href="{% url 'students:update_online_registrant' pk=applicant.id %}">
                 {{ forloop.counter }}
@@ -45,38 +50,47 @@
                 {{ applicant.name }}
               </a>
             </td>
-            <td>
-              <a href="{% url 'students:update_online_registrant' pk=applicant.id %}">
-                {{ applicant.created }}
-              </a>
+            <td>{{ applicant.created }}</td>
+            <td class="text-center">
+              {% if applicant.paid %}
+                <img src="{% static 'images/checked.png' %}" width="16" alt="Paid">
+              {% else %}
+                <img src="{% static 'images/cross.png' %}" width="16" alt="Not paid">
+              {% endif %}
             </td>
             <td class="text-center">
-              <a href="{% url 'students:update_online_registrant' pk=applicant.id %}">
-                {% if applicant.paid %}
-                  <img src="{% static 'images/checked.png' %}" width="16" alt="Paid">
-                {% else %}
-                  <img src="{% static 'images/cross.png' %}" width="16" alt="Not paid">
-                {% endif %}
-              </a>
+              {% if applicant.rejected %}
+                <span class="badge badge-danger">Rejected</span>
+              {% elif applicant.admitted %}
+                <span class="badge badge-success">Admitted</span>
+              {% else %}
+                <span class="badge badge-warning">Pending</span>
+              {% endif %}
             </td>
-            <td class="text-center">
-                <a href="{% url 'students:update_online_registrant' pk=applicant.id %}">
-                    {% if applicant.admitted %}
-                      <img src="{% static 'images/checked.png' %}" width="16" alt="Admitted">
-                    {% else %}
-                      <img src="{% static 'images/cross.png' %}" width="16" alt="Not admitted">
-                    {% endif %}
-                </a>
-            </td>
+            <td>{{ applicant.mobile_number }}</td>
             <td>
-                <a href="{% url 'students:update_online_registrant' pk=applicant.id %}">
-                    {{ applicant.mobile_number }}
-                </a>
+              <a href="{% url 'students:update_online_registrant' pk=applicant.id %}" class="btn btn-sm btn-outline-primary" title="Edit">
+                <i class="fas fa-edit"></i>
+              </a>
+              {% if not applicant.rejected and not applicant.admitted %}
+              <form method="post" action="{% url 'students:reject_applicant' pk=applicant.pk %}" class="d-inline"
+                    onsubmit="return confirm('Reject {{ applicant.name }}?');">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-outline-danger" title="Reject">
+                  <i class="fas fa-ban"></i>
+                </button>
+              </form>
+              {% endif %}
+              {% if not applicant.admitted and applicant.paid and not applicant.rejected %}
+              <a href="{% url 'students:admit_student' pk=applicant.pk %}" class="btn btn-sm btn-outline-success" title="Admit">
+                <i class="fas fa-check"></i>
+              </a>
+              {% endif %}
             </td>
           </tr>
           {% empty %}
           <tr>
-            <td colspan="6" class="text-center text-muted py-4">No applicants found.</td>
+            <td colspan="7" class="text-center text-muted py-4">No applicants found.</td>
           </tr>
           {% endfor %}
         </tbody>
@@ -86,3 +100,13 @@
 </div>
 
 {% endblock %}
+
+{% block extrajs %}
+<script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'js/dataTables.bootstrap4.min.js' %}"></script>
+<script>
+$(document).ready(function() {
+  $('#applicantsTable').dataTable({"order": [[2, "desc"]]});
+});
+</script>
+{% endblock extrajs %}
