@@ -4,7 +4,7 @@ from typing import Type
 from django.db.models import Model
 from django.forms import ModelForm
 
-from .models import Department, Semester, AcademicSession, Subject
+from .models import Department, Semester, AcademicSession, Subject, Batch
 
 
 def create_model_form_factory(
@@ -29,3 +29,5 @@ SemesterForm = create_model_form_factory(Semester, exclude_fields=['created_by',
 AcademicSessionForm = create_model_form_factory(AcademicSession, exclude_fields=['created_by',])
 
 SubjectForm = create_model_form_factory(Subject, exclude_fields=['created_by',])
+
+BatchForm = create_model_form_factory(Batch, include_fields=['department', 'year', 'number'])

@@ -19,6 +19,7 @@
           <tr>
             <th scope="col">Semester</th>
             <th scope="col">Head Teacher</th>
+            <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -26,10 +27,15 @@
           <tr>
             <td>{{ semester }}</td>
             <td>{{ semester.guide.name }}</td>
+            <td>
+              <a href="{% url academic_urls.update_semester pk=semester.pk %}" class="btn btn-sm btn-primary">Edit</a>
+              <a href="{% url academic_urls.delete_semester pk=semester.pk %}" class="btn btn-sm btn-danger"
+                 onclick="return confirm('Delete this semester?');">Delete</a>
+            </td>
           </tr>
           {% empty %}
           <tr>
-            <td colspan="2" class="text-center text-muted py-4">No data found.</td>
+            <td colspan="3" class="text-center text-muted py-4">No data found.</td>
           </tr>
           {% endfor %}
         </tbody>

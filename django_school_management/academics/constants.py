@@ -15,6 +15,14 @@ class AcademicsURLEnum(Enum):
     import_subject_csv = 'upload-subjects-csv/'
     create_batch = 'create-batch/'
     batch_list = 'batch-list/'
+    update_subject = 'subjects/update/<int:pk>/'
+    delete_subject = 'subjects/delete/<int:pk>/'
+    update_academic_session = 'academic-sessions/update/<int:pk>/'
+    delete_academic_session = 'academic-sessions/delete/<int:pk>/'
+    update_batch = 'batches/update/<int:pk>/'
+    delete_batch = 'batches/delete/<int:pk>/'
+    update_semester = 'semesters/update/<int:pk>/'
+    delete_semester = 'semesters/delete/<int:pk>/'
 
 
 class AcademicsURLConstants:
@@ -31,3 +39,11 @@ class AcademicsURLConstants:
     import_subject_csv = f'academics:{AcademicsURLEnum.import_subject_csv.name}'
     create_batch = f'academics:{AcademicsURLEnum.create_batch.name}'
     batch_list = f'academics:{AcademicsURLEnum.batch_list.name}'
+    update_subject = f'academics:{AcademicsURLEnum.update_subject.name}'
+    delete_subject = f'academics:{AcademicsURLEnum.delete_subject.name}'
+    update_academic_session = f'academics:{AcademicsURLEnum.update_academic_session.name}'
+    delete_academic_session = f'academics:{AcademicsURLEnum.delete_academic_session.name}'
+    update_batch = f'academics:{AcademicsURLEnum.update_batch.name}'
+    delete_batch = f'academics:{AcademicsURLEnum.delete_batch.name}'
+    update_semester = f'academics:{AcademicsURLEnum.update_semester.name}'
+    delete_semester = f'academics:{AcademicsURLEnum.delete_semester.name}'

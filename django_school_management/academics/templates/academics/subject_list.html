@@ -31,6 +31,7 @@
             <th scope="col">Instructor</th>
             <th scope="col">T. Marks</th>
             <th scope="col">P. Marks</th>
+            <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -42,10 +43,15 @@
             <td style="text-align: center">{{ subject.instructor|default:"-" }}</td>
             <td style="text-align: center">{{ subject.theory_marks|default:"-" }}</td>
             <td>{{ subject.practical_marks|default:"-" }}</td>
+            <td>
+              <a href="{% url academic_urls.update_subject pk=subject.pk %}" class="btn btn-sm btn-primary">Edit</a>
+              <a href="{% url academic_urls.delete_subject pk=subject.pk %}" class="btn btn-sm btn-danger"
+                 onclick="return confirm('Delete this subject?');">Delete</a>
+            </td>
           </tr>
           {% empty %}
           <tr>
-            <td colspan="6" class="text-center text-muted py-4">No data found.</td>
+            <td colspan="7" class="text-center text-muted py-4">No data found.</td>
           </tr>
           {% endfor %}
         </tbody>
