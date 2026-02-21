@@ -22,7 +22,7 @@ def create_model_form_factory(
     return CreatedByExcludedForm
 
 
-DepartmentForm = create_model_form_factory(Department, exclude_fields=['created_by',])
+DepartmentForm = create_model_form_factory(Department, exclude_fields=['created_by', 'institute'])
 
 SemesterForm = create_model_form_factory(Semester, exclude_fields=['created_by',])
 

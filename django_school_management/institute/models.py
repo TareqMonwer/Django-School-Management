@@ -35,6 +35,7 @@ class InstituteProfile(models.Model):
 	motto = models.TextField(blank=True, null=True)
 	description = models.TextField(blank=True, null=True)
 	active = models.BooleanField(default=False, unique=True)
+	onboarding_completed = models.BooleanField(default=False)
 	created_by = models.ForeignKey(
 		settings.AUTH_USER_MODEL,
 		on_delete=models.SET_NULL,
@@ -43,6 +44,16 @@ class InstituteProfile(models.Model):
 
 	def __str__(self):
 		return self.name
+
+	@property
+	def onboarding_step(self):
+		"""Returns the next step the user should complete, or None if done."""
+		if self.onboarding_completed:
+			return None
+		from django_school_management.academics.models import Department
+		if not Department.objects.filter(institute=self).exists():
+			return 2
+		return 3
 
 	def get_absolute_url(self):
 		return reverse('institute:institute_detail', args=[self.pk])

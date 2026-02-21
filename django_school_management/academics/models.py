@@ -42,6 +42,12 @@ class Department(TimeStampedModel):
         blank=True
     )
     establish_date = models.DateField(auto_now_add=True)
+    institute = models.ForeignKey(
+        'institute.InstituteProfile',
+        on_delete=models.CASCADE,
+        null=True, blank=True,
+        related_name='departments',
+    )
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
