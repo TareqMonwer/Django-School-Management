@@ -18,6 +18,7 @@ urlpatterns = [
     path(DJANGO_ADMIN_URL, admin.site.urls),
     path('', include('django_school_management.pages.urls')),
     path('api-auth/', include('rest_framework.urls')),
+    path('api/', include('django_school_management.api.urls')),
     path('dashboard/', dashboard, name='index_view'),
     path('accounts/', include('allauth.urls')),
     path('blog/', include('django_school_management.articles.urls')),
