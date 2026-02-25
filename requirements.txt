@@ -43,7 +43,7 @@ psutil>=6.0.0,<7
 # Development Tools
 crispy-bootstrap4==2022.1
 cron-descriptor==1.4.0
-cryptography==43.0.1
+cryptography==46.0.5
 cssselect2==0.7.0
 dateparser==1.1.8
 defusedxml==0.7.1
