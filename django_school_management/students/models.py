@@ -263,7 +263,8 @@ class Student(ExportModelOperationsMixin('student'), TimeStampedModel):
                     temp_serial_id.save()
             except IntegrityError:
                 pass
-        super().save(*args, **kwargs)
+        else:
+            super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
         """ Override delete method """
