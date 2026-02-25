@@ -67,7 +67,7 @@ def students_dashboard_index(request):
     except IndexError:
         month_list = []
 
-    base_qs = AdmissionStudent.objects.all()
+    base_qs = AdmissionStudent.objects.filter(assigned_as_student=False)
     if institute:
         base_qs = base_qs.filter(department_choice__institute=institute)
 
@@ -109,7 +109,7 @@ def admitted_students_list(request):
     Returns list of students admitted from online registration.
     """
     admitted_students = AdmissionStudent.objects.filter(
-        admitted=True, paid=True
+        admitted=True, paid=True, assigned_as_student=False
     )
     context = {
         "admitted_students": admitted_students,
@@ -152,59 +152,81 @@ def rejected_registrants(request):
 
 
 def get_json_batch_data(request, *args, **kwargs):
+    """Return batches for the given department, restricted to the active academic session."""
     selected_department_code = kwargs.get("department_code")
-    department_batches = list(
-        Batch.objects.filter(
-            department__code=selected_department_code
-        ).values()
-    )
+    active_session = AcademicSession.objects.order_by("-year").first()
+    qs = Batch.objects.filter(department__code=selected_department_code)
+    if active_session:
+        qs = qs.filter(year=active_session)
+    department_batches = list(qs.values())
     return JsonResponse({"data": department_batches})
 
 
 @user_passes_test(user_is_admin_su_or_ac_officer)
 def admission_confirmation(request):
     """
-    If request is get, show list of applicants to be admitted finally as student,
-    for POST request, it will create Student, RegularStudent.
+    Create student profiles from admitted applicants. Applicants are already
+    assigned to a department; filter by department (and batch for active session).
+    Session is derived from the chosen batch; no session dropdown.
     """
-    selected_registrants = AdmissionStudent.objects.filter(
+    active_session = AcademicSession.objects.order_by("-year").first()
+    base_registrants = AdmissionStudent.objects.filter(
         admitted=True, paid=True, rejected=False, assigned_as_student=False
     )
     departments = Department.objects.order_by("name")
-    batches = Batch.objects.all()
-    sessions = AcademicSession.objects.all()
+
+    department_id = request.GET.get("department_id")
+    batch_id_param = request.GET.get("batch_id")
+
+    if department_id:
+        try:
+            selected_department_id = int(department_id)
+            selected_registrants = base_registrants.filter(
+                choosen_department_id=selected_department_id
+            )
+            batches = (
+                Batch.objects.filter(
+                    department_id=selected_department_id,
+                    year=active_session,
+                )
+                .order_by("number")
+                if active_session
+                else Batch.objects.none()
+            )
+        except (ValueError, TypeError):
+            selected_department_id = None
+            selected_registrants = base_registrants.none()
+            batches = Batch.objects.none()
+    else:
+        selected_department_id = None
+        selected_registrants = base_registrants.none()
+        batches = Batch.objects.none()
+
+    try:
+        selected_batch_id_val = int(batch_id_param) if batch_id_param else None
+    except (ValueError, TypeError):
+        selected_batch_id_val = None
+
     ctx = {
-        "selected_registrants": selected_registrants,
         "departments": departments,
-        "sessions": sessions,
+        "active_session": active_session,
+        "no_active_session": active_session is None,
+        "selected_registrants": selected_registrants,
+        "selected_department_id": selected_department_id,
+        "selected_batch_id": selected_batch_id_val,
+        "batches": batches,
     }
 
     if request.method == "POST":
-        dept_code = request.POST.get("department_code")
         batch_id = request.POST.get("batch_id")
-        session_id = request.POST.get("session_id")
-        checked_registrant_ids = request.POST.getlist("registrant_choice")
+        checked_registrant_ids = [x.strip() for x in request.POST.getlist("registrant_choice") if x.strip()]
 
-        try:
-            to_be_admitted = selected_registrants.filter(
-                choosen_department__code=int(dept_code)
-            )
-            if checked_registrant_ids:
-                to_be_admitted = AdmissionStudent.objects.filter(
-                    id__in=list(map(int, checked_registrant_ids))
-                )
-        except (ValueError, TypeError):
-            messages.error(
-                request,
-                "Please select applicants to permit for admission.",
-            )
+        if not batch_id:
+            messages.error(request, "Please select a batch.")
             return render(request, "students/list/confirm_admission.html", ctx)
 
-        semester_number = 1
-        try:
-            semester = Semester.objects.get(number=semester_number)
-        except Semester.DoesNotExist:
-            messages.error(request, f"Semester {semester_number} not found! Please create it first.")
+        if not checked_registrant_ids:
+            messages.error(request, "Please select at least one applicant.")
             return render(request, "students/list/confirm_admission.html", ctx)
 
         try:
@@ -213,10 +235,37 @@ def admission_confirmation(request):
             messages.error(request, "Please select or create a batch first.")
             return render(request, "students/list/confirm_admission.html", ctx)
 
+        session = batch.year
+        if active_session and session != active_session:
+            messages.error(
+                request,
+                "Selected batch is not in the current academic session.",
+            )
+            return render(request, "students/list/confirm_admission.html", ctx)
+
         try:
-            session = AcademicSession.objects.get(id=session_id)
-        except (AcademicSession.DoesNotExist, ValueError, TypeError):
-            messages.error(request, "Please choose a valid academic session.")
+            ids = [int(x) for x in checked_registrant_ids]
+        except (ValueError, TypeError):
+            messages.error(request, "Invalid applicant selection.")
+            return render(request, "students/list/confirm_admission.html", ctx)
+
+        to_be_admitted = base_registrants.filter(id__in=ids)
+        invalid = to_be_admitted.exclude(choosen_department_id=batch.department_id)
+        if invalid.exists():
+            messages.error(
+                request,
+                "All selected applicants must belong to the chosen batch's department.",
+            )
+            return render(request, "students/list/confirm_admission.html", ctx)
+
+        semester_number = 1
+        try:
+            semester = Semester.objects.get(number=semester_number)
+        except Semester.DoesNotExist:
+            messages.error(
+                request,
+                f"Semester {semester_number} not found! Please create it first.",
+            )
             return render(request, "students/list/confirm_admission.html", ctx)
 
         students = []
@@ -236,11 +285,15 @@ def admission_confirmation(request):
                     errors.append(f"{candidate.name}: {e}")
 
         if students:
-            messages.success(request, f"{len(students)} student(s) created successfully.")
+            messages.success(
+                request, f"{len(students)} student(s) created successfully."
+            )
         if errors:
             for err in errors:
                 messages.error(request, err)
 
+        if students:
+            return redirect("students:admission_confirmation")
         ctx["students"] = students
         return render(request, "students/list/confirm_admission.html", ctx)
 
