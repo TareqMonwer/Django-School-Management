@@ -19,4 +19,9 @@ MIDDLEWARE += [
 ]
 
 # Django-Debug-Toolbar
-INTERNAL_IPS = env('INTERNAL_IPS').split(',')
+INTERNAL_IPS = env.list('INTERNAL_IPS', default=['127.0.0.1', '::1'])
+
+# Show toolbar regardless of INTERNAL_IPS (e.g. when REMOTE_ADDR is Docker gateway)
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK': lambda request: True,
+}
