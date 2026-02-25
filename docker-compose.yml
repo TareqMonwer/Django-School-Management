@@ -51,6 +51,19 @@ services:
       - django
     networks:
       django_school_network:
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      django_school_network_test:
+    depends_on:
+      - django
+      - celery
+      - redis
+      - postgres_db
 
 volumes:
   media:
