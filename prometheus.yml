@@ -1,8 +1,26 @@
+# Production-ready Prometheus config for Django School Management.
+# Scrapes Django /metrics and evaluates SLO/alert rules.
+
 global:
   scrape_interval: 15s
+  evaluation_interval: 30s
+
+# Alertmanager (must be reachable on the same Docker network)
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+            - alertmanager:9093
+
+rule_files:
+  - /etc/prometheus/prometheus_rules.yml
 
 scrape_configs:
   - job_name: "django-school-management"
-    metrics_path: /metrics/
+    metrics_path: /metrics
     static_configs:
       - targets: ["django:8000"]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: "django:8000"

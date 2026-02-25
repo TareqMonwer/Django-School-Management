@@ -92,6 +92,8 @@ THIRD_PARTY_APPS = [
     # API Documentation and Advanced Features
     'drf_yasg',
     'django_rest_passwordreset',
+    # Monitoring
+    'django_prometheus',
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + LOCAL_APPS + THIRD_PARTY_APPS
@@ -101,6 +103,7 @@ SITE_ID = 1
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 MIDDLEWARE = [
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -110,9 +113,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    # attach_institute_data_ctx_processor was implemented for same support.
-    # 'institute.middleware.AttachInstituteDataMiddleware',
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
+    'django_school_management.utils.middleware.AppMetricsMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -139,10 +141,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# Database
+# Database (django_prometheus backend for query/connection metrics)
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django_prometheus.db.backends.postgresql',
         'NAME': env('DB_NAME'),
         'USER': env('DB_USER'),
         'PASSWORD': env('DB_PASSWORD'),
@@ -151,9 +153,10 @@ DATABASES = {
     }
 }
 
+# Cache (django_prometheus backend for hit/miss/fail metrics)
 CACHES = {
     'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
+        'BACKEND': 'django_prometheus.cache.backends.redis.RedisCache',
         'LOCATION': f'redis://{env("REDIS_HOST")}:{env("REDIS_PORT")}/0',
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
@@ -292,6 +295,16 @@ if USE_SENTRY:
         # debug=True will work even if the DEBUG=False in Django.
         debug=True
     )
+
+# django-prometheus - production-ready defaults
+# Disable at build time (no DB); enable at runtime for migration gauges.
+PROMETHEUS_EXPORT_MIGRATIONS = env.bool('PROMETHEUS_EXPORT_MIGRATIONS', True)
+PROMETHEUS_METRIC_NAMESPACE = "school"
+# SLO-friendly latency buckets (seconds): p50, p90, p95, p99
+PROMETHEUS_LATENCY_BUCKETS = (
+    0.01, 0.025, 0.05, 0.075, 0.1, 0.25, 0.5, 0.75, 1.0,
+    2.5, 5.0, 7.5, 10.0, 25.0, 50.0, 75.0, float("inf"),
+)
 
 # for permission management
 ROLEPERMISSIONS_MODULE = 'django_school_management.academics.roles'

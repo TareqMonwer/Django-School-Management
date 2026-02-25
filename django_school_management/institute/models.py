@@ -1,6 +1,7 @@
 from django_countries.fields import CountryField
 from ckeditor_uploader.fields import RichTextUploadingField
 from model_utils.models import TimeStampedModel
+from django_prometheus.models import ExportModelOperationsMixin
 
 from django.db import models
 from django.conf import settings
@@ -10,7 +11,7 @@ from django.urls import reverse
 from .utils import model_help_texts
 
 
-class InstituteProfile(models.Model):
+class InstituteProfile(ExportModelOperationsMixin('institute_profile'), models.Model):
 	name = models.CharField(max_length=255)
 	date_of_estashment = models.DateField(blank=True, null=True)
 	country = CountryField(blank=True, null=True)
@@ -59,7 +60,7 @@ class InstituteProfile(models.Model):
 		return reverse('institute:institute_detail', args=[self.pk])
 
 
-class City(TimeStampedModel):
+class City(ExportModelOperationsMixin('city'), TimeStampedModel):
 	name = models.CharField(max_length=150)
 	country = CountryField()
 	code = models.CharField(
@@ -93,21 +94,21 @@ class BaseWidget(TimeStampedModel):
 		abstract = True
 
 
-class TextWidget(BaseWidget):
+class TextWidget(ExportModelOperationsMixin('text_widget'), BaseWidget):
 	content = RichTextUploadingField(config_name='default')
 
 	def __str__(self):
 		return self.widget_title
 
 
-class ListWidget(BaseWidget):
+class ListWidget(ExportModelOperationsMixin('list_widget'), BaseWidget):
 	pass
 
 	def __str__(self):
 		return self.widget_title
 
 
-class WidgetListItem(TimeStampedModel):
+class WidgetListItem(ExportModelOperationsMixin('widget_list_item'), TimeStampedModel):
 	widget = models.ForeignKey(
 		ListWidget,
 		on_delete=models.CASCADE

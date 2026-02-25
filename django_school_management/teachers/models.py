@@ -1,10 +1,11 @@
 from django.db import models
 from django.conf import settings
 from model_utils.models import TimeStampedModel
+from django_prometheus.models import ExportModelOperationsMixin
 from taggit.managers import TaggableManager
 
 
-class Designation(TimeStampedModel):
+class Designation(ExportModelOperationsMixin('designation'), TimeStampedModel):
     title = models.CharField(max_length=255)
     created = models.DateField(auto_now_add=True)
 
@@ -12,7 +13,7 @@ class Designation(TimeStampedModel):
         return str(self.title)
 
 
-class Teacher(TimeStampedModel):
+class Teacher(ExportModelOperationsMixin('teacher'), TimeStampedModel):
     employee_id = models.CharField(max_length=50)
     name = models.CharField(max_length=150)
     photo = models.ImageField(upload_to='teachers',

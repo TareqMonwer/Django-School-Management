@@ -1,4 +1,5 @@
 from model_utils.models import TimeStampedModel
+from django_prometheus.models import ExportModelOperationsMixin
 
 from django.db import models, OperationalError
 from django.conf import settings
@@ -9,7 +10,7 @@ from .constants import AcademicsURLConstants
 from .utils import model_help_texts
 
 
-class Department(TimeStampedModel):
+class Department(ExportModelOperationsMixin('department'), TimeStampedModel):
     name = models.CharField(max_length=255, unique=True)
     short_name = models.CharField(
         model_help_texts.DEPARTMENT_SHORT_NAME_TEXT,
@@ -66,7 +67,7 @@ class Department(TimeStampedModel):
         return reverse(AcademicsURLConstants.create_department)
 
 
-class AcademicSession(TimeStampedModel):
+class AcademicSession(ExportModelOperationsMixin('academic_session'), TimeStampedModel):
     year = models.PositiveIntegerField(unique=True)
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -79,7 +80,7 @@ class AcademicSession(TimeStampedModel):
         return reverse(AcademicsURLConstants.create_academic_session)
 
 
-class Semester(TimeStampedModel):
+class Semester(ExportModelOperationsMixin('semester'), TimeStampedModel):
     number = models.PositiveIntegerField(unique=True)
     guide = models.ForeignKey(
         Teacher, on_delete=models.CASCADE,
@@ -108,7 +109,7 @@ class Semester(TimeStampedModel):
         return reverse(AcademicsURLConstants.create_semester)
 
 
-class Subject(TimeStampedModel):
+class Subject(ExportModelOperationsMixin('subject'), TimeStampedModel):
     name = models.CharField(max_length=50)
     subject_code = models.PositiveIntegerField(unique=True)
     book_cover = models.ImageField(
@@ -132,7 +133,7 @@ class Subject(TimeStampedModel):
         return reverse(AcademicsURLConstants.create_subject)
 
 
-class Batch(TimeStampedModel):
+class Batch(ExportModelOperationsMixin('batch'), TimeStampedModel):
     year = models.ForeignKey(AcademicSession, on_delete=models.CASCADE)
     number = models.PositiveIntegerField(model_help_texts.BATCH_NUMBER_TEXT)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
@@ -148,7 +149,7 @@ class Batch(TimeStampedModel):
         return reverse(AcademicsURLConstants.create_batch)
 
 
-class TempSerialID(TimeStampedModel):
+class TempSerialID(ExportModelOperationsMixin('temp_serial_id'), TimeStampedModel):
     student = models.OneToOneField('students.Student', on_delete=models.CASCADE,
                                    related_name='student_serial')
     department = models.ForeignKey(Department, on_delete=models.CASCADE,

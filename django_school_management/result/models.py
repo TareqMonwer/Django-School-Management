@@ -1,4 +1,5 @@
 from model_utils.models import TimeStampedModel
+from django_prometheus.models import ExportModelOperationsMixin
 
 from django.db import models
 from django.conf import settings
@@ -8,7 +9,7 @@ from django_school_management.students.models import Student
 from django_school_management.academics.models import Subject, Semester, Department
 
 
-class Exam(TimeStampedModel):
+class Exam(ExportModelOperationsMixin('exam'), TimeStampedModel):
     EXAM_CHOICES = (
         ('m', 'Mid Term'),
         ('f', 'Final')
@@ -24,7 +25,7 @@ class Exam(TimeStampedModel):
             {self.exam_date.year}'
 
 
-class Result(TimeStampedModel):
+class Result(ExportModelOperationsMixin('result'), TimeStampedModel):
     student = models.ForeignKey(
         Student,
         on_delete=models.CASCADE,
@@ -71,7 +72,7 @@ class Result(TimeStampedModel):
         super().save(*args, **kwargs)
 
 
-class SubjectGroup(TimeStampedModel):
+class SubjectGroup(ExportModelOperationsMixin('subject_group'), TimeStampedModel):
     """ Keep track of group of subjects that belongs to a
     department, semester
     """

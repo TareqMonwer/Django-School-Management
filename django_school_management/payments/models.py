@@ -1,11 +1,12 @@
 from model_utils.models import TimeStampedModel
+from django_prometheus.models import ExportModelOperationsMixin
 from django.conf import settings
 from django.db import models
 
 from .utils import model_help_texts
 
 
-class SSLPayment(TimeStampedModel):
+class SSLPayment(ExportModelOperationsMixin('ssl_payment'), TimeStampedModel):
     """ Table to store payment records coming from
     admission form.
     Recommended way to create this class's instance is
@@ -45,7 +46,7 @@ class SSLPayment(TimeStampedModel):
         return f'TransID #{self.transaction_id}'
 
 
-class SSLAdmissionPaymentVerfication(TimeStampedModel):
+class SSLAdmissionPaymentVerfication(ExportModelOperationsMixin('ssl_admission_payment_verification'), TimeStampedModel):
     VERIFICATION_STATUS = (
         (0, 'Rejected'),
         (1, 'Verfied')

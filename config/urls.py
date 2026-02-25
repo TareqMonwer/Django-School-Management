@@ -6,6 +6,7 @@ from django.contrib.auth import views as auth_views
 
 from django_school_management.institute.models import InstituteProfile
 from django_school_management.accounts.views import dashboard
+from django_school_management.utils.views import health_view
 
 admin.site.site_header = 'Django Administration'
 admin.site.site_title = 'Django Site Admin'
@@ -13,6 +14,10 @@ admin.site.index_title = 'Django Administration'
 
 DJANGO_ADMIN_URL = settings.DJANGO_ADMIN_URL + '/'
 urlpatterns = [
+    # Health check for load balancers / k8s
+    path('health/', health_view),
+    # Prometheus metrics (no auth; protect in production via network/firewall)
+    path('', include('django_prometheus.urls')),
     # admin_honeypot doesn't support Django 4
     # path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
     path(DJANGO_ADMIN_URL, admin.site.urls),
