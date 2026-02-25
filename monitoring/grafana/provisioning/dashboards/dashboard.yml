@@ -1,0 +1,13 @@
+# Grafana dashboard provider: load JSON dashboards from this folder
+apiVersion: 1
+providers:
+  - name: "Django School Management"
+    orgId: 1
+    folder: ""
+    folderUid: "school"
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 30
+    allowUiUpdates: true
+    options:
+      path: /etc/grafana/provisioning/dashboards/json
