@@ -66,13 +66,56 @@
       <!-- ACADEMICS LABEL -->
       <li class="nav-label">Academics</li>
 
-      <li class="nav-item">
-        <a class="sidebar-link" href="{% url 'students:students_dashboard_index' %}">
+      <li class="nav-item dropdown">
+        <a class="dropdown-toggle" href="javascript:void(0);">
           <span class="icon-holder">
             <i class="fas fa-chart-bar"></i>
           </span>
           <span class="title">Counsel & Admissions</span>
+          <span class="arrow"><i class="ti-angle-right"></i></span>
         </a>
+        <ul class="dropdown-menu">
+          <li>
+            <a class="sidebar-link" href="{% url 'students:students_dashboard_index' %}">
+              Applicants
+            </a>
+          </li>
+          <li>
+            <a class="sidebar-link" href="{% url 'students:all_applicants' %}">
+              All Applicants
+            </a>
+          </li>
+          <li>
+            <a class="sidebar-link" href="{% url 'students:unpaid_registrants' %}">
+              Unpaid Applicants
+            </a>
+          </li>
+          <li>
+            <a class="sidebar-link" href="{% url 'students:paid_registrants' %}">
+              Paid (pending admission)
+            </a>
+          </li>
+          <li>
+            <a class="sidebar-link" href="{% url 'students:admitted_student_list' %}">
+              Admitted / Cleared
+            </a>
+          </li>
+          <li>
+            <a class="sidebar-link" href="{% url 'students:admission_confirmation' %}">
+              Create student profiles
+            </a>
+          </li>
+          <li>
+            <a class="sidebar-link" href="{% url 'students:rejected_registrants' %}">
+              Rejected
+            </a>
+          </li>
+          <li>
+            <a class="sidebar-link" href="{% url 'students:add_student' %}">
+              New application (offline)
+            </a>
+          </li>
+        </ul>
       </li>
       {% endif %}
 

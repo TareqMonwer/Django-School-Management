@@ -9,56 +9,53 @@
         <li class="breadcrumb-item">
             <a href="{% url 'students:students_dashboard_index' %}">Applicants</a>
         </li>
-        <li class="breadcrumb-item active" aria-current="page">Confirm Application(s)</li>
+        <li class="breadcrumb-item active" aria-current="page">Create Student Profile</li>
     </ol>
 </nav>
 
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <h4 class="mb-0">Confirm Application(s)</h4>
+            <h4 class="mb-0">Create Student Profile</h4>
             <small class="mt-1 mb-4 d-inline-block">Grant applicant(s) as admittable, so that admission authorities can admit him/her/them.</small>
         </div>
 
         <div class="col-md-12">
-            <form action="" method="POST">
+            <form action="" method="POST" id="confirm-admission-form">
                 {% csrf_token %}
                 <div class="card mb-3">
                     <div class="card-body">
+                        {% if no_active_session %}
+                        <div class="alert alert-warning mb-0">
+                            No academic session found. Please create one first.
+                        </div>
+                        {% else %}
                         <div class="form-row align-items-center justify-content-end">
                             <div class="form-group col-md-3">
                                 <label for="dept">Department</label>
-                                <select id="dept" class="form-control" name="department_code">
-                                    <option selected>Choose...</option>
+                                <select id="dept" class="form-control" data-url="{% url 'students:admission_confirmation' %}">
+                                    <option value="">Choose...</option>
                                     {% for dept in departments %}
-                                        <option value="{{ dept.code }}">{{ dept.name }}</option>
+                                        <option value="{{ dept.id }}" data-code="{{ dept.code }}" {% if selected_department_id == dept.id %}selected{% endif %}>{{ dept.name }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="batch-select">Batch</label>
-                                <select id="batch-select" class="form-control" name="batch_id">
-                                    <option selected id="default-chosen-batch">Choose...</option>
+                                <select id="batch-select" class="form-control" name="batch_id" {% if no_active_session %}disabled{% endif %}>
+                                    <option value="">Choose...</option>
                                     {% for batch in batches %}
-                                        <option value="{{ batch.id }}">{{ batch }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label for="session-select">Session</label>
-                                <select id="session-select" class="form-control" name="session_id">
-                                    <option selected id="default-chosen-session">Choose...</option>
-                                    {% for session in sessions %}
-                                        <option value="{{ session.id }}">{{ session }}</option>
+                                        <option value="{{ batch.id }}" {% if selected_batch_id == batch.id %}selected{% endif %}>{{ batch }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
                             <div class="form-group align-self-end">
-                                <button type="submit" class="btn btn-primary">
-                                    Create Students
+                                <button type="submit" class="btn btn-primary" id="btn-confirm-students">
+                                    Create student profiles
                                 </button>
                             </div>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -94,7 +91,8 @@
                             </thead>
                             <tbody>
                                 {% if not students %}
-                                    {% for registrant in selected_registrants %}
+                                    {% if selected_department_id %}
+                                        {% for registrant in selected_registrants %}
                                         <tr>
                                             <td>
                                                 <input name="registrant_choice" type="checkbox"
@@ -107,11 +105,16 @@
                                             <td>--</td>
                                             <td>--</td>
                                         </tr>
-                                    {% empty %}
+                                        {% empty %}
                                         <tr>
-                                            <td colspan="7" class="text-center text-muted py-4">No applicants found.</td>
+                                            <td colspan="7" class="text-center text-muted py-4">No applicants found for this department.</td>
                                         </tr>
-                                    {% endfor %}
+                                        {% endfor %}
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="7" class="text-center text-muted py-4">Select a department to see applicants.</td>
+                                        </tr>
+                                    {% endif %}
                                 {% else %}
                                     {% for student in students %}
                                     <tr>
@@ -139,42 +142,30 @@
 
 {% block extrajs %}
     <script>
-        const departmentDropdown = document.getElementById('dept');
-        let batchesDropdown = document.getElementById('batch-select');
-        const defaultChosenBatch = document.getElementById('default-chosen-batch');
+        (function () {
+            const departmentDropdown = document.getElementById('dept');
+            const batchSelect = document.getElementById('batch-select');
+            const form = document.getElementById('confirm-admission-form');
+            const baseUrl = departmentDropdown ? departmentDropdown.getAttribute('data-url') : '';
 
-        departmentDropdown.addEventListener('change', event => {
-            const deptCode = parseInt(event.target.value);
+            if (departmentDropdown && baseUrl) {
+                departmentDropdown.addEventListener('change', function () {
+                    const value = this.value;
+                    if (value) {
+                        window.location = baseUrl + '?department_id=' + encodeURIComponent(value);
+                    } else {
+                        window.location = baseUrl;
+                    }
+                });
+            }
 
-            batchesDropdown.length = 0;
-            batchesDropdown.appendChild(defaultChosenBatch);
-
-            let uri = window.location.origin;
-
-            $.ajax({
-                type: 'GET',
-                url: `${uri}/students/api/batches/${deptCode}/`,
-                success: function (response) {
-                    const batches = response.data;
-                    batches.forEach(batch => {
-                        let option = document.createElement('option');
-                        option.value = batch.id;
-                        option.innerText = batch.number;
-                        batchesDropdown.appendChild(option);
-                    });
-                },
-                error: function (error) {
-                    console.log(error);
-                }
+            $('#toggle-check').click(function () {
+                $('input[name="registrant_choice"]').prop('checked', true);
             });
-        });
 
-        $('#toggle-check').click(function () {
-            $('input:checkbox').prop('checked', true);
-        });
-
-        $('#toggle-uncheck').click(function () {
-            $('input:checkbox').prop('checked', false);
-        });
+            $('#toggle-uncheck').click(function () {
+                $('input[name="registrant_choice"]').prop('checked', false);
+            });
+        })();
     </script>
 {% endblock %}
