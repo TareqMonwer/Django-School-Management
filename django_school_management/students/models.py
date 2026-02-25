@@ -1,4 +1,5 @@
 from model_utils.models import TimeStampedModel
+from django_prometheus.models import ExportModelOperationsMixin
 
 from django.db import (
     models, OperationalError, 
@@ -72,7 +73,7 @@ class StudentBase(TimeStampedModel):
         return self.name
 
 
-class CounselingComment(TimeStampedModel):
+class CounselingComment(ExportModelOperationsMixin('counseling_comment'), TimeStampedModel):
     counselor = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE, null=True
@@ -91,7 +92,7 @@ class CounselingComment(TimeStampedModel):
         ordering = ['-created', ]
 
 
-class AdmissionStudent(StudentBase):
+class AdmissionStudent(ExportModelOperationsMixin('admission_student'), StudentBase):
     APPLICATION_TYPE_CHOICE = (
         ('1', 'Online'),
         ('2', 'Offline')
@@ -162,7 +163,7 @@ class AdmissionStudent(StudentBase):
         super().save(*args, **kwargs)
 
 
-class Student(TimeStampedModel):
+class Student(ExportModelOperationsMixin('student'), TimeStampedModel):
     admission_student = models.ForeignKey(
         AdmissionStudent,
         on_delete=models.CASCADE
@@ -272,7 +273,7 @@ class Student(TimeStampedModel):
         self.admission_student.save(*args, **kwargs)
 
 
-class RegularStudent(TimeStampedModel):
+class RegularStudent(ExportModelOperationsMixin('regular_student'), TimeStampedModel):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, 

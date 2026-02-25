@@ -21,7 +21,8 @@ RUN chmod +x pre-deploy.sh
 
 RUN pip install gunicorn==21.2.0
 
-RUN python manage.py collectstatic --noinput
+# collectstatic moved to runtime (pre-deploy.sh) so build does not require DB.
+# django_prometheus with PROMETHEUS_EXPORT_MIGRATIONS=True connects to DB at startup.
 
 # Tell uWSGI where to find your wsgi file (change this):
 ENV UWSGI_WSGI_FILE=./config/wsgi.py
