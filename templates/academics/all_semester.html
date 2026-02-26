@@ -10,9 +10,16 @@
 </nav>
 
 <h4>All {{ semester_label }}s</h4>
+<p class="text-muted mb-3">Manage {{ semester_label|lower }}s for your institute. Subject groups and classes are organized by {{ semester_label|lower }}.</p>
 
 <div class="row">
   <div class="col-md-9">
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+      <div>
+        <a href="{% url academic_urls.create_semester %}" class="btn btn-primary">Add {{ semester_label }}</a>
+        <a href="{% url academic_urls.create_semesters_bulk %}" class="btn btn-outline-primary ml-2">Add multiple</a>
+      </div>
+    </div>
     <div class="table-responsive">
       <table class="table border">
         <thead>
@@ -26,7 +33,7 @@
           {% for semester in all_sems %}
           <tr>
             <td>{{ semester }}</td>
-            <td>{{ semester.guide.name }}</td>
+            <td>{% if semester.guide %}{{ semester.guide.name }}{% else %}—{% endif %}</td>
             <td>
               <a href="{% url academic_urls.update_semester pk=semester.pk %}" class="btn btn-sm btn-primary">Edit</a>
               <a href="{% url academic_urls.delete_semester pk=semester.pk %}" class="btn btn-sm btn-danger"
@@ -35,27 +42,31 @@
           </tr>
           {% empty %}
           <tr>
-            <td colspan="3" class="text-center text-muted py-4">No data found.</td>
+            <td colspan="3" class="text-center text-muted py-5">
+              <p class="mb-2">No {{ semester_label|lower }}s yet.</p>
+              <p class="small">Add your first {{ semester_label|lower }} to organize classes, or add multiple at once.</p>
+              <a href="{% url academic_urls.create_semester %}" class="btn btn-primary mt-2">Add {{ semester_label }}</a>
+              <a href="{% url academic_urls.create_semesters_bulk %}" class="btn btn-outline-primary mt-2">Add multiple</a>
+            </td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
     </div>
   </div>
-  <!-- SIDEBAR -->
   <div class="col-md-3">
-    <ul class="list-group">
-      <li class="list-group-item">
-        <a href="" data-toggle="modal" data-target="#exampleModal">add new {{ semester_label|lower }}</a>
-      </li>
-    </ul>
-    <!-- Add Semester Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-      aria-hidden="true">
+    <div class="card">
+      <div class="card-body">
+        <h6 class="card-title">Quick add</h6>
+        <p class="small text-muted mb-2">Or add a single {{ semester_label|lower }} here.</p>
+        <a href="" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#addSemesterModal">Add new {{ semester_label|lower }}</a>
+      </div>
+    </div>
+    <div class="modal fade" id="addSemesterModal" tabindex="-1" role="dialog" aria-labelledby="addSemesterModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Add New {{ semester_label }}</h5>
+            <h5 class="modal-title" id="addSemesterModalLabel">Add New {{ semester_label }}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -64,7 +75,7 @@
             <form action="" method="post">
               {% csrf_token %}
               {{ form|crispy }}
-              <button type="submit" class="btn btn-primary float-right">Add {{ semester_label }}</button>
+              <button type="submit" class="btn btn-primary">Add {{ semester_label }}</button>
             </form>
           </div>
         </div>

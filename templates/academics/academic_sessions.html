@@ -10,14 +10,26 @@
 </nav>
 
 <h4>Academic Sessions</h4>
+<p class="text-muted mb-3">Manage academic years and set the current session for admissions and reports.</p>
 
 <div class="row">
     <div class="col-md-9">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text-muted small">
+                {% if request_institute.current_session %}
+                    Current session: <strong>{{ request_institute.current_session }}</strong>
+                {% else %}
+                    <span class="text-warning">No current session set.</span>
+                {% endif %}
+            </span>
+            <a href="{% url academic_urls.create_academic_session %}" class="btn btn-primary">Add session</a>
+        </div>
         <div class="table-responsive">
             <table class="table border">
                 <thead>
                     <tr>
                         <th scope="col">Academic Session</th>
+                        <th scope="col">Status</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
@@ -26,6 +38,13 @@
                     <tr>
                         <td>{{ academic_session }}</td>
                         <td>
+                            {% if request_institute.current_session_id == academic_session.pk %}
+                                <span class="badge badge-success">Current</span>
+                            {% else %}
+                                <a href="{% url academic_urls.set_academic_session_current pk=academic_session.pk %}" class="badge badge-light text-primary">Set as current</a>
+                            {% endif %}
+                        </td>
+                        <td>
                             <a href="{% url academic_urls.update_academic_session pk=academic_session.pk %}" class="btn btn-sm btn-primary">Edit</a>
                             <a href="{% url academic_urls.delete_academic_session pk=academic_session.pk %}" class="btn btn-sm btn-danger"
                                onclick="return confirm('Delete this session?');">Delete</a>
@@ -33,27 +52,30 @@
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="2" class="text-center text-muted py-4">No data found.</td>
+                        <td colspan="3" class="text-center text-muted py-5">
+                            <p class="mb-2">No academic sessions yet.</p>
+                            <p class="small">Add your first session to organize batches and admissions.</p>
+                            <a href="{% url academic_urls.create_academic_session %}" class="btn btn-primary mt-2">Add session</a>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
-    <!-- SIDEBAR -->
     <div class="col-md-3">
-        <ul class="list-group">
-            <li class="list-group-item">
-                <a href="" data-toggle="modal" data-target="#exampleModal">add new session</a>
-            </li>
-        </ul>
-        <!-- Add Session Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">Quick add</h6>
+                <p class="small text-muted mb-2">Or add a session here without leaving the page.</p>
+                <a href="" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#addSessionModal">Add new session</a>
+            </div>
+        </div>
+        <div class="modal fade" id="addSessionModal" tabindex="-1" role="dialog" aria-labelledby="addSessionModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add New Session</h5>
+                        <h5 class="modal-title" id="addSessionModalLabel">Add New Session</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -62,9 +84,7 @@
                         <form action="" method="post">
                             {% csrf_token %}
                             {{ form|crispy }}
-                            <button type="submit" class="btn btn-primary float-right">
-                                Create Session
-                            </button>
+                            <button type="submit" class="btn btn-primary">Create Session</button>
                         </form>
                     </div>
                 </div>

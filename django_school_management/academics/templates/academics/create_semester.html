@@ -5,18 +5,20 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Create {{ semester_label }}</li>
+    <li class="breadcrumb-item"><a href="{% url academic_urls.all_semester %}">{{ semester_label }}s</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Add {{ semester_label }}</li>
   </ol>
 </nav>
 
-<h4>Start New {{ semester_label }}</h4>
+<h4>Add {{ semester_label }}</h4>
+<p class="text-muted small mb-3">Add a single {{ semester_label|lower }}. To add several at once, use "Add multiple" on the {{ semester_label }}s list.</p>
 <hr>
 <div class="card">
   <div class="card-body">
     <form action="" method="POST" class="d-block">
         {% csrf_token %}
         {{ form|crispy }}
-        <input type="submit" value="Create {{ semester_label }}" class="btn btn-primary">
+        <button type="submit" class="btn btn-primary">Create {{ semester_label }}</button>
     </form>
   </div>
 </div>

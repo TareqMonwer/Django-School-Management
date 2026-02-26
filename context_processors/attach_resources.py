@@ -23,6 +23,8 @@ def attach_institute_data_ctx_processor(request):
         "request_institute": institute,
         "department_label": institute.department_label if institute else "Department",
         "semester_label": institute.semester_label if institute else "Semester",
+        "department_label_plural": institute.department_label_plural if institute else "Departments",
+        "semester_label_plural": institute.semester_label_plural if institute else "Semesters",
     }
 
     if "articles" in request.resolver_match._func_path.split("."):

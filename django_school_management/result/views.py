@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse, HttpResponse
+import json
 
 from django_school_management.students.models import Student
 from django_school_management.academics.models import Semester, Subject, Department
@@ -124,32 +125,54 @@ def create_subject_group(request):
     departments = Department.objects.all()
     semesters = Semester.objects.all()
     subjects = Subject.objects.all()
+    copy_from_group = None
+    copy_from_subject_pks = []
+
+    copy_from_pk = request.GET.get('copy_from')
+    if copy_from_pk:
+        try:
+            copy_from_group = SubjectGroup.objects.get(pk=copy_from_pk)
+            copy_from_subject_pks = list(
+                copy_from_group.subjects.values_list('pk', flat=True)
+            )
+        except (SubjectGroup.DoesNotExist, ValueError):
+            pass
 
     if request.method == 'POST':
-        dept_pk = int(request.POST.get('department'))
+        dept_pk = request.POST.get('department')
         subject_list = request.POST.getlist('subject')
-        semester_pk = int(request.POST.get('semester'))
+        semester_pk = request.POST.get('semester')
 
-        dept = Department.objects.get(pk=dept_pk)
-        semester = Semester.objects.get(pk=semester_pk)
+        if dept_pk and semester_pk is not None:
+            dept = Department.objects.get(pk=dept_pk)
+            semester = Semester.objects.get(pk=semester_pk)
 
-        subject_group = SubjectGroup.objects.create(
-            department=dept,
-            semester=semester
-        )
+            subject_group = SubjectGroup.objects.create(
+                department=dept,
+                semester=semester
+            )
 
-        subject_objects = []
-        for s_pk in subject_list:
-            subj = Subject.objects.get(pk=int(s_pk))
-            subject_objects.append(subj)
-            subject_group.subjects.add(subj)
+            for s_pk in subject_list:
+                try:
+                    subj = Subject.objects.get(pk=int(s_pk))
+                    subject_group.subjects.add(subj)
+                except (Subject.DoesNotExist, ValueError):
+                    pass
 
-        subject_group.save()
-        return redirect('result:subject_groups')
+            subject_group.save()
+            messages.success(request, 'Subject group created.')
+            return redirect('result:subject_groups')
+
     ctx = {
         'departments': departments,
         'semesters': semesters,
         'subjects': subjects,
+        'copy_from_group': copy_from_group,
+        'copy_from_subject_pks': copy_from_subject_pks,
+        'copy_from_subject_pks_json': json.dumps(copy_from_subject_pks),
+        'existing_subject_groups': SubjectGroup.objects.select_related(
+            'department', 'semester'
+        ).order_by('department__name', 'semester__number')[:50],
     }
     return render(request, 'result/create_subject_groups.html', ctx)
 

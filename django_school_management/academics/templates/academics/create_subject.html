@@ -5,29 +5,33 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="{% url academic_urls.subject_list %}">Subjects</a></li>
     <li class="breadcrumb-item active" aria-current="page">Create Subject</li>
   </ol>
 </nav>
 
-<h4>Introduce New Subject</h4>
+<h4>Add Subject</h4>
+<p class="text-muted small mb-3">Add a new subject with name, code, marks, and optional instructor. Subjects can then be grouped by {{ department_label|lower }} and {{ semester_label|lower }} for result entry.</p>
 <hr>
 <div class="card">
   <div class="card-body">
-    <form action="{% url academic_urls.create_subject %}" method="POST" class="d-block">
+    <form action="{% url academic_urls.create_subject %}" method="POST" class="d-block" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form|crispy }}
-        <input type="submit" value="Create Subject" class="btn btn-primary">
+        <button type="submit" class="btn btn-primary">Create Subject</button>
     </form>
   </div>
 </div>
 {% endblock %}
 
-
 {% block extrajs %}
 <script>
-  $('input[type="file"]').change(function (e) {
-    const fileName = e.target.files[0].name;
-    $(".custom-file-label").html(fileName);
+  document.querySelectorAll('input[type="file"]').forEach(function (input) {
+    input.addEventListener('change', function (e) {
+      var fileName = e.target.files[0] ? e.target.files[0].name : '';
+      var label = e.target.parentElement.querySelector('.custom-file-label');
+      if (label) label.textContent = fileName;
+    });
   });
 </script>
 {% endblock %}

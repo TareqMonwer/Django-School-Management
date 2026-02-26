@@ -5,12 +5,14 @@ from .constants import AcademicsURLEnum
 app_name = 'academics'
 
 urlpatterns = [
+    path(AcademicsURLEnum.setup_hub.value, views.academic_setup_hub, name=AcademicsURLEnum.setup_hub.name),
     path(AcademicsURLEnum.batch_list.value, views.batch_list_view, name=AcademicsURLEnum.batch_list.name),
     path(AcademicsURLEnum.create_batch.value, views.create_batch_view, name=AcademicsURLEnum.create_batch.name),
     path(AcademicsURLEnum.all_semester.value, views.semesters, name=AcademicsURLEnum.all_semester.name),
     path(AcademicsURLEnum.departments.value, views.departments, name=AcademicsURLEnum.departments.name),
     path(AcademicsURLEnum.create_department.value, views.create_department, name=AcademicsURLEnum.create_department.name),
     path(AcademicsURLEnum.create_semester.value, views.create_semester, name=AcademicsURLEnum.create_semester.name),
+    path(AcademicsURLEnum.create_semesters_bulk.value, views.create_semesters_bulk, name=AcademicsURLEnum.create_semesters_bulk.name),
     path(AcademicsURLEnum.create_academic_session.value, views.create_academic_semester, name=AcademicsURLEnum.create_academic_session.name),
     path(AcademicsURLEnum.create_subject.value, views.create_subject, name=AcademicsURLEnum.create_subject.name),
     path(AcademicsURLEnum.delete_dept.value, views.delete_department, name=AcademicsURLEnum.delete_dept.name),
@@ -30,4 +32,5 @@ urlpatterns = [
     # Semester update/delete
     path(AcademicsURLEnum.update_semester.value, views.update_semester, name=AcademicsURLEnum.update_semester.name),
     path(AcademicsURLEnum.delete_semester.value, views.delete_semester, name=AcademicsURLEnum.delete_semester.name),
+    path(AcademicsURLEnum.set_academic_session_current.value, views.set_academic_session_current, name=AcademicsURLEnum.set_academic_session_current.name),
 ]

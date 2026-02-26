@@ -135,6 +135,13 @@ class InstituteProfile(ExportModelOperationsMixin('institute_profile'), models.M
 		return self.institute_type in (INSTITUTE_TYPE_SCHOOL, INSTITUTE_TYPE_MADRASAH)
 
 	@property
+	def department_label_plural(self):
+		"""Plural for department_label: 'Groups' or 'Departments'."""
+		if self.is_school_or_madrasah:
+			return 'Groups'
+		return 'Departments'
+
+	@property
 	def department_label(self):
 		"""Display label for Department model: 'Group' for school/madrasah, 'Department' for polytechnic."""
 		if self.is_school_or_madrasah:
@@ -147,6 +154,13 @@ class InstituteProfile(ExportModelOperationsMixin('institute_profile'), models.M
 		if self.is_school_or_madrasah:
 			return 'Class'
 		return 'Semester'
+
+	@property
+	def semester_label_plural(self):
+		"""Plural for semester_label: 'Classes' or 'Semesters'."""
+		if self.is_school_or_madrasah:
+			return 'Classes'
+		return 'Semesters'
 
 
 class City(ExportModelOperationsMixin('city'), TimeStampedModel):

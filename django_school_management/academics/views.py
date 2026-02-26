@@ -5,13 +5,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic.edit import CreateView, UpdateView
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 from django.urls import reverse_lazy
+from django.db.models import Count, Q
 
 from .constants import AcademicsURLConstants
 from .models import (Semester, Department,
                      AcademicSession, Subject, Batch)
-from .forms import SemesterForm, DepartmentForm, AcademicSessionForm, SubjectForm, BatchForm, BatchFormWithLabel
+from .forms import SemesterForm, DepartmentForm, AcademicSessionForm, SubjectForm, BatchForm, BatchFormWithLabel, BulkSemesterForm
 from permission_handlers.administrative import (
     user_is_admin_su_editor_or_ac_officer,
     user_editor_admin_or_su,
@@ -20,6 +21,50 @@ from permission_handlers.administrative import (
 from permission_handlers.basic import user_is_verified
 from ..mixins.created_by import CreatedByMixin
 from ..mixins.institute import get_user_institute, InstituteAutoSetMixin
+
+
+class AcademicSetupHubView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
+    """Hub page for academic setup: links to all setup areas and optional checklist."""
+    template_name = 'academics/setup_hub.html'
+
+    def test_func(self):
+        return user_is_admin_su_editor_or_ac_officer(self.request.user)
+
+    def get_context_data(self, **kwargs):
+        try:
+            from django_school_management.result.models import SubjectGroup
+            subject_group_model = SubjectGroup
+        except (ImportError, ModuleNotFoundError):
+            subject_group_model = None
+        institute = get_user_institute(self.request.user)
+        ctx = super().get_context_data(**kwargs)
+        ctx['institute'] = institute
+        # Subresources for display on hub (limited counts)
+        ctx['academic_sessions'] = AcademicSession.objects.order_by('-year')[:10]
+        ctx['current_session_id'] = institute.current_session_id if institute else None
+        dept_qs = Department.objects.filter(institute=institute) if institute else Department.objects.all()
+        ctx['departments'] = dept_qs.order_by('name')[:12]
+        ctx['semesters'] = Semester.objects.order_by('number')[:12]
+        ctx['batches'] = Batch.objects.select_related('department', 'year').order_by('-year__year', 'department__name', 'number')[:12]
+        ctx['subjects'] = Subject.objects.order_by('name')[:12]
+        if subject_group_model:
+            ctx['subject_groups'] = subject_group_model.objects.select_related(
+                'department', 'semester'
+            ).order_by('department__name', 'semester__number')[:12]
+            ctx['has_subject_groups'] = subject_group_model.objects.exists()
+        else:
+            ctx['subject_groups'] = []
+            ctx['has_subject_groups'] = False
+        # Checklist flags
+        ctx['has_sessions'] = AcademicSession.objects.exists()
+        ctx['has_departments'] = dept_qs.exists()
+        ctx['has_semesters'] = Semester.objects.exists()
+        ctx['has_batches'] = Batch.objects.exists()
+        ctx['has_subjects'] = Subject.objects.exists()
+        return ctx
+
+
+academic_setup_hub = AcademicSetupHubView.as_view()
 
 
 @user_passes_test(user_is_admin_su_editor_or_ac_officer)
@@ -51,6 +96,7 @@ def academic_session(request):
     Responsible for academic session list view
     and academic session create view.
     """
+    institute = get_user_institute(request.user)
     if request.method == 'POST':
         form = AcademicSessionForm(request.POST)
         if form.is_valid():
@@ -64,8 +110,22 @@ def academic_session(request):
     ctx = {
         'form': form,
         'academic_sessions': all_academic_session,
+        'institute': institute,
+        'current_session': institute.current_session if institute else None,
     }
     return render(request, 'academics/academic_sessions.html', ctx)
+
+
+@user_passes_test(user_is_admin_su_editor_or_ac_officer)
+def set_academic_session_current(request, pk):
+    """Set the given academic session as the institute's current session."""
+    session = get_object_or_404(AcademicSession, pk=pk)
+    institute = get_user_institute(request.user)
+    if institute:
+        institute.current_session = session
+        institute.save(update_fields=['current_session'])
+        messages.success(request, f'Current session set to {session}.')
+    return redirect(AcademicsURLConstants.academic_sessions)
 
 
 @user_passes_test(user_is_verified)
@@ -174,6 +234,25 @@ class CreateSemesterView(LoginRequiredMixin, UserPassesTestMixin, CreateView, Cr
 create_semester = CreateSemesterView.as_view()
 
 
+@user_passes_test(user_is_admin_su_editor_or_ac_officer)
+def create_semesters_bulk(request):
+    """Create multiple semesters at once (e.g. 1-6 or 1,2,3,4)."""
+    institute = get_user_institute(request.user)
+    sem_label = institute.semester_label if institute else 'Semester'
+    if request.method == 'POST':
+        form = BulkSemesterForm(request.POST)
+        if form.is_valid():
+            numbers = form.cleaned_data['numbers']
+            for n in numbers:
+                Semester.objects.create(number=n, created_by=request.user)
+            messages.success(request, f'Created {len(numbers)} {sem_label}(s).')
+            return redirect(AcademicsURLConstants.all_semester)
+    else:
+        form = BulkSemesterForm()
+    ctx = {'form': form}
+    return render(request, 'academics/create_semesters_bulk.html', ctx)
+
+
 class CreateAcademicSession(LoginRequiredMixin, UserPassesTestMixin, CreateView, CreatedByMixin):
     form_class = AcademicSessionForm
     success_url = reverse_lazy(AcademicsURLConstants.academic_sessions)
@@ -183,6 +262,13 @@ class CreateAcademicSession(LoginRequiredMixin, UserPassesTestMixin, CreateView,
         user = self.request.user
         return user_is_admin_su_editor_or_ac_officer(user)
 
+    def get_initial(self):
+        from datetime import date
+        initial = super().get_initial()
+        next_year = date.today().year + 1
+        initial['year'] = next_year
+        return initial
+
 create_academic_semester = CreateAcademicSession.as_view()
 
 
@@ -190,6 +276,17 @@ class SubjectListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Subject
     context_object_name = 'subjects'
     template_name = 'academics/subject_list.html'
+
+    def get_queryset(self):
+        qs = Subject.objects.select_related('instructor').order_by('name')
+        q = self.request.GET.get('q', '').strip()
+        if q:
+            try:
+                code = int(q)
+                qs = qs.filter(Q(name__icontains=q) | Q(subject_code=code))
+            except ValueError:
+                qs = qs.filter(name__icontains=q)
+        return qs
 
     def test_func(self):
         user = self.request.user
@@ -221,6 +318,13 @@ class CreateBatchView(LoginRequiredMixin, UserPassesTestMixin, CreateView, Creat
         kwargs['request'] = self.request
         return kwargs
 
+    def get_initial(self):
+        initial = super().get_initial()
+        institute = get_user_institute(self.request.user)
+        if institute and getattr(institute, 'current_session', None):
+            initial['year'] = institute.current_session
+        return initial
+
     def test_func(self):
         user = self.request.user
         return user_is_teacher_or_administrative(user)
@@ -232,6 +336,11 @@ class BatchListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Batch
     context_object_name = 'batches'
     template_name = 'academics/batch_list.html'
+
+    def get_queryset(self):
+        return Batch.objects.select_related('department', 'year').annotate(
+            student_count=Count('students')
+        )
 
     def test_func(self):
         user = self.request.user
