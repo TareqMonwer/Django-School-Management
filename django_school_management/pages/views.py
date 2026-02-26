@@ -7,6 +7,7 @@ from django_school_management.academics.models import Department, Semester, Acad
 from django_school_management.result.models import SubjectGroup
 from django_school_management.students.forms import StudentForm
 from django_school_management.students.models import AdmissionStudent
+from django_school_management.mixins.institute import get_active_institute
 from django_school_management.articles.models import Article
 from django_school_management.students.tasks import send_admission_confirmation_email
 
@@ -26,16 +27,34 @@ def index(request):
 
 
 def online_admission(request):
+    institute = get_active_institute()
     if request.method == 'POST':
-        form = StudentForm(request.POST, request.FILES)
+        form = StudentForm(request.POST, request.FILES, institute=institute)
         if form.is_valid():
             data = form.save()
             if settings.USE_STRIPE:
                 return redirect('pages:online_admission_stripepayment', pk=data.pk)
             return redirect('pages:online_admission_sslpayment', pk=data.pk)
     else:
-        form = StudentForm()
-    return render(request, 'pages/students/admission.html', {'form': form})
+        form = StudentForm(institute=institute)
+    # For template JS: show JSC section only when applying for class 9-10 (BD school/madrasah)
+    show_jsc_conditional = (
+        institute and getattr(institute, 'country', None) and
+        str(getattr(institute.country, 'code', institute.country)) == 'BD' and
+        getattr(institute, 'is_school_or_madrasah', False)
+    )
+    # For template JS: show admit_to_semester only when HSC Science (BD polytechnic)
+    show_admit_semester_conditional = (
+        institute and getattr(institute, 'country', None) and
+        str(getattr(institute.country, 'code', institute.country)) == 'BD' and
+        getattr(institute, 'is_polytechnic', False)
+    )
+    return render(request, 'pages/students/admission.html', {
+        'form': form,
+        'institute': institute,
+        'show_jsc_conditional': show_jsc_conditional,
+        'show_admit_semester_conditional': show_admit_semester_conditional,
+    })
 
 
 def online_admission_payment(request, pk):

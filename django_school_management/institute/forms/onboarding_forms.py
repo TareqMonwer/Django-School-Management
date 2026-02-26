@@ -1,7 +1,10 @@
 from django import forms
 from django_countries.fields import CountryField
 
-from django_school_management.institute.models import InstituteProfile
+from django_school_management.institute.models import (
+    InstituteProfile,
+    INSTITUTE_TYPE_CHOICES,
+)
 from django_school_management.academics.models import Department, AcademicSession
 
 
@@ -9,26 +12,30 @@ FC = {'class': 'form-control'}
 
 
 class OnboardingStep1Form(forms.ModelForm):
-    """Institute profile basics."""
+    """Institute profile basics including institute type."""
 
     class Meta:
         model = InstituteProfile
         fields = [
             'name', 'country', 'logo', 'motto', 'description',
-            'date_of_estashment',
+            'date_of_estashment', 'institute_type',
         ]
         widgets = {
-            'name': forms.TextInput(attrs={**FC, 'placeholder': 'Your school name'}),
+            'name': forms.TextInput(attrs={**FC, 'placeholder': 'Your institute name'}),
             'date_of_estashment': forms.DateInput(attrs={**FC, 'type': 'date'}),
-            'motto': forms.Textarea(attrs={**FC, 'rows': 2, 'placeholder': 'School motto'}),
+            'motto': forms.Textarea(attrs={**FC, 'rows': 2, 'placeholder': 'Institute motto'}),
             'description': forms.Textarea(attrs={**FC, 'rows': 3, 'placeholder': 'Brief description'}),
+            'institute_type': forms.Select(attrs={**FC}),
         }
         labels = {
             'date_of_estashment': 'Date of Establishment',
+            'institute_type': 'Type of institution',
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        # Show institute types in onboarding priority order: school, madrasah, polytechnic
+        self.fields['institute_type'].choices = [('', '---------')] + list(INSTITUTE_TYPE_CHOICES)
         if 'country' in self.fields:
             self.fields['country'].widget.attrs.update(FC)
 

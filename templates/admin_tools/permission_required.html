@@ -1,0 +1,25 @@
+{% extends "dashboard.html" %}
+{% load static %}
+
+{% block dashboard-body %}
+<div class="container-fluid py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body text-center py-5">
+          <div class="mb-4">
+            <i class="fas fa-lock fa-3x text-muted"></i>
+          </div>
+          <h4 class="card-title">Permission required</h4>
+          <p class="card-text text-muted">
+            You don't have permission to perform this action.
+          </p>
+          <a href="{% url 'index_view' %}" class="btn btn-primary mt-3">
+            <i class="fas fa-home mr-2"></i>Back to Dashboard
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

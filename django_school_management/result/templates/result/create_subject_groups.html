@@ -19,7 +19,7 @@
       <div class="card mb-3">
         <div class="card-body">
           <div class="form-inline">
-            <label class="sr-only" for="department">Department</label>
+            <label class="sr-only" for="department">{{ department_label }}</label>
             <select name="department" class="form-control mb-2 mr-sm-2" id="department">
               <option value="" selected disabled>Choose Department</option>
               {% for dept in departments %}
@@ -27,7 +27,7 @@
               {% endfor %}
             </select>
 
-            <label class="sr-only" for="semester">Semester</label>
+            <label class="sr-only" for="semester">{{ semester_label }}</label>
             <select name="semester" class="form-control mb-2 mr-sm-2" id="semester">
               <option value="" selected disabled>Choose Semester</option>
               {% for semester in semesters %}

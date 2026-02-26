@@ -61,7 +61,7 @@
 {% block onboarding_content %}
 <div class="onboarding-card">
   <h2>Academic Structure</h2>
-  <p class="subtitle">Set up your departments and the current academic session.</p>
+  <p class="subtitle">Set up your {{ department_label|lower }}s and the current academic session.</p>
 
   <form method="post">
     {% csrf_token %}
@@ -69,7 +69,7 @@
     {% if existing_departments %}
     <div style="margin-bottom: 20px;">
       <label style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted);">
-        Current Departments
+        Current {{ department_label }}s
       </label>
       <div>
         {% for dept in existing_departments %}
@@ -81,7 +81,7 @@
 
     <label style="font-weight: 600; margin-bottom: 12px; display: block;">
       <i class="fas fa-plus-circle" style="color: var(--primary); margin-right: 6px;"></i>
-      Add New Departments
+      Add New {{ department_label }}s
     </label>
     <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">
       Leave blank if you don't need to add more departments right now.

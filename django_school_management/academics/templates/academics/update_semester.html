@@ -5,12 +5,12 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
-    <li class="breadcrumb-item"><a href="{% url academic_urls.all_semester %}">Semesters</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Update Semester</li>
+    <li class="breadcrumb-item"><a href="{% url academic_urls.all_semester %}">{{ semester_label }}s</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Update {{ semester_label }}</li>
   </ol>
 </nav>
 
-<h4>Update Semester</h4>
+<h4>Update {{ semester_label }}</h4>
 <hr>
 <div class="card">
   <div class="card-body">

@@ -46,3 +46,9 @@ class InstituteAutoSetMixin:
 def get_user_institute(user):
     """Helper for function-based views."""
     return getattr(user, 'institute', None)
+
+
+def get_active_institute():
+    """Return the active institute for public/unauthenticated context (e.g. admission form)."""
+    from django_school_management.institute.models import InstituteProfile
+    return InstituteProfile.objects.filter(active=True).first()

@@ -166,7 +166,7 @@
           <li>
             <a class="sidebar-link" 
               href="{% url academic_urls.departments %}">
-              Departments
+              {{ department_label }}
             </a>
           </li>
           <li>
@@ -214,13 +214,13 @@
           <li>
             <a class="sidebar-link"
               href="{% url academic_urls.create_semester %}">
-              Create Semester
+              Create {{ semester_label }}
             </a>
           </li>
           <li>
             <a class="sidebar-link" 
               href="{% url academic_urls.all_semester %}">
-              Semesters
+              {{ semester_label }}s
             </a>
           </li>
         </ul>

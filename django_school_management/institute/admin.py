@@ -5,7 +5,7 @@ from django.contrib import admin
 
 from .models import (
     InstituteProfile, TextWidget,
-    ListWidget, WidgetListItem, City
+    ListWidget, WidgetListItem, City, EducationBoard
 )
 
 
@@ -65,3 +65,12 @@ admin.site.register(TextWidget, TextWidgetAdmin)
 admin.site.register(ListWidget, ListWidgetAdmin)
 admin.site.register(WidgetListItem)
 admin.site.register(City, CityAdmin)
+
+
+class EducationBoardAdmin(admin.ModelAdmin):
+    list_display = ('name', 'code', 'country')
+    list_filter = ('country',)
+    search_fields = ('name', 'code')
+
+
+admin.site.register(EducationBoard, EducationBoardAdmin)
