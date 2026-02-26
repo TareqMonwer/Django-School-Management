@@ -125,6 +125,15 @@ class Subject(ExportModelOperationsMixin('subject'), TimeStampedModel):
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL, null=True)
+    # Optional link to curriculum library template; used to sync name/code/marks or show curriculum context.
+    subject_template = models.ForeignKey(
+        'curriculum.SubjectTemplate',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='subjects',
+        help_text='Optional. Link to curriculum library template for this subject.',
+    )
 
     def __str__(self):
         return "{} ({})".format(self.name, self.subject_code)

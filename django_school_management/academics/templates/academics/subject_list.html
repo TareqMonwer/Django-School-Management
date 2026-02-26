@@ -10,7 +10,7 @@
 </nav>
 
 <h4>All Subjects</h4>
-<p class="text-muted mb-3">Manage subjects offered by your institute. Add subjects here, then assign them to subject groups by {{ department_label|lower }} and {{ semester_label|lower }}.</p>
+<p class="text-muted mb-3">Manage subjects used in subject groups and result entry. To load many subjects at once from a curriculum (School/Madrasah, Science/Arts/Commerce), use <a href="{% url 'institute:onboarding_step1' %}">Onboarding</a> (top-right menu) → Load subjects. Use "Create New Subject" below for a single custom subject or one linked to a curriculum template.</p>
 
 <div class="row">
   <div class="col-12">
@@ -28,6 +28,7 @@
             <th scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col">Subject Code</th>
+            <th scope="col">Curriculum</th>
             <th scope="col">Instructor</th>
             <th scope="col">T. Marks</th>
             <th scope="col">P. Marks</th>
@@ -40,6 +41,7 @@
             <th scope="row">{{ forloop.counter }}</th>
             <td>{{ subject.name }}</td>
             <td>{{ subject.subject_code }}</td>
+            <td>{% if subject.subject_template %}<span class="badge badge-info">From curriculum</span>{% else %}<span class="text-muted">—</span>{% endif %}</td>
             <td style="text-align: center">{{ subject.instructor|default:"—" }}</td>
             <td style="text-align: center">{{ subject.theory_marks|default:"—" }}</td>
             <td>{{ subject.practical_marks|default:"—" }}</td>
@@ -51,7 +53,7 @@
           </tr>
           {% empty %}
           <tr>
-            <td colspan="7" class="text-center text-muted py-5">
+            <td colspan="8" class="text-center text-muted py-5">
               {% if request.GET.q %}
                 <p class="mb-2">No subjects match "{{ request.GET.q }}".</p>
                 <a href="{% url academic_urls.subject_list %}" class="btn btn-outline-primary btn-sm">Clear search</a>

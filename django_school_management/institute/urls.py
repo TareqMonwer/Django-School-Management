@@ -13,9 +13,13 @@ urlpatterns = [
         views.onboarding_step2,
         name='onboarding_step2'
     ),
-    path('onboarding/review/',
+    path('onboarding/load-subjects/',
         views.onboarding_step3,
         name='onboarding_step3'
+    ),
+    path('onboarding/review/',
+        views.onboarding_step4,
+        name='onboarding_step4'
     ),
 
     # Settings pages

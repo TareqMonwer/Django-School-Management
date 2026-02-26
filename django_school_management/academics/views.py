@@ -12,7 +12,7 @@ from django.db.models import Count, Q
 from .constants import AcademicsURLConstants
 from .models import (Semester, Department,
                      AcademicSession, Subject, Batch)
-from .forms import SemesterForm, DepartmentForm, AcademicSessionForm, SubjectForm, BatchForm, BatchFormWithLabel, BulkSemesterForm
+from .forms import SemesterForm, DepartmentForm, AcademicSessionForm, SubjectForm, SubjectFormCurriculumAware, BatchForm, BatchFormWithLabel, BulkSemesterForm
 from permission_handlers.administrative import (
     user_is_admin_su_editor_or_ac_officer,
     user_editor_admin_or_su,
@@ -278,7 +278,7 @@ class SubjectListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     template_name = 'academics/subject_list.html'
 
     def get_queryset(self):
-        qs = Subject.objects.select_related('instructor').order_by('name')
+        qs = Subject.objects.select_related('instructor', 'subject_template').order_by('name')
         q = self.request.GET.get('q', '').strip()
         if q:
             try:
@@ -296,13 +296,46 @@ subject_list = SubjectListView.as_view()
 
 
 class CreateSubjectView(LoginRequiredMixin, UserPassesTestMixin, CreateView, CreatedByMixin):
-    form_class = SubjectForm
+    form_class = SubjectFormCurriculumAware
     template_name = 'academics/create_subject.html'
     success_url = reverse_lazy(AcademicsURLConstants.subject_list)
 
     def test_func(self):
         user = self.request.user
         return user_is_teacher_or_administrative(user)
+
+    def get_initial(self):
+        initial = super().get_initial()
+        template_id = self.request.GET.get('template')
+        if not template_id:
+            return initial
+        try:
+            from django_school_management.curriculum.models import SubjectTemplate
+            template = SubjectTemplate.objects.get(pk=int(template_id))
+        except (ValueError, SubjectTemplate.DoesNotExist):
+            return initial
+        initial['subject_template'] = template.pk
+        initial['name'] = template.name[:50]
+        initial['theory_marks'] = template.default_theory_marks
+        initial['practical_marks'] = template.default_practical_marks
+        # Suggest unique subject_code: 10000+template.pk if free, else next available
+        base_code = 10000 + template.pk
+        if not Subject.objects.filter(subject_code=base_code).exists():
+            initial['subject_code'] = base_code
+        else:
+            from django.db.models import Max
+            max_code = Subject.objects.aggregate(m=Max('subject_code'))['m'] or 0
+            initial['subject_code'] = max_code + 1
+        return initial
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        try:
+            from django_school_management.curriculum.models import SubjectTemplate
+            ctx['subject_templates'] = SubjectTemplate.objects.order_by('name')
+        except Exception:
+            ctx['subject_templates'] = []
+        return ctx
 
 create_subject = CreateSubjectView.as_view()
 
@@ -353,7 +386,7 @@ batch_list_view = BatchListView.as_view()
 
 class UpdateSubjectView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Subject
-    form_class = SubjectForm
+    form_class = SubjectFormCurriculumAware
     template_name = 'academics/update_subject.html'
     success_url = reverse_lazy(AcademicsURLConstants.subject_list)
 

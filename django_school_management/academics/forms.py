@@ -34,6 +34,23 @@ AcademicSessionForm = create_model_form_factory(AcademicSession, exclude_fields=
 
 SubjectForm = create_model_form_factory(Subject, exclude_fields=['created_by',])
 
+
+class SubjectFormCurriculumAware(SubjectForm):
+    """Subject form with optional curriculum template; template can prefill name and marks."""
+
+    class Meta(SubjectForm.Meta):
+        fields = ['subject_template', 'name', 'subject_code', 'book_cover', 'instructor',
+                  'theory_marks', 'practical_marks']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        from django_school_management.curriculum.models import SubjectTemplate
+        self.fields['subject_template'].queryset = SubjectTemplate.objects.order_by('name')
+        self.fields['subject_template'].required = False
+        self.fields['subject_template'].label = 'Link to curriculum template (optional)'
+        self.fields['subject_template'].help_text = 'Select a template to prefill name and marks, or create a custom subject.'
+
+
 BatchForm = create_model_form_factory(Batch, include_fields=['department', 'year', 'number'])
 
 

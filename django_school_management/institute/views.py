@@ -13,6 +13,7 @@ from django_school_management.institute.forms.onboarding_forms import (
     OnboardingStep1Form,
     OnboardingDepartmentFormSet,
     OnboardingAcademicSessionForm,
+    LoadSubjectsFromCurriculumForm,
 )
 from .models import InstituteProfile
 
@@ -81,7 +82,8 @@ class SetActiveInstituteProfile(View):
 ONBOARDING_STEPS = [
     {'number': 1, 'title': 'Institute Profile', 'icon': 'fas fa-school'},
     {'number': 2, 'title': 'Academics', 'icon': 'fas fa-graduation-cap'},
-    {'number': 3, 'title': 'Review & Launch', 'icon': 'fas fa-rocket'},
+    {'number': 3, 'title': 'Load Subjects', 'icon': 'fas fa-book'},
+    {'number': 4, 'title': 'Review & Launch', 'icon': 'fas fa-rocket'},
 ]
 
 
@@ -214,7 +216,59 @@ def onboarding_step2(request):
 
 @login_required
 def onboarding_step3(request):
-    """Step 3: Review and launch."""
+    """Step 3: Load subjects from curriculum (optional)."""
+    institute = _resolve_institute(request.user)
+    if not institute:
+        return redirect('institute:onboarding_step1')
+
+    from django_school_management.curriculum.helpers import load_subjects_from_curriculum
+    from django.contrib import messages
+
+    load_result = None
+    form = LoadSubjectsFromCurriculumForm(institute=institute)
+
+    if request.method == 'POST':
+        if 'load_subjects' in request.POST:
+            form = LoadSubjectsFromCurriculumForm(request.POST, institute=institute)
+            if form.is_valid():
+                curriculum = form.cleaned_data['curriculum']
+                class_numbers = form.get_class_numbers()
+                if not class_numbers:
+                    messages.warning(request, 'Please select at least one class range.')
+                else:
+                    load_result = load_subjects_from_curriculum(
+                        institute, curriculum, class_numbers, request.user,
+                    )
+                    if load_result.get('errors'):
+                        for err in load_result['errors']:
+                            messages.warning(request, err)
+                    created = load_result.get('subject_groups_created', 0)
+                    if created or load_result.get('subjects_created') or load_result.get('semesters_created'):
+                        institute.curriculum = curriculum
+                        institute.save(update_fields=['curriculum'])
+                        msg = (
+                            f"Created {load_result.get('semesters_created', 0)} class(es), "
+                            f"{load_result.get('subjects_created', 0)} subject(s), "
+                            f"and {load_result.get('subject_groups_created', 0)} subject group(s)."
+                        )
+                        messages.success(request, msg)
+        else:
+            # Skip / Continue without loading
+            return redirect('institute:onboarding_step4')
+
+    ctx = {
+        'form': form,
+        'load_result': load_result,
+        'department_label': institute.department_label if institute else 'Department',
+        'semester_label': institute.semester_label if institute else 'Class',
+        **_onboarding_context(3),
+    }
+    return render(request, 'institute/onboarding/step3_load_subjects.html', ctx)
+
+
+@login_required
+def onboarding_step4(request):
+    """Step 4: Review and launch."""
     institute = _resolve_institute(request.user)
     if not institute:
         return redirect('institute:onboarding_step1')
@@ -236,6 +290,6 @@ def onboarding_step3(request):
         'departments': departments,
         'session': session,
         'department_label': institute.department_label,
-        **_onboarding_context(3),
+        **_onboarding_context(4),
     }
-    return render(request, 'institute/onboarding/step3.html', ctx)
+    return render(request, 'institute/onboarding/step4_review.html', ctx)
