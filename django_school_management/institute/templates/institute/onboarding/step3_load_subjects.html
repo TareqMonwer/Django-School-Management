@@ -1,0 +1,89 @@
+{% extends "institute/onboarding/base.html" %}
+
+{% block extra_css %}
+<style>
+  .load-subjects-intro {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 24px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+  .load-subjects-intro strong { color: var(--text); }
+  .form-group { margin-bottom: 20px; }
+  .form-group label { display: block; margin-bottom: 8px; }
+  .checkbox-group ul { list-style: none; padding: 0; margin: 0; }
+  .checkbox-group li { padding: 8px 0; border-bottom: 1px solid #f1f5f9; }
+  .checkbox-group li:last-child { border-bottom: none; }
+  .checkbox-group label { font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 10px; }
+  .btn-load {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-right: 12px;
+  }
+  .btn-load:hover { background: var(--primary-dark); color: #fff; }
+  .load-result {
+    background: rgba(34,197,94,0.08);
+    border: 1px solid rgba(34,197,94,0.3);
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 16px;
+    font-size: 0.9rem;
+  }
+</style>
+{% endblock %}
+
+{% block onboarding_content %}
+<div class="onboarding-card">
+  <h2>Load Subjects from Curriculum</h2>
+  <p class="subtitle">Create {{ semester_label|lower }}s and subject groups from a curriculum (School/Madrasah, Science, Arts, Commerce). You can skip this and add subjects manually later.</p>
+
+  <div class="load-subjects-intro">
+    <strong>How it works:</strong> Choose a curriculum and the class ranges you offer. The system will create the {{ semester_label|lower }}s (if needed), create subjects from the curriculum library, and assign them to each of your {{ department_label|lower }}s for the selected {{ semester_label|lower }}s. For HSC, make sure your {{ department_label|lower }} names match the stream (e.g. Science, Arts, Commerce).
+  </div>
+
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="id_curriculum">{{ form.curriculum.label }}</label>
+      {{ form.curriculum }}
+      {% if form.curriculum.errors %}
+        <ul class="errorlist">{{ form.curriculum.errors }}</ul>
+      {% endif %}
+    </div>
+    <div class="form-group checkbox-group">
+      <label>{{ form.class_range.label }}</label>
+      {{ form.class_range }}
+      {% if form.class_range.errors %}
+        <ul class="errorlist">{{ form.class_range.errors }}</ul>
+      {% endif %}
+    </div>
+    {% if load_result and load_result.subject_groups_created %}
+    <div class="load-result">
+      <i class="fas fa-check-circle" style="color: var(--success); margin-right: 8px;"></i>
+      Subjects loaded. You can load more class ranges or continue to review.
+    </div>
+    {% endif %}
+    <div class="onboarding-actions">
+      <a href="{% url 'institute:onboarding_step2' %}" class="btn-onboard btn-onboard-secondary">
+        <i class="fas fa-arrow-left"></i> Back
+      </a>
+      <div>
+        <button type="submit" name="load_subjects" class="btn-load">
+          <i class="fas fa-download"></i> Load Subjects
+        </button>
+        <button type="submit" class="btn-onboard btn-onboard-primary">
+          Continue <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

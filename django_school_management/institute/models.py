@@ -104,6 +104,15 @@ class InstituteProfile(ExportModelOperationsMixin('institute_profile'), models.M
 		related_name='institutes_using_as_current',
 		help_text='Single active academic session for school/madrasah. Leave blank for polytechnic.',
 	)
+	# Optional: default curriculum for this institute (e.g. Madrasah Ebtedayi). Used to suggest subjects/levels when creating groups and subject groups.
+	curriculum = models.ForeignKey(
+		'curriculum.Curriculum',
+		on_delete=models.SET_NULL,
+		null=True,
+		blank=True,
+		related_name='institutes',
+		help_text='Optional. Curriculum library this institute follows (e.g. Ebtedayi, Dakhil, HSC Science). Used to suggest subjects per class/group.',
+	)
 	created_by = models.ForeignKey(
 		settings.AUTH_USER_MODEL,
 		on_delete=models.SET_NULL,

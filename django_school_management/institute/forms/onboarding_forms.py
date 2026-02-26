@@ -1,4 +1,5 @@
 from django import forms
+from django.db import models
 from django_countries.fields import CountryField
 
 from django_school_management.institute.models import (
@@ -74,3 +75,54 @@ class OnboardingAcademicSessionForm(forms.ModelForm):
         widgets = {
             'year': forms.NumberInput(attrs={**FC, 'placeholder': 'e.g. 2026'}),
         }
+
+
+class LoadSubjectsFromCurriculumForm(forms.Form):
+    """Select curriculum and class range for loading subjects during onboarding."""
+
+    curriculum = forms.ModelChoiceField(
+        queryset=None,
+        required=True,
+        empty_label='Select curriculum',
+        widget=forms.Select(attrs={**FC}),
+        label='Curriculum',
+    )
+    class_range = forms.MultipleChoiceField(
+        required=True,
+        choices=[
+            ('1-5', 'Class 1–5 (Ebtedayi / Primary)'),
+            ('6-10', 'Class 6–10 (Dakhil / SSC)'),
+            ('1-10', 'Class 1–10 (Full SSC)'),
+            ('11-12', 'Class 11–12 (HSC)'),
+        ],
+        widget=forms.CheckboxSelectMultiple,
+        label='Classes to load subjects for',
+    )
+
+    def __init__(self, *args, **kwargs):
+        self.institute = kwargs.pop('institute', None)
+        super().__init__(*args, **kwargs)
+        if self.institute:
+            from django_school_management.curriculum.models import Curriculum
+            qs = Curriculum.objects.filter(is_active=True)
+            itype = getattr(self.institute, 'institute_type', None)
+            if itype:
+                qs = qs.filter(models.Q(institute_type=itype) | models.Q(institute_type=''))
+            self.fields['curriculum'].queryset = qs.order_by('display_order', 'name')
+        else:
+            from django_school_management.curriculum.models import Curriculum
+            self.fields['curriculum'].queryset = Curriculum.objects.filter(is_active=True).order_by('display_order', 'name')
+
+    def get_class_numbers(self):
+        """Expand class_range choices to list of ints."""
+        numbers = set()
+        for r in self.cleaned_data.get('class_range', []):
+            if r == '1-5':
+                numbers.update(range(1, 6))
+            elif r == '6-10':
+                numbers.update(range(6, 11))
+            elif r == '1-10':
+                numbers.update(range(1, 11))
+            elif r == '11-12':
+                numbers.update(range(11, 13))
+        return sorted(numbers)

@@ -60,6 +60,7 @@ LOCAL_APPS = [
     'django_school_management.pages.apps.PagesConfig',
     'django_school_management.articles.apps.ArticlesConfig',
     'django_school_management.institute.apps.InstituteConfig',
+    'django_school_management.curriculum.apps.CurriculumConfig',
     'django_school_management.payments.apps.PaymentsConfig',
     'django_school_management.notices.apps.NoticesConfig',
 ]
