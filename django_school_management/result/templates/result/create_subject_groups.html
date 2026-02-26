@@ -4,16 +4,34 @@
 {% block dashboard-body %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
-      <li class="breadcrumb-item">
-          <a href="{% url 'result:subject_groups' %}">Subject Group List</a>
-      </li>
-      <li class="breadcrumb-item active" aria-current="page">Create Subject Group</li>
+    <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'result:subject_groups' %}">Subject groups</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Create subject group</li>
   </ol>
 </nav>
 
+<h4>Create subject group</h4>
+<p class="text-muted mb-3">Subject groups define which subjects are used for result entry for each {{ department_label|lower }} and {{ semester_label|lower }}. Select a {{ department_label|lower }}, {{ semester_label|lower }}, and the subjects to include.</p>
+
 <div class="row">
   <div class="col-md-12">
+    {% if existing_subject_groups %}
+    <div class="card mb-3">
+      <div class="card-body">
+        <label class="small font-weight-bold text-muted">Copy from existing group</label>
+        <p class="small text-muted mb-2">Pre-fill {{ department_label|lower }}, {{ semester_label|lower }}, and subject selection from an existing group.</p>
+        <select id="copyFromSelect" class="form-control form-control-sm" style="max-width: 320px;">
+          <option value="">— Choose a group to copy from —</option>
+          {% for sg in existing_subject_groups %}
+          <option value="{% url 'result:create_subject_group' %}?copy_from={{ sg.pk }}" {% if copy_from_group and copy_from_group.pk == sg.pk %}selected{% endif %}>
+            {{ sg.department }} – {{ sg.semester }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    {% endif %}
+
     <form action="" id="subjectGroupCreateForm" method="post">
       {% csrf_token %}
       <div class="card mb-3">
@@ -21,17 +39,17 @@
           <div class="form-inline">
             <label class="sr-only" for="department">{{ department_label }}</label>
             <select name="department" class="form-control mb-2 mr-sm-2" id="department">
-              <option value="" selected disabled>Choose Department</option>
+              <option value="" {% if not copy_from_group %}selected{% endif %} disabled>Choose {{ department_label }}</option>
               {% for dept in departments %}
-                <option value="{{ dept.pk }}">{{ dept.name }}</option>
+              <option value="{{ dept.pk }}" {% if copy_from_group and copy_from_group.department_id == dept.pk %}selected{% endif %}>{{ dept.name }}</option>
               {% endfor %}
             </select>
 
             <label class="sr-only" for="semester">{{ semester_label }}</label>
             <select name="semester" class="form-control mb-2 mr-sm-2" id="semester">
-              <option value="" selected disabled>Choose Semester</option>
+              <option value="" {% if not copy_from_group %}selected{% endif %} disabled>Choose {{ semester_label }}</option>
               {% for semester in semesters %}
-                <option value="{{ semester.pk }}">{{ semester }}</option>
+              <option value="{{ semester.pk }}" {% if copy_from_group and copy_from_group.semester_id == semester.pk %}selected{% endif %}>{{ semester }}</option>
               {% endfor %}
             </select>
           </div>
@@ -40,81 +58,124 @@
 
       <div class="row">
         <div class="col-12">
-          <h4 class="py-3">Select Subjects</h4>
+          <h5 class="py-2">Select subjects</h5>
+          <p class="small text-muted">Click cards to select the subjects for this group.</p>
         </div>
       </div>
 
       <div class="row" id="subjects-container">
         {% for subject in subjects %}
-          <div class="col-sm-6 col-md-3 col-lg-3 subject-col mb-3" data-subject-pk="{{ subject.pk }}">
-            <div class="subject-wrapper">
-              <div class="card h-100" style="cursor: pointer;">
-                <img class="card-img-top"
-                  src="{{ subject.book_cover.url }}"
-                  alt="{{ subject.name }}"
-                  style="max-height: 250px; object-fit: cover;">
-                <div class="card-body">
-                  <h5 class="card-title">{{ subject.name }}</h5>
-                  <p class="text-muted mb-0"><strong>Code:</strong> {{ subject.subject_code }}</p>
-                </div>
+        <div class="col-sm-6 col-md-3 col-lg-3 subject-col mb-3" data-subject-pk="{{ subject.pk }}">
+          <div class="subject-wrapper">
+            <div class="card h-100" style="cursor: pointer;">
+              <img class="card-img-top"
+                src="{{ subject.book_cover.url }}"
+                alt="{{ subject.name }}"
+                style="max-height: 250px; object-fit: cover;">
+              <div class="card-body">
+                <h5 class="card-title">{{ subject.name }}</h5>
+                <p class="text-muted mb-0"><strong>Code:</strong> {{ subject.subject_code }}</p>
               </div>
             </div>
           </div>
+        </div>
         {% empty %}
-          <div class="col-12">
-            <p class="text-center text-muted py-4">No subjects available.</p>
-          </div>
+        <div class="col-12">
+          <p class="text-center text-muted py-4">No subjects available. <a href="{% url academic_urls.create_subject %}">Add subjects</a> first.</p>
+        </div>
         {% endfor %}
       </div>
 
       <div id="hiddenInputs"></div>
 
       <div class="text-right mt-3">
-        <button type="submit" class="btn btn-primary">Create New Subject Group</button>
+        <button type="submit" class="btn btn-primary">Create subject group</button>
+        <a href="{% url 'result:subject_groups' %}" class="btn btn-outline-secondary ml-2">Cancel</a>
       </div>
     </form>
   </div>
 </div>
 
-<div id="subjectCounter">
-  <span id="subjectCounterN">0</span>
+<div id="subjectCounter" class="small text-muted">
+  <span id="subjectCounterN">0</span> selected
 </div>
 {% endblock %}
 
-
 {% block extrajs %}
-  <script>
-    const subjectsContainer = document.getElementById('subjects-container');
-    const hiddenInputs = document.getElementById('hiddenInputs');
-    const selectedCounter = document.getElementById('subjectCounterN');
+<script>
+(function() {
+  const subjectsContainer = document.getElementById('subjects-container');
+  const hiddenInputs = document.getElementById('hiddenInputs');
+  const selectedCounter = document.getElementById('subjectCounterN');
+  const copyFromSelect = document.getElementById('copyFromSelect');
 
-    let selectedCards = 0;
+  const copyFromSubjectPks = {{ copy_from_subject_pks_json|safe }};
+  if (!Array.isArray(copyFromSubjectPks)) copyFromSubjectPks = [];
 
-    for (let i = 0; i < subjectsContainer.childNodes.length; i++) {
-      if (subjectsContainer.childNodes[i].classList &&
-        subjectsContainer.childNodes[i].classList.contains('subject-col')) {
+  if (copyFromSelect) {
+    copyFromSelect.addEventListener('change', function() {
+      const url = this.value;
+      if (url) window.location.href = url;
+    });
+  }
 
-        const subjectCol = subjectsContainer.childNodes[i];
+  function updateCounter() {
+    const n = hiddenInputs.querySelectorAll('input[name="subject"]').length;
+    if (selectedCounter) selectedCounter.textContent = n;
+  }
 
-        subjectCol.addEventListener('click', function(){
-          const cardItem = this.querySelector('.card');
-          cardItem.classList.toggle('selected-item');
+  function selectCard(subjectCol, selected) {
+    const cardItem = subjectCol.querySelector('.card');
+    const subjectPk = parseInt(subjectCol.dataset.subjectPk, 10);
+    const existing = document.getElementById(subjectPk + '-subject');
 
-          const subjectPk = parseInt(subjectCol.dataset.subjectPk);
-
-          if (cardItem.classList.contains('selected-item')) {
-            let newInput = `<input type="hidden" name="subject" value="${subjectPk}" id="${subjectPk}-subject">`;
-            hiddenInputs.innerHTML += newInput;
-            selectedCards += 1;
-            selectedCounter.innerHTML = selectedCards;
-          } else {
-            const remHiddenInput = document.getElementById(`${subjectPk}-subject`);
-            if (remHiddenInput) remHiddenInput.remove();
-            selectedCards -= 1;
-            selectedCounter.innerHTML = selectedCards;
-          }
-        });
+    if (selected) {
+      if (!existing) {
+        const newInput = document.createElement('input');
+        newInput.type = 'hidden';
+        newInput.name = 'subject';
+        newInput.value = subjectPk;
+        newInput.id = subjectPk + '-subject';
+        hiddenInputs.appendChild(newInput);
       }
+      cardItem.classList.add('selected-item');
+    } else {
+      if (existing) existing.remove();
+      cardItem.classList.remove('selected-item');
     }
-  </script>
+    updateCounter();
+  }
+
+  const cols = subjectsContainer ? subjectsContainer.querySelectorAll('.subject-col') : [];
+  cols.forEach(function(subjectCol) {
+    subjectCol.addEventListener('click', function() {
+      const cardItem = this.querySelector('.card');
+      const isSelected = cardItem.classList.toggle('selected-item');
+      const subjectPk = parseInt(this.dataset.subjectPk, 10);
+      const existing = document.getElementById(subjectPk + '-subject');
+
+      if (isSelected) {
+        if (!existing) {
+          const newInput = document.createElement('input');
+          newInput.type = 'hidden';
+          newInput.name = 'subject';
+          newInput.value = subjectPk;
+          newInput.id = subjectPk + '-subject';
+          hiddenInputs.appendChild(newInput);
+        }
+      } else {
+        if (existing) existing.remove();
+      }
+      updateCounter();
+    });
+  });
+
+  // Pre-select subjects when copying from existing group
+  copyFromSubjectPks.forEach(function(pk) {
+    const col = subjectsContainer.querySelector('.subject-col[data-subject-pk="' + pk + '"]');
+    if (col) selectCard(col, true);
+  });
+  updateCounter();
+})();
+</script>
 {% endblock %}

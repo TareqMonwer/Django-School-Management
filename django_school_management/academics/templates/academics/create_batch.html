@@ -5,29 +5,21 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="{% url academic_urls.batch_list %}">Batches</a></li>
     <li class="breadcrumb-item active" aria-current="page">Create Batch</li>
   </ol>
 </nav>
 
 <h4>Create Batch</h4>
+<p class="text-muted small mb-3">Choose the {{ department_label|lower }}, academic session, and batch number. Session is prefilled with the current session when set.</p>
 <hr>
 <div class="card">
   <div class="card-body">
     <form action="{% url academic_urls.create_batch %}" method="POST" class="d-block">
         {% csrf_token %}
         {{ form|crispy }}
-        <input type="submit" value="Create Batch" class="btn btn-primary">
+        <button type="submit" class="btn btn-primary">Create Batch</button>
     </form>
   </div>
 </div>
-{% endblock %}
-
-
-{% block extrajs %}
-<script>
-  $('input[type="file"]').change(function (e) {
-    const fileName = e.target.files[0].name;
-    $(".custom-file-label").html(fileName);
-  });
-</script>
 {% endblock %}

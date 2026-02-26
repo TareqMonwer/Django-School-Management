@@ -1,10 +1,8 @@
 from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import TemplateView
 
-from django_school_management.academics.models import Department, Semester, AcademicSession, Subject, Batch
-from django_school_management.result.models import SubjectGroup
+from django_school_management.academics.models import Department
 from django_school_management.students.forms import StudentForm
 from django_school_management.students.models import AdmissionStudent
 from django_school_management.mixins.institute import get_active_institute
@@ -130,22 +128,3 @@ def payment(request, pk):
             return redirect('pages:online_admission_payment', pk=pk)
 
     return redirect('pages:online_admission_payment', pk=pk)
-
-
-class UserGuideView(TemplateView):
-    template_name = 'pages/user_guide.html'
-
-    def get(self, request, *args, **kwargs):
-        context = self.get_context_data(**kwargs)
-        check_models = [Department, Semester, AcademicSession, Subject, SubjectGroup, Batch]
-        models = []
-
-        for model in check_models:
-            model_count = model.objects.count() > 0 # returns bool
-            if not model_count:
-                model.classname = model.__name__
-                models.append(model)
-        context['models'] = models
-        return self.render_to_response(context)
-
-user_guide_view = UserGuideView.as_view()

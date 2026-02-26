@@ -5,18 +5,20 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="{% url academic_urls.academic_sessions %}">Academic Sessions</a></li>
     <li class="breadcrumb-item active" aria-current="page">Create Academic Session</li>
   </ol>
 </nav>
 
 <h4>Create Academic Session</h4>
+<p class="text-muted small mb-3">Sessions are used for batches and as the default for new admissions. Set the current session from the Academic Sessions list after creating.</p>
 <hr>
 <div class="card">
   <div class="card-body">
     <form action="" method="POST" class="d-block">
         {% csrf_token %}
         {{ form|crispy }}
-        <input type="submit" value="Create Session" class="btn btn-primary">
+        <button type="submit" class="btn btn-primary">Create Session</button>
     </form>
   </div>
 </div>

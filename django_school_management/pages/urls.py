@@ -33,5 +33,4 @@ urlpatterns = [
      path('admission/stripe-cancel/<int:pk>/', stripe_payment_cancel,
           name='stripe_payment_cancel'),
      path('admission/paynow/<int:pk>/', views.payment, name='payment'),
-     path('userguide/', views.user_guide_view, name='userguide'),
 ]

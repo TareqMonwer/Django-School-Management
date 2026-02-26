@@ -8,18 +8,19 @@
 {% block dashboard-body %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item">
-      <a href="{% url 'index_view' %}">Dashboard</a>
-    </li>
-    <li class="breadcrumb-item">
-      <a href="{% url 'result:create_subject_group' %}">Create Subject Group</a>
-    </li>
-    <li class="breadcrumb-item active" aria-current="page">List</li>
+    <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Subject groups</li>
   </ol>
 </nav>
 
+<h4>Subject groups</h4>
+<p class="text-muted mb-3">Subject groups define which subjects are used for result entry per {{ department_label|lower }} and {{ semester_label|lower }}. Create a group for each {{ department_label|lower }}–{{ semester_label|lower }} combination.</p>
+
 <div class="row">
   <div class="col-12">
+    <div class="d-flex justify-content-end mb-3">
+      <a href="{% url 'result:create_subject_group' %}" class="btn btn-primary">Create subject group</a>
+    </div>
     <div class="table-responsive">
       <table class="table table-bordered table-hover" id="subjectGroupDataTable">
         <thead>
@@ -42,7 +43,11 @@
           </tr>
           {% empty %}
           <tr>
-            <td colspan="3" class="text-center text-muted py-4">No subject groups found.</td>
+            <td colspan="3" class="text-center text-muted py-5">
+              <p class="mb-2">No subject groups yet.</p>
+              <p class="small">Create subject groups to define which subjects apply for result entry per {{ department_label|lower }} and {{ semester_label|lower }}.</p>
+              <a href="{% url 'result:create_subject_group' %}" class="btn btn-primary mt-2">Create subject group</a>
+            </td>
           </tr>
           {% endfor %}
         </tbody>
@@ -50,7 +55,6 @@
     </div>
   </div>
 </div>
-
 {% endblock %}
 
 {% block extrajs %}

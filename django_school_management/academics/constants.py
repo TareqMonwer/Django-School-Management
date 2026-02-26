@@ -23,6 +23,9 @@ class AcademicsURLEnum(Enum):
     delete_batch = 'batches/delete/<int:pk>/'
     update_semester = 'semesters/update/<int:pk>/'
     delete_semester = 'semesters/delete/<int:pk>/'
+    set_academic_session_current = 'academic_sessions/set-current/<int:pk>/'
+    setup_hub = 'academic-setup/'
+    create_semesters_bulk = 'create-semesters-bulk/'
 
 
 class AcademicsURLConstants:
@@ -47,3 +50,6 @@ class AcademicsURLConstants:
     delete_batch = f'academics:{AcademicsURLEnum.delete_batch.name}'
     update_semester = f'academics:{AcademicsURLEnum.update_semester.name}'
     delete_semester = f'academics:{AcademicsURLEnum.delete_semester.name}'
+    set_academic_session_current = f'academics:{AcademicsURLEnum.set_academic_session_current.name}'
+    setup_hub = f'academics:{AcademicsURLEnum.setup_hub.name}'
+    create_semesters_bulk = f'academics:{AcademicsURLEnum.create_semesters_bulk.name}'

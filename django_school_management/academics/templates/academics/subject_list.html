@@ -4,28 +4,28 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
-    <li class="breadcrumb-item">
-      <a href="{% url academic_urls.subject_list %}">Subjects</a>
-    </li>
+    <li class="breadcrumb-item"><a href="{% url academic_urls.subject_list %}">Subjects</a></li>
     <li class="breadcrumb-item active" aria-current="page">All Subjects</li>
   </ol>
 </nav>
 
-<div class="row">
-  <div class="col-8 mb-2">
-    <h4 class="ml-0">All Subjects</h4>
-  </div>
-    <div class="col-4">
-        <a href="{% url academic_urls.create_subject %}" class="btn btn-primary">Create New Subject</a>
-    </div>
-</div>
+<h4>All Subjects</h4>
+<p class="text-muted mb-3">Manage subjects offered by your institute. Add subjects here, then assign them to subject groups by {{ department_label|lower }} and {{ semester_label|lower }}.</p>
+
 <div class="row">
   <div class="col-12">
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+      <form method="get" class="form-inline">
+        <input type="search" name="q" value="{{ request.GET.q }}" class="form-control form-control-sm mr-2" placeholder="Search by name or code" aria-label="Search">
+        <button type="submit" class="btn btn-outline-primary btn-sm">Search</button>
+      </form>
+      <a href="{% url academic_urls.create_subject %}" class="btn btn-primary">Create New Subject</a>
+    </div>
     <div class="table-responsive">
       <table class="table table-bordered">
         <thead>
           <tr>
-            <th scope="col">SYL</th>
+            <th scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col">Subject Code</th>
             <th scope="col">Instructor</th>
@@ -40,9 +40,9 @@
             <th scope="row">{{ forloop.counter }}</th>
             <td>{{ subject.name }}</td>
             <td>{{ subject.subject_code }}</td>
-            <td style="text-align: center">{{ subject.instructor|default:"-" }}</td>
-            <td style="text-align: center">{{ subject.theory_marks|default:"-" }}</td>
-            <td>{{ subject.practical_marks|default:"-" }}</td>
+            <td style="text-align: center">{{ subject.instructor|default:"—" }}</td>
+            <td style="text-align: center">{{ subject.theory_marks|default:"—" }}</td>
+            <td>{{ subject.practical_marks|default:"—" }}</td>
             <td>
               <a href="{% url academic_urls.update_subject pk=subject.pk %}" class="btn btn-sm btn-primary">Edit</a>
               <a href="{% url academic_urls.delete_subject pk=subject.pk %}" class="btn btn-sm btn-danger"
@@ -51,7 +51,16 @@
           </tr>
           {% empty %}
           <tr>
-            <td colspan="7" class="text-center text-muted py-4">No data found.</td>
+            <td colspan="7" class="text-center text-muted py-5">
+              {% if request.GET.q %}
+                <p class="mb-2">No subjects match "{{ request.GET.q }}".</p>
+                <a href="{% url academic_urls.subject_list %}" class="btn btn-outline-primary btn-sm">Clear search</a>
+              {% else %}
+                <p class="mb-2">No subjects yet.</p>
+                <p class="small">Add subjects to use in subject groups and result entry.</p>
+                <a href="{% url academic_urls.create_subject %}" class="btn btn-primary mt-2">Create New Subject</a>
+              {% endif %}
+            </td>
           </tr>
           {% endfor %}
         </tbody>
@@ -59,5 +68,4 @@
     </div>
   </div>
 </div>
-
 {% endblock %}

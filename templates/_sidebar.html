@@ -53,15 +53,6 @@
         </a>
       </li>
 
-      <li class="nav-item">
-        <a class="sidebar-link" href="{% url 'pages:userguide' %}">
-          <span class="icon-holder">
-            <i class="fas fa-book-open"></i>
-          </span>
-          <span class="title">User Guide</span>
-        </a>
-      </li>
-
       {% if user|has_role:'academic_officer, admin' %}
       <!-- ACADEMICS LABEL -->
       <li class="nav-label">Academics</li>
@@ -159,68 +150,43 @@
           <span class="icon-holder">
             <i class="fas fa-cogs"></i>
           </span>
-          <span class="title">Academic Options</span>
+          <span class="title">Academic setup</span>
           <span class="arrow"><i class="ti-angle-right"></i></span>
         </a>
         <ul class="dropdown-menu">
           <li>
-            <a class="sidebar-link" 
-              href="{% url academic_urls.departments %}">
-              {{ department_label }}
+            <a class="sidebar-link" href="{% url academic_urls.setup_hub %}">
+              Setup overview
             </a>
           </li>
           <li>
-            <a class="sidebar-link" 
-              href="{% url academic_urls.subject_list %}">
-              Subjects
-            </a>
-          </li>
-          <li>
-            <a class="sidebar-link" 
-              href="{% url academic_urls.create_subject %}">
-              Create Subject
-            </a>
-          </li>
-          <li>
-            <a class="sidebar-link" 
-              href="{% url 'result:subject_groups' %}">
-              Subject Groups
-            </a>
-          </li>
-          <li>
-            <a class="sidebar-link" 
-              href="{% url 'result:create_subject_group' %}">
-              Add Subject Group
-            </a>
-          </li>
-          <li>
-            <a class="sidebar-link" 
-              href="{% url academic_urls.academic_sessions %}">
+            <a class="sidebar-link" href="{% url academic_urls.academic_sessions %}">
               Academic Sessions
             </a>
           </li>
           <li>
-            <a class="sidebar-link" 
-              href="{% url academic_urls.batch_list %}">
-              Batch List
+            <a class="sidebar-link" href="{% url academic_urls.departments %}">
+              {{ department_label_plural }}
             </a>
           </li>
           <li>
-            <a class="sidebar-link" 
-              href="{% url academic_urls.create_batch %}">
-              Create Batch
+            <a class="sidebar-link" href="{% url academic_urls.all_semester %}">
+              {{ semester_label_plural }}
             </a>
           </li>
           <li>
-            <a class="sidebar-link"
-              href="{% url academic_urls.create_semester %}">
-              Create {{ semester_label }}
+            <a class="sidebar-link" href="{% url academic_urls.batch_list %}">
+              Batches
             </a>
           </li>
           <li>
-            <a class="sidebar-link" 
-              href="{% url academic_urls.all_semester %}">
-              {{ semester_label }}s
+            <a class="sidebar-link" href="{% url academic_urls.subject_list %}">
+              Subjects
+            </a>
+          </li>
+          <li>
+            <a class="sidebar-link" href="{% url 'result:subject_groups' %}">
+              Subject groups
             </a>
           </li>
         </ul>

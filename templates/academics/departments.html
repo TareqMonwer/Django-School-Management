@@ -10,9 +10,13 @@
 </nav>
 
 <h4>{{ department_label }}s</h4>
+<p class="text-muted mb-3">Manage {{ department_label|lower }}s for your institute. Each {{ department_label|lower }} can have batches, a head, and its own settings.</p>
 
 <div class="row">
     <div class="col-md-9">
+        <div class="d-flex justify-content-end mb-3">
+            <a href="{% url academic_urls.create_department %}" class="btn btn-primary">Add {{ department_label }}</a>
+        </div>
         <div class="table-responsive">
             <table class="table border">
                 <thead>
@@ -29,40 +33,39 @@
                     <tr>
                         <td>{{ department.name }}</td>
                         <td>{{ department.dept_code }}</td>
-                        <td>{{ department.head.name }}</td>
-                        <td>{{ department.created_by }}</td>
+                        <td>{% if department.head %}{{ department.head.name }}{% else %}—{% endif %}</td>
+                        <td>{{ department.created_by|default:"—" }}</td>
                         <td>
-                            <a class="btn btn-sm btn-danger" href="{% url academic_urls.delete_dept pk=department.id %}">
-                                Delete
-                            </a>
-                            <a href="{% url academic_urls.update_department pk=department.pk %}" class="btn btn-sm btn-primary">
-                                Update
-                            </a>
+                            <a href="{% url academic_urls.update_department pk=department.pk %}" class="btn btn-sm btn-primary">Edit</a>
+                            <a class="btn btn-sm btn-danger" href="{% url academic_urls.delete_dept pk=department.id %}" onclick="return confirm('Delete this {{ department_label|lower }}?');">Delete</a>
                         </td>
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="5" class="text-center text-muted py-4">No data found.</td>
+                        <td colspan="5" class="text-center text-muted py-5">
+                            <p class="mb-2">No {{ department_label|lower }}s yet.</p>
+                            <p class="small">Add your first {{ department_label|lower }} to organize batches and students.</p>
+                            <a href="{% url academic_urls.create_department %}" class="btn btn-primary mt-2">Add {{ department_label }}</a>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
-    <!-- SIDEBAR -->
     <div class="col-md-3">
-        <ul class="list-group">
-            <li class="list-group-item">
-                <a href="" data-toggle="modal" data-target="#exampleModal">add new {{ department_label|lower }}</a>
-            </li>
-        </ul>
-        <!-- Add Department Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">Quick add</h6>
+                <p class="small text-muted mb-2">Or add a {{ department_label|lower }} here without leaving the page.</p>
+                <a href="" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#addDeptModal">Add new {{ department_label|lower }}</a>
+            </div>
+        </div>
+        <div class="modal fade" id="addDeptModal" tabindex="-1" role="dialog" aria-labelledby="addDeptModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add New {{ department_label }}</h5>
+                        <h5 class="modal-title" id="addDeptModalLabel">Add New {{ department_label }}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -71,9 +74,7 @@
                         <form action="" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             {{ form|crispy }}
-                            <button type="submit" class="btn btn-primary float-right">
-                                Add {{ department_label }}
-                            </button>
+                            <button type="submit" class="btn btn-primary">Add {{ department_label }}</button>
                         </form>
                     </div>
                 </div>
