@@ -5,18 +5,18 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Create Semester</li>
+    <li class="breadcrumb-item active" aria-current="page">Create {{ semester_label }}</li>
   </ol>
 </nav>
 
-<h4>Start New Semester</h4>
+<h4>Start New {{ semester_label }}</h4>
 <hr>
 <div class="card">
   <div class="card-body">
     <form action="" method="POST" class="d-block">
         {% csrf_token %}
         {{ form|crispy }}
-        <input type="submit" value="Create Semester" class="btn btn-primary">
+        <input type="submit" value="Create {{ semester_label }}" class="btn btn-primary">
     </form>
   </div>
 </div>

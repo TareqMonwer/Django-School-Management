@@ -78,7 +78,7 @@
 
   <div class="review-section">
     <div class="review-section-title">
-      <span>School Profile</span>
+      <span>Institute Profile</span>
       <a href="{% url 'institute:onboarding_step1' %}"><i class="fas fa-pen" style="margin-right: 4px;"></i> Edit</a>
     </div>
     <div class="review-card">
@@ -114,7 +114,7 @@
     </div>
     <div class="review-card">
       <div class="review-row">
-        <span class="review-label">Departments</span>
+        <span class="review-label">{{ department_label }}s</span>
         <span class="review-value">{{ departments.count }}</span>
       </div>
       {% if departments %}

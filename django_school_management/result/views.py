@@ -18,7 +18,7 @@ def result_view(request):
         qs = Result.objects.none()
     else:
         qs = Result.objects.all()
-    f = ResultFilter(request.GET, queryset=qs)
+    f = ResultFilter(request.GET, queryset=qs, request=request)
     ctx = {'filter': f, }
     return render(request, 'result/result_filter.html', ctx)
 
@@ -68,7 +68,8 @@ def result_entry(request):
 
     subject_group_filter = SubjectGroupFilter(
         request.GET,
-        queryset=qs
+        queryset=qs,
+        request=request
     )
 
     if request.method == 'POST':

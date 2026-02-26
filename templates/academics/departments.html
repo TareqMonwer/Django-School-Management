@@ -5,11 +5,11 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Departments</li>
+        <li class="breadcrumb-item active" aria-current="page">{{ department_label }}s</li>
     </ol>
 </nav>
 
-<h4>Departments</h4>
+<h4>{{ department_label }}s</h4>
 
 <div class="row">
     <div class="col-md-9">
@@ -17,10 +17,10 @@
             <table class="table border">
                 <thead>
                     <tr>
-                        <th scope="col">Department</th>
-                        <th scope="col">Dept. Code</th>
-                        <th scope="col">Dept. Head</th>
-                        <th scope="col">Dept. Creator</th>
+                        <th scope="col">{{ department_label }}</th>
+                        <th scope="col">{{ department_label }} Code</th>
+                        <th scope="col">{{ department_label }} Head</th>
+                        <th scope="col">{{ department_label }} Creator</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
@@ -53,7 +53,7 @@
     <div class="col-md-3">
         <ul class="list-group">
             <li class="list-group-item">
-                <a href="" data-toggle="modal" data-target="#exampleModal">add new department</a>
+                <a href="" data-toggle="modal" data-target="#exampleModal">add new {{ department_label|lower }}</a>
             </li>
         </ul>
         <!-- Add Department Modal -->
@@ -62,7 +62,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add New Department</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Add New {{ department_label }}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -72,7 +72,7 @@
                             {% csrf_token %}
                             {{ form|crispy }}
                             <button type="submit" class="btn btn-primary float-right">
-                                Add Department
+                                Add {{ department_label }}
                             </button>
                         </form>
                     </div>

@@ -32,7 +32,7 @@
                         {% else %}
                         <div class="form-row align-items-center justify-content-end">
                             <div class="form-group col-md-3">
-                                <label for="dept">Department</label>
+                                <label for="dept">{{ department_label }}</label>
                                 <select id="dept" class="form-control" data-url="{% url 'students:admission_confirmation' %}">
                                     <option value="">Choose...</option>
                                     {% for dept in departments %}
@@ -83,9 +83,9 @@
                                     </th>
                                     <th scope="col">ID</th>
                                     <th scope="col">Name</th>
-                                    <th scope="col">Department</th>
+                                    <th scope="col">{{ department_label }}</th>
                                     <th scope="col">Batch</th>
-                                    <th scope="col">Semester</th>
+                                    <th scope="col">{{ semester_label }}</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -107,12 +107,12 @@
                                         </tr>
                                         {% empty %}
                                         <tr>
-                                            <td colspan="7" class="text-center text-muted py-4">No applicants found for this department.</td>
+                                            <td colspan="7" class="text-center text-muted py-4">No applicants found for this {{ department_label|lower }}.</td>
                                         </tr>
                                         {% endfor %}
                                     {% else %}
                                         <tr>
-                                            <td colspan="7" class="text-center text-muted py-4">Select a department to see applicants.</td>
+                                            <td colspan="7" class="text-center text-muted py-4">Select a {{ department_label|lower }} to see applicants.</td>
                                         </tr>
                                     {% endif %}
                                 {% else %}

@@ -79,7 +79,7 @@ class SetActiveInstituteProfile(View):
 # ──────────────────────────────────────────────
 
 ONBOARDING_STEPS = [
-    {'number': 1, 'title': 'School Profile', 'icon': 'fas fa-school'},
+    {'number': 1, 'title': 'Institute Profile', 'icon': 'fas fa-school'},
     {'number': 2, 'title': 'Academics', 'icon': 'fas fa-graduation-cap'},
     {'number': 3, 'title': 'Review & Launch', 'icon': 'fas fa-rocket'},
 ]
@@ -194,6 +194,9 @@ def onboarding_step2(request):
             if not session.created_by_id:
                 session.created_by = request.user
             session.save()
+            if institute.is_school_or_madrasah:
+                institute.current_session = session
+                institute.save(update_fields=['current_session'])
             return redirect('institute:onboarding_step3')
     else:
         dept_formset = OnboardingDepartmentFormSet(prefix='departments')
@@ -203,6 +206,7 @@ def onboarding_step2(request):
         'dept_formset': dept_formset,
         'session_form': session_form,
         'existing_departments': existing_departments,
+        'department_label': institute.department_label if institute else 'Department',
         **_onboarding_context(2),
     }
     return render(request, 'institute/onboarding/step2.html', ctx)
@@ -219,6 +223,9 @@ def onboarding_step3(request):
     session = AcademicSession.objects.order_by('-year').first()
 
     if request.method == 'POST':
+        if institute.is_school_or_madrasah and session:
+            institute.current_session = session
+            institute.save(update_fields=['current_session'])
         institute.onboarding_completed = True
         institute.save(update_fields=['onboarding_completed'])
         request.session.pop('skip_onboarding', None)
@@ -228,6 +235,7 @@ def onboarding_step3(request):
         'institute': institute,
         'departments': departments,
         'session': session,
+        'department_label': institute.department_label,
         **_onboarding_context(3),
     }
     return render(request, 'institute/onboarding/step3.html', ctx)

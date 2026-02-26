@@ -14,13 +14,17 @@
 </nav>
 
 <div class="alert alert-warning">
-    <strong>Please confirm you are admitting {{ applicant.name }} to the following department:</strong>
+    <strong>Please confirm you are admitting {{ applicant.name }}{% if show_department_choice %} to the following {{ department_label|lower }}{% endif %}:</strong>
 </div>
 <div class="row">
     <div class="col-md-7">
         <form action="" method="POST">
             {% csrf_token %}
-            {{ form|crispy }}
+            {% if show_department_choice %}
+                {{ form|crispy }}
+            {% else %}
+                <p class="mb-2"><strong>{{ department_label }}:</strong> {{ applicant.department_choice }}</p>
+            {% endif %}
             <div>
                 <button type="submit" class="btn btn-primary">Admit Student</button>
             </div>
@@ -30,7 +34,7 @@
         <h4>Student Information</h4>
         <div class="card p-3">
             <p><strong>Name:</strong> {{ applicant.name }}</p>
-            <p><strong>Department Choice:</strong> {{ applicant.department_choice }}</p>
+            <p><strong>{{ department_label }} choice:</strong> {{ applicant.department_choice }}</p>
             <p><strong>Applied at:</strong> {{ applicant.created }}</p>
             <p>
                 <strong>Today:</strong>

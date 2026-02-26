@@ -11,7 +11,7 @@ from django.urls import reverse_lazy
 from .constants import AcademicsURLConstants
 from .models import (Semester, Department,
                      AcademicSession, Subject, Batch)
-from .forms import SemesterForm, DepartmentForm, AcademicSessionForm, SubjectForm, BatchForm
+from .forms import SemesterForm, DepartmentForm, AcademicSessionForm, SubjectForm, BatchForm, BatchFormWithLabel
 from permission_handlers.administrative import (
     user_is_admin_su_editor_or_ac_officer,
     user_editor_admin_or_su,
@@ -212,9 +212,14 @@ create_subject = CreateSubjectView.as_view()
 
 class CreateBatchView(LoginRequiredMixin, UserPassesTestMixin, CreateView, CreatedByMixin):
     model = Batch
+    form_class = BatchFormWithLabel
     template_name = 'academics/create_batch.html'
     success_url = reverse_lazy(AcademicsURLConstants.batch_list)
-    fields = ['department', 'year', 'number']
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
 
     def test_func(self):
         user = self.request.user
@@ -283,9 +288,14 @@ def delete_academic_session(request, pk):
 
 class UpdateBatchView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Batch
-    form_class = BatchForm
+    form_class = BatchFormWithLabel
     template_name = 'academics/update_batch.html'
     success_url = reverse_lazy(AcademicsURLConstants.batch_list)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
 
     def test_func(self):
         return user_is_teacher_or_administrative(self.request.user)

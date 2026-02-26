@@ -29,6 +29,7 @@
         </div>
     </div>
     <div class="col-md-5">
+        {% if show_counseling %}
         <div class="card p-3 mb-3">
             <h6 class="mb-3">Add Counseling Data</h6>
             <form action="{% url 'students:add_counseling_data' student_id=applicant.id %}" method="post">
@@ -37,10 +38,12 @@
                 <button type="submit" class="btn btn-primary">Save Changes</button>
             </form>
         </div>
+        {% endif %}
         <div class="list-group card mb-3">
             <li class="list-group-item active">Student Information</li>
-            <li class="list-group-item"><b>Requested Dept: </b>{{ applicant.department_choice }}</li>
+            <li class="list-group-item"><b>Requested {{ department_label }}: </b>{{ applicant.department_choice }}</li>
         </div>
+        {% if show_counseling %}
         <ul class="list-group card">
             <li class="list-group-item active">Counseling Information</li>
             {% for record in counseling_records.all %}
@@ -59,6 +62,7 @@
                 <li class="list-group-item text-muted">No counseling records yet.</li>
             {% endfor %}
         </ul>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

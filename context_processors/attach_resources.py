@@ -21,6 +21,8 @@ def attach_institute_data_ctx_processor(request):
             institute = None
     ctx = {
         "request_institute": institute,
+        "department_label": institute.department_label if institute else "Department",
+        "semester_label": institute.semester_label if institute else "Semester",
     }
 
     if "articles" in request.resolver_match._func_path.split("."):

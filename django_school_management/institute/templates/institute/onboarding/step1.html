@@ -2,14 +2,21 @@
 
 {% block onboarding_content %}
 <div class="onboarding-card">
-  <h2>School Profile</h2>
+  <h2>Institute Profile</h2>
   <p class="subtitle">Tell us about your institution. You can update these details later from settings.</p>
 
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
 
     <div class="form-group">
-      <label for="{{ form.name.id_for_label }}">School Name *</label>
+      <label for="{{ form.institute_type.id_for_label }}">Type of institution *</label>
+      {{ form.institute_type }}
+      {{ form.institute_type.errors }}
+      <small class="helptext">Choose School, Madrasah, or Polytechnic. This affects terminology (e.g. Group vs Department) and admission flow.</small>
+    </div>
+
+    <div class="form-group">
+      <label for="{{ form.name.id_for_label }}">Institute Name *</label>
       {{ form.name }}
       {{ form.name.errors }}
     </div>
@@ -33,7 +40,7 @@
     </div>
 
     <div class="form-group">
-      <label for="{{ form.logo.id_for_label }}">School Logo *</label>
+      <label for="{{ form.logo.id_for_label }}">Institute Logo *</label>
       {% if form.instance.logo %}
         <div style="margin-bottom: 8px;">
           <img src="{{ form.instance.logo.url }}" alt="Current logo"
