@@ -39,7 +39,7 @@ from django_school_management.students.tasks import (
 from permission_handlers.administrative import (
     user_is_admin_su_or_ac_officer,
 )
-from permission_handlers.basic import user_is_student, user_is_verified
+from permission_handlers.basic import user_is_student, user_is_teacher, user_is_verified
 from django_school_management.mixins.institute import get_user_institute, get_active_institute
 
 
@@ -551,42 +551,70 @@ class StudentUpdateView(
         form = StudentUpdateForm(request.POST, instance=obj)
         if form.is_valid():
             form.save()
-            return redirect("students:student_details", pk=obj.pk)
+            return redirect("students:student_sis", pk=obj.pk)
 
     def get_success_url(self):
         student_id = self.kwargs["pk"]
         return reverse_lazy(
-            "students:student_details", kwargs={"pk": student_id}
+            "students:student_sis", kwargs={"pk": student_id}
         )
+
+
+class StudentSISView(
+    LoginRequiredNoPermissionMixin, UserPassesTestMixin, DetailView
+):
+    """Canonical Student Information System (SIS) dashboard for admins."""
+    model = Student
+    context_object_name = "student"
+    template_name = "students/student_sis.html"
+
+    def test_func(self):
+        user = self.request.user
+        return user_is_admin_su_or_ac_officer(user) or user_is_teacher(user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        student = context["student"]
+        sg = SubjectGroup.objects.filter(
+            department=student.admission_student.choosen_department,
+            semester=student.semester,
+        ).first()
+        context["subjects"] = sg
+        context["subjects_list"] = sg.subjects.all() if sg else []
+        context["results"] = student.results.select_related(
+            "subject", "semester", "exam"
+        ).order_by("-semester__number", "subject__name")
+        context["is_teacher_view"] = user_is_teacher(self.request.user)
+        if context["is_teacher_view"]:
+            from django.urls import reverse
+            context["action_items"] = [
+                {"url": reverse("students:all_student"), "label": "Back to list", "icon": "fas fa-list"},
+            ]
+        else:
+            context["action_items"] = self._get_action_items(student)
+        return context
+
+    def _get_action_items(self, student):
+        from django.urls import reverse
+        return [
+            {"url": reverse("students:update_student", kwargs={"pk": student.pk}), "label": "Edit profile", "icon": "fas fa-user-edit"},
+            {"url": reverse("result:result_entry") + f"?student={student.pk}", "label": "Add / edit result", "icon": "fas fa-pen-fancy"},
+            {"url": reverse("students:all_student"), "label": "Back to list", "icon": "fas fa-list"},
+            {"url": reverse("students:delete_student", kwargs={"pk": student.pk}), "label": "Delete student", "icon": "fas fa-trash-alt", "danger": True},
+        ]
 
 
 class StudentDetailsView(
     LoginRequiredNoPermissionMixin, UserPassesTestMixin, DetailView
 ):
     model = Student
-    template_name = "students/student_details.html"
 
     def test_func(self):
-        user = self.request.user
-        return user_is_admin_su_or_ac_officer(user)
+        return user_is_admin_su_or_ac_officer(self.request.user)
 
-    def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
-        context = super().get_context_data(**kwargs)
-        obj = kwargs["object"]
-        pk = obj.id
-        student = Student.objects.get(pk=pk)
-        # get student object
-        # for showing subjects in option form
-        student_subject_qs = SubjectGroup.objects.filter(
-            department=student.admission_student.choosen_department,
-            semester=student.semester,
-        )
-        context["subjects"] = student_subject_qs
-        # getting result objects
-        results = student.results.all()
-        context["results"] = results
-        return context
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return redirect("students:student_sis", pk=self.object.pk)
 
 
 @user_passes_test(user_is_admin_su_or_ac_officer)
@@ -632,5 +660,19 @@ def student_my_portal(request, student_id: str):
     subject_group = SubjectGroup.objects.filter(
         department=department, semester=student.semester
     ).first()
-    ctx = {"student": student, "subjects": subject_group.subjects.all()}
+    subjects = subject_group.subjects.all() if subject_group else []
+    classmates = (
+        Student.objects.filter(
+            batch=student.batch,
+            semester=student.semester,
+            admission_student__choosen_department=department,
+        )
+        .exclude(pk=student.pk)
+        .select_related("admission_student")[:50]
+    )
+    ctx = {
+        "student": student,
+        "subjects": subjects,
+        "classmates": classmates,
+    }
     return render(request, "students/my-portal.html", ctx)
