@@ -31,32 +31,33 @@
                     {% for student in students %}
                     <tr>
                         <th scope="row">
-                            <a href="{% url 'students:student_details' pk=student.id %}">
+                            <a href="{% url 'students:student_sis' pk=student.id %}">
                                 {{ student.roll }}
                             </a>
                         </th>
                         <td>
-                            <a href="{% url 'students:student_details' pk=student.id %}">
+                            <a href="{% url 'students:student_sis' pk=student.id %}">
                                 {{ student.registration_number }}
                             </a>
                         </td>
                         <td>
-                            <a href="{% url 'students:student_details' pk=student.id %}">
-                                <img src="{{ student.photo.url }}" class="mr-2 rounded-circle" height="24" width="24" alt="{{ student.name }}">
-                                {{ student.name }}
+                            <a href="{% url 'students:student_sis' pk=student.id %}">
+                                {% if student.admission_student.photo %}<img src="{{ student.admission_student.photo.url }}" class="mr-2 rounded-circle" height="24" width="24" alt="">{% endif %}
+                                {{ student.admission_student.name }}
                             </a>
                         </td>
                         <td>
-                            <a href="{% url 'students:student_details' pk=student.id %}">
-                                {{ student.department.name }}
+                            <a href="{% url 'students:student_sis' pk=student.id %}">
+                                {{ student.admission_student.choosen_department.name }}
                             </a>
                         </td>
                         <td>
-                            <a href="{% url 'students:student_details' pk=student.id %}">
+                            <a href="{% url 'students:student_sis' pk=student.id %}">
                                 {{ student.semester }}
                             </a>
                         </td>
                         <td>
+                            <a href="{% url 'students:student_sis' pk=student.id %}" class="btn btn-sm btn-outline-primary mr-1"><i class="fas fa-info-circle"></i></a>
                             <a href="{% url 'students:update_student' pk=student.id %}" class="btn btn-sm btn-primary">
                                 <i class="fas fa-edit"></i>
                             </a>
