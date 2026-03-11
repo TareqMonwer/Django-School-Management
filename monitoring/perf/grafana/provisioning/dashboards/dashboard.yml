@@ -1,0 +1,13 @@
+# Grafana dashboard provider for perf stack: load Locust dashboard from JSON
+apiVersion: 1
+providers:
+  - name: "Performance tests"
+    orgId: 1
+    folder: "Performance"
+    folderUid: "perf"
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 30
+    allowUiUpdates: true
+    options:
+      path: /etc/grafana/provisioning/dashboards/json
