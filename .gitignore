@@ -131,3 +131,5 @@ db.sqlite
 
 .cursor/
 dockerdata/
+docs/
+.DS_Store
