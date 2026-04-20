@@ -1,5 +1,6 @@
 from datetime import date
 from model_utils.models import TimeStampedModel
+from django_prometheus.models import ExportModelOperationsMixin
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.conf import settings
 from django.db import models
@@ -8,7 +9,7 @@ from django.urls import reverse
 from .utils import model_help_texts
 
 
-class Notice(TimeStampedModel):
+class Notice(ExportModelOperationsMixin('notice'), TimeStampedModel):
     NOTICE_TYPES = (
         ('h', 'Holiday'),
         ('n', 'None')
@@ -67,7 +68,7 @@ class Notice(TimeStampedModel):
         return reverse('notices:notice_detail', kwargs={'pk': self.pk})
 
 
-class NoticeDocument(TimeStampedModel):
+class NoticeDocument(ExportModelOperationsMixin('notice_document'), TimeStampedModel):
     notice = models.ForeignKey(
         Notice,
         on_delete=models.CASCADE,
@@ -84,7 +85,7 @@ class NoticeDocument(TimeStampedModel):
         return self.notice.title
 
 
-class NotifyGroup(TimeStampedModel):
+class NotifyGroup(ExportModelOperationsMixin('notify_group'), TimeStampedModel):
     group_name = models.CharField(max_length=55)
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -104,7 +105,7 @@ class NotifyGroup(TimeStampedModel):
         ordering = ['group_name', '-created']
 
 
-class NoticeResponse(TimeStampedModel):
+class NoticeResponse(ExportModelOperationsMixin('notice_response'), TimeStampedModel):
     notice = models.ForeignKey(
         Notice,
         on_delete=models.CASCADE,

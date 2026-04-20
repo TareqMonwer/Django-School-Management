@@ -1,4 +1,5 @@
 from model_utils.models import TimeStampedModel
+from django_prometheus.models import ExportModelOperationsMixin
 
 from django.db import (
     models, OperationalError, 
@@ -10,8 +11,8 @@ from django_school_management.academics.models import (
     AcademicSession, Batch, 
     TempSerialID
 )
+from django_school_management.institute.models import City
 from django_school_management.teachers.models import Teacher
-from .utils.bd_zila import ALL_ZILA
 from .utils import model_help_texts
 
 
@@ -45,7 +46,12 @@ class StudentBase(TimeStampedModel):
     mothers_name = models.CharField(model_help_texts.STUDENT_BASE_MOTHER_NAME, max_length=100)
     date_of_birth = models.DateField(blank=True, null=True)
     email = models.EmailField()
-    city = models.CharField(max_length=2, choices=ALL_ZILA)
+    city = models.ForeignKey(
+        City,
+        on_delete=models.SET_NULL,
+        null=True, blank=True,
+        related_name='students',
+    )
     current_address = models.TextField()
     permanent_address = models.TextField()
     mobile_number = models.CharField(max_length=11)
@@ -67,7 +73,7 @@ class StudentBase(TimeStampedModel):
         return self.name
 
 
-class CounselingComment(TimeStampedModel):
+class CounselingComment(ExportModelOperationsMixin('counseling_comment'), TimeStampedModel):
     counselor = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE, null=True
@@ -86,7 +92,7 @@ class CounselingComment(TimeStampedModel):
         ordering = ['-created', ]
 
 
-class AdmissionStudent(StudentBase):
+class AdmissionStudent(ExportModelOperationsMixin('admission_student'), StudentBase):
     APPLICATION_TYPE_CHOICE = (
         ('1', 'Online'),
         ('2', 'Offline')
@@ -96,6 +102,13 @@ class AdmissionStudent(StudentBase):
         ('SSC', 'Secondary School Certificate'),
         ('DAKHIL', 'Dakhil Exam'),
         ('VOCATIONAL', 'Vocational'),
+    )
+    gender = models.CharField(
+        max_length=1,
+        choices=(('M', 'Male'), ('F', 'Female')),
+        blank=True,
+        null=True,
+        help_text='Gender (Male/Female).',
     )
     counseling_by = models.ForeignKey(
         Teacher, related_name='counselors',
@@ -111,16 +124,20 @@ class AdmissionStudent(StudentBase):
     )
     exam_name = models.CharField(
         choices=EXAM_NAMES,
-        max_length=10
+        max_length=10,
+        blank=True,
+        null=True,
     )
-    passing_year = models.CharField(max_length=4)
-    group = models.CharField(max_length=15)
-    board = models.CharField(max_length=100)
-    ssc_roll = models.CharField(max_length=10)
-    ssc_registration = models.CharField(max_length=12)
+    passing_year = models.CharField(max_length=4, blank=True, null=True)
+    group = models.CharField(max_length=15, blank=True, null=True)
+    board = models.CharField(max_length=100, blank=True, null=True)
+    ssc_roll = models.CharField(max_length=10, blank=True, null=True)
+    ssc_registration = models.CharField(max_length=12, blank=True, null=True)
     gpa = models.DecimalField(
         decimal_places=2,
-        max_digits=4
+        max_digits=4,
+        blank=True,
+        null=True,
     )
     marksheet_image = models.ImageField(
         model_help_texts.ADMISSION_STUDENT_MARKSHEET_IMAGE,
@@ -145,19 +162,32 @@ class AdmissionStudent(StudentBase):
     )
     rejected = models.BooleanField(default=False)
     assigned_as_student = models.BooleanField(default=False)
+    # School/madrasah: class applying for (1-10). JSC/JDC section shown when >= 9.
+    applying_for_class = models.PositiveSmallIntegerField(
+        blank=True, null=True,
+        help_text='For school/madrasah: class level (1-10). JSC/JDC fields shown for 9-10.',
+    )
+    # Polytechnic BD: when HSC Science, can admit directly to 4th semester.
+    admit_to_semester = models.PositiveSmallIntegerField(
+        blank=True, null=True,
+        help_text='Polytechnic: 1 or 4 (when HSC Science eligible for direct 4th sem).',
+    )
 
     def __str__(self):
         return f"{self.name}"
 
     def save(self, *args, **kwargs):
-        if self.department_choice != self.choosen_department:
-            status = f'From {self.department_choice} to {self.choosen_department}'
-            self.migration_status = status
-            super().save(*args, **kwargs)
+        # Migration status (department change) only relevant for polytechnic counselling flow
+        if self.choosen_department and self.department_choice != self.choosen_department:
+            institute = getattr(self.department_choice, 'institute', None)
+            if institute and institute.is_polytechnic:
+                self.migration_status = (
+                    f'From {self.department_choice} to {self.choosen_department}'
+                )
         super().save(*args, **kwargs)
 
 
-class Student(TimeStampedModel):
+class Student(ExportModelOperationsMixin('student'), TimeStampedModel):
     admission_student = models.ForeignKey(
         AdmissionStudent,
         on_delete=models.CASCADE
@@ -257,7 +287,8 @@ class Student(TimeStampedModel):
                     temp_serial_id.save()
             except IntegrityError:
                 pass
-        super().save(*args, **kwargs)
+        else:
+            super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
         """ Override delete method """
@@ -267,7 +298,7 @@ class Student(TimeStampedModel):
         self.admission_student.save(*args, **kwargs)
 
 
-class RegularStudent(TimeStampedModel):
+class RegularStudent(ExportModelOperationsMixin('regular_student'), TimeStampedModel):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, 

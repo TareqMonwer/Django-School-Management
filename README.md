@@ -1,6 +1,10 @@
 # Django-School-Management
 A fullstack school management project in django, bootstrap-4 and javascript.
 
+# Required setup components:
+- PostgreSQL Database
+- Redis instance up and running
+
 # Installation:
 1. go to the project folder
 2. run `pip install -r requirements.txt`
@@ -62,6 +66,32 @@ Follow the same pattern to install initial data for other applications.
 
 
 <br>
+
+# Performance test stack (Grafana + Prometheus + Locust)
+
+This folder contains config for the **self-contained perf stack** in `docker-compose.perf-test.yml`.
+
+## What runs
+
+- **Locust** – load test (autostart, 200 users, 10 min); web UI on port 8089.
+- **locust-exporter** – scrapes Locust stats and exposes Prometheus metrics on 9646.
+- **Prometheus** – scrapes the exporter (and optionally Django `/metrics`) on 9091.
+- **Grafana** – pre-provisioned with Prometheus and the Locust dashboard on **3010**.
+
+## How to run
+
+From the project root:
+
+```bash
+docker compose -f docker-compose.perf-test.yml up --build
+```
+
+- **Grafana**: http://localhost:3010 (admin / admin)
+- **Locust UI**: http://localhost:8089 (optional; test auto-starts)
+- **Prometheus**: http://localhost:9091
+
+In Grafana, open **Performance → Locust** to view the load test (status, users, RPS, response times, failures, etc.).
+
 
 # Contact me:
 - [Facebook](https://www.facebook.com/tareqmonwer1/)

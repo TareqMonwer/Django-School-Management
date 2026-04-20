@@ -12,7 +12,7 @@ services:
     image: postgres:latest
     container_name: django_school_pgsql
     volumes:
-      - /d/dockerdata/db:/var/lib/postgresql/data
+      - ./dockerdata/db:/var/lib/postgresql
     environment:
       - POSTGRES_DB=django-school-1
       - POSTGRES_USER=postgres
@@ -25,7 +25,7 @@ services:
     build: .
     container_name: dj_sms_server
     image: dj_sms_docker
-    command: python manage.py runserver 0.0.0.0:8000
+    command: bash -c "./pre-deploy.sh && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/code
       - static:/code/static
@@ -51,10 +51,66 @@ services:
       - django
     networks:
       django_school_network:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: dj_sms_prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --storage.tsdb.retention.time=15d
+      - --web.enable-lifecycle
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./monitoring/prometheus_rules.yml:/etc/prometheus/prometheus_rules.yml
+      - prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      django_school_network:
+    depends_on:
+      - django
+      - alertmanager
+
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: dj_sms_alertmanager
+    command:
+      - --config.file=/etc/alertmanager/alertmanager.yml
+      - --storage.path=/alertmanager
+    volumes:
+      - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    ports:
+      - "9093:9093"
+    networks:
+      django_school_network:
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: dj_sms_grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_SERVER_HTTP_PORT=3000
+      - GF_INSTALL_PLUGINS=
+    volumes:
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+      - ./monitoring/grafana/dashboards/json:/etc/grafana/provisioning/dashboards/json
+      - grafana_data:/var/lib/grafana
+    ports:
+      - "3000:3000"
+    networks:
+      django_school_network:
+    depends_on:
+      - prometheus
+    restart: unless-stopped
 
 volumes:
   media:
   static:
+  prometheus_data:
+  grafana_data:
 
 networks:
   django_school_network:

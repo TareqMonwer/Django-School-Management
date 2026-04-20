@@ -3,6 +3,7 @@ from autoslug import AutoSlugField
 from bs4 import BeautifulSoup
 from markdown import markdown
 from model_utils.models import TimeStampedModel
+from django_prometheus.models import ExportModelOperationsMixin
 from ckeditor_uploader.fields import RichTextUploadingField
 
 from random import choice
@@ -20,7 +21,7 @@ class PublishedManager(models.Manager):
             .filter(status='published')
 
 
-class Article(TimeStampedModel):
+class Article(ExportModelOperationsMixin('article'), TimeStampedModel):
     STATUS_CHOICES = (
         ('draft', 'Draft'),
         ('published', 'Published')
@@ -76,7 +77,7 @@ class Article(TimeStampedModel):
         return articles
 
 
-class Comment(TimeStampedModel):
+class Comment(ExportModelOperationsMixin('comment'), TimeStampedModel):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -93,7 +94,7 @@ class Comment(TimeStampedModel):
         return self.content
 
 
-class Like(TimeStampedModel):
+class Like(ExportModelOperationsMixin('like'), TimeStampedModel):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE
@@ -104,7 +105,7 @@ class Like(TimeStampedModel):
         return f'{self.user} liked this post'
 
 
-class Category(MPTTModel):
+class Category(ExportModelOperationsMixin('category'), MPTTModel):
     name = models.CharField(max_length=50, unique=True)
     display_on_menu = models.BooleanField(default=False)
     parent = TreeForeignKey(
@@ -143,7 +144,7 @@ class Category(MPTTModel):
         return articles
 
 
-class Newsletter(TimeStampedModel):
+class Newsletter(ExportModelOperationsMixin('newsletter'), TimeStampedModel):
     email = models.EmailField()
     is_active = models.BooleanField(default=False)
 
@@ -151,7 +152,7 @@ class Newsletter(TimeStampedModel):
         return self.email
 
 
-class BlogConfiguration(TimeStampedModel):
+class BlogConfiguration(ExportModelOperationsMixin('blog_configuration'), TimeStampedModel):
     THEME_CHOICES = (
         ('tw', 'tailwind'),
         ('bs4', 'bootstrap4-rm'),

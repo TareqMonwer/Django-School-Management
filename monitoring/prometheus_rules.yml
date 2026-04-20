@@ -1,0 +1,91 @@
+# Prometheus alerting and SLO/SLA rules for Django School Management.
+# See: https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/
+
+groups:
+  # --- SLO: Availability (e.g. 99.9% = 0.1% error rate) ---
+  - name: slo_availability
+    interval: 30s
+    rules:
+      - alert: HighErrorRate
+        expr: |
+          sum(rate(school_app_errors_total[5m])) by (app)
+          /
+          sum(rate(school_app_requests_total[5m])) by (app)
+          > 0.001
+        for: 2m
+        labels:
+          severity: critical
+          slo: availability
+        annotations:
+          summary: "High error rate for app {{ $labels.app }}"
+          description: "Error rate (5xx) is above 0.1% (SLO) for {{ $labels.app }}."
+
+      - alert: HighErrorRateWarning
+        expr: |
+          sum(rate(school_app_errors_total[5m])) by (app)
+          /
+          sum(rate(school_app_requests_total[5m])) by (app)
+          > 0.0005
+        for: 5m
+        labels:
+          severity: warning
+          slo: availability
+        annotations:
+          summary: "Elevated error rate for app {{ $labels.app }}"
+          description: "Error rate approaching SLO threshold for {{ $labels.app }}."
+
+  # --- SLO: Latency (e.g. p99 < 500ms) ---
+  - name: slo_latency
+    interval: 30s
+    rules:
+      - alert: HighLatencyP99
+        expr: |
+          histogram_quantile(0.99,
+            sum(rate(school_app_request_duration_seconds_bucket[5m])) by (app, le)
+          ) > 0.5
+        for: 3m
+        labels:
+          severity: warning
+          slo: latency
+        annotations:
+          summary: "High p99 latency for app {{ $labels.app }}"
+          description: "p99 request duration is above 500ms for {{ $labels.app }}."
+
+      - alert: HighLatencyP99Critical
+        expr: |
+          histogram_quantile(0.99,
+            sum(rate(school_app_request_duration_seconds_bucket[5m])) by (app, le)
+          ) > 2
+        for: 2m
+        labels:
+          severity: critical
+          slo: latency
+        annotations:
+          summary: "Critical p99 latency for app {{ $labels.app }}"
+          description: "p99 request duration is above 2s for {{ $labels.app }}."
+
+  # --- Instance / target down ---
+  - name: instance_health
+    interval: 30s
+    rules:
+      - alert: InstanceDown
+        expr: up == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Target {{ $labels.instance }} is down"
+          description: "Prometheus cannot scrape {{ $labels.job }} at {{ $labels.instance }}."
+
+  # --- SLA: Overall request rate (optional) ---
+  - name: sla_throughput
+    interval: 1m
+    rules:
+      - alert: NoRecentRequests
+        expr: sum(rate(school_app_requests_total[5m])) == 0
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "No requests in the last 10 minutes"
+          description: "Possible application or routing issue."

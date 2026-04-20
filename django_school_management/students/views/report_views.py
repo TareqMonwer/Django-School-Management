@@ -9,7 +9,7 @@ from django.template.loader import get_template
 
 from django_school_management.students.models import AdmissionStudent
 from django_school_management.academics.models import Department
-from django_school_management.students.utils.bd_zila import ALL_ZILA
+from django_school_management.institute.models import City
 from django_school_management.students.utils.helpers import render_to_pdf
 
 
@@ -40,22 +40,22 @@ def _get_departments_record(departments_qs, applications, admissions):
     return departmental_records
 
 
-def _get_active_cities_record(cities, applications, admissions):
+def _get_active_cities_record(cities_qs, applications, admissions):
     """
-    Takes list of all zila ('1', 'Zila Name), all applications (non-admitted students),
-    admitted students as admissions and  returns a dictionary containing total
-    number of applications and admissions.
+    Takes a queryset of City objects, all applications (non-admitted students),
+    admitted students as admissions and returns a dictionary containing total
+    number of applications and admissions per city.
     """
-    zila_records = {}
-    for k, v in cities:
-        application_count = applications.filter(city=k).count()
-        admission_count = admissions.filter(city=k).count()
+    city_records = {}
+    for city in cities_qs:
+        application_count = applications.filter(city=city).count()
+        admission_count = admissions.filter(city=city).count()
         if application_count > 0 or admission_count > 0:
-            zila_records[v] = {
+            city_records[city.name] = {
                 'application_count': application_count,
-                'admission_count': admission_count
+                'admission_count': admission_count,
             }
-    return zila_records
+    return city_records
 
 
 def counsel_monthly_report(request, response_type='html', date_param=None):
@@ -95,7 +95,8 @@ def counsel_monthly_report(request, response_type='html', date_param=None):
     departmental_records = _get_departments_record(departments, total_applications, total_admission)
 
     # Report by cities
-    zila_records = _get_active_cities_record(ALL_ZILA, total_applications, total_admission)
+    cities = City.objects.all()
+    zila_records = _get_active_cities_record(cities, total_applications, total_admission)
 
     ctx = {
         'date': datetime.date.today(),

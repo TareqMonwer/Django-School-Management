@@ -1,0 +1,169 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+
+{% block dashboard-body %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'students:all_student' %}">Students</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Student Information</li>
+  </ol>
+</nav>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <div class="row align-items-center">
+      <div class="col-auto">
+        {% if student.admission_student.photo %}
+        <img src="{{ student.admission_student.photo.url }}" alt="" class="rounded" width="100" height="100" style="object-fit: cover;">
+        {% else %}
+        <div class="rounded bg-light d-flex align-items-center justify-content-center" style="width:100px;height:100px;"><i class="fas fa-user fa-3x text-muted"></i></div>
+        {% endif %}
+      </div>
+      <div class="col">
+        <h4 class="mb-1">{{ student.admission_student.name }}</h4>
+        <p class="text-muted mb-0">
+          {{ student.admission_student.choosen_department }} · {{ student.semester }} · Session {{ student.ac_session }}
+        </p>
+        <p class="mb-0 small">
+          {% if student.temporary_id %}ID: {{ student.temporary_id }}{% endif %}
+          {% if student.roll %} · Roll: {{ student.roll }}{% endif %}
+          {% if student.registration_number %} · Reg: {{ student.registration_number }}{% endif %}
+          {% if student.admission_student.mobile_number %} · {{ student.admission_student.mobile_number }}{% endif %}
+        </p>
+      </div>
+      <div class="col-auto">
+        {% if is_teacher_view %}<span class="badge badge-secondary mr-2">View only</span>{% endif %}
+        {% for act in action_items %}
+        <a href="{{ act.url }}" class="btn btn-sm {% if act.danger %}btn-outline-danger{% else %}btn-outline-primary{% endif %} mb-1" {% if act.danger %}onclick="return confirm('Delete this student?');"{% endif %}>
+          <i class="{{ act.icon }}"></i> {{ act.label }}
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<h5 class="mb-3">Student Information System</h5>
+<div class="row mb-4">
+  <div class="col-md-6 col-lg-4 mb-3">
+    <div class="card h-100">
+      <div class="card-header d-flex align-items-center">
+        <i class="fas fa-wallet text-primary mr-2"></i>
+        Payments &amp; fees
+      </div>
+      <div class="card-body">
+        <p class="text-muted small mb-0">Track admission, exam fees, and dues. Coming soon.</p>
+        <div class="mt-2 text-muted small"><i class="fas fa-clock mr-1"></i> Placeholder</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-lg-4 mb-3">
+    <div class="card h-100">
+      <div class="card-header d-flex align-items-center">
+        <i class="fas fa-chart-line text-success mr-2"></i>
+        Results (exams / years)
+      </div>
+      <div class="card-body">
+        {% if results %}
+        <p class="small mb-2">Latest results:</p>
+        <ul class="list-unstyled small mb-0">
+          {% for r in results|slice:":5" %}
+          <li>{{ r.subject.name }}: {{ r.total_marks|default:"—" }} ({{ r.semester }})</li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-muted small mb-0">No results yet. Use <strong>Add / edit result</strong> above.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-lg-4 mb-3">
+    <div class="card h-100">
+      <div class="card-header d-flex align-items-center">
+        <i class="fas fa-arrow-up text-info mr-2"></i>
+        Progression / demotion
+      </div>
+      <div class="card-body">
+        <p class="text-muted small mb-0">Class/semester history and promotions. Coming soon.</p>
+        <div class="mt-2 text-muted small"><i class="fas fa-clock mr-1"></i> Placeholder</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-lg-4 mb-3">
+    <div class="card h-100">
+      <div class="card-header d-flex align-items-center">
+        <i class="fas fa-th-large text-warning mr-2"></i>
+        Subject heatmap
+      </div>
+      <div class="card-body">
+        <p class="text-muted small mb-0">Performance by subject across terms. Coming soon.</p>
+        <div class="mt-2 text-muted small"><i class="fas fa-clock mr-1"></i> Placeholder</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-lg-4 mb-3">
+    <div class="card h-100">
+      <div class="card-header d-flex align-items-center">
+        <i class="fas fa-lightbulb text-secondary mr-2"></i>
+        Insights
+      </div>
+      <div class="card-body">
+        <p class="text-muted small mb-0">Attendance, alerts, and recommendations. Coming soon.</p>
+        <div class="mt-2 text-muted small"><i class="fas fa-clock mr-1"></i> Placeholder</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-lg-4 mb-3">
+    <div class="card h-100">
+      <div class="card-header d-flex align-items-center">
+        <i class="fas fa-book-open mr-2"></i>
+        Enrolled subjects
+      </div>
+      <div class="card-body">
+        {% if subjects_list %}
+        <ul class="list-unstyled small mb-0">
+          {% for s in subjects_list %}
+          <li>{{ s.name }} ({{ s.subject_code }})</li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-muted small mb-0">No subject group for this {{ department_label|lower }}/{{ semester_label|lower }}.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% if results %}
+<div class="card">
+  <div class="card-header">Result board</div>
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped mb-0">
+      <thead>
+        <tr>
+          <th>Subject</th>
+          <th>Semester</th>
+          <th>Exam</th>
+          <th>Theory</th>
+          <th>Practical</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in results %}
+        <tr>
+          <td>{{ r.subject.name }}</td>
+          <td>{{ r.semester }}</td>
+          <td>{{ r.exam|default:"—" }}</td>
+          <td>{{ r.theory_marks|default:"—" }}</td>
+          <td>{{ r.practical_marks|default:"—" }}</td>
+          <td>{{ r.total_marks|default:"—" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

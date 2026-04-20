@@ -1,5 +1,6 @@
 from django_countries.fields import CountryField
 from ckeditor_uploader.fields import RichTextUploadingField
+from django_prometheus.models import ExportModelOperationsMixin
 
 from django.db import models
 from django.db.models.signals import pre_save
@@ -11,7 +12,7 @@ from django.urls import reverse
 from .utils import model_help_texts
 
 
-class User(AbstractUser):
+class User(ExportModelOperationsMixin('user'), AbstractUser):
     REQUESTED_ACCOUNT_TYPE_CHOICES = (
         ('subscriber', 'Subscriber'),
         ('student', 'Student'),
@@ -43,6 +44,12 @@ class User(AbstractUser):
     approval_extra_note = models.TextField(
         blank=True, null=True
     )
+    institute = models.ForeignKey(
+        'institute.InstituteProfile',
+        on_delete=models.SET_NULL,
+        null=True, blank=True,
+        related_name='users',
+    )
 
     def get_author_url(self):
         return reverse(
@@ -50,7 +57,7 @@ class User(AbstractUser):
             args=[self.username,])
 
 
-class CustomGroup(Group):
+class CustomGroup(ExportModelOperationsMixin('custom_group'), Group):
     group_creator = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE)
@@ -59,7 +66,7 @@ class CustomGroup(Group):
         return f'{self.name} created by {self.group_creator}'
 
 
-class SocialLink(models.Model):
+class SocialLink(ExportModelOperationsMixin('social_link'), models.Model):
     user_profile = models.ForeignKey(
         'CommonUserProfile',
         on_delete=models.CASCADE
@@ -73,7 +80,7 @@ class SocialLink(models.Model):
         return self.media_name
 
 
-class CommonUserProfile(models.Model):
+class CommonUserProfile(ExportModelOperationsMixin('common_user_profile'), models.Model):
     """Core details of user profile created only after account verification by institute."""
     user = models.OneToOneField(
         User,

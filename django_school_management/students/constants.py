@@ -21,12 +21,14 @@ class StudentsURLEnums(Enum):
     update_online_registrant = "update-registrant/<int:pk>/"
     update_student = "update/<int:pk>/"
     student_details = "<int:pk>/detail/"
+    student_sis = "<int:pk>/"
     delete_student = "<int:pk>/delete/"
     students_by_dept = "<int:pk>/students/"
     counsel_monthly_report = "counsel-report/"
     counsel_monthly_report_typed = "counsel-report/<str:response_type>/"
     counsel_report_monthly_with_date = "counsel-report/<str:response_type>/<date:date_param>/"
     student_my_portal = "my-portal/<str:student_id>"
+    reject_applicant = "applicants/<int:pk>/reject/"
 
 
 class StudentsURLConstants:
@@ -49,9 +51,11 @@ class StudentsURLConstants:
     update_online_registrant = f"students:{StudentsURLEnums.update_online_registrant.name}"
     update_student = f"students:{StudentsURLEnums.update_student.name}"
     student_details = f"students:{StudentsURLEnums.student_details.name}"
+    student_sis = f"students:{StudentsURLEnums.student_sis.name}"
     delete_student = f"students:{StudentsURLEnums.delete_student.name}"
     students_by_dept = f"students:{StudentsURLEnums.students_by_dept.name}"
     counsel_monthly_report = f"students:{StudentsURLEnums.counsel_monthly_report.name}"
     counsel_monthly_report_typed = f"students:{StudentsURLEnums.counsel_monthly_report_typed.name}"
     counsel_report_monthly_with_date = f"students:{StudentsURLEnums.counsel_report_monthly_with_date.name}"
     student_my_portal = f"students:{StudentsURLEnums.student_my_portal.name}"
+    reject_applicant = f"students:{StudentsURLEnums.reject_applicant.name}"

@@ -122,6 +122,11 @@ urlpatterns = [
         name=StudentsURLEnums.student_details.name,
     ),
     path(
+        StudentsURLEnums.student_sis.value,
+        views.StudentSISView.as_view(),
+        name=StudentsURLEnums.student_sis.name,
+    ),
+    path(
         StudentsURLEnums.delete_student.value,
         views.student_delete_view,
         name=StudentsURLEnums.delete_student.name,
@@ -150,5 +155,10 @@ urlpatterns = [
         StudentsURLEnums.student_my_portal.value,
         views.student_my_portal,
         name=StudentsURLEnums.student_my_portal.name,
+    ),
+    path(
+        StudentsURLEnums.reject_applicant.value,
+        views.reject_applicant,
+        name=StudentsURLEnums.reject_applicant.name,
     ),
 ]

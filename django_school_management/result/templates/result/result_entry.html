@@ -19,34 +19,33 @@
     </ol>
 </nav>
 
-<!-- Filter Form -->
-<div class="container-fluid">
-    <div class="row">
-    <div class="col-md-12 border py-3">
-        <h3>Add Result : Find Subjects <span id="title-dept"></span></h3>
-        <form action="" method="get">
-            <div class="form-row align-items-end">
-                <div class="col">
-                    {{ subject_group_filter.form.department|as_crispy_field }}
-                </div>
-                <div class="col">
-                    {{ subject_group_filter.form.semester|as_crispy_field }}
-                </div>
-                <div class="col">
-                    <div class="form-group">
-                        <div class="">
-                            <input type="submit" value="Filter" class="btn btn-primary">
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h4 class="mb-3">Add Result: Find Subjects <span id="title-dept"></span></h4>
+                <form action="" method="get">
+                    <div class="form-row align-items-end">
+                        <div class="col">
+                            {{ subject_group_filter.form.department|as_crispy_field }}
+                        </div>
+                        <div class="col">
+                            {{ subject_group_filter.form.semester|as_crispy_field }}
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <input type="submit" value="Filter" class="btn btn-primary">
+                            </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
-</div>
 </div>
 
 {% if messages %}
-<div class="row my-4">
+<div class="row my-2">
     <div class="col-md-12">
         {% for message in messages %}
             <div class="alert {{ message.tags }} alert-dismissible" role="alert">
@@ -60,53 +59,50 @@
 </div>
 {% endif %}
 
-<!-- Filtered out students -->
 <form action="" method="POST">
     {% csrf_token %}
     <div class="row mt-3">
         <div class="col-md-12">
-            <table id="studentsDataList" class="table table-striped table-bordered" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>Subject</th>
-                        <th>Practical Marks</th>
-                        <th>Theory Marks</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for subject_group in subject_group_filter.qs %} 
-
-                        <input type="hidden" name="semester" value="{{ subject_group.semester.pk }}">
-                        
-                        {% for subject in subject_group.subjects.all %}
-                            <tr>
-                                <td>
-                                    <a href="#"
-                                        class="text-dark">
+            <div class="table-responsive">
+                <table id="studentsDataList" class="table table-striped table-bordered w-100">
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th>Practical Marks</th>
+                            <th>Theory Marks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for subject_group in subject_group_filter.qs %}
+                            {% for subject in subject_group.subjects.all %}
+                                <tr>
+                                    <td>
                                         {{ subject }}
                                         <input type="hidden" name="subject.{{ subject.pk }}">
-                                    </a>
-                                </td>
-                                <td>
-                                    <input type="number" 
-                                        name="practical_marks.{{ subject.pk }}">
-                                </td>
-                                <td>
-                                    <input type="number" 
-                                        name="theory_marks.{{ subject.pk }}">
+                                        <input type="hidden" name="semester" value="{{ subject_group.semester.pk }}">
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control"
+                                            name="practical_marks.{{ subject.pk }}"
+                                            aria-label="Practical marks for {{ subject }}">
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control"
+                                            name="theory_marks.{{ subject.pk }}"
+                                            aria-label="Theory marks for {{ subject }}">
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% empty %}
+                            <tr>
+                                <td colspan="3" class="text-center text-muted py-4">
+                                    No subjects found. Please filter by department and semester.
                                 </td>
                             </tr>
                         {% endfor %}
-                            
-                    {% empty %}
-                        <tr>
-                            <td colspan="5">
-                                NO RESULT FOUND
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <div class="col-md-12">
@@ -115,7 +111,7 @@
                     <div class="form-group">
                         <input class="form-control"
                             type="text" name="student_id" placeholder="Student ID"
-                            id="student_id">
+                            id="student_id" aria-label="Student ID">
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -124,11 +120,10 @@
                     </div>
                 </div>
             </div>
-            <!-- Student preveiw card -->
             <div class="row justify-content-end">
                 <div class="col-md-4">
                     <div id="student-preview-card" class="d-none">
-                        <div class="card" style="width: 100%;">
+                        <div class="card w-100">
                             <img id="studentImg" class="card-img-top" src="" alt="Student Preview">
                             <div class="card-body">
                                 <p class="card-text">
@@ -140,7 +135,7 @@
                     </div>
                     <div id="student-preview-card-placeholder">
                         <p class="text-center">
-                            SUDENT PREVIEW
+                            STUDENT PREVIEW
                         </p>
                     </div>
                 </div>
@@ -149,49 +144,47 @@
     </div>
 </form>
 
-
 {% endblock %}
 
-
 {% block extrajs %}
-
-<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
 <script>
     $(document).ready(function(){
-        //  student preview card
+        let debounceTimer;
         $('#student_id').keyup(function(){
-            const prevCard = document.getElementById('student-preview-card');
-            const prevPlaceHolder = document.getElementById('student-preview-card-placeholder');
-            const studentCardImage = document.getElementById('studentImg');
-            const studentCardName = document.getElementById('studentName');
-            const studentCardBatch = document.getElementById('studentBatch');
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(function() {
+                const prevCard = document.getElementById('student-preview-card');
+                const prevPlaceHolder = document.getElementById('student-preview-card-placeholder');
+                const studentCardImage = document.getElementById('studentImg');
+                const studentCardName = document.getElementById('studentName');
+                const studentCardBatch = document.getElementById('studentBatch');
 
-            const studentId = document.getElementById('student_id').value;
+                const studentId = document.getElementById('student_id').value;
+                if (!studentId) return;
 
-            let url = "{% url 'result:find_student' student_id=0 %}"
-            url = url.replace('0', studentId)
+                let url = "{% url 'result:find_student' student_id=0 %}";
+                url = url.replace('0', studentId);
 
-            $.ajax({
-                type: 'GET',
-                url: url,
-                success: function(data){
-                    prevCard.classList.remove('d-none');
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    success: function(data){
+                        prevCard.classList.remove('d-none');
+                        prevPlaceHolder.style.display = 'none';
 
-                    prevPlaceHolder.style.display = 'none';
-
-                    const student = data.data;
-                    // console.log(student);
-                    studentCardImage.src = student.image_url;
-                    studentCardName.innerHTML = student.student_name;
-                    studentCardBatch.innerHTML = student.student_batch;
-                },
-                error: function(error) {
-                    prevCard.classList.add('d-none');
-                    prevPlaceHolder.style.display = 'block';
-                    prevPlaceHolder.innerHTML = '<p class="text-center">NO STUDENT MATCHES</p>';
-                }
-            })
+                        const student = data.data;
+                        studentCardImage.src = student.image_url;
+                        studentCardName.innerHTML = student.student_name;
+                        studentCardBatch.innerHTML = student.student_batch;
+                    },
+                    error: function(error) {
+                        prevCard.classList.add('d-none');
+                        prevPlaceHolder.style.display = 'block';
+                        prevPlaceHolder.innerHTML = '<p class="text-center text-muted">No student matches</p>';
+                    }
+                });
+            }, 300);
         });
-    })
+    });
 </script>
 {% endblock %}

@@ -1,0 +1,254 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+
+{% block extra_header %}
+<style>
+/* Critical layout for Setup overview – ensures page is never broken */
+.dashboard-body-page { max-width: 100%; }
+.dashboard-body-page .page-header { margin-bottom: 28px; }
+.dashboard-body-page .page-title {
+  font-size: 1.5rem; font-weight: 700; color: #0f172a; margin: 0 0 6px 0; letter-spacing: -0.02em;
+}
+.dashboard-body-page .page-subtitle {
+  font-size: 0.9375rem; color: #475569; margin: 0; line-height: 1.5; max-width: 56ch;
+}
+.dashboard-body-page .page-meta {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 12px;
+}
+.dashboard-body-page .current-session-pill {
+  display: inline-flex; align-items: center; padding: 6px 14px;
+  background: rgba(99, 102, 241, 0.1); color: #6366f1; border-radius: 20px;
+  font-size: 0.8125rem; font-weight: 600;
+}
+.dashboard-body-page .recommended-order {
+  background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px;
+  padding: 16px 20px; margin-bottom: 28px; font-size: 0.875rem; color: #475569;
+}
+.dashboard-body-page .recommended-order strong { color: #0f172a; }
+
+.setup-overview {
+  display: grid; grid-template-columns: 1fr; gap: 20px;
+}
+@media (min-width: 768px) {
+  .setup-overview { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 992px) {
+  .setup-overview { gap: 24px; }
+}
+
+.setup-card {
+  background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  display: flex; flex-direction: column; text-decoration: none; color: inherit;
+}
+.setup-card:hover {
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08); transform: translateY(-2px);
+  border-color: #c7d2fe; color: inherit;
+}
+.setup-card__top {
+  display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px;
+}
+.setup-card__icon {
+  width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+  font-size: 1.25rem; flex-shrink: 0;
+}
+.setup-card__icon.sessions { background: rgba(99,102,241,0.12); color: #6366f1; }
+.setup-card__icon.departments { background: rgba(16,185,129,0.12); color: #10b981; }
+.setup-card__icon.semesters { background: rgba(59,130,246,0.12); color: #3b82f6; }
+.setup-card__icon.batches { background: rgba(245,158,11,0.12); color: #f59e0b; }
+.setup-card__icon.subjects { background: rgba(139,92,246,0.12); color: #8b5cf6; }
+.setup-card__icon.groups { background: rgba(236,72,153,0.12); color: #ec4899; }
+.setup-card__badge {
+  font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+  padding: 4px 10px; border-radius: 6px; flex-shrink: 0;
+}
+.setup-card__badge.done { background: rgba(16,185,129,0.12); color: #059669; }
+.setup-card__badge.todo { background: #f1f5f9; color: #64748b; }
+.setup-card__title {
+  font-size: 1.0625rem; font-weight: 700; color: #0f172a; margin: 0 0 8px 0;
+  display: block; text-decoration: none;
+}
+.setup-card__title:hover { color: #6366f1; }
+.setup-card__desc {
+  font-size: 0.875rem; color: #475569; line-height: 1.5; margin: 0 0 16px 0; flex-grow: 1;
+}
+.setup-card__action {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 0.875rem; font-weight: 600; color: #6366f1;
+}
+.setup-card__action i { font-size: 0.75rem; transition: transform 0.2s ease; }
+.setup-card:hover .setup-card__action i { transform: translateX(2px); }
+
+.setup-card__list {
+  margin: 12px 0 16px 0; padding: 0; list-style: none; font-size: 0.8125rem; color: #475569;
+}
+.setup-card__list-label { font-weight: 600; color: #334155; margin-bottom: 6px; display: block; }
+.setup-card__list-items { display: flex; flex-wrap: wrap; gap: 6px; }
+.setup-card__item {
+  display: inline-block; padding: 4px 10px; background: #f1f5f9; border-radius: 6px;
+  color: #475569; text-decoration: none;
+}
+.setup-card__item:hover { background: #e2e8f0; color: #0f172a; }
+.setup-card__item.current { background: rgba(99,102,241,0.12); color: #6366f1; font-weight: 600; }
+.setup-card__item-name { display: inline; }
+.setup-card__view-all { font-size: 0.8125rem; font-weight: 600; color: #6366f1; margin-top: 6px; display: inline-block; }
+.setup-card__view-all:hover { color: #4f46e5; }
+</style>
+{% endblock %}
+
+{% block dashboard-body %}
+<div class="dashboard-body-page">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Setup overview</li>
+    </ol>
+  </nav>
+
+  <header class="page-header">
+    <h1 class="page-title">Setup overview</h1>
+    <p class="page-subtitle">
+      Configure your institute's academic structure step by step. Complete each section so admissions, batches, and result entry work correctly for staff and students.
+    </p>
+    <div class="page-meta">
+      {% if request_institute.current_session %}
+      <span class="current-session-pill">
+        <i class="fas fa-calendar-alt" style="margin-right: 6px;"></i>
+        Current session: {{ request_institute.current_session }}
+      </span>
+      {% else %}
+      <span class="current-session-pill" style="background: #fef2f2; color: #b91c1c;">
+        <i class="fas fa-exclamation-circle" style="margin-right: 6px;"></i>
+        No current session set
+      </span>
+      {% endif %}
+    </div>
+  </header>
+
+  <div class="recommended-order">
+    <strong>Recommended order:</strong> Set up Academic Sessions first and mark one as current, then add {{ department_label_plural }} and {{ semester_label_plural }}. After that, create Batches for each session and {{ department_label }}, add Subjects, and finally define Subject groups so result entry shows the right subjects per {{ department_label }} and {{ semester_label }}.
+  </div>
+
+  <div class="setup-overview">
+    <div class="setup-card">
+      <div class="setup-card__top">
+        <span class="setup-card__icon sessions"><i class="fas fa-calendar-alt"></i></span>
+        {% if has_sessions %}<span class="setup-card__badge done">Done</span>{% else %}<span class="setup-card__badge todo">Set up</span>{% endif %}
+      </div>
+      <a href="{% url academic_urls.academic_sessions %}" class="setup-card__title">Academic sessions</a>
+      <p class="setup-card__desc">Define academic years (e.g. 2024–2025). One session is used as the current year for new admissions and reports. Set or change the current session from the sessions list.</p>
+      {% if academic_sessions %}
+      <div class="setup-card__list">
+        <span class="setup-card__list-label">Existing sessions</span>
+        <div class="setup-card__list-items">
+          {% for session in academic_sessions %}
+          <span class="setup-card__item {% if current_session_id == session.pk %}current{% endif %}">{{ session }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+      <a href="{% url academic_urls.academic_sessions %}" class="setup-card__action">{% if has_sessions %}Manage sessions <i class="fas fa-arrow-right"></i>{% else %}Add first session <i class="fas fa-arrow-right"></i>{% endif %}</a>
+    </div>
+
+    <div class="setup-card">
+      <div class="setup-card__top">
+        <span class="setup-card__icon departments"><i class="fas fa-building"></i></span>
+        {% if has_departments %}<span class="setup-card__badge done">Done</span>{% else %}<span class="setup-card__badge todo">Set up</span>{% endif %}
+      </div>
+      <a href="{% url academic_urls.departments %}" class="setup-card__title">{{ department_label_plural }}</a>
+      <p class="setup-card__desc">Create {{ department_label|lower }}s for your institute. Each {{ department_label|lower }} can have a head, batches, and its own subject groups. Required before creating batches.</p>
+      {% if departments %}
+      <div class="setup-card__list">
+        <span class="setup-card__list-label">Existing {{ department_label|lower }}s</span>
+        <div class="setup-card__list-items">
+          {% for dept in departments %}
+          <span class="setup-card__item">{{ dept.name }}{% if dept.short_name %} ({{ dept.short_name }}){% endif %}</span>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+      <a href="{% url academic_urls.departments %}" class="setup-card__action">{% if has_departments %}Manage {{ department_label_plural }} <i class="fas fa-arrow-right"></i>{% else %}Add {{ department_label }} <i class="fas fa-arrow-right"></i>{% endif %}</a>
+    </div>
+
+    <div class="setup-card">
+      <div class="setup-card__top">
+        <span class="setup-card__icon semesters"><i class="fas fa-layer-group"></i></span>
+        {% if has_semesters %}<span class="setup-card__badge done">Done</span>{% else %}<span class="setup-card__badge todo">Set up</span>{% endif %}
+      </div>
+      <a href="{% url academic_urls.all_semester %}" class="setup-card__title">{{ semester_label_plural }}</a>
+      <p class="setup-card__desc">Add {{ semester_label|lower }}s such as 1st, 2nd, 3rd. You can add one at a time or create multiple at once (e.g. 1–6). Used in subject groups and result entry.</p>
+      {% if semesters %}
+      <div class="setup-card__list">
+        <span class="setup-card__list-label">Existing {{ semester_label|lower }}s</span>
+        <div class="setup-card__list-items">
+          {% for sem in semesters %}
+          <span class="setup-card__item">{{ sem }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+      <a href="{% url academic_urls.all_semester %}" class="setup-card__action">{% if has_semesters %}Manage {{ semester_label_plural }} <i class="fas fa-arrow-right"></i>{% else %}Add {{ semester_label_plural }} <i class="fas fa-arrow-right"></i>{% endif %}</a>
+    </div>
+
+    <div class="setup-card">
+      <div class="setup-card__top">
+        <span class="setup-card__icon batches"><i class="fas fa-users"></i></span>
+        {% if has_batches %}<span class="setup-card__badge done">Done</span>{% else %}<span class="setup-card__badge todo">Set up</span>{% endif %}
+      </div>
+      <a href="{% url academic_urls.batch_list %}" class="setup-card__title">Batches</a>
+      <p class="setup-card__desc">Create batches by combining an academic session and a {{ department_label|lower }} (e.g. Science Batch 1 for 2024–25). Students are assigned to a batch; the list shows how many students are in each batch.</p>
+      {% if batches %}
+      <div class="setup-card__list">
+        <span class="setup-card__list-label">Recent batches</span>
+        <div class="setup-card__list-items">
+          {% for batch in batches %}
+          <span class="setup-card__item">{{ batch.department.name }} {{ batch.number }} ({{ batch.year }})</span>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+      <a href="{% url academic_urls.batch_list %}" class="setup-card__action">{% if has_batches %}Manage batches <i class="fas fa-arrow-right"></i>{% else %}Add batch <i class="fas fa-arrow-right"></i>{% endif %}</a>
+    </div>
+
+    <div class="setup-card">
+      <div class="setup-card__top">
+        <span class="setup-card__icon subjects"><i class="fas fa-book"></i></span>
+        {% if has_subjects %}<span class="setup-card__badge done">Done</span>{% else %}<span class="setup-card__badge todo">Set up</span>{% endif %}
+      </div>
+      <a href="{% url academic_urls.subject_list %}" class="setup-card__title">Subjects</a>
+      <p class="setup-card__desc">Add subjects offered by your institute (name, code, theory/practical marks, optional instructor). Subjects are then grouped by {{ department_label|lower }} and {{ semester_label|lower }} for result entry.</p>
+      {% if subjects %}
+      <div class="setup-card__list">
+        <span class="setup-card__list-label">Existing subjects</span>
+        <div class="setup-card__list-items">
+          {% for subj in subjects %}
+          <span class="setup-card__item">{{ subj.name }} ({{ subj.subject_code }})</span>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+      <a href="{% url academic_urls.subject_list %}" class="setup-card__action">{% if has_subjects %}Manage subjects <i class="fas fa-arrow-right"></i>{% else %}Add subject <i class="fas fa-arrow-right"></i>{% endif %}</a>
+    </div>
+
+    <div class="setup-card">
+      <div class="setup-card__top">
+        <span class="setup-card__icon groups"><i class="fas fa-sitemap"></i></span>
+        {% if has_subject_groups %}<span class="setup-card__badge done">Done</span>{% else %}<span class="setup-card__badge todo">Set up</span>{% endif %}
+      </div>
+      <a href="{% url 'result:subject_groups' %}" class="setup-card__title">Subject groups</a>
+      <p class="setup-card__desc">Define which subjects apply to each {{ department_label|lower }} and {{ semester_label|lower }}. Result entry uses these groups to show the correct subjects. You can copy from an existing group to save time.</p>
+      {% if subject_groups %}
+      <div class="setup-card__list">
+        <span class="setup-card__list-label">Existing groups</span>
+        <div class="setup-card__list-items">
+          {% for sg in subject_groups %}
+          <span class="setup-card__item">{{ sg.department.name }} – {{ sg.semester }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+      <a href="{% url 'result:subject_groups' %}" class="setup-card__action">{% if has_subject_groups %}Manage groups <i class="fas fa-arrow-right"></i>{% else %}Create subject group <i class="fas fa-arrow-right"></i>{% endif %}</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

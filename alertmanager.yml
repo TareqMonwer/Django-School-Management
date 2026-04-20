@@ -1,0 +1,78 @@
+# Production-ready Alertmanager config for Django School Management.
+# Set SLACK_WEBHOOK_URL / SMTP / PagerDuty in env or replace with your receivers.
+
+global:
+  # resolve_timeout: 5m
+  # slack_api_url: '${SLACK_WEBHOOK_URL}'  # set via envsubst or external secret
+
+route:
+  receiver: default
+  group_by: ['alertname', 'app', 'severity']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 4h
+
+  routes:
+    # Critical alerts: page immediately, also send to slack
+    - match:
+        severity: critical
+      receiver: critical
+      group_wait: 10s
+      repeat_interval: 1h
+
+    # Warning: slack / email only
+    - match:
+        severity: warning
+      receiver: warning
+      repeat_interval: 4h
+
+    # SLO-related: optional dedicated channel
+    - match:
+        slo: availability
+      receiver: slo-alerts
+      continue: true
+    - match:
+        slo: latency
+      receiver: slo-alerts
+      continue: true
+
+# Inhibit critical if warning for same alert/app (avoid duplicate noise)
+inhibit_rules:
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname', 'app']
+
+receivers:
+  - name: default
+    # No-op; add your default channel (e.g. slack)
+    # webhook_configs:
+    #   - url: '${SLACK_WEBHOOK_URL}'
+    #     send_resolved: true
+
+  - name: critical
+    # Production: uncomment and set PagerDuty / Slack / email
+    # pagerduty_configs:
+    #   - service_key: '${PAGERDUTY_SERVICE_KEY}'
+    #     send_resolved: true
+    # webhook_configs:
+    #   - url: '${SLACK_WEBHOOK_CRITICAL}'
+    #     send_resolved: true
+    # email_configs:
+    #   - to: 'ops@example.com'
+    #     from: 'alertmanager@example.com'
+    #     smarthost: 'smtp.example.com:587'
+    #     auth_username: 'alertmanager'
+    #     auth_password: '${SMTP_PASSWORD}'
+
+  - name: warning
+    # webhook_configs:
+    #   - url: '${SLACK_WEBHOOK_URL}'
+    #     send_resolved: true
+
+  - name: slo-alerts
+    # Dedicated receiver for SLO/SLA alerts (e.g. #slo-alerts channel)
+    # webhook_configs:
+    #   - url: '${SLACK_WEBHOOK_SLO}'
+    #     send_resolved: true

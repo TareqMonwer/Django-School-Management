@@ -1,0 +1,13 @@
+# Grafana datasource for perf stack: Prometheus (scrapes Locust exporter + Django)
+apiVersion: 1
+datasources:
+  - name: Prometheus
+    uid: prometheus
+    type: prometheus
+    access: proxy
+    url: http://prometheus:9090
+    isDefault: true
+    editable: false
+    jsonData:
+      timeInterval: "5s"
+      httpMethod: POST

@@ -1,0 +1,24 @@
+{% extends 'dashboard.html' %}
+{% load crispy_forms_tags %}
+
+{% block dashboard-body %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="{% url academic_urls.batch_list %}">Batches</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Update Batch</li>
+  </ol>
+</nav>
+
+<h4>Update Batch</h4>
+<hr>
+<div class="card">
+  <div class="card-body">
+    <form action="." method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input type="submit" value="Update" class="btn btn-primary">
+    </form>
+  </div>
+</div>
+{% endblock %}

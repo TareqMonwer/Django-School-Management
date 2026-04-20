@@ -8,7 +8,7 @@
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-3">
-          <a href="{% url 'students:student_details' pk=student.id %}">
+          <a href="{% url 'students:student_sis' pk=student.id %}">
             <div class="card" style="width: 100%;">
               <img class="card-img-top" src="{{ object.admission_student.photo.url }}">
               <div class="card-body bg-primary text-light">
@@ -28,7 +28,7 @@
                 </li>
               </ul>
               <div class="card-footer">
-                <a href="{% url 'students:student_details' pk=student.id %}" class="btn btn-sm btn-dark">
+                <a href="{% url 'students:student_sis' pk=student.id %}" class="btn btn-sm btn-dark">
                   View Details
                 </a>
               </div>

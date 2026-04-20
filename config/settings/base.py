@@ -20,11 +20,12 @@ BASE_DIR = Path(__file__).parent.parent.parent
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, True),
-    USE_CELERY_REDIS=(bool, False),
     USE_PAYMENT_OPTIONS=(bool, True),
     USE_SENTRY=(bool, False),
     USE_MAILCHIMP=(bool, False),
     SSL_ISSANDBOX=(bool, True),
+    USE_STRIPE=(bool, False),
+    IS_DEMO_ENV=(bool, False),
 )
 # reading .env file
 env.read_env(str(BASE_DIR / "envs/.env"))
@@ -59,6 +60,7 @@ LOCAL_APPS = [
     'django_school_management.pages.apps.PagesConfig',
     'django_school_management.articles.apps.ArticlesConfig',
     'django_school_management.institute.apps.InstituteConfig',
+    'django_school_management.curriculum.apps.CurriculumConfig',
     'django_school_management.payments.apps.PaymentsConfig',
     'django_school_management.notices.apps.NoticesConfig',
 ]
@@ -88,6 +90,11 @@ THIRD_PARTY_APPS = [
     'bootstrap4',
     'django_file_form',
     'tinymce',
+    # API Documentation and Advanced Features
+    'drf_yasg',
+    'django_rest_passwordreset',
+    # Monitoring
+    'django_prometheus',
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + LOCAL_APPS + THIRD_PARTY_APPS
@@ -97,6 +104,7 @@ SITE_ID = 1
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 MIDDLEWARE = [
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -106,9 +114,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    # attach_institute_data_ctx_processor was implemented for same support.
-    # 'institute.middleware.AttachInstituteDataMiddleware',
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
+    'django_school_management.utils.middleware.AppMetricsMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -135,7 +142,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# Database
+# Database (django_prometheus backend for query/connection metrics)
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -162,6 +169,24 @@ CACHES = {
         "LOCATION": "unique-snowflake",
         #'BACKEND': 'redis_cache.RedisCache',
         #'LOCATION': f'{env("REDIS_HOST")}:{env("REDIS_PORT")}',
+    'default': {
+        'ENGINE': 'django_prometheus.db.backends.postgresql',
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': 5432,
+    }
+}
+
+# Cache (django_prometheus backend for hit/miss/fail metrics)
+CACHES = {
+    'default': {
+        'BACKEND': 'django_prometheus.cache.backends.redis.RedisCache',
+        'LOCATION': f'redis://{env("REDIS_HOST")}:{env("REDIS_PORT")}/0',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        },
     },
 }
 
@@ -250,8 +275,34 @@ REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+        'rest_framework.permissions.IsAuthenticated'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 20,
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/hour',
+        'user': '1000/hour'
+    },
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning',
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -270,6 +321,16 @@ if USE_SENTRY:
         # debug=True will work even if the DEBUG=False in Django.
         debug=True
     )
+
+# django-prometheus - production-ready defaults
+# Disable at build time (no DB); enable at runtime for migration gauges.
+PROMETHEUS_EXPORT_MIGRATIONS = env.bool('PROMETHEUS_EXPORT_MIGRATIONS', True)
+PROMETHEUS_METRIC_NAMESPACE = "school"
+# SLO-friendly latency buckets (seconds): p50, p90, p95, p99
+PROMETHEUS_LATENCY_BUCKETS = (
+    0.01, 0.025, 0.05, 0.075, 0.1, 0.25, 0.5, 0.75, 1.0,
+    2.5, 5.0, 7.5, 10.0, 25.0, 50.0, 75.0, float("inf"),
+)
 
 # for permission management
 ROLEPERMISSIONS_MODULE = 'django_school_management.academics.roles'
@@ -311,19 +372,24 @@ if USE_PAYMENT_OPTIONS:
     except ImproperlyConfigured:
         raise ImproperlyConfigured(settings_message_constants.INCORRECT_PAYMENT_GATEWAY_SETUP_MESSAGE)
 
-# CELERY BROKER CONFIG
-USE_CELERY_REDIS = env('USE_CELERY_REDIS')
-
-if USE_CELERY_REDIS:
+USE_STRIPE = env('USE_STRIPE')
+if USE_STRIPE:
     try:
-        CELERY_BROKER_URL = env('CELERY_BROKER_URL')
-        CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND')
-        CELERY_ACCEPT_CONTENT = ['application/json']
-        CELERY_TASK_SERIALIZER = 'json'
-        CELERY_RESULT_SERIALIZER = 'json'
-        CELERY_TIMEZONE = 'Asia/Dhaka'
+        STRIPE_PUBLISHABLE_KEY = env('STRIPE_PUBLISHABLE_KEY')
+        STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
     except ImproperlyConfigured:
-        raise ImproperlyConfigured(settings_message_constants.INCORRECT_CELERY_REDIS_SETUP_MESSAGE)
+        raise ImproperlyConfigured(settings_message_constants.INCORRECT_STRIPE_SETUP_MESSAGE)
+
+# CELERY BROKER CONFIG
+try:
+    CELERY_BROKER_URL = env('CELERY_BROKER_URL')
+    CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND')
+    CELERY_ACCEPT_CONTENT = ['application/json']
+    CELERY_TASK_SERIALIZER = 'json'
+    CELERY_RESULT_SERIALIZER = 'json'
+    CELERY_TIMEZONE = 'Asia/Dhaka'
+except ImproperlyConfigured:
+    raise ImproperlyConfigured(settings_message_constants.INCORRECT_CELERY_REDIS_SETUP_MESSAGE)
 
 # MAILCHIMP INTEGRATION
 USE_MAILCHIMP = env('USE_MAILCHIMP')
@@ -344,3 +410,8 @@ TINYMCE_DEFAULT_CONFIG = {
     "alignright alignjustify | bullist numlist outdent indent | "
     "removeformat | help",
 }
+
+IS_DEMO_ENV = env('IS_DEMO_ENV')
+DEMO_SUPERUSER_USERNAME = env('DEMO_SUPERUSER_USERNAME')
+DEMO_SUPERUSER_EMAIL = env('DEMO_SUPERUSER_EMAIL')
+DEMO_SUPERUSER_PASSWORD = env('DEMO_SUPERUSER_PASSWORD')

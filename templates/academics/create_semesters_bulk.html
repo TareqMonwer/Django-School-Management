@@ -1,0 +1,26 @@
+{% extends 'dashboard.html' %}
+{% load crispy_forms_tags %}
+
+{% block dashboard-body %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="{% url academic_urls.all_semester %}">{{ semester_label }}s</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Add multiple {{ semester_label }}s</li>
+  </ol>
+</nav>
+
+<h4>Add multiple {{ semester_label }}s</h4>
+<p class="text-muted mb-3">Create several {{ semester_label|lower }}s at once. Enter a range (e.g. 1-6) or comma-separated numbers (e.g. 1,2,3,4).</p>
+<hr>
+<div class="card">
+  <div class="card-body">
+    <form action="{% url academic_urls.create_semesters_bulk %}" method="post">
+      {% csrf_token %}
+      {{ form|crispy }}
+      <button type="submit" class="btn btn-primary">Create {{ semester_label }}s</button>
+      <a href="{% url academic_urls.all_semester %}" class="btn btn-outline-secondary">Cancel</a>
+    </form>
+  </div>
+</div>
+{% endblock %}

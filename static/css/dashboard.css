@@ -1,9 +1,9 @@
 /* VARIABLES */
 :root {
-	--primary-color: rgb(78, 115, 223);
-	--green-color: #17A673;
-	--cyan-color: #36B9CC;
-	--yellow-color: #F6C23E;
+	--primary-color: #6366f1;
+	--green-color: #10b981;
+	--cyan-color: #06b6d4;
+	--yellow-color: #f59e0b;
 }
 
 /* FONTS */
@@ -25,22 +25,24 @@
 }
 
 .selected-item {
-	border: 4px solid rgb(1, 160, 73);
+	border: 3px solid var(--green-color);
+	border-radius: 12px;
 }
 
 .selected-item::after {
 	content: '\f14a';
 	font-family: "fontello";
 	display: block;
-	width: 50px;
-	height: 50px;
+	width: 40px;
+	height: 40px;
 	position: absolute;
-	background: rgb(1, 160, 73);
+	background: var(--green-color);
 	right: 0;
 	bottom: 0;
 	color: #fff;
-	font-size: 33px;
+	font-size: 24px;
 	text-align: center;
+	border-radius: 12px 0 0 0;
 }
 
 .hide {
@@ -50,15 +52,18 @@
 .dashboard-section-title {position: relative;}
 .dashboard-section-title .title-v-line {
 	content: "";
-	width: 5px;
+	width: 4px;
 	height: 100%;
-	background: var(--green-color);
+	background: var(--primary-color);
 	position: absolute;
+	border-radius: 2px;
 }
 .dashboard-section-title h4 {
-	margin-left: 7px;
-	font-weight: 600;
+	margin-left: 12px;
+	font-weight: 700;
 	text-transform: uppercase;
+	font-size: 1rem;
+	letter-spacing: 0.02em;
 }
 .dashboard-section-title .color-2 {
 	border-bottom: 2px solid var(--cyan-color);
@@ -67,7 +72,7 @@
 
 
 .card {
-	box-shadow: 0.15rem 0.75rem 2rem rgba(58,59,69,.1);
+	box-shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
 }
 
 .card h5 {
@@ -85,7 +90,7 @@
 }
 
 .title.list-group-item {
-	background: #F7F7F7;
+	background: #f8fafc;
 }
 
 .unpaid h5, .paid h5 {
@@ -134,7 +139,6 @@
 /* ---------- STUDENTS INDEX / COUNSEL ------------ */
 /* -------------------------------------------------*/
 .card-top-meta-info {
-	/*height: 100%;*/
 	max-height: 35px;
 }
 .card-record-date {
@@ -182,8 +186,9 @@
 /* ---------------------------------------------- */
 #student-preview-card-placeholder {
     padding: 1rem;
-	border: 3px dotted rgb(95, 95, 95);
-	color:  rgb(95, 95, 95);
+	border: 3px dotted #94a3b8;
+	color: #64748b;
+	border-radius: 12px;
 }
 
 
@@ -193,14 +198,20 @@
 	right: 20px;
 	width: 50px;
 	height: 50px;
-	background: rgb(218, 216, 216);
+	background: var(--primary-color);
 	border: 2px solid #fff;
-	border-radius: 50%;
-	color: #303030;
+	border-radius: 12px;
+	color: #fff;
 	font-weight: bolder;
 	font-size: 20px;
 	cursor: pointer;
-	box-shadow: 3px 2px 5px rgba(179, 179, 179, 0.8);
+	box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+	transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+#subjectCounter:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
 }
 
 #subjectCounter #subjectCounterN {
@@ -209,7 +220,3 @@
 	left: 50%;
 	transform: translate(-50%, -50%);
 }
-
-/* ==================================== */
-/*              ADMINATOR               */
-/* ==================================== */

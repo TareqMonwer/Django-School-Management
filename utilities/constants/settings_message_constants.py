@@ -4,6 +4,7 @@ INCORRECT_PAYMENT_GATEWAY_SETUP_MESSAGE = str(
 
 INCORRECT_CELERY_REDIS_SETUP_MESSAGE = str(
             'This project uses celery/redis.'
-            'to skip this set USE_CELERY_REDIS=False envs/.env'
-            'Otherwise, configure these as described '
-            'here: https://github.com/TareqMonwer/Django-School-Management#celery-redis-setup')
+            'configure CELERY_BROKER_URL and CELERY_RESULT_BACKEND in envs/.env')
+
+INCORRECT_STRIPE_SETUP_MESSAGE = str(
+    "Please enter you Stripe credentials in envs/.env file.")
