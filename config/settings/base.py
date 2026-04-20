@@ -144,6 +144,31 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database (django_prometheus backend for query/connection metrics)
 DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
+}
+
+
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': env('DB_NAME'),
+#        'USER': env('DB_USER'),
+#        'PASSWORD': env('DB_PASSWORD'),
+#        'HOST': env('DB_HOST'),
+#        'PORT': 5432,
+#    }
+#}
+
+
+CACHES = {
+    'default': {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "unique-snowflake",
+        #'BACKEND': 'redis_cache.RedisCache',
+        #'LOCATION': f'{env("REDIS_HOST")}:{env("REDIS_PORT")}',
     'default': {
         'ENGINE': 'django_prometheus.db.backends.postgresql',
         'NAME': env('DB_NAME'),
