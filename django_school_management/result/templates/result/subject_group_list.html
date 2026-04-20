@@ -8,59 +8,58 @@
 {% block dashboard-body %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item">
-      <a href="{% url account_urls.dashboard %}">Dashboard</a>
-    </li>
-    <li class="breadcrumb-item">
-      <a href="{% url 'result:create_subject_group' %}">Create Subject Group</a>
-    </li>
-    <li class="breadcrumb-item active" aria-current="page">List</li>
+    <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Subject groups</li>
   </ol>
 </nav>
 
+<h4>Subject groups</h4>
+<p class="text-muted mb-3">Subject groups define which subjects are used for result entry per {{ department_label|lower }} and {{ semester_label|lower }}. Create a group for each {{ department_label|lower }}–{{ semester_label|lower }} combination.</p>
 
 <div class="row">
   <div class="col-12">
-    <table class="table table-bordered" id="subjectGroupDataTable">
-      <thead>
-        <tr>
-          <th scope="col">Department</th>
-          <th scope="col">Semester</th>
-          <th scope="col">Subjects</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for subject_group in subject_groups %}
-        <tr>
-          <td>
-              {{ subject_group.department }}
-          </td>
-          <td>
-              {{ subject_group.semester }}
-          </td>
-          <td>
-            {% for subject in subject_group.subjects.all %}
-              <p>
-                <i>{{ subject }}</i>
-              </p>
-            {% endfor %}
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+    <div class="d-flex justify-content-end mb-3">
+      <a href="{% url 'result:create_subject_group' %}" class="btn btn-primary">Create subject group</a>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover" id="subjectGroupDataTable">
+        <thead>
+          <tr>
+            <th scope="col">{{ department_label }}</th>
+            <th scope="col">{{ semester_label }}</th>
+            <th scope="col">Subjects</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for subject_group in subject_groups %}
+          <tr>
+            <td>{{ subject_group.department }}</td>
+            <td>{{ subject_group.semester }}</td>
+            <td>
+              {% for subject in subject_group.subjects.all %}
+                <span class="badge badge-light mr-1">{{ subject }}</span>
+              {% endfor %}
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="3" class="text-center text-muted py-5">
+              <p class="mb-2">No subject groups yet.</p>
+              <p class="small">Create subject groups to define which subjects apply for result entry per {{ department_label|lower }} and {{ semester_label|lower }}.</p>
+              <a href="{% url 'result:create_subject_group' %}" class="btn btn-primary mt-2">Create subject group</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
-
 {% endblock %}
 
-
-
 {% block extrajs %}
-<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
-<script src="{% static 'js/jquery.dataTables.min.js' %}"></script>>
+<script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
 <script src="{% static 'js/dataTables.bootstrap4.min.js' %}"></script>
-
 <script>
   $(document).ready(function () {
     $('#subjectGroupDataTable').dataTable();

@@ -5,6 +5,7 @@ from django.views.generic import ListView
 from django.views.generic import UpdateView
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.exceptions import PermissionDenied
 
 from .models import Teacher, Designation
 from .forms import TeacherForm, TeacherDesignationForm
@@ -15,6 +16,7 @@ from permission_handlers.administrative import (
 )
 from permission_handlers.basic import user_is_teacher, user_is_verified
 from django_school_management.mixins.no_permission import LoginRequiredNoPermissionMixin
+from django_school_management.mixins.institute import get_user_institute
 
 
 @user_passes_test(user_is_teacher_or_administrative)
@@ -23,7 +25,8 @@ def teachers_view(request):
     :param request:
     :return: list of teachers to logged in user, login form instead.
     """
-    teachers = Teacher.objects.all()
+    institute = get_user_institute(request.user)
+    teachers = Teacher.objects.filter(institute=institute) if institute else Teacher.objects.all()
     context = {'teachers': teachers}
     return render(request, 'teachers/teacher_list.html', context)
 
@@ -35,18 +38,20 @@ def add_teacher_view(request):
     :param request:
     :return: teacher add form
     """
-    if request.user.has_perm('create_teacher'):
-        if request.method == 'POST':
-            form = TeacherForm(request.POST, request.FILES)
-            if form.is_valid():
-                form.save()
-                pk = form.instance.pk
-                return redirect('teachers:all_teacher')
-        form = TeacherForm()
+    if request.method == 'POST':
+        form = TeacherForm(request.POST, request.FILES)
+        if form.is_valid():
+            teacher = form.save(commit=False)
+            teacher.institute = get_user_institute(request.user)
+            teacher.created_by = request.user
+            teacher.save()
+            form.save_m2m()
+            return redirect('teachers:all_teacher')
         context = {'form': form}
         return render(request, 'teachers/add_teacher.html', context)
-    else:
-        return render(request, 'admin_tools/permission_required.html')
+    form = TeacherForm()
+    context = {'form': form}
+    return render(request, 'teachers/add_teacher.html', context)
 
 
 @user_passes_test(user_is_verified)

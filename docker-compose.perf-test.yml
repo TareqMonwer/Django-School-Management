@@ -1,0 +1,102 @@
+version: "3.9"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.perf-test
+    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
+    env_file:
+      - envs/.env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres_db
+      - redis
+
+  postgres_db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: django-school-test
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+
+  perf-locust:
+    image: locustio/locust:2.32.2
+    depends_on:
+      - web
+    working_dir: /mnt/project
+    volumes:
+      - ./:/mnt/project
+    environment:
+      DJANGO_HOST: "http://web:8000"
+      PERF_STAFF_USERNAME: "perf_admin"
+      PERF_STAFF_PASSWORD: "perf_admin"
+      PERF_DEPARTMENT_ID: "1"
+      PERF_BATCH_ID: "1"
+    command: >
+      -f tests/performance/locustfile.py
+      --autostart
+      -u 200
+      -r 10
+      -t 10m
+      --host=http://web:8000
+    ports:
+      - "8089:8089"
+
+  locust-exporter:
+    image: containersol/locust_exporter:latest
+    environment:
+      LOCUST_EXPORTER_URI: "http://perf-locust:8089"
+      LOCUST_EXPORTER_WEB_LISTEN_ADDRESS: ":9646"
+    ports:
+      - "9646:9646"
+    depends_on:
+      - perf-locust
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: perf_prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --storage.tsdb.retention.time=7d
+      - --web.enable-lifecycle
+    volumes:
+      - ./monitoring/perf/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_perf_data:/prometheus
+    ports:
+      - "9091:9090"
+    depends_on:
+      - locust-exporter
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: perf_grafana
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_SERVER_HTTP_PORT: 3000
+      GF_INSTALL_PLUGINS: ""
+    volumes:
+      - ./monitoring/perf/grafana/provisioning:/etc/grafana/provisioning
+      - ./monitoring/perf/grafana/dashboards/json:/etc/grafana/provisioning/dashboards/json
+      - grafana_perf_data:/var/lib/grafana
+    ports:
+      - "3010:3000"
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
+volumes:
+  prometheus_perf_data:
+  grafana_perf_data:
+

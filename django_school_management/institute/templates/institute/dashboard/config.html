@@ -3,9 +3,17 @@
 {% load institute_filters %}
 {% load static %}
 
-
 {% block dashboard-body %}
 <div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Institute Configuration</li>
+        </ol>
+    </nav>
+
+    <h4>Institute Configuration</h4>
+
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -19,8 +27,8 @@
                             Edit
                         </a>
                         {% else %}
-                          <a href="{% url 'institute:set_default_institute' institute_pk=instituteprofile.pk %}" 
-                            class="btn btm-sm btn-light border border-success">Set Active</a>
+                          <a href="{% url 'institute:set_default_institute' institute_pk=instituteprofile.pk %}"
+                            class="btn btn-sm btn-light border border-success">Set Active</a>
                         {% endif %}
                     </div>
                 </div>

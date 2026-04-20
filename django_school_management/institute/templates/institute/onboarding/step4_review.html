@@ -1,0 +1,174 @@
+{% extends "institute/onboarding/base.html" %}
+
+{% block extra_css %}
+<style>
+  .review-section {
+    margin-bottom: 24px;
+  }
+  .review-section-title {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .review-section-title a {
+    font-size: 0.78rem;
+    text-transform: none;
+    letter-spacing: normal;
+    color: var(--primary);
+    text-decoration: none;
+  }
+  .review-section-title a:hover { text-decoration: underline; }
+  .review-card {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+  }
+  .review-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #e9ecef;
+    font-size: 0.9rem;
+  }
+  .review-row:last-child { border-bottom: none; }
+  .review-label { color: var(--text-muted); font-weight: 500; }
+  .review-value { font-weight: 600; text-align: right; }
+  .dept-chip {
+    display: inline-block;
+    background: rgba(99,102,241,0.1);
+    color: var(--primary);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin: 4px 4px 4px 0;
+  }
+  .launch-info {
+    background: linear-gradient(135deg, rgba(99,102,241,0.06), rgba(34,197,94,0.06));
+    border: 1px solid rgba(99,102,241,0.15);
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    margin-top: 8px;
+  }
+  .launch-info i {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 8px;
+  }
+  .launch-info p {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin: 8px 0 0;
+  }
+</style>
+{% endblock %}
+
+{% block onboarding_content %}
+<div class="onboarding-card">
+  <h2>Review & Launch</h2>
+  <p class="subtitle">Everything looks good? You can always change these from the dashboard later.</p>
+
+  <div class="review-section">
+    <div class="review-section-title">
+      <span>Institute Profile</span>
+      <a href="{% url 'institute:onboarding_step1' %}"><i class="fas fa-pen" style="margin-right: 4px;"></i> Edit</a>
+    </div>
+    <div class="review-card">
+      <div class="review-row">
+        <span class="review-label">Name</span>
+        <span class="review-value">{{ institute.name }}</span>
+      </div>
+      {% if institute.country %}
+      <div class="review-row">
+        <span class="review-label">Country</span>
+        <span class="review-value">{{ institute.country.name }}</span>
+      </div>
+      {% endif %}
+      {% if institute.motto %}
+      <div class="review-row">
+        <span class="review-label">Motto</span>
+        <span class="review-value">{{ institute.motto|truncatewords:12 }}</span>
+      </div>
+      {% endif %}
+      {% if institute.date_of_estashment %}
+      <div class="review-row">
+        <span class="review-label">Established</span>
+        <span class="review-value">{{ institute.date_of_estashment }}</span>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="review-section">
+    <div class="review-section-title">
+      <span>Academics</span>
+      <a href="{% url 'institute:onboarding_step2' %}"><i class="fas fa-pen" style="margin-right: 4px;"></i> Edit</a>
+    </div>
+    <div class="review-card">
+      <div class="review-row">
+        <span class="review-label">{{ department_label }}s</span>
+        <span class="review-value">{{ departments.count }}</span>
+      </div>
+      {% if departments %}
+      <div style="padding-top: 8px;">
+        {% for dept in departments %}
+          <span class="dept-chip">{{ dept.name }} ({{ dept.short_name }})</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% if session %}
+      <div class="review-row" style="margin-top: 8px;">
+        <span class="review-label">Academic Session</span>
+        <span class="review-value">{{ session }}</span>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="review-section">
+    <div class="review-section-title">
+      <span>Subjects & Curriculum</span>
+      <a href="{% url 'institute:onboarding_step3' %}"><i class="fas fa-pen" style="margin-right: 4px;"></i> Edit</a>
+    </div>
+    <div class="review-card">
+      {% if institute.curriculum %}
+      <div class="review-row">
+        <span class="review-label">Curriculum</span>
+        <span class="review-value">{{ institute.curriculum.name }}</span>
+      </div>
+      {% else %}
+      <div class="review-row">
+        <span class="review-label">Subjects</span>
+        <span class="review-value">Not loaded from curriculum (you can add later)</span>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="launch-info">
+    <i class="fas fa-rocket"></i>
+    <h5 style="font-weight: 700; margin: 0;">Ready to go!</h5>
+    <p>You'll be taken to your dashboard where you can start adding teachers, students, and more.</p>
+  </div>
+
+  <form method="post">
+    {% csrf_token %}
+    <div class="onboarding-actions">
+      <a href="{% url 'institute:onboarding_step3' %}" class="btn-onboard btn-onboard-secondary">
+        <i class="fas fa-arrow-left"></i> Back
+      </a>
+      <button type="submit" class="btn-onboard btn-onboard-success">
+        <i class="fas fa-rocket"></i> Launch Dashboard
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %}

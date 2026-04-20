@@ -1,68 +1,73 @@
-{% extends 'dashboard.html' %} 
-{% load static %} 
+{% extends 'dashboard.html' %}
 
 {% block dashboard-body %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-    <li class="breadcrumb-item">
-      <a href="{% url academic_urls.subject_list %}">Subjects</a>
-    </li>
+    <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="{% url academic_urls.subject_list %}">Subjects</a></li>
     <li class="breadcrumb-item active" aria-current="page">All Subjects</li>
   </ol>
 </nav>
 
-<div class="row">
-  <div class="col-8 mb-2">
-    <h4 class="ml-0">All Subjects</h4>
-  </div>
-    <div class="col-4">
-        <a href="{% url academic_urls.create_subject %}" class="btn btn-dark">Create New Subject</a>
-    </div>
-</div>
+<h4>All Subjects</h4>
+<p class="text-muted mb-3">Manage subjects used in subject groups and result entry. To load many subjects at once from a curriculum (School/Madrasah, Science/Arts/Commerce), use <a href="{% url 'institute:onboarding_step1' %}">Onboarding</a> (top-right menu) → Load subjects. Use "Create New Subject" below for a single custom subject or one linked to a curriculum template.</p>
+
 <div class="row">
   <div class="col-12">
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th scope="col">SYL</th>
-          <th scope="col">Name</th>
-          <th scope="col">Subject Code</th>
-          <th scope="col">Instructor</th>
-          <th scope="col">T. Marks</th>
-          <th scope="col">P. Marks</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for subject in subjects %}
-        <tr>
-          <th scope="row">
-            <a href="#"> {{ forloop.counter }} </a>
-          </th>
-          <td>
-            <a href="#"> {{ subject.name }} </a>
-          </td>
-          <td>
-            <a href="#"> {{ subject.subject_code }} </a>
-          </td>
-          <td style="text-align: center">
-            <a href="#">
-              {{ subject.instructor|default:"-" }}
-            </a>
-          </td>
-          <td style="text-align: center">
-            <a href="#">
-              {{ subject.theory_marks|default:"-" }}
-            </a>
-          </td>
-          <td>
-            <a href=""> {{ subject.practical_marks|default:"-" }} </a>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+      <form method="get" class="form-inline">
+        <input type="search" name="q" value="{{ request.GET.q }}" class="form-control form-control-sm mr-2" placeholder="Search by name or code" aria-label="Search">
+        <button type="submit" class="btn btn-outline-primary btn-sm">Search</button>
+      </form>
+      <a href="{% url academic_urls.create_subject %}" class="btn btn-primary">Create New Subject</a>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Subject Code</th>
+            <th scope="col">Curriculum</th>
+            <th scope="col">Instructor</th>
+            <th scope="col">T. Marks</th>
+            <th scope="col">P. Marks</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for subject in subjects %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ subject.name }}</td>
+            <td>{{ subject.subject_code }}</td>
+            <td>{% if subject.subject_template %}<span class="badge badge-info">From curriculum</span>{% else %}<span class="text-muted">—</span>{% endif %}</td>
+            <td style="text-align: center">{{ subject.instructor|default:"—" }}</td>
+            <td style="text-align: center">{{ subject.theory_marks|default:"—" }}</td>
+            <td>{{ subject.practical_marks|default:"—" }}</td>
+            <td>
+              <a href="{% url academic_urls.update_subject pk=subject.pk %}" class="btn btn-sm btn-primary">Edit</a>
+              <a href="{% url academic_urls.delete_subject pk=subject.pk %}" class="btn btn-sm btn-danger"
+                 onclick="return confirm('Delete this subject?');">Delete</a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="8" class="text-center text-muted py-5">
+              {% if request.GET.q %}
+                <p class="mb-2">No subjects match "{{ request.GET.q }}".</p>
+                <a href="{% url academic_urls.subject_list %}" class="btn btn-outline-primary btn-sm">Clear search</a>
+              {% else %}
+                <p class="mb-2">No subjects yet.</p>
+                <p class="small">Add subjects to use in subject groups and result entry.</p>
+                <a href="{% url academic_urls.create_subject %}" class="btn btn-primary mt-2">Create New Subject</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
-
 {% endblock %}

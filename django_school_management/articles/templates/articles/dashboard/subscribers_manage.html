@@ -1,20 +1,23 @@
 {% extends 'dashboard.html' %}
 {% load render_table from django_tables2 %}
 
-
 {% block dashboard-body %}
 <div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Subscribers</li>
+        </ol>
+    </nav>
+
     <div class="row">
         <div class="col-12">
-            <h4>
-                All Subscribers
-            </h4>
+            <h4>All Subscribers</h4>
         </div>
 
         <div class="col-12">
             {% render_table object_list 'django_tables2/bootstrap.html' %}
         </div>
-       
     </div>
 </div>
 {% endblock %}

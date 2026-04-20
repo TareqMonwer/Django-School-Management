@@ -4,6 +4,25 @@ from . import views
 
 app_name = 'institute'
 urlpatterns = [
+    # Onboarding wizard
+    path('onboarding/',
+        views.onboarding_step1,
+        name='onboarding_step1'
+    ),
+    path('onboarding/academics/',
+        views.onboarding_step2,
+        name='onboarding_step2'
+    ),
+    path('onboarding/load-subjects/',
+        views.onboarding_step3,
+        name='onboarding_step3'
+    ),
+    path('onboarding/review/',
+        views.onboarding_step4,
+        name='onboarding_step4'
+    ),
+
+    # Settings pages
     path('dashboard/settings/institute-profiles/',
         views.InstituteProfileConfigListView.as_view(),
         name='institute_profile_list'
@@ -12,8 +31,8 @@ urlpatterns = [
         views.InstituteProfileSetupDashboard.as_view(),
         name='setup_school'
     ),
-    path('dashboard/settings/<int:institute_pk>/', 
-        views.InstituteProfileConfigDashboard.as_view(), 
+    path('dashboard/settings/<int:institute_pk>/',
+        views.InstituteProfileConfigDashboard.as_view(),
         name='institute_config'
     ),
     path('dashboard/settings/detail/<int:institute_pk>/',

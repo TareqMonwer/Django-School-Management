@@ -1,35 +1,44 @@
 {% extends 'dashboard.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
-    
 
 {% block dashboard-body %}
 <div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Manage Articles</li>
+        </ol>
+    </nav>
+
+    <h4>Manage Articles</h4>
+
     <div class="row justify-content-between mb-2">
         <div class="col-md-5 pl-0">
             <form action="" class="form-inline">
-                <input type="text" 
-                class="form-control mr-sm-2" 
-                id="search_article" 
+                <label for="search_article" class="sr-only">Search articles</label>
+                <input type="text"
+                class="form-control mr-sm-2"
+                id="search_article"
                 placeholder="Title">
-                <input type="submit" value="Search" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary">Search</button>
             </form>
         </div>
-        <div class="col-md-4 pr-0">
-            <button type="button" class="btn btn-primary float-right" 
+        <div class="col-md-4 pr-0 d-flex justify-content-end align-items-start">
+            <a href="{% url 'articles:publish_article_from_dashboard' %}" class="btn btn-primary mr-1">
+                Publish Article
+            </a>
+            <button type="button" class="btn btn-primary"
             data-toggle="modal" data-target="#filterModal">
                 Show Filters
             </button>
-            <a href="{% url 'articles:publish_article_from_dashboard' %}" class="btn btn-primary float-right mr-1">
-                Publish Article
-            </a>
             <!-- Modal -->
-            <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="filterModal"
+            <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="filterModalTitle"
                 aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="filterModalTitle">Filer Articles</h5>
+                            <h5 class="modal-title" id="filterModalTitle">Filter Articles</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -37,7 +46,7 @@
                         <div class="modal-body">
                             <form action="" method="get">
                                 {{ filter.form|crispy }}
-                                <input type="submit" value="Filter" class="btn btn-success">
+                                <button type="submit" class="btn btn-success">Filter</button>
                             </form>
                         </div>
                     </div>
@@ -46,68 +55,59 @@
         </div>
     </div>
     <div class="row">
-        
         <div class="col-md-12 p-2 border">
-            <table id="articlesDataTable" class="table table-striped table-bordered" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Author</th>
-                        <th>Status</th>
-                        <th>Category(s)</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="manage_articles_tbody">
-                    {% for article in filter.qs %}
+            <div class="table-responsive">
+                <table id="articlesDataTable" class="table table-striped table-bordered w-100">
+                    <thead>
                         <tr>
-                            <td>
-                                {{ article.title }}
-                            </td>
-                            <td>
-                                {{ article.author }}
-                            </td>
-                            <td>
-                                {{ article.status }}
-                            </td>
-                            <td>
-                                {{ article.category }}
-                            </td>
-                            <td style="width: 1px; white-space: nowrap;">
-                                <form class="d-inline"
-                                     action="{% url 'articles:dashboard_article_delete' pk=article.pk %}" 
-                                    method="post">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-sm btn-danger">
-                                        Delete
-                                    </button>
-                                </form>
-                                
-                                <form class="d-inline"
-                                     action="{% url 'articles:dashboard_article_draft' pk=article.pk %}" 
-                                    method="post">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-sm btn-info">
-                                        Draft
-                                    </button>
-                                </form>
-
-                                <a href="{% url 'articles:update' slug=article.slug %}" 
-                                    class="btn btn-sm btn-success">
-                                    Edit
-                                </a>
-                            </td>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Status</th>
+                            <th>Category(s)</th>
+                            <th>Actions</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody id="manage_articles_tbody">
+                        {% for article in filter.qs %}
+                            <tr>
+                                <td>{{ article.title }}</td>
+                                <td>{{ article.author }}</td>
+                                <td>{{ article.status }}</td>
+                                <td>{{ article.category }}</td>
+                                <td style="white-space: nowrap;">
+                                    <form class="d-inline"
+                                         action="{% url 'articles:dashboard_article_delete' pk=article.pk %}"
+                                        method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            Delete
+                                        </button>
+                                    </form>
+
+                                    <form class="d-inline"
+                                         action="{% url 'articles:dashboard_article_draft' pk=article.pk %}"
+                                        method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-info">
+                                            Draft
+                                        </button>
+                                    </form>
+
+                                    <a href="{% url 'articles:update' slug=article.slug %}"
+                                        class="btn btn-sm btn-success">
+                                        Edit
+                                    </a>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center text-muted py-4">No articles found.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
 {% endblock %}
-
-
-{% block extrajs %}
-
-{% endblock %}
-    

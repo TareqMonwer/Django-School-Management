@@ -1,28 +1,59 @@
 {% extends 'dashboard.html' %}
-{% load static %}
 {% load crispy_forms_tags %}
 
-{% block extra_header %}
-{% endblock %}
-
 {% block dashboard-body %}
-    <h4>Introduce New Subject</h4>
-    <hr>
-    <form action="{% url academic_urls.create_subject %}" method="POST" class="d-block">
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'index_view' %}">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="{% url academic_urls.subject_list %}">Subjects</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Create Subject</li>
+  </ol>
+</nav>
+
+<div class="alert alert-info mb-3" role="alert">
+  <strong>Two ways to add subjects</strong><br>
+  <strong>1.</strong> Load many at once from a curriculum (School/Madrasah, Science/Arts/Commerce): use
+  <a href="{% url 'institute:onboarding_step1' %}">Onboarding</a> (top-right menu) → <strong>Load subjects</strong>.<br>
+  <strong>2.</strong> Add a single subject here (custom or from a curriculum template below).
+</div>
+
+<h4>Add Subject</h4>
+<p class="text-muted small mb-3">Add a new subject with name, code, marks, and optional instructor. You can link to a curriculum template to prefill, or create a custom subject. Subjects can then be grouped by {{ department_label|lower }} and {{ semester_label|lower }} for result entry.</p>
+<hr>
+<div class="card">
+  <div class="card-body">
+    {% if subject_templates %}
+    <p class="small text-muted mb-2">Jump to a template to prefill the form:</p>
+    <select id="template-jump" class="form-control form-control-sm mb-3" style="max-width: 320px;">
+      <option value="">-- Create from curriculum template (optional) --</option>
+      {% for t in subject_templates %}
+      <option value="{% url academic_urls.create_subject %}?template={{ t.pk }}" data-name="{{ t.name|escape }}" data-theory="{{ t.default_theory_marks }}" data-prac="{{ t.default_practical_marks }}">{{ t.name }} ({{ t.code }})</option>
+      {% endfor %}
+    </select>
+    <script>
+      document.getElementById('template-jump').addEventListener('change', function() {
+        var val = this.value;
+        if (val) { window.location.href = val; }
+      });
+    </script>
+    {% endif %}
+    <form action="{% url academic_urls.create_subject %}" method="POST" class="d-block" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form|crispy }}
-        <input type="submit" value="Create Subject" class="btn btn-dark">
+        <button type="submit" class="btn btn-primary">Create Subject</button>
     </form>
+  </div>
+</div>
 {% endblock %}
 
-
 {% block extrajs %}
-<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
 <script>
-  // Select image
-  $('input[type="file"]').change(function (e) {
-    const fileName = e.target.files[0].name;
-    $(".custom-file-label").html(fileName);
+  document.querySelectorAll('input[type="file"]').forEach(function (input) {
+    input.addEventListener('change', function (e) {
+      var fileName = e.target.files[0] ? e.target.files[0].name : '';
+      var label = e.target.parentElement.querySelector('.custom-file-label');
+      if (label) label.textContent = fileName;
+    });
   });
 </script>
 {% endblock %}

@@ -2,107 +2,135 @@
 {% load crispy_forms_tags %}
 
 {% block extra_css %}
-    <!-- SELECT 2 -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     <style>
-        .selection {
-            width: 100% !important;
+        .selection { width: 100% !important; }
+        #id_current_address, #id_permanent_address { max-height: 75px; }
+        #admission-form-main .form-group label { font-weight: 600; color: #334155; }
+        .admission-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+            padding: 2rem;
+            border: 1px solid #e2e8f0;
         }
-        #id_current_address, #id_permanent_address {
-            max-height: 75px;
+        .side-panel {
+            background: linear-gradient(165deg, #0f766e 0%, #0d9488 50%, #14b8a6 100%);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(15, 118, 110, 0.25);
+            color: #fff;
         }
+        .side-panel .illus {
+            height: 200px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            opacity: 0.9;
+        }
+        .side-panel .content { padding: 1.5rem 1.5rem 2rem; }
+        .side-panel h5 { font-weight: 700; margin-bottom: 0.75rem; font-size: 1.15rem; }
+        .side-panel p { font-size: 0.9rem; opacity: 0.95; line-height: 1.6; margin-bottom: 1rem; }
+        .side-panel .highlight { background: rgba(255,255,255,0.2); padding: 0.5rem 0.75rem; border-radius: 8px; font-size: 0.85rem; margin-top: 1rem; }
+        .btn-submit-admission { padding: 0.6rem 2rem; font-weight: 600; border-radius: 10px; }
     </style>
 {% endblock %}
 
 {% block main_content %}
     {% include 'website/partials/website_navbar.html' %}
-    <div id="admission-header" class="text-light py-5 text-center" style="background: linear-gradient(95deg, #5533ff 40%, #25ddf5 100%)">
+    <div id="admission-header" class="text-light py-5 text-center" style="background: linear-gradient(95deg, #0f766e 30%, #14b8a6 100%);">
         <div class="container">
-            <div class="row mt-5">
+            <div class="row mt-4 mt-md-5">
                 <div class="col-12">
-                    <h2 class="text-light">Admission Form</h2>
-                    <p class="text-light">Please Fillout the form with proper information. We'll contact you shortly.</p>
+                    <h2 class="text-light mb-2">Admission Form</h2>
+                    <p class="text-light mb-0 opacity-90">Please fill in the form with correct information. We will contact you soon.</p>
                 </div>
             </div>
         </div>
     </div>
-    <div id="admission-form-main" class="py-4">
-        <div class="container-fluid">
+    <div id="admission-form-main" class="py-4 py-md-5">
+        <div class="container">
             {% if form.errors %}
-                {% for field in form %}
-                    {% for error in field.errors %}
-                        <div class="alert alert-danger">
-                            <strong>{{ error|escape }}</strong>
-                        </div>
-                    {% endfor %}
-                {% endfor %}
-                {% for error in form.non_field_errors %}
-                    <div class="alert alert-danger">
-                        <strong>{{ error|escape }}</strong>
-                    </div>
-                {% endfor %}
-            {% endif %}
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <form id="admission-form" action="" method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        {{ form|crispy }}
-                        <input type="submit" value="Submit" class="btn btn-success">
-                    </form>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Please correct the errors below.</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
-                <div class="col-md-4">
-                    <div class="notice p-4 bg-primary text-light" style="text-align: justify;">
-                        <div class="video-instruction w-100">
-                            <iframe class="embed-responsive-item w-100" height="280" src="https://www.youtube.com/embed/fQx_ZdqCX3I" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+            {% endif %}
+            <div class="row">
+                <div class="col-lg-7 mb-4 mb-lg-0">
+                    <div class="admission-card">
+                        <form id="admission-form" action="" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <div class="form-group mt-4">
+                                <button type="submit" class="btn btn-success btn-submit-admission">Submit Application</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="side-panel">
+                        <div class="illus"><span aria-hidden="true">🎓</span></div>
+                        <div class="content">
+                            <h5>এক ক্লিকেই ভর্তি আবেদন</h5>
+                            <p>সঠিক তথ্য দিলেই চলবে। ভর্তি প্রক্রিয়া সহজ ও দ্রুত রাখাই আমাদের লক্ষ্য।</p>
+                            <p class="mb-0">Good luck with your application! আমরা আপনার সাফল্য কামনা করি।</p>
+                            <div class="highlight">
+                                <strong>Need help?</strong> Contact the admission office or visit the campus. We're here to help.
+                            </div>
                         </div>
-                        <h6 style="color: black; font-size: 22px; font-weight: bold;">
-                            আবেদন ফর্মটি পূরণ করার আগে ভর্তির যোগ্যতা ও শর্তাবলী দেখে নিন।
-                        </h6>
-                        <h6>
-                            <b>ভর্তির যোগ্যতা</b>
-                        </h6>
-                        <p class="text-light">
-                            ১। SSC / সমমান পরীক্ষায় যেকোন গ্রুপ থেকে জিপিএ ২.০০ পেয়ে উত্তীর্ণ। <br>
-                            ২। HSC (ভোকেশনাল) উত্তীর্ণ শিক্ষার্থীরা ক্রেডিট ট্রান্সফারের মাধ্যমে শূন্য আসনে ৪র্থ পর্বে ভর্তি হওয়ার সুযোগ পাবে।  <br>
-                            ৩। HSC (বিজ্ঞান) উত্তীর্ণ শিক্ষার্থীরা শূন্য আসনে ৩য় পর্বে ভর্তি হওয়ার সুযোগ পাবে। <br>
-                            ৪। HSC (বিজ্ঞান) উত্তীর্ণ শিক্ষার্থীরা শূন্য আসনে ৩য় পর্বে ভর্তি হওয়ার সুযোগ পাবে। <br>
-                            ৪। ২০১০ সালের পর থেকে পাশকৃত ছাত্র-ছাত্রীরাও আবেদন করতে পারবে ।
-                        </p>
-                        <h3 class="mt-2" style="color: black; font-size: 22px; font-weight: bold;">
-                            শর্তাবলী 
-                        </h3>
-                        <p class="text-light">
-                            ১. ভর্তির আবেদন গ্রহণ হওয়ার ২৪ ঘন্টার মধ্যে ভর্তি ফি প্রদান করতে হবে। <br>
-                            ২. ভর্তি ফি অফেরৎযোগ্য <br>
-                            ৩. বিকাশ পেমেন্ট করার পর প্রাপ্ত ট্রানজেকশন আইডি এসএমএস মাধ্যমে জানাতে হবে। <br>
-                            ৪. ভর্তি কার্যক্রম সম্পন হলে ইমেল বা এসএমএস এর মাধ্যমে শিক্ষার্থীর ভর্তি রোল জানিয়ে দেওয়া হবে <br>
-                            ৫. ভর্তি বাতিল করতে চাইলে সরাসরি ক্যাম্পাসে এসে যোগাযোগ করতে হবে।  <br>
-                        </p>
-                        <p class="text-light">
-                            <b>
-                                For Online Support: 01713493246 
-                            </b>
-                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 {% endblock %}
 
 {% block extra_js %}
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script>
-        // Select image
         $('input[type="file"]').change(function(e){
-            const fileName = e.target.files[0].name;
-            $('.custom-file-label').html(fileName);
+            var fileName = e.target.files[0] ? e.target.files[0].name : '';
+            $(this).next('.custom-file-label').html(fileName);
         });
-
-        // Select2 for city choice
         $(document).ready(function() {
             $('#id_city').select2();
         });
+
+        {% if show_jsc_conditional %}
+        (function() {
+            var jscIds = ['div_id_board', 'div_id_ssc_roll', 'div_id_ssc_registration', 'div_id_gpa'];
+            function toggleJscSection() {
+                var val = parseInt($('#id_applying_for_class').val(), 10);
+                var show = (val === 9 || val === 10);
+                jscIds.forEach(function(id) {
+                    var el = document.getElementById(id);
+                    if (el) el.style.display = show ? '' : 'none';
+                });
+            }
+            $(document).ready(function() {
+                toggleJscSection();
+                $('#id_applying_for_class').on('change', toggleJscSection);
+            });
+        })();
+        {% endif %}
+
+        {% if show_admit_semester_conditional %}
+        (function() {
+            function toggleAdmitSemester() {
+                var group = $('#id_group').val();
+                var exam = $('#id_exam_name').val();
+                var show = (group === 'Science' && exam === 'HSC');
+                var el = document.getElementById('div_id_admit_to_semester');
+                if (el) el.style.display = show ? '' : 'none';
+            }
+            $(document).ready(function() {
+                toggleAdmitSemester();
+                $('#id_group, #id_exam_name').on('change', toggleAdmitSemester);
+            });
+        })();
+        {% endif %}
     </script>
 {% endblock %}
