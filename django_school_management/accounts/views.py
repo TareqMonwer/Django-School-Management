@@ -230,6 +230,10 @@ def profile_picture_upload(request):
     if request.method == 'POST':
         image = request.FILES.get('profile-picture')
         try:
+            validate_image_file_extension(image)
+            with Image.open(image) as img:
+                img.verify()
+            image.seek(0)
             request.user.profile.profile_picture = image
             request.user.profile.save()
             return JsonResponse({
