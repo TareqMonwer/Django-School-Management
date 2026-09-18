@@ -94,7 +94,7 @@ jdcal==1.4.1
 # jet-bridge-base/jet-django removed: conflict with graphene>=3.0 (jet requires graphene<3.0)
 kombu==5.3.1
 lockfile==0.12.2
-lxml==4.9.3
+lxml==6.1.0
 Markdown==3.8.1
 MarkupPy==1.14
 msgpack==1.0.5
