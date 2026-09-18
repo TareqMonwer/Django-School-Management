@@ -134,7 +134,7 @@ retrying==1.3.4
 sentry-sdk==2.8.0
 six==1.16.0
 social-auth-core==4.4.2
-soupsieve==2.4.1
+soupsieve==2.9
 SQLAlchemy==1.4.49
 sqlparse==0.5.4
 sslcommerz-lib==1.0
