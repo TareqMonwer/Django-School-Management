@@ -20,7 +20,7 @@ colorama==0.4.3
 contextlib2==21.6.0
 # Testing and Quality Assurance
 coverage==7.3.2
-pytest==7.4.3
+pytest==9.0.3
 django-coverage-plugin==3.2.0
 pytest-django==4.6.0
 pytest-cov==4.1.0
