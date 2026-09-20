@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.core.exceptions import ValidationError
 from django.views.generic import ListView
 from django.views.generic.edit import UpdateView
 from django.urls import reverse
@@ -29,6 +30,7 @@ from permission_handlers.administrative import (
 )
 from permission_handlers.basic import user_is_verified, can_access_dashboard
 from .services.profile_complete import ProfileCompleteService
+from .validators import upload_profile_image
 
 
 @login_required(login_url='account_login')
@@ -223,21 +225,21 @@ class UserRequestsListView(UserPassesTestMixin, ListView):
 user_requests_list = UserRequestsListView.as_view()
 
 
+@login_required(login_url='account_login')
 def profile_picture_upload(request):
-    """
-    Handles profile pic uploads coming through ajax.
-    """
-    if request.method == 'POST':
-        image = request.FILES.get('profile-picture')
-        try:
-            request.user.profile.profile_picture = image
-            request.user.profile.save()
-            return JsonResponse({
-                'status': 'ok',
-                'imgUrl': request.user.profile.profile_picture.url,
-            })
-        except:
-            return JsonResponse({'status': 'error'})
+    if request.method != 'POST':
+        return JsonResponse({'status': 'error', 'message': 'Method not allowed'}, status=405)
+
+    image = request.FILES.get('profile-picture')
+    if not image:
+        return JsonResponse({'status': 'error', 'message': 'No file provided'}, status=400)
+
+    try:
+        url = upload_profile_image(request.user, image)
+    except ValidationError as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+
+    return JsonResponse({'status': 'ok', 'imgUrl': url})
 
 
 class UserUpdateView(UpdateView):
