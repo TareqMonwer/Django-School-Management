@@ -22,5 +22,7 @@ def subscribe(email):
             data=json.dumps(data)
         )
         return r.status_code, r.json()
-    except:
-        raise Exception("Mailchimp is not configured properly.")
+    except requests.exceptions.RequestException:
+        # Do not chain the original exception: its request object carries the
+        # Basic Auth header (Mailchimp API key) and must not be logged/exposed.
+        raise Exception("Mailchimp is not configured properly.") from None
