@@ -9,8 +9,6 @@ from django.contrib.auth.models import Group
 from django.conf import settings
 from django.urls import reverse
 
-from .utils import model_help_texts
-
 
 class User(ExportModelOperationsMixin('user'), AbstractUser):
     REQUESTED_ACCOUNT_TYPE_CHOICES = (
@@ -66,20 +64,6 @@ class CustomGroup(ExportModelOperationsMixin('custom_group'), Group):
         return f'{self.name} created by {self.group_creator}'
 
 
-class SocialLink(ExportModelOperationsMixin('social_link'), models.Model):
-    user_profile = models.ForeignKey(
-        'CommonUserProfile',
-        on_delete=models.CASCADE
-    )
-    media_name = models.CharField(
-        max_length=50
-    )
-    url = models.URLField()
-
-    def __str__(self):
-        return self.media_name
-
-
 class CommonUserProfile(ExportModelOperationsMixin('common_user_profile'), models.Model):
     """Core details of user profile created only after account verification by institute."""
     user = models.OneToOneField(
@@ -93,33 +77,18 @@ class CommonUserProfile(ExportModelOperationsMixin('common_user_profile'), model
         blank=True,
         null=True
     )
-    cover_picture = models.ImageField(
-        upload_to='cover-pictures',
-        blank=True,
-        null=True
-    )
     headline = models.CharField(
         max_length=255,
         blank=True,
         null=True
     )
-    show_headline_in_bio = models.BooleanField(
-        help_text=model_help_texts.COMMON_USER_PROFILE_SHOW_HEADLINE_IN_BIO_TEXT,
-        default=False
-    )
     summary = RichTextUploadingField(
-        help_text=model_help_texts.COMMON_USER_PROFILE_SUMMARY_TEXT,
         blank=True,
         null=True
     )
     country = CountryField(
         blank=True,
         null=True
-    )
-    social_links = models.ManyToManyField(
-        SocialLink,
-        related_name='social_links',
-        blank=True
     )
 
     class Meta:
