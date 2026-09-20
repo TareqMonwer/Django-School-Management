@@ -1,7 +1,8 @@
 from tinymce.widgets import TinyMCE
 from mptt.forms import TreeNodeMultipleChoiceField
 from django import forms
-# from django.contrib.flatpages.models import FlatPage
+
+from django_school_management.accounts.models import CommonUserProfile
 from .models import Article, Category, Comment
 
 
@@ -27,3 +28,9 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['content', ]
+
+
+class CommonUserProfileForm(forms.ModelForm):
+    class Meta:
+        model = CommonUserProfile
+        fields = ['headline', 'country', 'summary']

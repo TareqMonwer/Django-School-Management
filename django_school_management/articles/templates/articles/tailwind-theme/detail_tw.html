@@ -66,7 +66,7 @@
                         
                         <div class="flex flex-col text-center">
                             <span class="text-gray-600 font-bold">{{ object.author|title }}</span>
-                            {% if object.author.profile.show_headline_in_bio %}
+                            {% if object.author.profile.headline %}
                                 <span class="text-gray-400">
                                     {{ object.author.profile.headline }}
                                 </span>

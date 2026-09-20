@@ -9,13 +9,12 @@ from django.views.generic import (
 )
 
 from django_school_management.accounts.models import User
-from django_school_management.accounts.forms import (
-    CommonUserProfileForm, 
-    UserProfileSocialLinksFormSet,
+from .forms import (
+    ArticleForm, ArticleUpdateForm, CommentForm,
+    CommonUserProfileForm,
 )
 from .models import Article, Like, Category, Newsletter
 from .mixins import AuthorArticleEditMixin
-from .forms import ArticleForm, ArticleUpdateForm, CommentForm
 from .utils.mailchimp_functions import subscribe
 from .tasks import send_latest_article
 from permission_handlers.administrative import user_is_teacher_or_administrative
@@ -201,18 +200,14 @@ class AuthorProfile(DetailView):
         ctx = super().get_context_data(**kwargs)
         try:
             if self.request.user.is_authenticated:
-                profile = self.request.user.profile
-                profile_edit_form = CommonUserProfileForm(
-                    instance=profile
+                ctx['profile_edit_form'] = CommonUserProfileForm(
+                    instance=self.request.user.profile
                 )
-                ctx['profile_edit_form'] = profile_edit_form
-                formset = UserProfileSocialLinksFormSet(
-                    instance=profile
-                )
-                ctx['social_links_form'] = formset
         except User.profile.RelatedObjectDoesNotExist:
-            ctx['profile_not_found'] = 'We did not find any profile for you, \
-                please contact with authorities.'
+            ctx['profile_not_found'] = (
+                'We did not find any profile for you, '
+                'please contact with authorities.'
+            )
         return ctx
     
     def post(self, request, *args, **kwargs):
@@ -221,35 +216,14 @@ class AuthorProfile(DetailView):
             request.FILES,
             instance=self.request.user.profile
         )
-        social_formset = UserProfileSocialLinksFormSet(
-            request.POST, instance=self.request.user.profile
-        )
+
         if profile_form.is_valid():
             profile_form.save()
-
-            if social_formset.is_valid():
-                social_formset.save()
-                messages.add_message(
-                    request, messages.SUCCESS,
-                    'Your profile has been saved successfully.'
-                )
-                return redirect(
-                    self.request.user.get_author_url()
-                )
-            else:
-                messages.add_message(
-                    request, messages.INFO,
-                    'Your profile has been saved without updating social links.'
-                )
-                return redirect(
-                    self.request.user.get_author_url()
-                )
+            messages.success(request, 'Your profile has been saved successfully.')
         else:
-            messages.add_message(
-                request, messages.SUCCESS,
-                'Please provide valid values according to the form.'
-            )
-            return redirect(self.request.user.get_author_url())
+            messages.warning(request, 'Please provide valid values according to the form.')
+
+        return redirect(self.request.user.get_author_url())
 
 
 class ArticleCreateFromDashboard(LoginRequiredMixin,

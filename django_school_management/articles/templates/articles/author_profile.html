@@ -2,18 +2,147 @@
 {% load crispy_forms_tags %}
 
 {% block css %}
-  <style type="text/css">
-    #bd-edit-profile-modal-lg .multiField:not(:last-child) {
-      border-bottom: 1px solid #e1e1e1;
+  <style>
+    /* Modal */
+    .modal-profile {
+      border: none;
+      border-radius: 14px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+      overflow: hidden;
     }
-    @media screen 
-      and (min-device-width: 1200px) 
-      and (max-device-width: 1600px) { 
-        #bd-edit-profile-modal-lg .multiField {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
+    .modal-profile .modal-header {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      padding: 20px 24px;
+      border: none;
+    }
+    .modal-profile .modal-title {
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+    .modal-profile .close {
+      color: rgba(255,255,255,0.7);
+      opacity: 1;
+      font-size: 1.4rem;
+      text-shadow: none;
+    }
+    .modal-profile .close:hover {
+      color: #fff;
+    }
+    .modal-profile .modal-body {
+      padding: 28px 24px;
+    }
+    .modal-profile .modal-footer {
+      border-top: 1px solid #f1f5f9;
+      padding: 16px 24px;
+    }
+
+    /* Form styling inside modal */
+    .modal-profile label {
+      font-weight: 500;
+      font-size: 0.82rem;
+      color: #334155;
+      margin-bottom: 4px;
+    }
+    .modal-profile .form-control {
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 9px 13px;
+      font-size: 0.88rem;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      color: #0f172a;
+    }
+    .modal-profile .form-control:focus {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
+    }
+    .modal-profile .help-block,
+    .modal-profile .helptext {
+      font-size: 0.75rem;
+      color: #94a3b8;
+    }
+    .modal-profile .errorlist {
+      color: #ef4444;
+      font-size: 0.78rem;
+      list-style: none;
+      padding: 0;
+      margin: 4px 0 0;
+    }
+
+    /* Section divider inside modal */
+    .modal-section-title {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 20px 0 12px;
+    }
+    .modal-divider {
+      border: none;
+      border-top: 1px solid #f1f5f9;
+      margin: 20px 0;
+    }
+
+    /* Buttons */
+    .btn-modal-close {
+      background: #f1f5f9;
+      color: #64748b;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 22px;
+      font-weight: 500;
+      font-size: 0.85rem;
+      transition: all 0.15s;
+    }
+    .btn-modal-close:hover {
+      background: #e2e8f0;
+      color: #334155;
+    }
+    .btn-modal-save {
+      background: #6366f1;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 22px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .btn-modal-save:hover {
+      background: #4f46e5;
+      color: #fff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(99,102,241,0.3);
+    }
+
+    /* Avatar upload overlay */
+    .author-image {
+      position: relative;
+      display: inline-block;
+    }
+    .author-image img {
+      border-radius: 4px;
+    }
+    .avatar-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.2s;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .author-image:hover .avatar-overlay {
+      opacity: 1;
+    }
+    .avatar-overlay i {
+      color: #fff;
+      font-size: 1.4rem;
     }
   </style>
 {% endblock css %}
@@ -23,21 +152,12 @@
 
 <!-- Page Header -->
 <header class="profile-header-container">
-  <div class="profile-header" 
-  {% if author.profile.cover_picture %}
-  style="background-image: linear-gradient(
-      45deg,
-      rgb(81 81 84 / 52%),
-      rgb(16 16 16 / 73%)
-    ),
-    url('{{ author.profile.cover_picture.url }}');"
-    {% else %}
+  <div class="profile-header"
     style="background-image: linear-gradient(
       45deg,
       rgb(81 81 84 / 52%),
       rgb(16 16 16 / 73%)
-    );"
-    {% endif %}>
+    );">
     <div class="header-container"></div>
   </div>
 
@@ -47,14 +167,35 @@
       <div class="col-sm-12 col-md-4">
         <div class="author-metadata">
           <div class="author-image">
-            
-            {% if author.profile.profile_picture %}
-              <img src="{{ author.profile.profile_picture.url }}" 
-              width="200" />
+            {% if user == author %}
+              <form action="{% url account_urls.profile_picture_upload %}"
+                    method="post" id="profile-image-form"
+                    enctype="multipart/form-data" style="position:relative;display:inline-block;">
+                {% csrf_token %}
+                <input id="profile-image-upload" type="file"
+                       name="profile-picture" accept="image/*"
+                       style="display:none;">
+                <img id="profile-image" title="Upload new profile picture"
+                  style="cursor:pointer;"
+                  {% if author.profile.profile_picture %}
+                    src="{{ author.profile.profile_picture.url }}"
+                  {% else %}
+                    src="https://picsum.photos/180"
+                  {% endif %}
+                  width="200" />
+                <div class="avatar-overlay">
+                  <i class="fas fa-camera"></i>
+                </div>
+              </form>
             {% else %}
-              <img src="https://picsum.photos/180">
+              <img
+                {% if author.profile.profile_picture %}
+                  src="{{ author.profile.profile_picture.url }}"
+                {% else %}
+                  src="https://picsum.photos/180"
+                {% endif %}
+                width="200" />
             {% endif %}
-              
           </div>
           <div class="author-descriptions">
             <!-- desctiption items -->
@@ -99,10 +240,6 @@
             </div>
             {% if user == author %}
             <div class="author-formlink">
-              <a href="{% url account_urls.profile_complete %}" target="_blank"
-                class="btn btn-outline-dark">
-                Academic Profile
-              </a>
               <button type="button" class="btn btn-primary" 
                 data-toggle="modal" 
                 data-target="#bd-edit-profile-modal-lg">
@@ -115,32 +252,25 @@
                 <form action="" method="POST" enctype="multipart/form-data">
                   {% csrf_token %}
                   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                    <div class="modal-content">
+                    <div class="modal-content modal-profile">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenterTitle">
-                          EDIT YOUR PROFILE
-                        </h5>
+                        <h5 class="modal-title">Edit Your Profile</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
                       <div class="modal-body">
-                        
                         {% if not profile_not_found %}
                           {{ profile_edit_form|crispy }}
-                          <hr>
-                          <h5>SOCIAL LINKS</h5>
-                          {{ social_links_form|crispy }}
                         {% else %}
                           <div class="alert alert-warning" role="alert">
                             {{ profile_not_found }}
                           </div>
                         {% endif %}
-                          
                       </div>
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn-modal-close" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn-modal-save">Save Changes</button>
                       </div>
                     </div>
                   </div>
@@ -222,5 +352,52 @@
 </section>
 <!-- Footer -->
 {% include 'articles/inc/_footer.html' %} {% endblock content %}
+
+{% block extra_js %}
+<script>
+  (function() {
+    var form = document.getElementById('profile-image-form');
+    if (!form) return;
+
+    var input = document.getElementById('profile-image-upload');
+    var img = document.getElementById('profile-image');
+    var csrfToken = '{{ csrf_token }}';
+
+    var overlay = form.querySelector('.avatar-overlay');
+
+    function uploadFile(file) {
+      var formData = new FormData();
+      formData.append('profile-picture', file);
+      formData.append('csrfmiddlewaretoken', csrfToken);
+
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', form.getAttribute('action'), true);
+
+      xhr.onload = function() {
+        var data;
+        try { data = JSON.parse(xhr.responseText); } catch(err) { return; }
+        if (xhr.status === 200 && data.status === 'ok') {
+          img.src = data.imgUrl;
+        } else if (data.message) {
+          alert(data.message);
+        }
+      };
+
+      xhr.send(formData);
+    }
+
+    overlay.addEventListener('click', function() {
+      input.click();
+    });
+
+    input.addEventListener('change', function() {
+      if (this.files && this.files[0]) {
+        uploadFile(this.files[0]);
+        this.value = '';
+      }
+    });
+  })();
+</script>
+{% endblock %}
 
   
