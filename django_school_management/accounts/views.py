@@ -21,51 +21,46 @@ from .forms import (
 )
 from django_school_management.mixins.no_permission import LoginRequiredNoPermissionMixin
 from .models import CustomGroup, User
-from .forms import (CommonUserProfileForm,
-    UserProfileSocialLinksFormSet
-)
-from .services.common import profile_not_approved, map_profile_approval_status_message
+from .services.common import map_profile_approval_status_message
 from permission_handlers.administrative import (
     user_is_admin_or_su,
 )
 from permission_handlers.basic import user_is_verified, can_access_dashboard
-from .services.profile_complete import ProfileCompleteService
-from .validators import upload_profile_image
+from .validators import validate_profile_image
 
 
 @login_required(login_url='account_login')
 def profile_complete(request):
-    ctx = {}
-    user = User.objects.get(pk=request.user.pk)
+    user = request.user
 
-    if profile_not_approved(request.user):
-        messages.add_message(
-            request,
-            messages.INFO,
-            map_profile_approval_status_message(request.user.approval_status)
-        )
-    else:
-        profile_edit_form = CommonUserProfileForm(
-            instance=user.profile
-        )
-        social_links_form = UserProfileSocialLinksFormSet(
-            instance=user.profile
-        )
-        ctx.update({
-            'profile_edit_form': profile_edit_form,
-            'social_links_form': social_links_form
-        })
+    if user.approval_status == 'a':
+        return redirect(user.get_author_url())
 
     if request.method == 'POST':
-        profile_service = ProfileCompleteService(request, user, messages)
-        profile_service.handle_profile_update()
+        form = ProfileCompleteForm(request.POST, instance=user)
+        if form.is_valid():
+            form.instance.approval_status = 'p'
+            form.save()
+            user.approval_status = 'p'
+            user.save()
+            messages.success(
+                request,
+                'Your request has been sent and will be reviewed by your institute.'
+            )
+            return redirect(AccountURLConstants.profile_complete)
+    else:
+        form = ProfileCompleteForm(instance=user)
 
-    user_permissions = user.user_permissions.all()
-    ctx.update({
-        'verification_form': ProfileCompleteForm(instance=user),
-        'user_perms': user_permissions if user_permissions else None,
+    messages.add_message(
+        request,
+        messages.INFO,
+        map_profile_approval_status_message(user.approval_status)
+    )
+
+    return render(request, 'account/profile_complete.html', {
+        'verification_form': form,
+        'approval_status': user.approval_status,
     })
-    return render(request, 'account/profile_complete.html', ctx)
 
 
 @login_required(login_url=AccountURLConstants.permission_error)
@@ -235,11 +230,13 @@ def profile_picture_upload(request):
         return JsonResponse({'status': 'error', 'message': 'No file provided'}, status=400)
 
     try:
-        url = upload_profile_image(request.user, image)
+        validate_profile_image(image)
     except ValidationError as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
 
-    return JsonResponse({'status': 'ok', 'imgUrl': url})
+    request.user.profile.profile_picture = image
+    request.user.profile.save()
+    return JsonResponse({'status': 'ok', 'imgUrl': request.user.profile.profile_picture.url})
 
 
 class UserUpdateView(UpdateView):

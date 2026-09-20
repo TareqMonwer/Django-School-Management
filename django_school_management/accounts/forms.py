@@ -1,12 +1,9 @@
 from crispy_forms.helper import FormHelper
 
 from django import forms as djform
-from django.forms import inlineformset_factory
 from django.contrib.auth import get_user_model, forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
-
-from .models import CommonUserProfile, SocialLink
 
 User = get_user_model()
 
@@ -91,22 +88,3 @@ class ApprovalProfileUpdateForm(djform.ModelForm):
     class Meta:
         model = User
         fields = ['requested_role']
-
-
-UserProfileSocialLinksFormSet = inlineformset_factory(
-    CommonUserProfile, SocialLink,
-    fields=('media_name', 'url'),
-    extra=4,
-    max_num=4
-)
-
-class CommonUserProfileForm(djform.ModelForm):
-    """Core details of user profile created only after account verification by institute."""
-    class Meta:
-        model = CommonUserProfile
-        fields = [
-            'headline',
-            'show_headline_in_bio',
-            'country',
-            'summary'
-        ]
