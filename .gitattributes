@@ -2,6 +2,10 @@
 static/ckeditor/** linguist-vendored
 static/articles/vendor/** linguist-vendored
 static/adminator_assets/** linguist-vendored
+static/css/adminator*.css linguist-vendored
+static/css/bootstrap.min.css linguist-vendored
+static/css/dataTables.bootstrap4.min.css linguist-vendored
+static/css/fontello/** linguist-vendored
 static/js/adminator/bundle.js linguist-vendored
 static/js/adminator/vendor.js linguist-vendored
 static/js/chartjs/** linguist-vendored
@@ -9,6 +13,14 @@ static/js/jQuery-File-Upload/** linguist-vendored
 static/js/jquery-fileupload/** linguist-vendored
 static/js/moment.js linguist-vendored
 static/js/tagify/** linguist-vendored
+static/landing/css/LineIcons.css linguist-vendored
+static/landing/css/animate.css linguist-vendored
+static/landing/css/bootstrap.min.css linguist-vendored
+static/landing/css/magnific-popup.css linguist-vendored
+static/landing/css/nivo-lightbox.css linguist-vendored
+static/landing/css/owl.carousel.css linguist-vendored
+static/landing/css/owl.theme.css linguist-vendored
+static/landing/css/responsive.css linguist-vendored
 
 # Generated source maps are not authored source
 *.map linguist-generated
