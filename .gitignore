@@ -123,6 +123,11 @@ GitHub.sublime-settings
 
 # Dumpdata main file
 dumpeddata.json
+dump.json
+datadump_pretty.json
+dump.rdb
+Procfile
+staticfiles/
 dj_sms_env/
 
 modules.txt
