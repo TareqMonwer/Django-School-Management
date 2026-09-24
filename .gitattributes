@@ -1,0 +1,14 @@
+# Third-party frontend bundles and editor distributions
+static/ckeditor/** linguist-vendored
+static/articles/vendor/** linguist-vendored
+static/adminator_assets/** linguist-vendored
+static/js/adminator/bundle.js linguist-vendored
+static/js/adminator/vendor.js linguist-vendored
+static/js/chartjs/** linguist-vendored
+static/js/jQuery-File-Upload/** linguist-vendored
+static/js/jquery-fileupload/** linguist-vendored
+static/js/moment.js linguist-vendored
+static/js/tagify/** linguist-vendored
+
+# Generated source maps are not authored source
+*.map linguist-generated
